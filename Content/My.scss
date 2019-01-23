@@ -1,8 +1,13 @@
-﻿$main: #71b8c4;
+﻿$main: #568f8b;
 $theme-colors: ( "main": $main );
 
 @import 'bootstrap/bootstrap.scss';
 
 body {
 	padding: 0;
+}
+
+.nav-link{
+	padding: 0.2rem;
+	font-size: large;
 }

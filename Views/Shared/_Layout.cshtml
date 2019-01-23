@@ -15,15 +15,15 @@
 				</button>
 				<div class="collapse navbar-collapse justify-content-center" id="nav">
 					<ul class="navbar-nav flex-fill w-100 flex-nowrap">
-						<li class="nav-item">@Html.ActionLink("Home", "Index", "Home", null , new {@class= "nav-link text-light" })</li>
+						<li class="nav-item">@Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link text-light" })</li>
+						<li class="nav-item">@Html.ActionLink("Storages", "Index", "Storage", null, new { @class = "nav-link text-light" })</li>
 					</ul>
+					@Html.Partial("_LoginPartial")
 				</div>
 			</nav>
 		</div>
 	</div>
-	<div class="container body-content">
-		@RenderBody()
-	</div>
+	<div class="container">@RenderBody()</div>
 
 	@Scripts.Render("~/bundles/jquery")
 	@Scripts.Render("~/bundles/bootstrap")

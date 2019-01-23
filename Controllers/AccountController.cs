@@ -5,7 +5,7 @@ using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using SmartKitchen.Models;
 
-namespace RPS.Controllers
+namespace SmartKitchen.Controllers
 {
 	public class AccountController : Controller
 	{
@@ -22,22 +22,19 @@ namespace RPS.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				User p = null;
+				User p;
 				using (var db = new Context())
 				{
-					p = db.Users.FirstOrDefault(x => x.Name == model.Name);
+					p = db.Users.FirstOrDefault(x => x.Email == model.Email);
 					if (p != null && !Crypto.VerifyHashedPassword(p.Password, model.Password)) p = null;
 				}
 
 				if (p != null)
 				{
-					FormsAuthentication.SetAuthCookie(model.Name, true);
+					FormsAuthentication.SetAuthCookie(model.Email, true);
 					return RedirectToAction("Index", "Home");
 				}
-				else
-				{
-					ModelState.AddModelError("", "User not found");
-				}
+				ModelState.AddModelError("Name", "User not found");
 			}
 			return View(model);
 		}
