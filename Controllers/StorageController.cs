@@ -7,6 +7,7 @@ using SmartKitchen.Models;
 
 namespace SmartKitchen.Controllers
 {
+	[Authorize]
     public class StorageController : Controller
     {
         public ActionResult Index()
@@ -20,5 +21,15 @@ namespace SmartKitchen.Controllers
 	        }
             return View(storages);
         }
+
+	    public ActionResult Delete(int id)
+	    {
+		    return Redirect(Url.Action("Index"));
+	    }
+
+	    public ActionResult Edit(int id)
+	    {
+		    return View();
+	    }
     }
 }

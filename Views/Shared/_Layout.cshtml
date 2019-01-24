@@ -7,22 +7,7 @@
     @Styles.Render("~/Content/css")
 </head>
 <body class="p-0">
-	<div class="container-fluid bg-main">
-		<div class="container">
-			<nav class="navbar font-weight-bold navbar-expand-md justify-content-md-around navbar-dark">
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse justify-content-center" id="nav">
-					<ul class="navbar-nav flex-fill w-100 flex-nowrap">
-						<li class="nav-item">@Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link text-light" })</li>
-						<li class="nav-item">@Html.ActionLink("Storages", "Index", "Storage", null, new { @class = "nav-link text-light" })</li>
-					</ul>
-					@Html.Partial("_LoginPartial")
-				</div>
-			</nav>
-		</div>
-	</div>
+	@Html.Partial("_Navbar")
 	<div class="container">@RenderBody()</div>
 
 	@Scripts.Render("~/bundles/jquery")

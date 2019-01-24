@@ -95,3 +95,8 @@ C:\Users\vladimir\source\repos\SmartKitchen\SmartKitchen\bin\BundleTransformer.S
 C:\Users\vladimir\source\repos\SmartKitchen\SmartKitchen\bin\LibSassHost.xml
 C:\Users\vladimir\source\repos\SmartKitchen\SmartKitchen\bin\ru-ru\BundleTransformer.Core.resources.dll
 C:\Users\vladimir\source\repos\SmartKitchen\SmartKitchen\obj\Debug\SmartKitchen.csprojAssemblyReference.cache
+C:\Users\vladimir\source\repos\SmartKitchen\SmartKitchen\bin\AutoMapper.dll
+C:\Users\vladimir\source\repos\SmartKitchen\SmartKitchen\bin\System.ValueTuple.dll
+C:\Users\vladimir\source\repos\SmartKitchen\SmartKitchen\bin\AutoMapper.pdb
+C:\Users\vladimir\source\repos\SmartKitchen\SmartKitchen\bin\AutoMapper.xml
+C:\Users\vladimir\source\repos\SmartKitchen\SmartKitchen\bin\System.ValueTuple.xml

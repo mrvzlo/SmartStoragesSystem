@@ -50,6 +50,9 @@
     <Reference Include="AdvancedStringBuilder, Version=0.1.0.0, Culture=neutral, PublicKeyToken=e818a2fc08933ddb, processorArchitecture=MSIL">
       <HintPath>..\packages\AdvancedStringBuilder.0.1.0\lib\net45\AdvancedStringBuilder.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper, Version=8.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.8.0.0\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="BundleTransformer.Core, Version=1.10.0.0, Culture=neutral, PublicKeyToken=973c344c93aac60d, processorArchitecture=MSIL">
       <HintPath>..\packages\BundleTransformer.Core.1.10.0\lib\net40\BundleTransformer.Core.dll</HintPath>
     </Reference>
@@ -75,6 +78,9 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -156,18 +162,23 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StorageController.cs" />
+    <Compile Include="Enums\StorageBackground.cs" />
+    <Compile Include="Enums\StorageIcon.cs" />
     <Compile Include="Enums\Role.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Middleware\Helper.cs" />
     <Compile Include="Models\GameContext.cs" />
-    <Compile Include="Models\Models.cs" />
-    <Compile Include="Models\Storage.cs" />
+    <Compile Include="Models\AuthModel.cs" />
+    <Compile Include="Models\Storage\StorageDescription.cs" />
+    <Compile Include="Models\Storage\Storage.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\My.css">
       <DependentUpon>My.scss</DependentUpon>
     </Content>
@@ -175,6 +186,7 @@
       <DependentUpon>My.css</DependentUpon>
     </Content>
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -279,10 +291,16 @@
     <Content Include="Content\bootstrap\bootstrap-reboot.scss" />
     <Content Include="Content\bootstrap\bootstrap-grid.scss" />
     <Content Include="Content\My.scss" />
+    <Content Include="App_Code\GlyphIcon.cshtml" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -325,10 +343,9 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_Navbar.cshtml" />
     <Content Include="Views\Storage\Index.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

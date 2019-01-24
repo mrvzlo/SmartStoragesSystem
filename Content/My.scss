@@ -1,7 +1,57 @@
-﻿$main: #568f8b;
+﻿$main: #56409b;
 $theme-colors: ( "main": $main );
 
 @import 'bootstrap/bootstrap.scss';
+@import 'font-awesome.min.css';
+
+.icon{
+	width: 2rem;
+	vertical-align:middle;
+	font-size: 2rem !important;
+}
+
+.mobile{
+	display: none;
+}
+
+input {
+	padding: 0px 10px;
+	border: solid 2px darken($main, 20%);
+	border-radius: 10px;
+	background-color: lighten($main, 50%);
+	width: 100%;
+}
+
+.btn-unactive {
+	background-color: desaturate($main, 50%);
+}
+
+.btn{
+	font-weight: 600;
+}
+
+form div{
+	font-size: 1.2rem;
+	padding: 0px 5px;
+	margin: 0px 5px;
+}
+
+.error {
+	text-align: center;
+	color: $danger;
+	margin-bottom: 20px;
+}
+
+.storage{
+	padding: 1rem;
+	border: solid;
+	border-radius: 1rem;
+	margin-top: 2rem;
+	font-size: 2rem;
+}
+.storage-new {
+	background-color: lighten($main, 40%);
+}
 
 body {
 	padding: 0;
@@ -10,4 +60,23 @@ body {
 .nav-link{
 	padding: 0.2rem;
 	font-size: large;
+}
+
+@media screen and (max-width: #{map-get($grid-breakpoints, md)}) {
+	.widescreen {
+		display: none;
+	}
+	.mobile {
+		display: flex;
+	}
+	.mobile li a div {
+		font-size: 2rem !important;
+	}
+	.mobile li a div {
+		padding: 0;
+	}
+	.storage{
+		font-size:1rem;
+	}
+
 }
