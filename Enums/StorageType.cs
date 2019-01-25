@@ -1,6 +1,6 @@
 ﻿namespace SmartKitchen.Enums
 {
-	public enum StorageIcon
+	public enum StorageType
 	{
 		New = 0
 	}

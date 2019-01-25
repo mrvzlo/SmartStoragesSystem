@@ -162,8 +162,6 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StorageController.cs" />
-    <Compile Include="Enums\StorageBackground.cs" />
-    <Compile Include="Enums\StorageIcon.cs" />
     <Compile Include="Enums\Role.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -171,6 +169,7 @@
     <Compile Include="Middleware\Helper.cs" />
     <Compile Include="Models\GameContext.cs" />
     <Compile Include="Models\AuthModel.cs" />
+    <Compile Include="Models\Storage\StorageType.cs" />
     <Compile Include="Models\Storage\StorageDescription.cs" />
     <Compile Include="Models\Storage\Storage.cs" />
     <Compile Include="Models\User.cs" />
@@ -291,7 +290,6 @@
     <Content Include="Content\bootstrap\bootstrap-reboot.scss" />
     <Content Include="Content\bootstrap\bootstrap-grid.scss" />
     <Content Include="Content\My.scss" />
-    <Content Include="App_Code\GlyphIcon.cshtml" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
@@ -311,7 +309,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\jscolor.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -346,9 +344,12 @@
     <Content Include="Views\Shared\_Navbar.cshtml" />
     <Content Include="Views\Storage\Index.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Storage\Create.cshtml" />
+    <Content Include="Views\Storage\CreateType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Storage\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -16,9 +16,6 @@ namespace SmartKitchen
 		{
 			Mapper.Initialize(cfg =>
 			{
-				cfg.CreateMap<Storage, StorageDescription>()
-					.ForMember(dest => dest.Background, opts => opts.MapFrom(src => StorageDescription.GetBackgroundName(src.Background)))
-					.ForMember(dest => dest.Icon, opts => opts.MapFrom(src => StorageDescription.GetIconName(src.Icon)));
 			});
 			AreaRegistration.RegisterAllAreas();
 			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

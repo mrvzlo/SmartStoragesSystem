@@ -3,16 +3,16 @@
 		<nav class="navbar font-weight-bold navbar-expand justify-content-md-around navbar-dark">
 			<div class="collapse navbar-collapse justify-content-center" id="nav">
 				<ul class="mobile navbar-nav flex-fill justify-content-around">
-					<li class="nav-item"><a href="@Url.Action("Index", "Home" )" class="nav-link text-light"><div class="fa fa-home"></div></a></li>
-					<li class="nav-item"><a href="@Url.Action("Index", "Storage")" class="nav-link text-light"><div class="fa fa-list"></div></a></li>
+					<li class="nav-item"><a href="@Url.Action("Index", "Home" )" class="nav-link text-light p-0"><div class="ion-md-home"></div></a></li>
+					<li class="nav-item"><a href="@Url.Action("Index", "Storage")" class="nav-link text-light"><div class="ion-md-filing"></div></a></li>
 					<li>
 						@if (Request.IsAuthenticated)
 						{
-							<a class="nav-link text-light" href="javascript:document.getElementById('logoutForm').submit()"><div class="fa fa-sign-out"></div></a>
+							<a class="nav-link text-light" href="javascript:document.getElementById('logoutForm').submit()"><div class="ion-md-log-out"></div></a>
 						}
 						else
 						{
-							<a href="@Url.Action("Index", "Account")" class="nav-link text-light"><div class="fa fa-sign-in"></div></a>
+							<a href="@Url.Action("Index", "Account")" class="nav-link text-light"><div class="ion-md-log-in"></div></a>
 						}
 					</li>
 				</ul>

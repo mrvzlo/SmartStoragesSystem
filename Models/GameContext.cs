@@ -7,5 +7,6 @@ namespace SmartKitchen.Models
 		public Context() : base("DefaultConnection") { }
 		public DbSet<User> Users { get; set; }
 		public DbSet<Storage> Storages { get; set; }
+		public DbSet<StorageType> StorageTypes { get; set; }
 	}
 }

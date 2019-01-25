@@ -1,8 +1,12 @@
 ﻿$main: #56409b;
 $theme-colors: ( "main": $main );
-
+$border-radius: 1rem !default;
 @import 'bootstrap/bootstrap.scss';
-@import 'font-awesome.min.css';
+@import url(https://unpkg.com/ionicons@4.5.5/dist/css/ionicons.min.css);
+
+.fa{
+	vertical-align: middle !important;
+}
 
 .icon{
 	width: 2rem;
@@ -14,12 +18,15 @@ $theme-colors: ( "main": $main );
 	display: none;
 }
 
-input {
+input, .input {
 	padding: 0px 10px;
-	border: solid 2px darken($main, 20%);
-	border-radius: 10px;
 	background-color: lighten($main, 50%);
 	width: 100%;
+}
+
+.big-border, input, .input {
+	border: solid 2px darken($main, 20%);
+	border-radius: $border-radius;
 }
 
 .btn-unactive {
@@ -43,9 +50,8 @@ form div{
 }
 
 .storage{
+	border-radius: $border-radius;
 	padding: 1rem;
-	border: solid;
-	border-radius: 1rem;
 	margin-top: 2rem;
 	font-size: 2rem;
 }
@@ -76,7 +82,10 @@ body {
 		padding: 0;
 	}
 	.storage{
-		font-size:1rem;
+		font-size:1.5rem;
+	}
+	.navbar{
+		padding: 0;
 	}
 
 }

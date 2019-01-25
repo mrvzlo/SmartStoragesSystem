@@ -6,26 +6,19 @@ namespace SmartKitchen.Models
 	public class StorageDescription
 	{
 		[Key]
-		public virtual int Id { get; set; }
-		public virtual string Name { get; set; }
-		public virtual string Background { get; set; }
-		public virtual string Icon { get; set; }
+		public int Id { get; }
+		public string Name { get; set; }
+		public string TypeName { get; set; }
+		public string Background { get; set; }
+		public string Icon { get; set; }
 
-		public static string GetBackgroundName(StorageBackground id)
+		public StorageDescription(Storage storage, StorageType storageType)
 		{
-			switch (id)
-			{
-				case StorageBackground.New: return "";
-				default: return null;
-			}
-		}
-		public static string GetIconName(StorageIcon id)
-		{
-			switch (id)
-			{
-				case StorageIcon.New: return "";
-				default: return null;
-			}
+			Id = storage.Id;
+			Name = storage.Name;
+			TypeName = storageType.Name;
+			Icon = storageType.Icon;
+			Background = storageType.Background;
 		}
 	}
 }
