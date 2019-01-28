@@ -8,7 +8,7 @@ using SmartKitchen.Models;
 namespace SmartKitchen.Controllers
 {
 	[Authorize]
-    public class StorageController : Controller
+	public class StorageController : Controller
     {
         public ActionResult Index()
         {
@@ -26,8 +26,8 @@ namespace SmartKitchen.Controllers
 	        }
             return View(storages);
         }
-
-	    public ActionResult Delete(int id)
+		
+		public ActionResult Delete(int id)
 	    {
 		    return Redirect(Url.Action("Index"));
 	    }
@@ -39,33 +39,44 @@ namespace SmartKitchen.Controllers
 
 	    public ActionResult Create()
 	    {
-		    List<StorageType> list = new List<StorageType>();
-		    using (var db = new Context())
-		    {
-			    list = db.StorageTypes.ToList();
-		    }
-		    return View(list);
+		    return View(StorageType.GetAll());
 		}
 
 		[HttpPost]
-	    public ActionResult Create(Storage storage)
+	    public ActionResult Create(StorageDescription storage)
 	    {
-		    List<StorageType> list = new List<StorageType>();
-		    using (var db = new Context())
+			if (string.IsNullOrEmpty(storage.Name)) ModelState.AddModelError("Name","Name is required");
+		    StorageType type;
+		    User user;
+			using (var db = new Context())
+			{
+				user = db.Users.FirstOrDefault(x => x.Email == User.Identity.Name);
+				type = db.StorageTypes.FirstOrDefault(x => x.Name == storage.TypeName);
+				if (db.Storages.FirstOrDefault(x => x.UserId == user.Id && x.Type == type.Id) != null) ModelState.AddModelError("TypeName", "This storage already exists");
+				if (db.Storages.FirstOrDefault(x => x.UserId == user.Id && x.Name == storage.Name) != null) ModelState.AddModelError("Name", "This name is already exists");
+				if (type==null) ModelState.AddModelError("TypeName", "Unknown type");
+			}
+			if (ModelState.IsValid)
 		    {
-			    list = db.StorageTypes.ToList();
-		    }
-		    return View(list);
+				using (var db = new Context())
+				{
+					db.Storages.Add(new Storage{Name = storage.Name, UserId = user.Id, Type = type.Id});
+					db.SaveChanges();
+					return Redirect(Url.Action("Index"));
+				}
+			}
+		    return View(StorageType.GetAll());
 	    }
 
 	    public ActionResult CreateType(string s)
 	    {
-		    return View();
+		    return View(StorageType.GetAll());
 		}
 
 	    [HttpPost]
 		public ActionResult CreateType(StorageType type)
 	    {
+		    type.Icon = "fa fa-"+type.Icon;
 		    using (var db = new Context())
 		    {
 			    db.StorageTypes.Add(type);

@@ -12,6 +12,8 @@ namespace SmartKitchen.Models
 		public string Background { get; set; }
 		public string Icon { get; set; }
 
+		public StorageDescription() { }
+
 		public StorageDescription(Storage storage, StorageType storageType)
 		{
 			Id = storage.Id;

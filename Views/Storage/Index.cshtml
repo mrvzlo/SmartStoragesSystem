@@ -3,18 +3,20 @@
 <div class="row">
 	@foreach (var item in Model)
 	{
-		<div class="storage col-12 col-md-6">
-			<div class="material-icons icon">@item.Icon</div>
-			<div>
-				@Html.DisplayFor(modelItem => item.Name)
-			</div>
-			<div>
-				@Html.ActionLink("Edit", "Edit", "Storage", new { id = item.Id })
-				@Html.ActionLink("Delete", "Delete", "Storage", new { id = item.Id })
+		<div class="col-12 col-lg-6">
+			<div class="storage row" style="background-color: #@item.Background">
+				<div class="@item.Icon col-1"></div>
+				<div class="col">@Html.DisplayFor(modelItem => item.Name)</div>
+				<a href="@Url.Action("Delete", "Storage", new {id = item.Id})" class="col-1 text-danger fa fa-times text-decoration-none">
+					<div class=""></div>
+				</a>
 			</div>
 		</div>
 	}
-	<button class="text-left btn btn-main col-12 col-md-6 storage" onclick="window.location = '@Url.Action("Create","Storage")';">
-		<div class="ion-md-add-circle"> Add new storage</div>
-	</button>
+	<div class="col-12 col-lg-6">
+		<div class="storage bg-main text-light row" onclick="window.location = '@Url.Action("Create", "Storage")';">
+			<div class="fa fa-plus-circle col-1"></div>
+			<div class="col">Add new storage</div>
+		</div>
+	</div>
 </div>

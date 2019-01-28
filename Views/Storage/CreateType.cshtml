@@ -8,26 +8,29 @@
 @using (Html.BeginForm("CreateType", "Storage", FormMethod.Post, new {@class="row justify-content-center"}))
 {
 	@Html.AntiForgeryToken()
-<div class="col-md-6 big-border storage" id="storage">
+<div class="col-md-6 storage" id="storage">
 	<div class="row justify-content-center">
-		<div class="col-md-2">Icon <span id="IconPre"></span></div>
+		<div class="col-1">Icon</div>
+		<div class="col-md-1 col-10"><span id="IconPre"></span></div>
 		<div class="col-md-9">@Html.Editor("Icon")</div>
 		<div class="error col-12">@Html.ValidationMessage("Icon")</div>
-		<div class="col-md-2">Color</div>
+		<div class="col-md-1">Color</div>
+		<div class="col-md-1"></div>
 		<div class="col-md-9">@Html.Editor("Background", $"ffffff", new { htmlAttributes = new { @class = "jscolor" } })</div>
 		<div class="error col-12">@Html.ValidationMessage("Background")</div>
-		<div class="col-md-2">Name</div>
+		<div class="col-md-1">Name</div>
+		<div class="col-md-1"></div>
 		<div class="col-md-9">@Html.Editor("Name")</div>
 		<div class="error col-12">@Html.ValidationMessage("Name")</div>
 		<div class="text-center col-6"><input type="submit" value="Create" class="btn btn-main col-6" /></div>
 	</div>
 </div>
 }
-@section Scripts{
+@section scripts{
 	<script>
 		$("#Icon").on('input', function () {
 			$('#IconPre').removeClass();
-			$("#IconPre").addClass("ion-md-" + $(this).val());
+			$("#IconPre").addClass("fa fa-" + $(this).val());
 		});
 
 		$('body').click(function() {

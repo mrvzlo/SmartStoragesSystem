@@ -4,7 +4,6 @@
  * Copyright 2011-2018 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
-@import url(https://unpkg.com/ionicons@4.5.5/dist/css/ionicons.min.css);
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
@@ -7016,23 +7015,12 @@ a.text-main:hover, a.text-main:focus {
     color: inherit;
     border-color: #dee2e6; } }
 
-.fa {
-  vertical-align: middle !important; }
-
-.icon {
-  width: 2rem;
-  vertical-align: middle;
-  font-size: 2rem !important; }
-
-.mobile {
-  display: none; }
-
 input, .input {
   padding: 0px 10px;
   background-color: #e9e6f4;
   width: 100%; }
 
-.big-border, input, .input {
+.big-border, input, .input, .storage {
   border: solid 2px #2e2253;
   border-radius: 1rem; }
 
@@ -7053,9 +7041,8 @@ form div {
   margin-bottom: 20px; }
 
 .storage {
-  border-radius: 1rem;
+  margin: 1rem;
   padding: 1rem;
-  margin-top: 2rem;
   font-size: 2rem; }
 
 .storage-new {
@@ -7068,16 +7055,27 @@ body {
   padding: 0.2rem;
   font-size: large; }
 
+.fa:before {
+  display: flex;
+  align-items: center;
+  width: 1rem; }
+
+.fa {
+  display: flex; }
+
+.mobile {
+  display: none; }
+
 @media screen and (max-width: 768px) {
   .widescreen {
     display: none; }
   .mobile {
     display: flex; }
-  .mobile li a div {
-    font-size: 2rem !important; }
-  .mobile li a div {
-    padding: 0; }
   .storage {
     font-size: 1.5rem; }
   .navbar {
+    padding: 5px; }
+  li a, a div, button div {
+    height: 100%;
+    margin: 0;
     padding: 0; } }

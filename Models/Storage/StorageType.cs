@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using SmartKitchen.Enums;
 
 namespace SmartKitchen.Models
@@ -10,5 +12,13 @@ namespace SmartKitchen.Models
 		public virtual string Name { get; set; }
 		public virtual string Icon { get; set; }
 		public virtual string Background{ get; set; }
+
+		public static List<StorageType> GetAll()
+		{
+			using (var db = new Context())
+			{
+				return db.StorageTypes.ToList();
+			}
+		}
 	}
 }
