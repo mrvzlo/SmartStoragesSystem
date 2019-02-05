@@ -1799,7 +1799,7 @@ var jsc = {
 				jsc.attachEvent(this.valueElement, 'keyup', updateField);
 				jsc.attachEvent(this.valueElement, 'input', updateField);
 				jsc.attachEvent(this.valueElement, 'blur', blurValue);
-				this.valueElement.setAttribute('autocomplete', 'off');
+				this.valueElement.setAttribute('autocomplete', 'on');
 			}
 		}
 

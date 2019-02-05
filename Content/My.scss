@@ -10,7 +10,7 @@ input, .input {
 	width: 100%;
 }
 
-.big-border, input, .input, .storage {
+.big-border, input, .input, .storage, .storage-small {
 	border: solid 2px darken($main, 20%);
 	border-radius: $border-radius;
 }
@@ -39,6 +39,11 @@ form div{
 	margin: 1rem;
 	padding: 1rem;
 	font-size: 2rem;
+}
+
+.storage-small {
+	margin: 0.2rem;
+	font-size: 1.4rem;
 }
 .storage-new {
 	background-color: lighten($main, 40%);

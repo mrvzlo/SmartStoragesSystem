@@ -7020,7 +7020,7 @@ input, .input {
   background-color: #e9e6f4;
   width: 100%; }
 
-.big-border, input, .input, .storage {
+.big-border, input, .input, .storage, .storage-small {
   border: solid 2px #2e2253;
   border-radius: 1rem; }
 
@@ -7044,6 +7044,10 @@ form div {
   margin: 1rem;
   padding: 1rem;
   font-size: 2rem; }
+
+.storage-small {
+  margin: 0.2rem;
+  font-size: 1.4rem; }
 
 .storage-new {
   background-color: #cac1e6; }

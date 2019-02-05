@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using SmartKitchen.Models;
 
@@ -15,9 +14,9 @@ namespace SmartKitchen.Controllers
 			List<StorageDescription> storages = new List<StorageDescription>();
 	        using (var db = new Context())
 	        {
-		        var u = db.Users.FirstOrDefault(x => x.Email == HttpContext.User.Identity.Name);
-		        if (u == null) return Redirect(Url.Action("Index", "Home"));
-		        var s = db.Storages.Where(x => x.UserId == u.Id).ToList();
+		        var person = Person.Current(db);
+		        if (person == null) return Redirect(Url.Action("Index", "Home"));
+		        var s = db.Storages.Where(x => x.Owner == person.Id).ToList();
 		        foreach (var storage in s)
 		        {
 			        var type = db.StorageTypes.Find(storage.Type);
@@ -29,6 +28,16 @@ namespace SmartKitchen.Controllers
 		
 		public ActionResult Delete(int id)
 	    {
+		    using (var db = new Context())
+		    {
+			    var person = Person.Current(db);
+			    var storage = db.Storages.Find(id);
+			    if (storage !=null && storage.Owner == person.Id)
+			    {
+				    db.Storages.Remove(storage);
+				    db.SaveChanges();
+			    }
+		    }
 		    return Redirect(Url.Action("Index"));
 	    }
 
@@ -43,24 +52,25 @@ namespace SmartKitchen.Controllers
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 	    public ActionResult Create(StorageDescription storage)
 	    {
 			if (string.IsNullOrEmpty(storage.Name)) ModelState.AddModelError("Name","Name is required");
 		    StorageType type;
-		    User user;
+		    Person person;
 			using (var db = new Context())
 			{
-				user = db.Users.FirstOrDefault(x => x.Email == User.Identity.Name);
+				person = Person.Current(db);
 				type = db.StorageTypes.FirstOrDefault(x => x.Name == storage.TypeName);
-				if (db.Storages.FirstOrDefault(x => x.UserId == user.Id && x.Type == type.Id) != null) ModelState.AddModelError("TypeName", "This storage already exists");
-				if (db.Storages.FirstOrDefault(x => x.UserId == user.Id && x.Name == storage.Name) != null) ModelState.AddModelError("Name", "This name is already exists");
+				if (db.Storages.FirstOrDefault(x => x.Owner == person.Id && x.Type == type.Id) != null) ModelState.AddModelError("TypeName", "This storage already exists");
+				if (db.Storages.FirstOrDefault(x => x.Owner == person.Id && x.Name == storage.Name) != null) ModelState.AddModelError("Name", "This name is already taken");
 				if (type==null) ModelState.AddModelError("TypeName", "Unknown type");
 			}
 			if (ModelState.IsValid)
 		    {
 				using (var db = new Context())
 				{
-					db.Storages.Add(new Storage{Name = storage.Name, UserId = user.Id, Type = type.Id});
+					db.Storages.Add(new Storage{Name = storage.Name, Owner = person.Id, Type = type.Id});
 					db.SaveChanges();
 					return Redirect(Url.Action("Index"));
 				}
@@ -74,15 +84,34 @@ namespace SmartKitchen.Controllers
 		}
 
 	    [HttpPost]
-		public ActionResult CreateType(StorageType type)
+	    [ValidateAntiForgeryToken]
+		public ActionResult CreateType(StorageType newType)
 	    {
-		    type.Icon = "fa fa-"+type.Icon;
+		    if (string.IsNullOrEmpty(newType.Name)) ModelState.AddModelError("Name", "Name is required");
+		    if (string.IsNullOrEmpty(newType.Icon)) ModelState.AddModelError("Icon", "Icon is required");
+		    newType.Icon = "fa fa-" + newType.Icon;
 		    using (var db = new Context())
 		    {
-			    db.StorageTypes.Add(type);
-			    db.SaveChanges();
+			    if (!Person.Current(db).IsAdmin()) return Redirect(Url.Action("Index"));
 		    }
-		    return Redirect(Url.Action("Create"));
-	    }
+
+		    if (ModelState.IsValid)
+			{
+				using (var db = new Context())
+				{
+					var old = db.StorageTypes.FirstOrDefault(x => x.Name == newType.Name);
+					if (old == null) db.StorageTypes.Add(newType);
+					else
+					{
+						old.Background = newType.Background;
+						old.Icon = newType.Icon;
+					}
+
+					db.SaveChanges();
+				}
+				return Redirect(Url.Action("CreateType"));
+			}
+		    return View(StorageType.GetAll());
+		}
 	}
 }

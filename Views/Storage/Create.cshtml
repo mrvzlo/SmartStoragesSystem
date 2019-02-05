@@ -16,7 +16,7 @@
 			@Html.DropDownList("TypeName", selectList, new { @class = "input" })
 			@if (HttpContext.Current.User.IsInRole("admin"))
 			{
-				<div class="text-center">@Html.ActionLink("New type", "CreateType", "Storage", new { @class = "btn btn-main" })</div>
+				<div class="text-center">@Html.ActionLink("Edit types", "CreateType", "Storage", new { @class = "btn btn-main" })</div>
 			}
 			<div class="error">@Html.ValidationMessage("TypeName")</div>
 		</div>
@@ -36,13 +36,6 @@
 }
 @section scripts{
 	<script>
-		$("#TypeName").change(function () {
-			$("#Name").val($("#TypeName option:selected").val());
-			$("form").css("background", list[$("#TypeName")[0].selectedIndex].Color);
-			$('#IconPre').removeClass();
-			$("#IconPre").addClass(list[$("#TypeName")[0].selectedIndex].Icon);
-		});
-
 		var list;
 		$(function () {
 			list = [];
@@ -62,6 +55,13 @@
  					</text>
 				}
 			}
+			$("#TypeName").change(function () {
+				$("#Name").val($("#TypeName option:selected").val());
+				$("form").css("background", list[$("#TypeName")[0].selectedIndex].Color);
+				$('#IconPre').removeClass();
+				$("#IconPre").addClass(list[$("#TypeName")[0].selectedIndex].Icon);
+			});
+
 		});
 	</script>
 }

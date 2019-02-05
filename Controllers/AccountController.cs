@@ -28,10 +28,10 @@ namespace SmartKitchen.Controllers
 			if (string.IsNullOrEmpty(model.PasswordIn)) ModelState.AddModelError("PasswordIn", "Password is required");
 			if (ModelState.IsValid)
 			{
-				User p;
+				Person p;
 				using (var db = new Context())
 				{
-					p = db.Users.FirstOrDefault(x => x.Email == model.EmailIn);
+					p = db.People.FirstOrDefault(x => x.Email == model.EmailIn);
 				}
 
 				if (p == null)
@@ -68,24 +68,24 @@ namespace SmartKitchen.Controllers
 			if (ModelState.IsValid && model.PasswordUp != model.ConfirmUp) ModelState.AddModelError("ConfirmUp", "Passwords don't match");
 			if (ModelState.IsValid)
 			{
-				User p;
+				Person p;
 				using (var db = new Context())
 				{
-					p = db.Users.FirstOrDefault(x => x.Name == model.NameUp);
+					p = db.People.FirstOrDefault(x => x.Name == model.NameUp);
 				}
 
 				if (p == null)
 				{
 					using (var db = new Context())
 					{
-						db.Users.Add(new User
+						db.People.Add(new Person
 						{
 							Name = model.NameUp,
 							Password = Crypto.HashPassword(model.PasswordUp),
 							Email = model.EmailUp
 						});
 						db.SaveChanges();
-						p = db.Users.FirstOrDefault(x => x.Name == model.NameUp);
+						p = db.People.FirstOrDefault(x => x.Name == model.NameUp);
 					}
 
 					if (p != null)
@@ -104,7 +104,7 @@ namespace SmartKitchen.Controllers
 			return View("Index", model);
 		}
 
-		private void CreateTicket(User user)
+		private void CreateTicket(Person user)
 		{
 			var ticket = new FormsAuthenticationTicket(
 				version: 1,
@@ -125,7 +125,7 @@ namespace SmartKitchen.Controllers
 			{
 				case Role.Admin: return "admin";
 				case Role.Simple: return "simple";
-				default: return "simple";
+				default: return "unknown";
 			}
 		}
 

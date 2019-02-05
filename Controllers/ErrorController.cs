@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace SmartKitchen.Controllers
 {
 	[HandleError]
     public class ErrorController : Controller
     {
-        // GET: Error
         public ActionResult PageNotFound(string path)
         {
 	        ViewBag.path = path;
