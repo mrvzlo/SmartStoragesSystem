@@ -1,0 +1,55 @@
+﻿<div class="container-fluid bg-main">
+	<div class="container">
+		<nav class="navbar font-weight-bold navbar-expand justify-content-md-around navbar-dark">
+			<div class="collapse navbar-collapse justify-content-center" id="nav">
+				<ul class="mobile navbar-nav flex-fill justify-content-around">
+					<li class="nav-item"><a href="@Url.Action("Index", "Home" )" class="nav-link text-light p-0"><div class="fa fa-home fa-2x"></div></a></li>
+					<li class="nav-item"><a href="@Url.Action("Index", "Storage")" class="nav-link text-light"><div class="fa fa-th-list fa-2x"></div></a></li>
+					<li class="nav-item">
+						@if (Request.IsAuthenticated)
+						{
+							<a class="nav-link text-light" href="javascript:document.getElementById('logoutForm').submit()"><div class="fa fa-sign-out-alt fa-2x"></div></a>
+						}
+						else
+						{
+							<a href="@Url.Action("Index", "Account")" class="nav-link text-light"><div class="fa fa-sign-in-alt fa-2x"></div></a>
+						}
+					</li>
+				</ul>
+
+				<ul class="widescreen navbar-nav flex-fill w-100 flex-nowrap">
+					<li class="nav-item">
+						<a href="@Url.Action("Index", "Home")" class="nav-link text-light">
+							Home
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="@Url.Action("Index", "Storage")" class="nav-link text-light">
+							Storages
+						</a>
+					</li>
+				</ul>
+
+				<ul class="widescreen navbar-nav flex-fill w-100 flex-nowrap justify-content-end">
+					<li class="nav-item">
+						@if (Request.IsAuthenticated)
+						{
+							using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "d-none" }))
+							{
+								@Html.AntiForgeryToken()
+							}
+							<a class="nav-link text-light" href="javascript:document.getElementById('logoutForm').submit()">
+								Sign out
+							</a>
+						}
+						else
+						{
+							<a href="@Url.Action("Index", "Account")" class="nav-link text-light">
+								Sign in
+							</a>
+						}
+				</ul>
+			</div>
+		</nav>
+	</div>
+</div>

@@ -1,0 +1,67 @@
+﻿@model List<SmartKitchen.Models.StorageType>
+@{
+	ViewBag.Title = "New storage";
+	var selectList = new SelectList(Model.Select(x => x.Name));
+}
+<div class="row justify-content-between m-4">
+	<h4>New storage</h4>
+	@Html.ActionLink("Back", "Index", "Storage", new { @class = "btn btn-secondary" })
+</div>
+@using (Html.BeginForm("Create", "Storage", FormMethod.Post, new { @class = "storage big-border" }))
+{
+	@Html.AntiForgeryToken()
+	<div class="row justify-content-between">
+		<div class="col-12 col-md-4">
+			<div class="text-center">Type</div>
+			@Html.DropDownList("TypeName", selectList, new { @class = "input" })
+			@if (HttpContext.Current.User.IsInRole("admin"))
+			{
+				<div class="text-center">@Html.ActionLink("Edit types", "CreateType", "Storage", new { @class = "btn btn-main" })</div>
+			}
+			<div class="error">@Html.ValidationMessage("TypeName")</div>
+		</div>
+		<div class="col-12 col-md-4">
+			<div class="row justify-content-center">
+				<div id="IconPre"></div>
+				<div class="m-0 p-0">Name</div>
+			</div>
+			<div>@Html.Editor("Name")</div>
+			<div class="error">@Html.ValidationMessage("Name")</div>
+		</div>
+		<div class="col-12 col-md-2">
+			<br />
+			<input type="submit" value="Create" class="btn btn-main" />
+		</div>
+	</div>
+}
+@section scripts{
+	<script>
+		var list;
+		$(function () {
+			list = [];
+			@for (int i=0; i<Model.Count; i++)
+			{
+				<text>list.push({
+				Name: "@Model[i].Name",
+				Color: "#@Model[i].Background",
+				Icon: "@Model[i].Icon"
+				})</text>
+				if (i == 0)
+				{
+					<text>
+					$("#Name").val($("#TypeName option:selected").val());
+					$("form").css("background", list[$("#TypeName")[0].selectedIndex].Color);
+					$("#IconPre").addClass(list[$("#TypeName")[0].selectedIndex].Icon);
+ 					</text>
+				}
+			}
+			$("#TypeName").change(function () {
+				$("#Name").val($("#TypeName option:selected").val());
+				$("form").css("background", list[$("#TypeName")[0].selectedIndex].Color);
+				$('#IconPre').removeClass();
+				$("#IconPre").addClass(list[$("#TypeName")[0].selectedIndex].Icon);
+			});
+
+		});
+	</script>
+}

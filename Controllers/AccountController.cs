@@ -1,86 +1,96 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Security;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using SmartKitchen.Enums;
 using SmartKitchen.Models;
 
-namespace RPS.Controllers
+namespace SmartKitchen.Controllers
 {
 	public class AccountController : Controller
 	{
-		public ActionResult Login()
+		public ActionResult Index()
 		{
-			return View();
+			return View(new AuthModel{Login = false});
 		}
-
+		
 		//
 		// POST: /Account/Login
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Login(LoginModel model)
+		public ActionResult Login(AuthModel model)
 		{
+			if (string.IsNullOrEmpty(model.EmailIn)) ModelState.AddModelError("EmailIn", "Email is required");
+			if (string.IsNullOrEmpty(model.PasswordIn)) ModelState.AddModelError("PasswordIn", "Password is required");
 			if (ModelState.IsValid)
 			{
-				User p = null;
+				Person p;
 				using (var db = new Context())
 				{
-					p = db.Users.FirstOrDefault(x => x.Name == model.Name);
-					if (p != null && !Crypto.VerifyHashedPassword(p.Password, model.Password)) p = null;
+					p = db.People.FirstOrDefault(x => x.Email == model.EmailIn);
 				}
 
-				if (p != null)
+				if (p == null)
 				{
-					FormsAuthentication.SetAuthCookie(model.Name, true);
-					return RedirectToAction("Index", "Home");
+					ModelState.AddModelError("EmailIn", "User not found");
+				}
+				else if (!Crypto.VerifyHashedPassword(p.Password, model.PasswordIn))
+				{
+					ModelState.AddModelError("PasswordIn", "Email or password is incorrect");
 				}
 				else
 				{
-					ModelState.AddModelError("", "User not found");
+					CreateTicket(p);
+					return RedirectToAction("Index", "Home");
 				}
 			}
-			return View(model);
-		}
 
-		public ActionResult Register()
-		{
-			return View();
+			model.Login = true;
+			return View("Index",model);
 		}
-
+		
 		//
 		// POST: /Account/Register
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Register(RegisterModel model)
+		public ActionResult Register(AuthModel model)
 		{
-			if (model.Password != model.Confirm) ModelState.AddModelError("Confirm", "Passwords don't match");
-			if (model.Password.Length < 8) ModelState.AddModelError("Password", "Atleast 8 symbols");
-			if (!model.Email.Contains('@') && !model.Email.Contains('.')) ModelState.AddModelError("Email", "Enter valid email");
+			if (string.IsNullOrEmpty(model.EmailUp)) ModelState.AddModelError("EmailUp", "Email is required");
+			else if (!model.EmailUp.Contains('@') && !model.EmailUp.Contains('.')) ModelState.AddModelError("EmailUp", "Enter valid email");
+			if (string.IsNullOrEmpty(model.NameUp)) ModelState.AddModelError("NameUp", "Name is required");
+			if (string.IsNullOrEmpty(model.PasswordUp)) ModelState.AddModelError("PasswordUp", "Password is required");
+			else if (model.PasswordUp.Length < 8) ModelState.AddModelError("PasswordUp", "Atleast 8 symbols");
+			if (string.IsNullOrEmpty(model.ConfirmUp)) ModelState.AddModelError("ConfirmUp", "Password confirm is required");
+			if (ModelState.IsValid && model.PasswordUp != model.ConfirmUp) ModelState.AddModelError("ConfirmUp", "Passwords don't match");
 			if (ModelState.IsValid)
 			{
-				User p = null;
+				Person p;
 				using (var db = new Context())
 				{
-					p = db.Users.FirstOrDefault(x => x.Name == model.Name);
+					p = db.People.FirstOrDefault(x => x.Name == model.NameUp);
 				}
 
 				if (p == null)
 				{
 					using (var db = new Context())
 					{
-						db.Users.Add(new User
+						db.People.Add(new Person
 						{
-							Name = model.Name,
-							Password = Crypto.HashPassword(model.Password),
-							Email = model.Email
+							Name = model.NameUp,
+							Password = Crypto.HashPassword(model.PasswordUp),
+							Email = model.EmailUp
 						});
 						db.SaveChanges();
-						p = db.Users.FirstOrDefault(x => x.Name == model.Name);
+						p = db.People.FirstOrDefault(x => x.Name == model.NameUp);
 					}
 
 					if (p != null)
 					{
-						FormsAuthentication.SetAuthCookie(model.Name, true);
+						CreateTicket(p);
 						return RedirectToAction("Index", "Home");
 					}
 				}
@@ -90,8 +100,33 @@ namespace RPS.Controllers
 				}
 			}
 
-			// If we got this far, something failed, redisplay form
-			return View(model);
+			model.Login = false;
+			return View("Index", model);
+		}
+
+		private void CreateTicket(Person user)
+		{
+			var ticket = new FormsAuthenticationTicket(
+				version: 1,
+				name: user.Email,
+				issueDate: DateTime.Now,
+				expiration: DateTime.Now.AddDays(14),
+				isPersistent: false,
+				userData: RoleIntToString(user.Role));
+
+			var encryptedTicket = FormsAuthentication.Encrypt(ticket);
+			var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+			HttpContext.Response.Cookies.Add(cookie);
+		}
+
+		public string RoleIntToString(Role role)
+		{
+			switch (role)
+			{
+				case Role.Admin: return "admin";
+				case Role.Simple: return "simple";
+				default: return "unknown";
+			}
 		}
 
 		//
