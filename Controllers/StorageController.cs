@@ -19,8 +19,7 @@ namespace SmartKitchen.Controllers
 		        var s = db.Storages.Where(x => x.Owner == person.Id).ToList();
 		        foreach (var storage in s)
 		        {
-			        var type = db.StorageTypes.Find(storage.Type);
-					storages.Add(new StorageDescription(storage,type));
+					storages.Add(new StorageDescription(storage,db));
 		        }
 	        }
             return View(storages);
@@ -35,16 +34,24 @@ namespace SmartKitchen.Controllers
 			    if (storage !=null && storage.Owner == person.Id)
 			    {
 				    db.Storages.Remove(storage);
+				    db.ProductStatuses.RemoveRange(db.ProductStatuses.Where(x => x.Storage == id));
 				    db.SaveChanges();
 			    }
 		    }
 		    return Redirect(Url.Action("Index"));
 	    }
 
-	    public ActionResult Edit(int id)
+	    public ActionResult View(int id)
 	    {
-		    throw new NotImplementedException();
-		}
+		    var content = new StorageDescription();
+			using (var db = new Context())
+			{
+				content = new StorageDescription(db.Storages.Find(id), db);
+			}
+
+			if (content.Type == null) return Redirect(Url.Action("Index"));
+			return View(content);
+	    }
 
 	    public ActionResult Create()
 	    {
@@ -53,24 +60,25 @@ namespace SmartKitchen.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-	    public ActionResult Create(StorageDescription storage)
+	    public ActionResult Create(Storage storage)
 	    {
 			if (string.IsNullOrEmpty(storage.Name)) ModelState.AddModelError("Name","Name is required");
-		    StorageType type;
 		    Person person;
 			using (var db = new Context())
 			{
 				person = Person.Current(db);
-				type = db.StorageTypes.FirstOrDefault(x => x.Name == storage.TypeName);
-				if (db.Storages.FirstOrDefault(x => x.Owner == person.Id && x.Type == type.Id) != null) ModelState.AddModelError("TypeName", "This storage already exists");
-				if (db.Storages.FirstOrDefault(x => x.Owner == person.Id && x.Name == storage.Name) != null) ModelState.AddModelError("Name", "This name is already taken");
-				if (type==null) ModelState.AddModelError("TypeName", "Unknown type");
+				if (db.Storages.FirstOrDefault(x => x.Owner == person.Id && x.Type == storage.Type) != null)
+					ModelState.AddModelError("TypeName", "This storage already exists");
+				if (db.Storages.FirstOrDefault(x => x.Owner == person.Id && x.Name == storage.Name) != null)
+					ModelState.AddModelError("Name", "This name is already taken");
+				if (db.StorageTypes.Find(storage.Type) == null) ModelState.AddModelError("TypeName", "Unknown type");
 			}
 			if (ModelState.IsValid)
 		    {
 				using (var db = new Context())
 				{
-					db.Storages.Add(new Storage{Name = storage.Name, Owner = person.Id, Type = type.Id});
+					storage.Owner = person.Id;
+					db.Storages.Add(storage);
 					db.SaveChanges();
 					return Redirect(Url.Action("Index"));
 				}

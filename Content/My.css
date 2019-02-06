@@ -7032,18 +7032,15 @@ input, .input {
 
 form div {
   font-size: 1.2rem;
-  padding: 0px 5px;
-  margin: 0px 5px; }
+  padding: 0px 5px; }
 
 .error {
   text-align: center;
-  color: #dc3545;
-  margin-bottom: 20px; }
+  color: #dc3545; }
 
 .storage {
   margin: 1rem;
-  padding: 1rem;
-  font-size: 2rem; }
+  padding: 1rem; }
 
 .storage-small {
   margin: 0.2rem;

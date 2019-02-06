@@ -161,13 +161,19 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\StorageController.cs" />
+    <Compile Include="Enums\Amount.cs" />
+    <Compile Include="Enums\Safety.cs" />
     <Compile Include="Enums\Role.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\GameContext.cs" />
+    <Compile Include="Models\Context.cs" />
     <Compile Include="Models\AuthModel.cs" />
+    <Compile Include="Models\Product\ProductStatus.cs" />
+    <Compile Include="Models\Product\ProductDesctiption.cs" />
+    <Compile Include="Models\Product\Product.cs" />
     <Compile Include="Models\Storage\StorageType.cs" />
     <Compile Include="Models\Storage\StorageDescription.cs" />
     <Compile Include="Models\Storage\Storage.cs" />
@@ -175,6 +181,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\ColorPicker.jpg" />
     <Content Include="Content\My.css">
       <DependentUpon>My.scss</DependentUpon>
     </Content>
@@ -300,7 +307,6 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\jscolor.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -339,6 +345,7 @@
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Storage\Create.cshtml" />
     <Content Include="Views\Storage\CreateType.cshtml" />
+    <Content Include="Views\Storage\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

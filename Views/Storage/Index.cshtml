@@ -4,8 +4,9 @@
 	@foreach (var item in Model)
 	{
 		<div class="col-12 col-lg-6">
-			<div class="storage row" style="background-color: #@item.Background">
-				<div class="@item.Icon col-1"></div>
+			<div class="storage row h2" style="background-color: #@item.Type.Background" 
+			     onclick="window.location = '@Url.Action("View","Storage",new {id = item.Id})'">
+				<div class="@item.Type.Icon col-1"></div>
 				<div class="col">@Html.DisplayFor(modelItem => item.Name)</div>
 				<a href="@Url.Action("Delete", "Storage", new {id = item.Id})" class="col-1 text-danger fa fa-times text-decoration-none">
 					<div class=""></div>
@@ -14,7 +15,7 @@
 		</div>
 	}
 	<div class="col-12 col-lg-6">
-		<div class="storage bg-main text-light row" onclick="window.location = '@Url.Action("Create", "Storage")';">
+		<div class="storage bg-main text-light row h2" onclick="window.location = '@Url.Action("Create", "Storage")';">
 			<div class="fa fa-plus-circle col-1"></div>
 			<div class="col">Add new storage</div>
 		</div>

@@ -15,7 +15,7 @@ namespace SmartKitchen.Controllers
 	{
 		public ActionResult Index()
 		{
-			return View(new AuthModel{Login = false});
+			return View(new AuthModel{Login = true});
 		}
 		
 		//

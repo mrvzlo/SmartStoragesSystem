@@ -1,5 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using SmartKitchen.Enums;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace SmartKitchen.Models
 {
@@ -8,19 +9,19 @@ namespace SmartKitchen.Models
 		[Key]
 		public int Id { get; }
 		public string Name { get; set; }
-		public string TypeName { get; set; }
-		public string Background { get; set; }
-		public string Icon { get; set; }
+		public StorageType Type { get; set; }
+		public List<ProductDesctiption> Products { get; set; }
 
 		public StorageDescription() { }
 
-		public StorageDescription(Storage storage, StorageType storageType)
+		public StorageDescription(Storage storage, Context db)
 		{
 			Id = storage.Id;
 			Name = storage.Name;
-			TypeName = storageType.Name;
-			Icon = storageType.Icon;
-			Background = storageType.Background;
+			Type = db.StorageTypes.Find(storage.Type);
+			Products = new List<ProductDesctiption>();
+			foreach (var p in db.ProductStatuses.Where(x => x.Storage == storage.Id))
+				Products.Add(new ProductDesctiption(p,db));
 		}
 	}
 }

@@ -10,28 +10,32 @@
 @using (Html.BeginForm("Create", "Storage", FormMethod.Post, new { @class = "storage big-border" }))
 {
 	@Html.AntiForgeryToken()
-	<div class="row justify-content-between">
-		<div class="col-12 col-md-4">
-			<div class="text-center">Type</div>
-			@Html.DropDownList("TypeName", selectList, new { @class = "input" })
+	<div class="row justify-content-between py-2">
+		<div class="text-center col-md-2 col-12">Type</div>
+		@Html.DropDownList("TypeName", selectList, new { @class = "input col-md-8 col-12" })
+		@Html.Hidden("Type")
+		<div class="text-center col-md-2">
 			@if (HttpContext.Current.User.IsInRole("admin"))
 			{
-				<div class="text-center">@Html.ActionLink("Edit types", "CreateType", "Storage", new { @class = "btn btn-main" })</div>
+				@Html.ActionLink("Edit types", "CreateType", "Storage", new { @class = "btn btn-main w-100" })
+
 			}
-			<div class="error">@Html.ValidationMessage("TypeName")</div>
 		</div>
-		<div class="col-12 col-md-4">
+		<div class="error col-12">@Html.ValidationMessage("TypeName")</div>
+
+	</div>
+	<div class="row justify-content-between py-2">
+		<div class="col-md-2 col-12">
 			<div class="row justify-content-center">
 				<div id="IconPre"></div>
-				<div class="m-0 p-0">Name</div>
+				<div>Name</div>
 			</div>
-			<div>@Html.Editor("Name")</div>
-			<div class="error">@Html.ValidationMessage("Name")</div>
 		</div>
-		<div class="col-12 col-md-2">
-			<br />
-			<input type="submit" value="Create" class="btn btn-main" />
-		</div>
+		@Html.Editor("Name", new { htmlAttributes = new { @class = "col-md-8 col-12" } })
+		<div class="col-md-2"><input type="submit" value="Create" class="btn btn-main" /></div>
+		<div class="error col-12">@Html.ValidationMessage("Name")</div>
+
+
 	</div>
 }
 @section scripts{
@@ -44,6 +48,7 @@
 				<text>list.push({
 				Name: "@Model[i].Name",
 				Color: "#@Model[i].Background",
+				Id: "#@Model[i].Id",
 				Icon: "@Model[i].Icon"
 				})</text>
 				if (i == 0)
@@ -57,6 +62,7 @@
 			}
 			$("#TypeName").change(function () {
 				$("#Name").val($("#TypeName option:selected").val());
+				$("#Type").val(list[$("#TypeName")[0].selectedIndex].Id);
 				$("form").css("background", list[$("#TypeName")[0].selectedIndex].Color);
 				$('#IconPre').removeClass();
 				$("#IconPre").addClass(list[$("#TypeName")[0].selectedIndex].Icon);

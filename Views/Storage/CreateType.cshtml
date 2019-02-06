@@ -24,27 +24,36 @@
 @using (Html.BeginForm("CreateType", "Storage", FormMethod.Post, new { @class = "row justify-content-center" }))
 {
 	@Html.AntiForgeryToken()
-	<div class="col-md-6 storage" id="storage">
-		<div class="row justify-content-center">
+	<div class="col-md-6 storage preview" id="storage">
+		<div class="row justify-content-center py-2">
 			<div class="col-md-1">Name</div>
 			<div class="col-md-1"></div>
 			<div class="col-md-9">@Html.Editor("Name")</div>
 			<div class="error col-12">@Html.ValidationMessage("Name")</div>
+		</div>
+		<div class="row justify-content-center py-2">
 			<div class="col-1">Icon</div>
 			<div class="col-md-1 col-10"><span id="IconPre" style="height: 100%;"></span></div>
 			<div class="col-md-9">@Html.Editor("Icon")</div>
 			<div class="error col-12">@Html.ValidationMessage("Icon")</div>
+		</div>
+		<div class="row justify-content-center py-2">
 			<div class="col-md-1">Color</div>
 			<div class="col-md-1"></div>
-			<div class="col-md-9">@Html.Editor("Background", $"ffffff", new { htmlAttributes = new { @class = "jscolor" } })</div>
+			<div class="col-md-9">@Html.Editor("Background", $"ffffff", new { disabled = "disabled", @readonly = "readonly" })</div>
 			<div class="error col-12">@Html.ValidationMessage("Background")</div>
+		</div>
+		<div class="row justify-content-center py-2">
 			<div class="text-center col-6"><input type="submit" value="Save" class="btn btn-main col-6" /></div>
 		</div>
 	</div>
-}
-@section scripts
+	}
+	<div class="row justify-content-center">
+		<canvas id="picker" var="1" class="colorpicker big-border p-1 mx-3" style="display:none" width="360" height="180"></canvas>
+	</div>
+	@section scripts
 {
-	<script>
+		<script>
 		$("#Icon").on('change', function () {
 			$('#IconPre').removeClass();
 			$("#IconPre").addClass("fa fa-" + $(this).val());
@@ -57,7 +66,39 @@
 		function updateForm(name, color, icon) {
 			$("#Name").val(name);
 			$("#Icon").val(icon.substring(6, icon.length)).change();
-			document.getElementById("Background").jscolor.fromString(color);
+			$("#Background").val(color);
+			$('.preview').css('backgroundColor', "#"+color);
 		}
-	</script>
-}
+
+		$(function () {
+			var bCanPreview = true;
+			var canvas = document.getElementById('picker');
+			var ctx = canvas.getContext('2d');
+			var image = new Image();
+			image.onload = function () {
+				ctx.drawImage(image, 0, 0, $('#picker').width(), $('#picker').height());
+			}
+			image.src = '@Url.Content("~/Content/ColorPicker.jpg")';
+			$('#picker').mousemove(function (e) {
+				if (bCanPreview) {
+					var canvasOffset = $(canvas).offset();
+					var canvasX = Math.floor(e.pageX - canvasOffset.left);
+					var canvasY = Math.floor(e.pageY - canvasOffset.top);
+					var imageData = ctx.getImageData(canvasX, canvasY, 1, 1);
+					var pixel = imageData.data;
+					var pixelColor = "rgb(" + pixel[0] + ", " + pixel[1] + ", " + pixel[2] + ")";
+					$('.preview').css('backgroundColor', pixelColor);
+					var dColor = pixel[2] + 256 * pixel[1] + 65536 * pixel[0];
+					$('#Background').val(dColor.toString(16).substr(-6).toUpperCase());
+				}
+			});
+			$('#picker').click(function (e) { // click event handler
+				bCanPreview = !bCanPreview;
+			});
+			$('#Background').click(function (e) { // preview click
+				$('.colorpicker').fadeToggle("fast", "linear");
+				bCanPreview = true;
+			});
+		});
+		</script>
+	}
