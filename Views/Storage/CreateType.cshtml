@@ -11,7 +11,7 @@
 <div class="row">
 	@foreach (var item in Model)
 	{
-		<div class="col-md-4 col-12">
+		<div class="col-lg-4 col-12">
 			<div id="@count" class="storage-small row" style="background-color: #@item.Background" onclick='updateForm("@item.Name","@item.Background","@item.Icon");'>
 				<div class="@item.Icon col-1"></div>
 				<div class="col">@item.Name</div>
@@ -24,36 +24,38 @@
 @using (Html.BeginForm("CreateType", "Storage", FormMethod.Post, new { @class = "row justify-content-center" }))
 {
 	@Html.AntiForgeryToken()
-	<div class="col-md-6 storage preview" id="storage">
+	<div class="col-lg-6 col-12 storage preview" id="storage">
 		<div class="row justify-content-center py-2">
-			<div class="col-md-1">Name</div>
-			<div class="col-md-1"></div>
-			<div class="col-md-9">@Html.Editor("Name")</div>
+			<div class="col-lg-1">Name</div>
+			<div class="col-lg-1"></div>
+			<div class="col-lg-9">@Html.Editor("Name")</div>
 			<div class="error col-12">@Html.ValidationMessage("Name")</div>
 		</div>
 		<div class="row justify-content-center py-2">
-			<div class="col-1">Icon</div>
-			<div class="col-md-1 col-10"><span id="IconPre" style="height: 100%;"></span></div>
-			<div class="col-md-9">@Html.Editor("Icon")</div>
+			<div class="col-lg-1 col-1">Icon</div>
+			<div class="col-lg-1 col-11"><span id="IconPre" style="height: 100%;"></span></div>
+			<div class="col-lg-9">@Html.Editor("Icon")</div>
 			<div class="error col-12">@Html.ValidationMessage("Icon")</div>
 		</div>
 		<div class="row justify-content-center py-2">
-			<div class="col-md-1">Color</div>
-			<div class="col-md-1"></div>
-			<div class="col-md-9">@Html.Editor("Background", $"ffffff", new { disabled = "disabled", @readonly = "readonly" })</div>
+			<div class="col-lg-1">Color</div>
+			<div class="col-lg-1"></div>
+			<div class="col-lg-9">@Html.Editor("Background", $"ffffff", new { disabled = "disabled", @readonly = "readonly" })</div>
 			<div class="error col-12">@Html.ValidationMessage("Background")</div>
 		</div>
 		<div class="row justify-content-center py-2">
 			<div class="text-center col-6"><input type="submit" value="Save" class="btn btn-main col-6" /></div>
 		</div>
 	</div>
-	}
-	<div class="row justify-content-center">
-		<canvas id="picker" var="1" class="colorpicker big-border p-1 mx-3" style="display:none" width="360" height="180"></canvas>
+}
+<div id="pickerDiv" class="row justify-content-center" style="display: none;">
+	<div class="storage col-lg-6 col-12 mt-0">
+		<canvas id="picker" class="w-100"></canvas>
 	</div>
-	@section scripts
+</div>
+@section scripts
 {
-		<script>
+	<script>
 		$("#Icon").on('change', function () {
 			$('#IconPre').removeClass();
 			$("#IconPre").addClass("fa fa-" + $(this).val());
@@ -74,9 +76,11 @@
 			var bCanPreview = true;
 			var canvas = document.getElementById('picker');
 			var ctx = canvas.getContext('2d');
+			ctx.fillStyle = "#000";
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
 			var image = new Image();
 			image.onload = function () {
-				ctx.drawImage(image, 0, 0, $('#picker').width(), $('#picker').height());
+				ctx.drawImage(image, 0, 0, image.width, canvas.height);
 			}
 			image.src = '@Url.Content("~/Content/ColorPicker.jpg")';
 			$('#picker').mousemove(function (e) {
@@ -84,6 +88,9 @@
 					var canvasOffset = $(canvas).offset();
 					var canvasX = Math.floor(e.pageX - canvasOffset.left);
 					var canvasY = Math.floor(e.pageY - canvasOffset.top);
+					canvasX *= 300 / $("#picker").width();
+					canvasY *= 150 / $("#picker").height() ;
+					console.log(canvasY);
 					var imageData = ctx.getImageData(canvasX, canvasY, 1, 1);
 					var pixel = imageData.data;
 					var pixelColor = "rgb(" + pixel[0] + ", " + pixel[1] + ", " + pixel[2] + ")";
@@ -96,9 +103,9 @@
 				bCanPreview = !bCanPreview;
 			});
 			$('#Background').click(function (e) { // preview click
-				$('.colorpicker').fadeToggle("fast", "linear");
+				$('#pickerDiv').fadeToggle("fast", "linear");
 				bCanPreview = true;
 			});
 		});
-		</script>
-	}
+	</script>
+}

@@ -10,5 +10,6 @@ namespace SmartKitchen.Models
 		public DbSet<Product> Products { get; set; }
 		public DbSet<ProductStatus> ProductStatuses { get; set; }
 		public DbSet<StorageType> StorageTypes { get; set; }
+		public DbSet<Category> Categories { get; set; }
 	}
 }

@@ -45,7 +45,7 @@ namespace SmartKitchen.Controllers
 				else
 				{
 					CreateTicket(p);
-					return RedirectToAction("Index", "Home");
+					return RedirectToAction("Index", "Storage");
 				}
 			}
 
@@ -91,7 +91,7 @@ namespace SmartKitchen.Controllers
 					if (p != null)
 					{
 						CreateTicket(p);
-						return RedirectToAction("Index", "Home");
+						return RedirectToAction("Index", "Storage");
 					}
 				}
 				else

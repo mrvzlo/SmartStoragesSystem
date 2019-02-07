@@ -1,0 +1,10 @@
+﻿@model SmartKitchen.Models.ProductCreation
+@{
+	int storage = ViewBag.storage;
+}
+@using (Html.BeginForm("Create", "Product", FormMethod.Post, new {@class = "row"}))
+{
+	@Html.HiddenFor(x=>x.Storage, storage)
+	<div class="col-8">@Html.EditorFor(x => x.Name)</div>
+	<div class="col-4"><input type="submit" value="Add" class="btn btn-main"/></div>
+}

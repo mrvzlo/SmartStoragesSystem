@@ -171,8 +171,10 @@
     </Compile>
     <Compile Include="Models\Context.cs" />
     <Compile Include="Models\AuthModel.cs" />
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Product\ProductCreation.cs" />
     <Compile Include="Models\Product\ProductStatus.cs" />
-    <Compile Include="Models\Product\ProductDesctiption.cs" />
+    <Compile Include="Models\Product\ProductDescription.cs" />
     <Compile Include="Models\Product\Product.cs" />
     <Compile Include="Models\Storage\StorageType.cs" />
     <Compile Include="Models\Storage\StorageDescription.cs" />
@@ -346,6 +348,7 @@
     <Content Include="Views\Storage\Create.cshtml" />
     <Content Include="Views\Storage\CreateType.cshtml" />
     <Content Include="Views\Storage\View.cshtml" />
+    <Content Include="Views\Product\_AddProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

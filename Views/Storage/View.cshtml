@@ -1,36 +1,38 @@
-﻿@model SmartKitchen.Models.StorageDescription
+﻿@using SmartKitchen.Enums
+@model SmartKitchen.Models.StorageDescription
 @{
 	ViewBag.Title = Model.Name;
 }
 <div class="my-4 h4 text-center">@ViewBag.Title</div>
 <div class="row justify-content-center my-4">
 	<div class="col-9">
-		@using (Html.BeginForm("Create", "Product", FormMethod.Post, new { @class = "row" }))
-		{
-			<div class="col-8">@Html.Editor("Name")</div>
-			<div class="col-4"><input type="submit" value="Add" class="btn btn-main" /></div>
-		}
+		@{ Html.RenderAction("_AddProduct", "Product", new { storage = Model.Id });}
 	</div>
 </div>
-<div class="storage" style="background-color: #@Model.Type.Background">
-@if (Model.Products.Count == 0)
-{
-	<div class="text-center alert m-0 h2">This storage is empty now</div>
-}
-else
-{
+<div class="storage text-center" style="background-color: #@Model.Type.Background">
+	@if (Model.Products.Count == 0)
+	{
+		<div class="alert m-0 h2">This storage is empty now</div>
+	}
+	else
+	{
 		<div class="row font-weight-bold">
-			<div class="col-4">Name</div>
-			<div class="col-4">Safety</div>
-			<div class="col-4">Status</div>
+			<div class="col">Name</div>
+			<div class="col">Category</div>
+			<div class="col">Safety</div>
+			<div class="col">Status</div>
 		</div>
 		foreach (var product in Model.Products)
 		{
-			<div class="row">
-				<div class="col-4">@product.Product.Name</div>
-				<div class="col-4">@product.Safety</div>
-				<div class="col-4">@product.Status</div>
-			</div>
+		<div class="row">
+			<div class="col">@product.Product.Name</div>
+			<div class="col">@product.Category.Name</div>
+			@{
+				var status = product.Safety == Safety.IsSafe ? "success" : product.Safety == Safety.Expired ? "danger" : "warning"; 
+			}
+			<div class="col bg-@status">@product.Safety</div>
+			<div class="col">@product.Status.Amount</div>
+		</div>
 		}
-}
+	}
 </div>

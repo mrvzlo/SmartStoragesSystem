@@ -7,8 +7,7 @@ namespace SmartKitchen.Models
 	{
 		[Key]
 		public virtual int Id { get; set; }
-		//public virtual int Creator { get; set; }
 		public virtual string Name { get; set; }
-		//public virtual int Category { get; set; }
+		public virtual int Category { get; set; }
 	}
 }
