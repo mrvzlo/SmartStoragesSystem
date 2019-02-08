@@ -8,7 +8,8 @@ namespace SmartKitchen.Models
 	{
 		public Product Product { get; set; }
 		public ProductStatus Status { get; set; }
-		public Safety Safety { get; set; }
+		public Notification SafetyNotify { get; set; }
+		public Notification AmountNotify { get; set; }
 		public Category Category{ get; set; }
 
 		public ProductDescription()
@@ -23,17 +24,12 @@ namespace SmartKitchen.Models
 			Status = productStatus;
 			Product = product;
 			Category = category;
-			Safety = GetSafety();
+			SafetyNotify = new Notification();
+			if (productStatus.Amount != Amount.None)
+			SafetyNotify = new Notification(productStatus.BestBefore);
+			AmountNotify = new Notification(productStatus.Amount);
 			if (Product.Category == 0) Category = new Category();
 		}
 
-		private Safety GetSafety()
-		{
-			var days = (int)Math.Floor((Status.BestBefore.Date - DateTime.UtcNow.Date).TotalDays);
-			return days > 1 ? Safety.IsSafe 
-				: days > 0 ? Safety.ExpiresTomorrow
-				: days == 0 ? Safety.ExpiresToday 
-				: Safety.Expired;
-		}
 	}
 }

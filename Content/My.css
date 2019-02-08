@@ -7020,6 +7020,9 @@ input, .input {
   background-color: #e9e6f4;
   width: 100%; }
 
+.bg {
+  border-radius: 1rem; }
+
 .big-border, input, .input, .storage, .storage-small {
   border: solid 2px #2e2253;
   border-radius: 1rem; }
@@ -7072,8 +7075,6 @@ body {
     display: none; }
   .mobile {
     display: flex; }
-  .storage {
-    font-size: 1.5rem; }
   .navbar {
     padding: 5px; }
   li a, a div, button div {

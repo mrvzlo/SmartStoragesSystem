@@ -10,6 +10,10 @@ input, .input {
 	width: 100%;
 }
 
+.bg {
+	border-radius: $border-radius;
+}
+
 .big-border, input, .input, .storage, .storage-small {
 	border: solid 2px darken($main, 20%);
 	border-radius: $border-radius;
@@ -76,9 +80,6 @@ body {
 		display: flex;
 	}
 
-	.storage{
-		font-size:1.5rem;
-	}
 	.navbar{
 		padding: 5px;
 	}

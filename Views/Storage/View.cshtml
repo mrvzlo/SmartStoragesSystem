@@ -1,5 +1,4 @@
-﻿@using SmartKitchen.Enums
-@model SmartKitchen.Models.StorageDescription
+﻿@model SmartKitchen.Models.StorageDescription
 @{
 	ViewBag.Title = Model.Name;
 }
@@ -16,23 +15,55 @@
 	}
 	else
 	{
-		<div class="row font-weight-bold">
-			<div class="col">Name</div>
-			<div class="col">Category</div>
-			<div class="col">Safety</div>
-			<div class="col">Status</div>
-		</div>
-		foreach (var product in Model.Products)
-		{
-		<div class="row">
-			<div class="col">@product.Product.Name</div>
-			<div class="col">@product.Category.Name</div>
-			@{
-				var status = product.Safety == Safety.IsSafe ? "success" : product.Safety == Safety.Expired ? "danger" : "warning"; 
+		<table class="w-100 table table-hover table-borderless m-0">
+			<tr>
+				<th style="width: 20%;">Name</th>
+				<th style="width: 20%;">Category</th>
+				<th style="width: 20%;">Safety</th>
+				<th style="width: 20%;">Amount</th>
+				<th style="width: 20%;"></th>
+			</tr>
+			@foreach (var product in Model.Products)
+			{
+				<tr id="@product.Status.Id">
+					<td class="font-weight-bold">@product.Product.Name</td>
+					<td>@product.Category.Name</td>
+					<td id="SafetyNotify_@product.Status.Id">
+						<div class="font-weight-bold bg alert-@product.SafetyNotify.Type">@product.SafetyNotify.Content</div>
+					</td>
+					<td id="AmountNotify_@product.Status.Id">
+						<div class="font-weight-bold bg alert-@product.AmountNotify.Type">@product.AmountNotify.Content</div>
+					</td>
+					<td class="font-weight-bold">
+						<button onclick="changeProductAmount(@product.Status.Id,1);" class="d-inline btn p-0 btn-main">➕</button>
+						<button onclick="changeProductAmount(@product.Status.Id,-1);" class="d-inline btn p-0 btn-main">➖</button>
+						<button onclick="removeProduct(@product.Status.Id,'@product.Product.Name');" class="d-inline btn p-0 btn-main">❌</button>
+					</td>
+				</tr>
 			}
-			<div class="col bg-@status">@product.Safety</div>
-			<div class="col">@product.Status.Amount</div>
-		</div>
-		}
+		</table>
 	}
 </div>
+@section scripts{
+	<script>
+		function changeProductAmount(product, amount) {
+			$.ajax({
+				url: '@Url.Action("Change", "Product")?productstatus=' + product + '&amount=' + amount,
+				success: function(data) {
+					document.getElementById("AmountNotify_" + product).innerHTML = data;
+				}
+			});
+		}
+
+		function removeProduct(product, name) {
+			if (confirm(name + " will be deleted")) {
+				$.ajax({
+					url: '@Url.Action("Remove", "Product")?productstatus=' + product,
+					success: function() {
+						document.getElementById(product).outerHTML = "";
+					}
+				});
+			}
+		}
+	</script>
+}

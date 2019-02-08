@@ -5,11 +5,11 @@ using SmartKitchen.Enums;
 
 namespace SmartKitchen.Models
 {
-	public sealed class Category
+	public class Category
 	{
 		[Key]
-		public int Id { get; set; }
-		public string Name { get; set; }
+		public virtual int Id { get; set; }
+		public virtual string Name { get; set; }
 
 		public Category()
 		{
