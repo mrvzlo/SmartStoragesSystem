@@ -9,68 +9,68 @@ namespace SmartKitchen.Models
 	public sealed class Notification
 	{
 		public string Type { get; set; }
-		public string Content { get; set; }
+        public string AmountInfo { get; set; }
+        public string SafetyInfo { get; set; }
 
-		public Notification()
+        public Notification()
 		{
 			Type = "secondary";
-			Content = "-";
-		}
+            AmountInfo = "None";
+            SafetyInfo = "Unknown";
+        }
 
-		public Notification(DateTime? bestBefore)
-		{
-			if (bestBefore == null)
-			{
-				Type = "secondary";
-				Content = "-";
-				return;
-			}
-			switch (GetSafety(bestBefore.Value))
-			{
-				case Safety.IsSafe:
-					Type = "success";
-					Content = "Is safe";
-					return;
-				case Safety.ExpiresTomorrow:
-					Type = "warning";
-					Content = "Expires tomorrow";
-					return;
-				case Safety.ExpiresToday:
-					Type = "warning";
-					Content = "Expires today";
-					return;
-				case Safety.Expired:
-					Type = "danger";
-					Content = "expired";
-					return;
-			}
-		}
-		public Notification(Amount amount)
+		public Notification(DateTime? bestBefore, Amount amount)
+        {
+            GetAmountInfo(amount);
+            GetSafety(bestBefore);
+        }
+
+        private void GetAmountInfo(Amount amount)
 		{
 			switch (amount)
 			{
 				case Amount.None:
-					Type = "danger";
-					Content = "None";
+                    AmountInfo = "None";
 					return;
 				case Amount.Lack:
-					Type = "warning";
-					Content = "Lack";
+                    AmountInfo = "Lack";
 					return;
 				case Amount.Plenty:
-					Type = "success";
-					Content = "Plenty";
+                    AmountInfo = "Plenty";
 					return;
 			}
 		}
 
-		private Safety GetSafety(DateTime bestBefore)
+		private Safety GetSafety(DateTime? bestBefore)
 		{
-			var days = (int)Math.Floor((bestBefore.Date - DateTime.UtcNow.Date).TotalDays);
-			return days > 1 ? Safety.IsSafe
-				: days > 0 ? Safety.ExpiresTomorrow
-				: days == 0 ? Safety.ExpiresToday
-				: Safety.Expired;
+            if (bestBefore == null)
+            {
+                SafetyInfo = "Unknown";
+                Type = "secondary";
+                return Safety.Unknown;
+            }
+			var days = (int)Math.Floor((bestBefore.Value.Date - DateTime.UtcNow.Date).TotalDays);
+			if (days > 1)
+            {
+                SafetyInfo = "Safe";
+                Type = "success";
+                return Safety.IsSafe;
+            }
+            if (days > 0)
+            {
+                SafetyInfo = "Expires tomorrow";
+                Type = "warning";
+                return Safety.ExpiresTomorrow;
+            }
+            if (days == 0)
+            {
+                SafetyInfo = "Expires today";
+                Type = "warning";
+                return Safety.ExpiresToday;
+            }
+            SafetyInfo = "Expired";
+            Type = "danger";
+            return Safety.Expired;
 		}
 	}
 }

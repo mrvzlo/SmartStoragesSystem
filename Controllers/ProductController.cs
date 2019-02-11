@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity.Core.Mapping;
 using System.Data.SqlTypes;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using SmartKitchen.Enums;
@@ -26,7 +27,7 @@ namespace SmartKitchen.Controllers
 			using (var db = new Context())
 			{
 				var productId = GetOrCreate(product.Name, db).Id;
-				db.ProductStatuses.Add(new ProductStatus { Product = productId, Amount = 0, BestBefore = null, Storage = storage});
+				db.Cells.Add(new Cell { Product = productId, Amount = 0, BestBefore = null, Storage = storage});
 				db.SaveChanges();
 			}
 			return Redirect(Url.Action("View", "Storage", new { id = storage }));
@@ -41,33 +42,59 @@ namespace SmartKitchen.Controllers
 			return db.Products.FirstOrDefault(x => x.Name == name);
 		}
 
-		public ActionResult Change(int productStatus, int amount)
-		{
-			Notification notif = new Notification();
-			using (var db = new Context())
-			{
-				var product = db.ProductStatuses.Find(productStatus);
-				if (product.Amount + amount > Amount.Plenty) product.Amount = Amount.Plenty;
-				else if (product.Amount + amount < Amount.None) product.Amount = Amount.None;
-				else product.Amount += amount;
-				db.SaveChanges();
-				notif = new Notification(product.Amount);
-			}
+        public ActionResult Description(int cell)
+        {
+            ProductDescription description = new ProductDescription();
+            using (var db = new Context())
+            {
+                description = new ProductDescription(db, cell);
+            }
 
-			return PartialView("_Notification", notif);
+            return PartialView("_Description", description);
+        }
+
+        public ActionResult Change(int cell, int amount)
+		{
+			ProductDescription description = new ProductDescription();
+			using (var db = new Context())
+            {
+                Cell cellold = db.Cells.Find(cell);
+                if (cellold.Amount == Amount.None) cellold.BestBefore = null;
+                if (cellold.Amount + amount > Amount.Plenty) cellold.Amount = Amount.Plenty;
+				else if (cellold.Amount + amount < Amount.None) cellold.Amount = Amount.None;
+				else cellold.Amount += amount;
+                if (cellold.Amount == Amount.None) cellold.BestBefore = null;
+				db.SaveChanges();
+                description = new ProductDescription(db, cell);
+            }
+
+			return PartialView("_Description", description);
 		}
 
-		public ActionResult Remove(int productStatus)
+        public ActionResult DateUpdate(int cell, string dateStr)
+        {
+            DateTime newDate = DateTime.ParseExact(dateStr, "d/M/yyyy", CultureInfo.InvariantCulture);
+            ProductDescription description = new ProductDescription();
+            using (var db = new Context())
+            {
+                Cell cellold = db.Cells.Find(cell);
+                cellold.BestBefore = newDate;
+                db.SaveChanges();
+                description = new ProductDescription(db, cell);
+            }
+
+            return PartialView("_Description", description);
+        }
+
+        public void Remove(int cellId)
 		{
-			Notification notif = new Notification();
 			using (var db = new Context())
 			{
-				var product = db.ProductStatuses.Find(productStatus);
-				db.ProductStatuses.Remove(product);
+				var cell = db.Cells.Find(cellId);
+                if (cell == null) return;
+				db.Cells.Remove(cell);
 				db.SaveChanges();
 			}
-
-			return PartialView("_Notification", notif);
 		}
 	}
 }

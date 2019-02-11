@@ -13,10 +13,13 @@ namespace SmartKitchen
 			bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
 				"~/Scripts/jquery.validate*"));
 
-			bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-				"~/Scripts/bootstrap.js"));
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                "~/Scripts/bootstrap.js"));
 
-			bundles.Add(new StyleBundle("~/Content/css").Include(
+            bundles.Add(new ScriptBundle("~/bundles/datepicker").Include(
+                "~/Scripts/simplepicker.js"));
+
+            bundles.Add(new StyleBundle("~/Content/css").Include(
 				"~/Content/My.css"));
 		}
 	}

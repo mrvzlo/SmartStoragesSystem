@@ -34,7 +34,7 @@ namespace SmartKitchen.Controllers
 			    if (storage !=null && storage.Owner == person.Id)
 			    {
 				    db.Storages.Remove(storage);
-				    db.ProductStatuses.RemoveRange(db.ProductStatuses.Where(x => x.Storage == id));
+				    db.Cells.RemoveRange(db.Cells.Where(x => x.Storage == id));
 				    db.SaveChanges();
 			    }
 		    }

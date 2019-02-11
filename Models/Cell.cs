@@ -4,7 +4,7 @@ using SmartKitchen.Enums;
 
 namespace SmartKitchen.Models
 {
-	public class ProductStatus
+	public class Cell
 	{
 		[Key]
 		public virtual int Id { get; set; }

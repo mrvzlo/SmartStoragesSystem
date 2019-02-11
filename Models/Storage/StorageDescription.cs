@@ -11,12 +11,12 @@ namespace SmartKitchen.Models
 		public int Id { get; }
 		public string Name { get; set; }
 		public StorageType Type { get; set; }
-		public List<ProductDescription> Products { get; set; }
+		public List<int> Products{ get; set; }
 
 		public StorageDescription()
 		{
 			Type = new StorageType();
-			Products = new List<ProductDescription>();
+            Products = new List<int>();
 		}
 
 		public StorageDescription(Storage storage, Context db)
@@ -24,14 +24,7 @@ namespace SmartKitchen.Models
 			Id = storage.Id;
 			Name = storage.Name;
 			Type = db.StorageTypes.Find(storage.Type);
-			Products = new List<ProductDescription>();
-			var list = db.ProductStatuses.Where(x => x.Storage == storage.Id).ToList();
-			foreach (var status in list)
-			{
-				var product = db.Products.Find(status.Product);
-				var category = db.Categories.Find(product.Category);
-				Products.Add(new ProductDescription(status, product, category));
-			}
+            Products = db.Cells.Where(x => x.Storage == storage.Id).Select(x => x.Id).ToList();
 		}
 	}
 }

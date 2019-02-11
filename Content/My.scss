@@ -1,17 +1,14 @@
-﻿$main: #56409b;
+﻿$main: #66509b;
 $theme-colors: ( "main": $main );
 $border-radius: 1rem !default;
 @import 'bootstrap/bootstrap.scss';
+@import 'simplepicker.css';
 
 //forms
 input, .input {
 	padding: 0px 10px;
 	background-color: lighten($main, 50%);
 	width: 100%;
-}
-
-.bg {
-	border-radius: $border-radius;
 }
 
 .big-border, input, .input, .storage, .storage-small {
@@ -26,15 +23,23 @@ input, .input {
 .btn{
 	font-weight: 600;
 }
-//forms
-form div{
-	font-size: 1.2rem;
-	padding: 0px 5px;
-}
 
 .error {
-	text-align: center;
-	color: $danger;
+    text-align: center;
+    color: $danger;
+}
+
+form div {
+    font-size: 1.2rem;
+    padding: 0px 5px;
+}
+//forms
+
+@each $color, $value in $theme-colors {
+    .safety-#{$color} {
+        font-weight: bold;
+        color: darken($value, 15%);
+    }
 }
 
 .storage{
