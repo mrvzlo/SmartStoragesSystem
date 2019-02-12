@@ -174,7 +174,7 @@
     <Compile Include="Models\AuthModel.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Product\ProductCreation.cs" />
-    <Compile Include="Models\Cell.cs" />
+    <Compile Include="Models\Cell\Cell.cs" />
     <Compile Include="Models\Product\ProductDescription.cs" />
     <Compile Include="Models\Product\Product.cs" />
     <Compile Include="Models\Storage\StorageType.cs" />
@@ -191,7 +191,6 @@
     <Content Include="Content\My.min.css">
       <DependentUpon>My.css</DependentUpon>
     </Content>
-    <Content Include="Content\simplepicker.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -301,6 +300,7 @@
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
+    <None Include="Properties\PublishProfiles\aveSK - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -315,8 +315,6 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
-    <Content Include="Scripts\simplepicker.js" />
-    <Content Include="Scripts\simplepicker.node.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
@@ -354,6 +352,8 @@
     <Content Include="Views\Storage\View.cshtml" />
     <Content Include="Views\Product\_AddProduct.cshtml" />
     <Content Include="Views\Product\_Description.cshtml" />
+    <Content Include="Views\Shared\_DatePicker.cshtml" />
+    <Content Include="Views\Shared\_AmountPicker.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

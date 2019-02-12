@@ -19,21 +19,25 @@ namespace SmartKitchen.Controllers
 			return PartialView(new ProductCreation());
 		}
 
-		[HttpPost]
+        #region Create and Read  
+        [HttpPost]
 		public ActionResult Create(ProductCreation product)
 		{
 			product.Name = product.Name[0].ToString().ToUpper() + product.Name.Substring(1).ToLower();
 			var storage = product.Storage;
 			using (var db = new Context())
 			{
-				var productId = GetOrCreate(product.Name, db).Id;
-				db.Cells.Add(new Cell { Product = productId, Amount = 0, BestBefore = null, Storage = storage});
-				db.SaveChanges();
-			}
+				var productId = GetOrCreateAndGet(product.Name, db).Id;
+                if (!db.Cells.Any(x => x.Product == productId))
+                {
+                    db.Cells.Add(new Cell {Product = productId, Amount = 0, BestBefore = null, Storage = storage});
+                    db.SaveChanges();
+                }
+            }
 			return Redirect(Url.Action("View", "Storage", new { id = storage }));
 		}
 
-		public Product GetOrCreate(string name, Context db)
+		public Product GetOrCreateAndGet(string name, Context db)
 		{
 			var result = db.Products.FirstOrDefault(x => x.Name == name);
 			if (result != null) return result;
@@ -52,39 +56,30 @@ namespace SmartKitchen.Controllers
 
             return PartialView("_Description", description);
         }
+        #endregion
 
-        public ActionResult Change(int cell, int amount)
+        #region Amount
+        public ActionResult AmountUpdatePre()
+        {
+            return PartialView("_AmountPicker");
+        }
+
+        public ActionResult SetAmount(int cell, int amount)
 		{
 			ProductDescription description = new ProductDescription();
 			using (var db = new Context())
             {
                 Cell cellold = db.Cells.Find(cell);
-                if (cellold.Amount == Amount.None) cellold.BestBefore = null;
-                if (cellold.Amount + amount > Amount.Plenty) cellold.Amount = Amount.Plenty;
-				else if (cellold.Amount + amount < Amount.None) cellold.Amount = Amount.None;
-				else cellold.Amount += amount;
-                if (cellold.Amount == Amount.None) cellold.BestBefore = null;
+                if (cellold.Amount == Amount.None || amount == (int)Amount.None) cellold.BestBefore = null;
+                if (amount > (int)Amount.Plenty) cellold.Amount = Amount.Plenty;
+				else if (amount < (int)Amount.None) cellold.Amount = Amount.None;
+				else cellold.Amount = (Amount)amount;
 				db.SaveChanges();
                 description = new ProductDescription(db, cell);
             }
 
 			return PartialView("_Description", description);
 		}
-
-        public ActionResult DateUpdate(int cell, string dateStr)
-        {
-            DateTime newDate = DateTime.ParseExact(dateStr, "d/M/yyyy", CultureInfo.InvariantCulture);
-            ProductDescription description = new ProductDescription();
-            using (var db = new Context())
-            {
-                Cell cellold = db.Cells.Find(cell);
-                cellold.BestBefore = newDate;
-                db.SaveChanges();
-                description = new ProductDescription(db, cell);
-            }
-
-            return PartialView("_Description", description);
-        }
 
         public void Remove(int cellId)
 		{
@@ -96,5 +91,40 @@ namespace SmartKitchen.Controllers
 				db.SaveChanges();
 			}
 		}
-	}
+        #endregion
+
+        #region Date
+
+        public ActionResult DateUpdatePre()
+        {
+            return PartialView("_DatePicker");
+        }
+        
+        public ActionResult DateUpdate(int cell, string dateStr)
+        {
+            DateTime? newDate;
+            try
+            {
+                newDate = DateTime.ParseExact(dateStr, "d/M/yyyy", CultureInfo.InvariantCulture);
+            }
+            catch (Exception e)
+            {
+                newDate = null;
+            }
+            ProductDescription description = new ProductDescription();
+            using (var db = new Context())
+            {
+                Cell cellold = db.Cells.Find(cell);
+                if (cellold != null)
+                {
+                    if (newDate != null) cellold.BestBefore = newDate;
+                    db.SaveChanges();
+                    description = new ProductDescription(db, cell);
+                }
+            }
+
+            return PartialView("_Description", description);
+        }
+        #endregion
+    }
 }

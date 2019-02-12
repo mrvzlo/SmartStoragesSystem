@@ -21,56 +21,56 @@ namespace SmartKitchen.Models
 
 		public Notification(DateTime? bestBefore, Amount amount)
         {
-            GetAmountInfo(amount);
-            GetSafety(bestBefore);
+            var safety = GetSafety(bestBefore);
+            AmountInfo = GetAmountInfo(amount);
+            SafetyInfo = GetSafetyInfo(safety);
+            Type = GetType(safety);
         }
 
-        private void GetAmountInfo(Amount amount)
+        private string GetAmountInfo(Amount amount)
 		{
 			switch (amount)
 			{
-				case Amount.None:
-                    AmountInfo = "None";
-					return;
-				case Amount.Lack:
-                    AmountInfo = "Lack";
-					return;
-				case Amount.Plenty:
-                    AmountInfo = "Plenty";
-					return;
+				case Amount.None: return "None";
+				case Amount.Lack: return "Lack";
+				case Amount.Plenty: return "Plenty";
+                default: return "Unknown";
 			}
 		}
 
 		private Safety GetSafety(DateTime? bestBefore)
 		{
-            if (bestBefore == null)
-            {
-                SafetyInfo = "Unknown";
-                Type = "secondary";
-                return Safety.Unknown;
-            }
+            if (bestBefore == null) return Safety.Unknown;
 			var days = (int)Math.Floor((bestBefore.Value.Date - DateTime.UtcNow.Date).TotalDays);
-			if (days > 1)
+            return days > 1 ? Safety.IsSafe 
+                : days > 0 ? Safety.ExpiresTomorrow 
+                    : days == 0 ? Safety.ExpiresToday 
+                        : Safety.Expired;
+        }
+
+        private string GetSafetyInfo(Safety safety)
+        {
+            switch (safety)
             {
-                SafetyInfo = "Safe";
-                Type = "success";
-                return Safety.IsSafe;
+                case Safety.Expired: return "Expired";
+                case Safety.ExpiresTomorrow: return "Expires tomorrow";
+                case Safety.ExpiresToday: return "Expires today";
+                case Safety.IsSafe: return "Safe";
+                default: return "Unknown";
             }
-            if (days > 0)
+        }
+
+        private string GetType(Safety safety)
+        {
+            string[] colorThemes = { "danger", "warning", "success", "secondary", "primary", "main"};
+            switch (safety)
             {
-                SafetyInfo = "Expires tomorrow";
-                Type = "warning";
-                return Safety.ExpiresTomorrow;
+                case Safety.Expired: return colorThemes[0];
+                case Safety.ExpiresTomorrow: 
+                case Safety.ExpiresToday: return colorThemes[1];
+                case Safety.IsSafe: return colorThemes[2];
+                default: return colorThemes[3];
             }
-            if (days == 0)
-            {
-                SafetyInfo = "Expires today";
-                Type = "warning";
-                return Safety.ExpiresToday;
-            }
-            SafetyInfo = "Expired";
-            Type = "danger";
-            return Safety.Expired;
-		}
-	}
+        }
+    }
 }

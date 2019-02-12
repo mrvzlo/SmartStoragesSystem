@@ -86,11 +86,14 @@ namespace SmartKitchen.Controllers
 						});
 						db.SaveChanges();
 						p = db.People.FirstOrDefault(x => x.Name == model.NameUp);
-					}
+                        var type1 = db.StorageTypes.First();
+                        db.Storages.Add(new Storage {Name = type1.Name, Owner = p.Id, Type = type1.Id});
+                        db.SaveChanges();
+                    }
 
 					if (p != null)
-					{
-						CreateTicket(p);
+                    {
+                        CreateTicket(p);
 						return RedirectToAction("Index", "Storage");
 					}
 				}

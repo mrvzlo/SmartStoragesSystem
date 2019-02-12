@@ -1,0 +1,102 @@
+﻿$main: #66509b;
+$theme-colors: ( "main": $main );
+$border-radius: 1rem !default;
+@import 'bootstrap/bootstrap.scss';
+@import 'simplepicker.css';
+
+//forms
+input, .input {
+	padding: 0px 10px;
+	background-color: lighten($main, 50%);
+	width: 100%;
+}
+
+.big-border, input, .input, .storage, .storage-small {
+	border: solid 2px darken($main, 20%);
+	border-radius: $border-radius;
+}
+
+.btn-unactive {
+	background-color: desaturate($main, 50%);
+}
+
+.btn{
+	font-weight: 600;
+}
+
+.error {
+    text-align: center;
+    color: $danger;
+}
+
+form div {
+    font-size: 1.2rem;
+    padding: 0px 5px;
+}
+//forms
+
+@each $color, $value in $theme-colors {
+    .safety-#{$color} {
+        font-weight: bold;
+        color: darken($value, 15%);
+    }
+}
+
+.storage{
+	margin: 1rem;
+	padding: 1rem;
+}
+
+.storage-small {
+	margin: 0.2rem;
+	font-size: 1.4rem;
+}
+.storage-new {
+	background-color: lighten($main, 40%);
+}
+
+body {
+	padding: 0;
+}
+
+.nav-link{
+	padding: 0.2rem;
+	font-size: large;
+}
+//icons
+.fa:before {
+	display: flex;
+	align-items: center;
+	width: 1rem;
+}
+.fa {
+	display: flex;
+}
+//icons
+//navbar
+.mobile {
+	display: none;
+}
+@media screen and (max-width: #{map-get($grid-breakpoints, md)}) {
+	.widescreen {
+		display: none;
+	}
+	.mobile {
+		display: flex;
+	}
+
+	.navbar{
+		padding: 5px;
+	}
+
+	li a, a div, button div {
+		height: 100%;
+		margin: 0;
+		padding: 0;
+	}
+
+    tr, th {
+        font-size: 0.7rem;
+    }
+}
+//navbar

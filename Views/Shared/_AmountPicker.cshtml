@@ -1,0 +1,17 @@
+﻿@using SmartKitchen.Enums
+<div class="modal fade" id="AmountModal" tabindex="-1" role="dialog" aria-labelledby="AmountModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content big-border">
+            <div class="modal-header text-center d-block h5" id="AmountModalLabel"></div>
+            <div class="modal-body pt-0">
+                <div class="row justify-content-center">
+                    <button data-dismiss="modal" class="btn btn-success col-3 m-1" onclick="changeProductAmount(@Convert.ToInt32(Amount.Plenty));" >Plenty</button>
+                    <button data-dismiss="modal" class="btn btn-warning col-3 m-1" onclick="changeProductAmount(@Convert.ToInt32(@Amount.Lack));" >Lack</button>
+                    <button data-dismiss="modal" class="btn btn-secondary col-3 m-1" onclick="changeProductAmount(@Convert.ToInt32(@Amount.None));" >None</button>
+                    <button data-dismiss="modal" class="btn btn-danger col-3 m-1" onclick="removeProduct();">Remove</button>
+                    <button data-dismiss="modal" class="btn btn-secondary col-3 m-1">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

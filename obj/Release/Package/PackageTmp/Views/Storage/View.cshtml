@@ -1,0 +1,90 @@
+﻿@model SmartKitchen.Models.StorageDescription
+@{
+    ViewBag.Title = Model.Name;
+}
+<div class="my-4 h4 text-center">@ViewBag.Title</div>
+@{ Html.RenderAction("_AddProduct", "Product", new { storage = Model.Id });}
+<div class="text-center table-responsive m-0 big-border" style="background-color: #@Model.Type.Background">
+    @if (Model.Products.Count == 0)
+    {
+        <div class="alert m-0 h3">This storage is empty now</div>
+    }
+    else
+    {
+        <table class="w-100 table table-hover table-borderless p-0 m-0">
+            <tr>
+                <th style="width: 20%">Name</th>
+                <th style="width: 20%">Category</th>
+                <th style="width: 25%">Safety</th>
+                <th style="width: 25%">Amount</th>
+                <th style="width: 10%"></th>
+            </tr>
+            @foreach (var product in Model.Products)
+            {
+                <tr id="@product"></tr>
+            }
+        </table>
+    }
+</div>
+@section scripts{
+    <script>
+        var productDate;
+        var myPicker = new SimplePicker();
+        myPicker.disableTimeSection();
+
+        function showDatePicker(product) {
+            productDate = product;
+            myPicker.open();
+        }
+
+        myPicker.on('submit',
+            function(date, readableDate) {
+                var day = date.getDate();
+                var month = date.getMonth() + 1;
+                var year = date.getFullYear();
+                var newDate = day + "/" + month + "/" + year;
+                $.ajax({
+                    url: '@Url.Action("DateUpdate", "Product")?cell=' + productDate + '&dateStr=' + newDate,
+                    success: function(data) {
+                        document.getElementById(productDate).innerHTML = data;
+                    }
+                });
+            });
+
+        function changeProductAmount(product, amount) {
+            $.ajax({
+                url: '@Url.Action("Change", "Product")?cell=' + product + '&amount=' + amount,
+                success: function(data) {
+                    document.getElementById(product).innerHTML = data;
+                }
+            });
+        }
+
+        function removeProduct(product, name) {
+            if (confirm(name + " will be deleted")) {
+                $.ajax({
+                    url: '@Url.Action("Remove", "Product")?cellId=' + product,
+                    success: function() {
+                        document.getElementById(product).outerHTML = "";
+                    }
+                });
+            }
+        }
+
+        function getProduct(product) {
+            $.ajax({
+                url: '@Url.Action("Description", "Product")?cell=' + product,
+                success: function (data) {
+                    document.getElementById(product).outerHTML = data;
+                }
+            });
+        }
+
+        $(function () {
+            @foreach (var product in Model.Products)
+            {
+                <text>getProduct(@product);</text>
+            }
+        });
+    </script>
+}

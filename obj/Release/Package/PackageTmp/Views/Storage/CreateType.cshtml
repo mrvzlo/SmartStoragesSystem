@@ -1,0 +1,111 @@
+﻿@model List<SmartKitchen.Models.StorageType>
+@{
+	int count = 0;
+	ViewBag.Title = "Storage types";
+}
+<div class="row justify-content-between mt-4 mx-4">
+	<h4>@ViewBag.Title</h4>
+	@Html.ActionLink("Back", "Create", "Storage", new { @class = "btn btn-secondary" })
+</div>
+
+<div class="row">
+	@foreach (var item in Model)
+	{
+		<div class="col-lg-4 col-12">
+			<div id="@count" class="storage-small row" style="background-color: #@item.Background" onclick='updateForm("@item.Name","@item.Background","@item.Icon");'>
+				<div class="@item.Icon col-1"></div>
+				<div class="col">@item.Name</div>
+			</div>
+		</div>
+		count++;
+	}
+</div>
+
+@using (Html.BeginForm("CreateType", "Storage", FormMethod.Post, new { @class = "row justify-content-center" }))
+{
+	@Html.AntiForgeryToken()
+	<div class="col-lg-6 col-12 storage preview" id="storage">
+		<div class="row justify-content-center py-2">
+			<div class="col-lg-1">Name</div>
+			<div class="col-lg-1"></div>
+			<div class="col-lg-9">@Html.Editor("Name")</div>
+			<div class="error col-12">@Html.ValidationMessage("Name")</div>
+		</div>
+		<div class="row justify-content-center py-2">
+			<div class="col-lg-1 col-2">Icon</div>
+			<div class="col-lg-1 col-10"><span id="IconPre" style="height: 100%;"></span></div>
+			<div class="col-lg-9">@Html.Editor("Icon")</div>
+			<div class="error col-12">@Html.ValidationMessage("Icon")</div>
+		</div>
+		<div class="row justify-content-center py-2">
+			<div class="col-lg-1">Color</div>
+			<div class="col-lg-1"></div>
+			<div class="col-lg-9">@Html.Editor("Background", $"ffffff", new { disabled = "disabled", @readonly = "readonly" })</div>
+			<div class="error col-12">@Html.ValidationMessage("Background")</div>
+		</div>
+		<div class="row justify-content-center py-2">
+			<div class="text-center col-6"><input type="submit" value="Save" class="btn btn-main col-6" /></div>
+		</div>
+	</div>
+}
+<div id="pickerDiv" class="row justify-content-center" style="display: none;">
+	<div class="storage col-lg-6 col-12 mt-0">
+		<canvas id="picker" class="w-100"></canvas>
+	</div>
+</div>
+@section scripts
+{
+	<script>
+		$("#Icon").on('change', function () {
+			$('#IconPre').removeClass();
+			$("#IconPre").addClass("fa fa-" + $(this).val());
+		});
+
+		$("body").click(function () {
+			$("#storage").css("background-color", "#" + $("#Background").val());
+		});
+
+		function updateForm(name, color, icon) {
+			$("#Name").val(name);
+			$("#Icon").val(icon.substring(6, icon.length)).change();
+			$("#Background").val(color);
+			$('.preview').css('backgroundColor', "#"+color);
+		}
+
+		$(function () {
+			var bCanPreview = true;
+			var canvas = document.getElementById('picker');
+			var ctx = canvas.getContext('2d');
+			ctx.fillStyle = "#000";
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+			var image = new Image();
+			image.onload = function () {
+				ctx.drawImage(image, 0, 0, image.width, canvas.height);
+			}
+			image.src = '@Url.Content("~/Content/ColorPicker.jpg")';
+			$('#picker').mousemove(function (e) {
+				if (bCanPreview) {
+					var canvasOffset = $(canvas).offset();
+					var canvasX = Math.floor(e.pageX - canvasOffset.left);
+					var canvasY = Math.floor(e.pageY - canvasOffset.top);
+					canvasX *= 300 / $("#picker").width();
+					canvasY *= 150 / $("#picker").height() ;
+					console.log(canvasY);
+					var imageData = ctx.getImageData(canvasX, canvasY, 1, 1);
+					var pixel = imageData.data;
+					var pixelColor = "rgb(" + pixel[0] + ", " + pixel[1] + ", " + pixel[2] + ")";
+					$('.preview').css('backgroundColor', pixelColor);
+					var dColor = pixel[2] + 256 * pixel[1] + 65536 * pixel[0];
+					$('#Background').val(dColor.toString(16).substr(-6).toUpperCase());
+				}
+			});
+			$('#picker').click(function (e) { // click event handler
+				bCanPreview = !bCanPreview;
+			});
+			$('#Background').click(function (e) { // preview click
+				$('#pickerDiv').fadeToggle("fast", "linear");
+				bCanPreview = true;
+			});
+		});
+	</script>
+}

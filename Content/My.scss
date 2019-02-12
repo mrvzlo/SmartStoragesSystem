@@ -2,7 +2,6 @@
 $theme-colors: ( "main": $main );
 $border-radius: 1rem !default;
 @import 'bootstrap/bootstrap.scss';
-@import 'simplepicker.css';
 
 //forms
 input, .input {
@@ -94,5 +93,9 @@ body {
 		margin: 0;
 		padding: 0;
 	}
+
+    tr, th {
+        font-size: 0.7rem;
+    }
 }
 //navbar
