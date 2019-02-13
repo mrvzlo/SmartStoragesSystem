@@ -159,8 +159,11 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BasketController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\CellController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\StorageController.cs" />
     <Compile Include="Enums\Amount.cs" />
@@ -169,13 +172,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Category\CategoryDisplay.cs" />
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Context.cs" />
     <Compile Include="Models\AuthModel.cs" />
-    <Compile Include="Models\Category.cs" />
-    <Compile Include="Models\Product\ProductCreation.cs" />
+    <Compile Include="Models\Category\Category.cs" />
+    <Compile Include="Models\Cell\CellCreation.cs" />
     <Compile Include="Models\Cell\Cell.cs" />
-    <Compile Include="Models\Product\ProductDescription.cs" />
+    <Compile Include="Models\Cell\CellDescription.cs" />
+    <Compile Include="Models\Product\ProductDisplay.cs" />
     <Compile Include="Models\Product\Product.cs" />
     <Compile Include="Models\Storage\StorageType.cs" />
     <Compile Include="Models\Storage\StorageDescription.cs" />
@@ -350,10 +355,17 @@
     <Content Include="Views\Storage\Create.cshtml" />
     <Content Include="Views\Storage\CreateType.cshtml" />
     <Content Include="Views\Storage\View.cshtml" />
-    <Content Include="Views\Product\_AddProduct.cshtml" />
-    <Content Include="Views\Product\_Description.cshtml" />
-    <Content Include="Views\Shared\_DatePicker.cshtml" />
-    <Content Include="Views\Shared\_AmountPicker.cshtml" />
+    <Content Include="Views\Cell\_AddProduct.cshtml" />
+    <Content Include="Views\Cell\_Description.cshtml" />
+    <Content Include="Views\Cell\_DatePicker.cshtml" />
+    <Content Include="Views\Cell\_AmountPicker.cshtml" />
+    <Content Include="Views\Shared\_Admin.cshtml" />
+    <Content Include="Views\Category\Index.cshtml" />
+    <Content Include="Views\Category\_Description.cshtml" />
+    <Content Include="Views\Basket\Index.cshtml" />
+    <Content Include="Views\Home\Admin.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Product\_Categories.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

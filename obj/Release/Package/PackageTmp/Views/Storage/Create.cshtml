@@ -1,43 +1,41 @@
 ﻿@model List<SmartKitchen.Models.StorageType>
 @{
-	ViewBag.Title = "New storage";
-	int item = ViewBag.Selected != null ? ViewBag.Selected : 0;
+    ViewBag.Title = "New storage";
+    int item = ViewBag.Selected != null ? ViewBag.Selected : 0;
 }
 <div class="row justify-content-between m-4">
-	<h4>New storage</h4>
-	@Html.ActionLink("Back", "Index", "Storage", new { @class = "btn btn-secondary" })
+    <h4>New storage</h4>
+    @Html.ActionLink("Back", "Index", "Storage", new { @class = "btn btn-secondary" })
 </div>
 @using (Html.BeginForm("Create", "Storage", FormMethod.Post, new { @class = "storage big-border" }))
 {
-	@Html.AntiForgeryToken()
-	<div class="row justify-content-center py-2">
-		<div class="text-center col-lg-2 col-12">Type</div>
-		<select id="TypeName" class="input col-lg-8 col-12" onchange="change()"></select>
-		@Html.Hidden("Type")
-		<div class="text-center col-lg-2 col-6 mt-lg-0 mt-3">
-			@if (HttpContext.Current.User.IsInRole("admin"))
-			{
-				@Html.ActionLink("Edit types", "CreateType", "Storage", new { @class = "btn btn-main w-100" })
-
-			}
-		</div>
-		<div class="error col-12">@Html.ValidationMessage("Type")</div>
-
-	</div>
-	<div class="row justify-content-center py-2">
-		<div class="col-lg-2 col-12">
-			<div class="row justify-content-center">
-				<div id="IconPre"></div>
-				<div>Name</div>
-			</div>
-		</div>
-		@Html.Editor("Name", new { htmlAttributes = new { @class = "col-lg-8 col-12" } })
-		<div class="col-lg-2 mt-lg-0 mt-3 col-6"><input type="submit" value="Create" class="btn btn-main" /></div>
-		<div class="error col-12">@Html.ValidationMessage("Name")</div>
-	</div>
+    @Html.AntiForgeryToken()
+    <div class="row justify-content-center py-2">
+        <div class="text-center col-lg-2 col-12 py-1">Type</div>
+        <select id="TypeName" class="input col-lg-8 col-12" onchange="change()"></select>
+        @Html.Hidden("Type")
+        <div class="text-center col-lg-2 col-6 mt-lg-0 mt-3">
+            @if (HttpContext.Current.User.IsInRole("admin"))
+            {
+                @Html.ActionLink("Edit types", "CreateType", "Storage", new { @class = "btn btn-main w-100 py-1" })
+            }
+        </div>
+        <div class="error col-12">@Html.ValidationMessage("Type")</div>
+    </div>
+    <div class="row justify-content-center py-2">
+        <div class="col-lg-2 col-12">
+            <div class="row justify-content-center">
+                <div id="IconPre"></div>
+                <div class="py-1">Name</div>
+            </div>
+        </div>
+        @Html.Editor("Name", new { htmlAttributes = new { @class = "col-lg-8 col-12" } })
+        <div class="col-lg-2 mt-lg-0 mt-3 col-6"><input type="submit" value="Create" class="btn btn-main py-1" /></div>
+        <div class="error col-12">@Html.ValidationMessage("Name")</div>
+    </div>
 }
 @section scripts{
-	<script>
+    <script>
 		var list;
 
 		function change() {
@@ -72,5 +70,5 @@
 			}
 
 		});
-	</script>
+    </script>
 }

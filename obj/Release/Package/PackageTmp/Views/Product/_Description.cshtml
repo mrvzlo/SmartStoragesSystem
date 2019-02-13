@@ -1,17 +1,19 @@
 ﻿@using SmartKitchen.Enums
 @model SmartKitchen.Models.ProductDescription
+@{bool ChangeableDate = Model.Cell.Amount != Amount.None;}
+
 <tr id="@Model.Cell.Id">
-    <td class="font-weight-bold">@Model.Product.Name</td>
+    <td class="font-weight-bold" id="name_@Model.Cell.Id">@Model.Product.Name</td>
     <td>@Model.Category.Name</td>
-    <td @if (Model.Cell.Amount != Amount.None) {<text>onclick = "showDatePicker(@Model.Cell.Id)"</text>}>
-        <div class="safety-@Model.Notification.Type">@Model.Notification.SafetyInfo</div>
+
+    <td @if (ChangeableDate) { 
+            @: onclick="showDatePicker(@Model.Cell.Id,'@Model.Product.Name')"
+        }>
+        <div class="font-weight-bold text-@Model.Safety.Type" 
+             @if (ChangeableDate){
+                 @: data-toggle="modal" data-target="#DateModal"
+             }>@Model.Safety.Info</div>
     </td>
-    <td class="text-nowrap">
-        <button onclick="changeProductAmount('@Model.Cell.Id',-1);" class="d-inline btn p-0 fa fa-minus-circle"></button>
-        &nbsp;@Model.Notification.AmountInfo&nbsp;
-        <button onclick="changeProductAmount('@Model.Cell.Id',1);" class="d-inline btn p-0 fa fa-plus-circle"></button>
-    </td>
-<td>
-    <button onclick="removeProduct(@Model.Cell.Id,'@Model.Product.Name');" class="d-inline btn p-0 fa fa-times-circle"></button>
-</td>
+
+    <td class="font-weight-bold text-@Model.Amount.Type" data-toggle="modal" data-target="#AmountModal" onclick="showAmountPicker(@Model.Cell.Id)">@Model.Amount.Info</td>
 </tr>

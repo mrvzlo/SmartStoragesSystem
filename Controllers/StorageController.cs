@@ -61,7 +61,7 @@ namespace SmartKitchen.Controllers
 
 	    [HttpPost]
 	    [ValidateAntiForgeryToken]
-	    public ActionResult Create(Storage storage)
+        public ActionResult Create(Storage storage)
 	    {
 		    if (string.IsNullOrEmpty(storage.Name)) ModelState.AddModelError("Name", "Name is required");
 		    Person person;
@@ -87,14 +87,16 @@ namespace SmartKitchen.Controllers
 			return View(StorageType.GetAll());
 	    }
 
-		public ActionResult CreateType(string s)
+        [Authorize(Roles = "admin")]
+        public ActionResult CreateType(string s)
 	    {
 		    return View(StorageType.GetAll());
 		}
 
 	    [HttpPost]
 	    [ValidateAntiForgeryToken]
-		public ActionResult CreateType(StorageType newType)
+        [Authorize(Roles = "admin")]
+        public ActionResult CreateType(StorageType newType)
 	    {
 		    if (string.IsNullOrEmpty(newType.Name)) ModelState.AddModelError("Name", "Name is required");
 		    if (string.IsNullOrEmpty(newType.Icon)) ModelState.AddModelError("Icon", "Icon is required");

@@ -1,0 +1,10 @@
+﻿@model SmartKitchen.Models.CategoryDisplay
+<tr id="@Model.Id">
+    <td class="font-weight-bold" id="name_@Model.Id">@Model.Name</td>
+    <td>@Model.ProductsCount</td>
+    <td>@if (Model.Id != 1)
+        {
+            <a class="text-decoration-none" data-toggle="modal" data-target="#CategoryModal" onclick="remove(@Model.Id)">❌</a>
+        }
+    </td>
+</tr>

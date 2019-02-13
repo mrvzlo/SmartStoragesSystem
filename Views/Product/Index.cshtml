@@ -1,0 +1,23 @@
+﻿@model List<SmartKitchen.Models.ProductDisplay>
+@{
+    Html.RenderPartial("_Admin");
+    Html.RenderAction("Categories");
+    ViewBag.Title = "Products";
+}
+<table class="table table-bordered table-hover">
+    <tr class="text-center">
+        <th>Product</th>
+        <th>Category</th>
+    </tr>
+    @foreach (var i in Model)
+    {
+        <tr id="@i.Id">
+            <td class="text-center">@i.Name</td>
+            <td class="text-center">@i.CategoryName</td>
+        </tr>
+    }
+</table>
+<div class="row justify-content-center">
+    <button class="col-md-3 col-6 btn btn-main">Save</button>
+    <button class="col-md-3 col-6 btn btn-info">Reset</button>
+</div>

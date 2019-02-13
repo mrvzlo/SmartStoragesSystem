@@ -1,55 +1,102 @@
-﻿<div class="container-fluid bg-main">
-	<div class="container">
-		<nav class="navbar font-weight-bold navbar-expand justify-content-md-around navbar-dark">
-			<div class="collapse navbar-collapse justify-content-center" id="nav">
-				<ul class="mobile navbar-nav flex-fill justify-content-around">
-					<li class="nav-item"><a href="@Url.Action("Index", "Home" )" class="nav-link text-light p-0"><div class="fa fa-home fa-2x"></div></a></li>
-					<li class="nav-item"><a href="@Url.Action("Index", "Storage")" class="nav-link text-light"><div class="fa fa-th-list fa-2x"></div></a></li>
-					<li class="nav-item">
-						@if (Request.IsAuthenticated)
-						{
-							<a class="nav-link text-light" href="javascript:document.getElementById('logoutForm').submit()"><div class="fa fa-sign-out-alt fa-2x"></div></a>
-						}
-						else
-						{
-							<a href="@Url.Action("Index", "Account")" class="nav-link text-light"><div class="fa fa-sign-in-alt fa-2x"></div></a>
-						}
-					</li>
-				</ul>
+﻿<div class="container-fluid bg-main p-0">
+    <div class="container p-0">
+        <nav class="navbar font-weight-bold navbar-expand justify-content-md-around navbar-dark">
+            <div class="collapse navbar-collapse justify-content-center" id="nav">
+                <ul class="mobile navbar-nav flex-fill justify-content-around">
+                    @{
+                        var authed = Request.IsAuthenticated;
+                        var disabled = authed ? "text-light" : "disabled";
+                    }
+                    <li class="nav-item">
+                        <a href="@Url.Action("Index", "Home")" class="nav-link text-light">
+                            <div class="fa fa-home fa-2x"></div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@(authed ? Url.Action("Index", "Storage" ) : "" )" class="nav-link @disabled">
+                            <div class="fa fa-th-list fa-2x"></div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@(authed ? Url.Action("Index", "Basket") : "")" class="nav-link @disabled">
+                            <div class="fa fa-shopping-basket fa-2x"></div>
+                        </a>
+                    </li>
+                    @if (authed)
+                    {
+                        if (HttpContext.Current.User.IsInRole("admin"))
+                        {
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "Admin")" class="nav-link text-light">
+                                    <div class="fa fa-tools fa-2x"></div>
+                                </a>
+                            </li>
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link text-light" href="javascript:document.getElementById('logoutForm').submit()">
+                                <div class="fa fa-sign-out-alt fa-2x"></div>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Account")" class="nav-link text-light">
+                                <div class="fa fa-sign-in-alt fa-2x"></div>
+                            </a>
+                        </li>
+                    }
+                </ul>
 
-				<ul class="widescreen navbar-nav flex-fill w-100 flex-nowrap">
-					<li class="nav-item">
-						<a href="@Url.Action("Index", "Home")" class="nav-link text-light">
-							Home
-						</a>
-					</li>
-					<li class="nav-item">
-						<a href="@Url.Action("Index", "Storage")" class="nav-link text-light">
-							Storages
-						</a>
-					</li>
-				</ul>
+                <ul class="widescreen navbar-nav flex-fill w-100 flex-nowrap">
+                    <li class="nav-item">
+                        <a href="@Url.Action("Index", "Home")" class="nav-link text-light">
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@(authed ? Url.Action("Index", "Storage") : "")" class="nav-link @disabled">
+                            Storages
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@(authed ? Url.Action("Index", "Basket") : "")" class="nav-link @disabled">
+                            Basket
+                        </a>
+                    </li>
+                </ul>
 
-				<ul class="widescreen navbar-nav flex-fill w-100 flex-nowrap justify-content-end">
-					<li class="nav-item">
-						@if (Request.IsAuthenticated)
-						{
-							using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "d-none" }))
-							{
-								@Html.AntiForgeryToken()
-							}
-							<a class="nav-link text-light" href="javascript:document.getElementById('logoutForm').submit()">
-								Sign out
-							</a>
-						}
-						else
-						{
-							<a href="@Url.Action("Index", "Account")" class="nav-link text-light">
-								Sign in
-							</a>
-						}
-				</ul>
-			</div>
-		</nav>
-	</div>
+                <ul class="widescreen navbar-nav flex-fill w-100 flex-nowrap justify-content-end">
+                    @if (authed)
+                    {
+                        if (HttpContext.Current.User.IsInRole("admin"))
+                        {
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "Admin")" class="nav-link text-light">
+                                    Admin
+                                </a>
+                            </li>
+                        }
+                        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "d-none" }))
+                        {
+                            @Html.AntiForgeryToken()
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link text-light" href="javascript:document.getElementById('logoutForm').submit()">
+                                Sign out
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Account")" class="nav-link text-light">
+                                Sign in
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </nav>
+    </div>
 </div>

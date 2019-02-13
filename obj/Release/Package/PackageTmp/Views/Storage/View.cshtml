@@ -13,11 +13,10 @@
     {
         <table class="w-100 table table-hover table-borderless p-0 m-0">
             <tr>
-                <th style="width: 20%">Name</th>
-                <th style="width: 20%">Category</th>
+                <th style="width: 25%">Name</th>
+                <th style="width: 25%">Category</th>
                 <th style="width: 25%">Safety</th>
                 <th style="width: 25%">Amount</th>
-                <th style="width: 10%"></th>
             </tr>
             @foreach (var product in Model.Products)
             {
@@ -26,46 +25,80 @@
         </table>
     }
 </div>
+@{ Html.RenderAction("DateUpdatePre", "Product");}
+@{ Html.RenderAction("AmountUpdatePre", "Product");}
 @section scripts{
     <script>
-        var productDate;
-        var myPicker = new SimplePicker();
-        myPicker.disableTimeSection();
+        var cellId;
 
-        function showDatePicker(product) {
-            productDate = product;
-            myPicker.open();
+        function showDatePicker(product, productName) {
+            cellId = product;
+            var name = $("#name_" + cellId).text();
+            $('#DateModalLabel').text("Choose expiration date for " + name);
         }
 
-        myPicker.on('submit',
-            function(date, readableDate) {
-                var day = date.getDate();
-                var month = date.getMonth() + 1;
-                var year = date.getFullYear();
-                var newDate = day + "/" + month + "/" + year;
-                $.ajax({
-                    url: '@Url.Action("DateUpdate", "Product")?cell=' + productDate + '&dateStr=' + newDate,
-                    success: function(data) {
-                        document.getElementById(productDate).innerHTML = data;
-                    }
-                });
-            });
+        function showAmountPicker(product, productName) {
+            cellId = product;
+            var name = $("#name_" + cellId).text();
+            $('#AmountModalLabel').text("Choose amount of " + name);
+        }
 
-        function changeProductAmount(product, amount) {
+        $("#Month").change(function () {
+            UpdateDaysinMonth();
+        });
+
+        $("#Year").change(function () {
+            UpdateDaysinMonth();
+        });
+
+        $("#Day").change(function () {
+            UpdateDaysinMonth();
+        });
+
+        function UpdateDaysinMonth() {
+            var Month = $("#Month").val();
+            var max = 31;
+            if (Month == 4 || Month == 6 || Month == 9 || Month == 11) max = 30;
+            if (Month == 2) {
+                if ($("#Year").val() % 4 == 0) max = 29;
+                else max = 28;
+            }
+
+            $("#Day").attr({
+                "max": max
+            });
+            if ($("#Day").val() > max) $("#Day").val(max);
+        }
+
+        function DateUpdate() {
+            var Day = $("#Day").val();
+            var Month = $("#Month").val();
+            var Year = $("#Year").val();
+            var newDate = Day + "/" + Month + "/" + Year;
             $.ajax({
-                url: '@Url.Action("Change", "Product")?cell=' + product + '&amount=' + amount,
+                url: '@Url.Action("DateUpdate", "Product")?cell=' + cellId + '&dateStr=' + newDate,
                 success: function(data) {
-                    document.getElementById(product).innerHTML = data;
+                    document.getElementById(cellId).innerHTML = data;
                 }
             });
         }
 
-        function removeProduct(product, name) {
-            if (confirm(name + " will be deleted")) {
+        function changeProductAmount(amount) {
+            $.ajax({
+                url: '@Url.Action("SetAmount", "Product")?cell=' + cellId + '&amount=' + amount,
+                success: function(data) {
+                    document.getElementById(cellId).innerHTML = data;
+                }
+            });
+        }
+
+        function removeProduct() {
+            var name = $("#name_" + cellId).text();
+            if (confirm(name + " will be removed")) {
                 $.ajax({
-                    url: '@Url.Action("Remove", "Product")?cellId=' + product,
+                    url: '@Url.Action("Remove", "Product")?cellId=' + cellId,
                     success: function() {
-                        document.getElementById(product).outerHTML = "";
+                        document.getElementById(cellId).outerHTML = "";
                     }
                 });
             }
@@ -74,17 +107,47 @@
         function getProduct(product) {
             $.ajax({
                 url: '@Url.Action("Description", "Product")?cell=' + product,
-                success: function (data) {
+                success: function(data) {
                     document.getElementById(product).outerHTML = data;
                 }
             });
         }
 
-        $(function () {
-            @foreach (var product in Model.Products)
-            {
-                <text>getProduct(@product);</text>
+        function inputChange(id, value) {
+            id = "#" + id;
+            var max = $(id).attr('max');
+            var min = $(id).attr('min');
+            var val = $(id).val();
+            var newVal = Number(val) + value;
+            if (newVal > max) newVal = max;
+            else if (newVal < min) newVal = min;
+            $(id).val(newVal);
+            UpdateDaysinMonth();
+        }
+
+        function setTodayDate() {
+            var date = new Date();
+            $("#Month").val(date.getMonth() + 1);
+            $("#Day").val(date.getDate());
+            $("#Year").val(date.getFullYear());
+        }
+
+        $(function() {
+            @foreach (var product in Model.Products){ 
+                @: getProduct(@product);
             }
+            UpdateDaysinMonth();
+            $("#Month").attr({
+                "max": 12,
+                "min": 1
+            });
+            $("#Day").attr({
+                "min": 1
+            });
+            $("#Year").attr({
+                "min": (new Date()).getFullYear()
+            });
+            setTodayDate();
         });
     </script>
 }

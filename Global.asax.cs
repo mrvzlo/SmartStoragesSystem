@@ -18,8 +18,10 @@ namespace SmartKitchen
 		protected void Application_Start()
 		{
 			Mapper.Initialize(cfg =>
-			{
-			});
+            {
+                cfg.CreateMap<Category, CategoryDisplay>();
+                cfg.CreateMap<Product, ProductDisplay>();
+            });
 			AreaRegistration.RegisterAllAreas();
 			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 			RouteConfig.RegisterRoutes(RouteTable.Routes);

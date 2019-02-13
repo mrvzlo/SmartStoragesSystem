@@ -1,8 +1,8 @@
-﻿$main: #66509b;
+﻿$main: #46307b;
+$warning: #cc7a00;
 $theme-colors: ( "main": $main );
 $border-radius: 1rem !default;
 @import 'bootstrap/bootstrap.scss';
-@import 'simplepicker.css';
 
 //forms
 input, .input {
@@ -35,11 +35,8 @@ form div {
 }
 //forms
 
-@each $color, $value in $theme-colors {
-    .safety-#{$color} {
-        font-weight: bold;
-        color: darken($value, 15%);
-    }
+.disabled:hover, .disabled{
+    color: gray;
 }
 
 .storage{

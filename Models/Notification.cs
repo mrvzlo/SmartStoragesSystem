@@ -7,38 +7,40 @@ using SmartKitchen.Enums;
 namespace SmartKitchen.Models
 {
 	public sealed class Notification
-	{
-		public string Type { get; set; }
-        public string AmountInfo { get; set; }
-        public string SafetyInfo { get; set; }
+    {
+        public string Type { get; set; }
+        public string Info { get; set; }
 
         public Notification()
 		{
-			Type = "secondary";
-            AmountInfo = "None";
-            SafetyInfo = "Unknown";
+            Type = "secondary";
+            Info = "Unknown";
         }
 
-		public Notification(DateTime? bestBefore, Amount amount)
+		public Notification(Amount amount)
+        {
+            Info = GetAmountInfo(amount);
+            Type = GetAmountType(amount);
+        }
+        public Notification(DateTime? bestBefore)
         {
             var safety = GetSafety(bestBefore);
-            AmountInfo = GetAmountInfo(amount);
-            SafetyInfo = GetSafetyInfo(safety);
-            Type = GetType(safety);
+            Info = GetSafetyInfo(safety);
+            Type = GetSafetyType(safety);
         }
 
         private string GetAmountInfo(Amount amount)
-		{
-			switch (amount)
-			{
-				case Amount.None: return "None";
-				case Amount.Lack: return "Lack";
-				case Amount.Plenty: return "Plenty";
+        {
+            switch (amount)
+            {
+                case Amount.None: return "None";
+                case Amount.Lack: return "Lack";
+                case Amount.Plenty: return "Plenty";
                 default: return "Unknown";
-			}
-		}
+            }
+        }
 
-		private Safety GetSafety(DateTime? bestBefore)
+        private Safety GetSafety(DateTime? bestBefore)
 		{
             if (bestBefore == null) return Safety.Unknown;
 			var days = (int)Math.Floor((bestBefore.Value.Date - DateTime.UtcNow.Date).TotalDays);
@@ -60,7 +62,7 @@ namespace SmartKitchen.Models
             }
         }
 
-        private string GetType(Safety safety)
+        private string GetSafetyType(Safety safety)
         {
             string[] colorThemes = { "danger", "warning", "success", "secondary", "primary", "main"};
             switch (safety)
@@ -69,6 +71,17 @@ namespace SmartKitchen.Models
                 case Safety.ExpiresTomorrow: 
                 case Safety.ExpiresToday: return colorThemes[1];
                 case Safety.IsSafe: return colorThemes[2];
+                default: return colorThemes[3];
+            }
+        }
+        private string GetAmountType(Amount amount)
+        {
+            string[] colorThemes = { "danger", "warning", "success", "secondary", "primary", "main" };
+            switch (amount)
+            {
+                case Amount.None: return colorThemes[3];
+                case Amount.Lack: return colorThemes[1];
+                case Amount.Plenty: return colorThemes[2];
                 default: return colorThemes[3];
             }
         }
