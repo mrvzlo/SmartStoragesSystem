@@ -17,7 +17,7 @@ namespace SmartKitchen.Models
 		{
 			using (var db = new Context())
 			{
-				return db.StorageTypes.ToList();
+				return db.StorageTypes.OrderBy(x=>x.Name).ToList();
 			}
 		}
 	}

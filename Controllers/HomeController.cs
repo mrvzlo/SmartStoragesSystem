@@ -9,11 +9,9 @@ namespace SmartKitchen.Controllers
 			return View();
 		}
 
-		public ActionResult About()
+		public ActionResult Admin()
 		{
-			ViewBag.Message = "Your application description page.";
-
-			return View();
+            return View();
 		}
 
 		public ActionResult Contact()

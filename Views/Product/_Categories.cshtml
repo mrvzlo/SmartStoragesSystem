@@ -1,0 +1,15 @@
+﻿@model List<SmartKitchen.Models.Category>
+
+<script>
+    var select = [];
+    var opt;
+    @foreach (var i in Model)
+    {
+        <text>
+    opt = document.createElement('option');
+    opt.value = @i.Id;
+    opt.innerHTML = "@i.Name";
+    select.push(opt);
+        </text>
+    }
+</script>

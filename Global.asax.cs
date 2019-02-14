@@ -7,19 +7,13 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
-using AutoMapper;
-using SmartKitchen.Enums;
-using SmartKitchen.Models;
 
 namespace SmartKitchen
 {
 	public class MvcApplication : System.Web.HttpApplication
-	{
+    {
 		protected void Application_Start()
 		{
-			Mapper.Initialize(cfg =>
-			{
-			});
 			AreaRegistration.RegisterAllAreas();
 			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 			RouteConfig.RegisterRoutes(RouteTable.Routes);

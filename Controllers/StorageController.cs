@@ -19,8 +19,7 @@ namespace SmartKitchen.Controllers
 		        var s = db.Storages.Where(x => x.Owner == person.Id).ToList();
 		        foreach (var storage in s)
 		        {
-			        var type = db.StorageTypes.Find(storage.Type);
-					storages.Add(new StorageDescription(storage,type));
+					storages.Add(new StorageDescription(storage,db));
 		        }
 	        }
             return View(storages);
@@ -35,57 +34,69 @@ namespace SmartKitchen.Controllers
 			    if (storage !=null && storage.Owner == person.Id)
 			    {
 				    db.Storages.Remove(storage);
+				    db.Cells.RemoveRange(db.Cells.Where(x => x.Storage == id));
 				    db.SaveChanges();
 			    }
 		    }
 		    return Redirect(Url.Action("Index"));
 	    }
 
-	    public ActionResult Edit(int id)
+	    public ActionResult View(int id)
 	    {
-		    throw new NotImplementedException();
-		}
+		    var content = new StorageDescription();
+			using (var db = new Context())
+			{
+				var storage = db.Storages.Find(id);
+				content = new StorageDescription(storage, db);
+			}
+
+			if (content.Type == null) return Redirect(Url.Action("Index"));
+			return View(content);
+	    }
 
 	    public ActionResult Create()
 	    {
 		    return View(StorageType.GetAll());
-		}
-
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-	    public ActionResult Create(StorageDescription storage)
-	    {
-			if (string.IsNullOrEmpty(storage.Name)) ModelState.AddModelError("Name","Name is required");
-		    StorageType type;
-		    Person person;
-			using (var db = new Context())
-			{
-				person = Person.Current(db);
-				type = db.StorageTypes.FirstOrDefault(x => x.Name == storage.TypeName);
-				if (db.Storages.FirstOrDefault(x => x.Owner == person.Id && x.Type == type.Id) != null) ModelState.AddModelError("TypeName", "This storage already exists");
-				if (db.Storages.FirstOrDefault(x => x.Owner == person.Id && x.Name == storage.Name) != null) ModelState.AddModelError("Name", "This name is already taken");
-				if (type==null) ModelState.AddModelError("TypeName", "Unknown type");
-			}
-			if (ModelState.IsValid)
-		    {
-				using (var db = new Context())
-				{
-					db.Storages.Add(new Storage{Name = storage.Name, Owner = person.Id, Type = type.Id});
-					db.SaveChanges();
-					return Redirect(Url.Action("Index"));
-				}
-			}
-		    return View(StorageType.GetAll());
 	    }
 
-	    public ActionResult CreateType(string s)
+	    [HttpPost]
+	    [ValidateAntiForgeryToken]
+        public ActionResult Create(Storage storage)
+	    {
+		    if (string.IsNullOrEmpty(storage.Name)) ModelState.AddModelError("Name", "Name is required");
+		    Person person;
+		    using (var db = new Context())
+		    {
+			    person = Person.Current(db);
+			    if (db.Storages.FirstOrDefault(x => x.Owner == person.Id && x.Name == storage.Name) != null)
+				    ModelState.AddModelError("Name", "This name is already taken");
+			    if (db.StorageTypes.Find(storage.Type) == null) ModelState.AddModelError("Type", "Unknown type");
+		    }
+		    if (ModelState.IsValid)
+		    {
+			    using (var db = new Context())
+			    {
+				    storage.Owner = person.Id;
+				    db.Storages.Add(storage);
+				    db.SaveChanges();
+				    return Redirect(Url.Action("Index"));
+			    }
+		    }
+
+		    ViewBag.Selected = storage.Type;
+			return View(StorageType.GetAll());
+	    }
+
+        [Authorize(Roles = "admin")]
+        public ActionResult CreateType(string s)
 	    {
 		    return View(StorageType.GetAll());
 		}
 
 	    [HttpPost]
 	    [ValidateAntiForgeryToken]
-		public ActionResult CreateType(StorageType newType)
+        [Authorize(Roles = "admin")]
+        public ActionResult CreateType(StorageType newType)
 	    {
 		    if (string.IsNullOrEmpty(newType.Name)) ModelState.AddModelError("Name", "Name is required");
 		    if (string.IsNullOrEmpty(newType.Icon)) ModelState.AddModelError("Icon", "Icon is required");

@@ -15,7 +15,7 @@ namespace SmartKitchen.Controllers
 	{
 		public ActionResult Index()
 		{
-			return View(new AuthModel{Login = false});
+			return View(new AuthModel{Login = true});
 		}
 		
 		//
@@ -45,7 +45,7 @@ namespace SmartKitchen.Controllers
 				else
 				{
 					CreateTicket(p);
-					return RedirectToAction("Index", "Home");
+					return RedirectToAction("Index", "Storage");
 				}
 			}
 
@@ -86,12 +86,15 @@ namespace SmartKitchen.Controllers
 						});
 						db.SaveChanges();
 						p = db.People.FirstOrDefault(x => x.Name == model.NameUp);
-					}
+                        var type1 = db.StorageTypes.First();
+                        db.Storages.Add(new Storage {Name = type1.Name, Owner = p.Id, Type = type1.Id});
+                        db.SaveChanges();
+                    }
 
 					if (p != null)
-					{
-						CreateTicket(p);
-						return RedirectToAction("Index", "Home");
+                    {
+                        CreateTicket(p);
+						return RedirectToAction("Index", "Storage");
 					}
 				}
 				else

@@ -1,0 +1,14 @@
+﻿@model SmartKitchen.Models.CellCreation
+@{
+    int storage = ViewBag.storage;
+}
+<div class="row justify-content-center my-4">
+    <div class="col-lg-9 col-11">
+        @using (Html.BeginForm("Create", "Cell", FormMethod.Post, new { @class = "row" }))
+        {
+            @Html.HiddenFor(x => x.Storage, storage)
+            @Html.TextBoxFor(x => x.Name, new {@class = "col-8" })
+            <input type="submit" value="Add" class="btn btn-main col-4" />
+        }
+    </div>
+</div>

@@ -1,0 +1,93 @@
+﻿@model List<int>
+@{
+    ViewBag.Title = "Create storage";
+}
+<table id="table" class="table table-hover table-borderless text-center">
+    <tr>
+        <th style="width: 35%">Category</th>
+        <th style="width: 45%">Products</th>
+        <th style="width: 20%"></th>
+    </tr>
+    @foreach (var i in Model)
+    {
+        <tr id="@i"></tr>
+    }
+</table>
+
+@using (Html.BeginForm("Create", "Category", FormMethod.Post, new { @class = "row  justify-content-center" }))
+{
+    <div class="col-9">
+        <div class="form-group row text-center justify-content-center">
+            <div class="col-md-4 col-lg-3 col-form-label text-md-right">New category</div>
+            @Html.TextBox("Name", "", new { @class = "col-md-6 mb-md-0 mb-2" })
+            <input type="submit" value="Add" class="col-md-2 col-4 btn btn-success p-0" />
+            @Html.ValidationMessage("Name", "", new { @class = "col-12 error" })
+        </div>
+    </div>
+}
+
+<div class="modal fade" id="CategoryModal" tabindex="-1" role="dialog" aria-labelledby="CategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content big-border">
+            <div class="modal-header text-center d-block h5" id="CategoryModalLabel"></div>
+            <div class="modal-body pt-0">
+                <div class="row justify-content-center mx-3 text-center">
+                    @foreach (var i in Model)
+                    {
+                        <div id="modal_@i" class="col-md-3 col-5 btn btn-main m-1" data-dismiss="modal" onclick="removeConfirm(@i);"></div>
+                    }
+                    <div class="col-12"></div>
+                    <button data-dismiss="modal" class="btn btn-secondary col-md-4 col-6 m-1">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        var categoryId;
+        function getProduct(id) {
+            $.ajax({
+                url: '@Url.Action("Description", "Category")?id=' + id,
+                success: function(data) {
+                    document.getElementById(id).outerHTML = data;
+                }
+            });
+        }
+
+        function remove(id) {
+            categoryId = id;
+            loadNames(id);
+            $("#CategoryModalLabel").text("Choose the category which will replace "+$("#name_" + id).text());
+        }
+
+        function removeConfirm(id) {
+            $.ajax({
+                url: '@Url.Action("Remove", "Category")?fromId=' + categoryId+"&toId="+id,
+                success: function () {
+                    location.reload();
+                }
+            });
+        }
+
+        function loadNames(id) {
+            @foreach (var id in Model){
+                <text> 
+                if (id != @id) {
+                    $("#modal_@id").text($("#name_@id").text());
+                    $("#modal_@id").show();
+                }
+                else $("#modal_@id").hide();
+                </text>
+            }
+        }
+
+        $(function() {
+            @foreach (var id in Model){
+                @: getProduct(@id);
+            }
+        });
+    </script>
+}
