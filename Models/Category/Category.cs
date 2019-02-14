@@ -11,11 +11,5 @@ namespace SmartKitchen.Models
 		[Key]
 		public virtual int Id { get; set; }
 		public virtual string Name { get; set; }
-
-		public Category()
-		{
-			Id = 0;
-			Name = "None";
-		}
 	}
 }

@@ -7017,7 +7017,7 @@ a.text-main:hover, a.text-main:focus {
 
 input, .input {
   padding: 0px 10px;
-  background-color: #cdc3e7;
+  background-color: #ece7f6;
   width: 100%; }
 
 .big-border, input, .input, .storage, .storage-small {
@@ -7035,7 +7035,6 @@ input, .input {
   color: #dc3545; }
 
 form div {
-  font-size: 1.2rem;
   padding: 0px 5px; }
 
 .disabled:hover, .disabled {
@@ -7067,19 +7066,35 @@ body {
 .fa {
   display: flex; }
 
+.nav-link div::before {
+  font-size: 1.5rem; }
+
 .mobile {
   display: none; }
+
+.gap {
+  margin-bottom: 4rem; }
 
 @media screen and (max-width: 768px) {
   .widescreen {
     display: none; }
   .mobile {
     display: flex; }
+  .gap {
+    margin-bottom: 3rem; }
   .navbar {
     padding: 5px; }
+  .nav-item {
+    font-size: 1.5rem; }
   li a, a div, button div {
     height: 100%;
     margin: 0;
-    padding: 0; }
-  tr, th {
-    font-size: 0.7rem; } }
+    padding: 0; } }
+
+@media screen and (max-width: 576px) {
+  th, td {
+    font-size: 0.8rem; } }
+
+@media screen and (min-width: 992px) {
+  .w-lg-50 {
+    width: 50% !important; } }

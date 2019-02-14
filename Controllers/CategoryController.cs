@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Globalization;
+using AutoMapper;
 using SmartKitchen.Models;
 using System.Linq;
 using System.Web.Mvc;
@@ -18,11 +19,9 @@ namespace SmartKitchen.Controllers
         {
             var result = Redirect(Url.Action("Index"));
             if (string.IsNullOrWhiteSpace(name)) return result;
-            name = name.Trim();
-            name = name[0].ToString().ToUpper() + name.Substring(1).ToLower();
             using (var db = new Context())
             {
-                var exists = db.Categories.FirstOrDefault(x => x.Name == name);
+                var exists = db.Categories.FirstOrDefault(x => x.Name == name.Trim());
                 if (exists != null) return result;
                 db.Categories.Add(new Category { Name = name });
                 db.SaveChanges();
@@ -33,11 +32,11 @@ namespace SmartKitchen.Controllers
 
         public ActionResult Description(int id)
         {
-            CategoryDisplay description;
+            CategoryDisplay description = new CategoryDisplay();
             using (var db = new Context())
             {
-                description = Mapper.Map<CategoryDisplay>(db.Categories.Find(id));
-                description.ProductsCount = db.Products.Count(x => x.Category == description.Id);
+                description.Category = db.Categories.Find(id);
+                description.ProductsCount = db.Products.Count(x => x.Category == description.Category.Id);
             }
             return PartialView("_Description", description);
         }

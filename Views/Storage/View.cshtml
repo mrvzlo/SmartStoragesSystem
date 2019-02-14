@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = Model.Name;
 }
-<div class="my-4 h4 text-center">@ViewBag.Title</div>
+<div class="h4 text-center">@ViewBag.Title</div>
 @{ Html.RenderAction("_AddProduct", "Cell", new { storage = Model.Id });}
 <div class="text-center table-responsive m-0 big-border" style="background-color: #@Model.Type.Background">
     @if (Model.Products.Count == 0)

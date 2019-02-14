@@ -7,7 +7,7 @@ $border-radius: 1rem !default;
 //forms
 input, .input {
 	padding: 0px 10px;
-	background-color: lighten($main, 50%);
+	background-color: lighten($main, 60%);
 	width: 100%;
 }
 
@@ -30,7 +30,6 @@ input, .input {
 }
 
 form div {
-    font-size: 1.2rem;
     padding: 0px 5px;
 }
 //forms
@@ -69,31 +68,54 @@ body {
 .fa {
 	display: flex;
 }
+.nav-link div::before{
+    font-size: 1.5rem;
+}
 //icons
 //navbar
 .mobile {
 	display: none;
 }
+.gap{
+    margin-bottom: 4rem;
+}
 @media screen and (max-width: #{map-get($grid-breakpoints, md)}) {
 	.widescreen {
 		display: none;
 	}
+
 	.mobile {
 		display: flex;
 	}
 
+    .gap {
+        margin-bottom: 3rem;
+    }
+
 	.navbar{
 		padding: 5px;
 	}
+
+    .nav-item{
+        font-size: 1.5rem;
+    }
 
 	li a, a div, button div {
 		height: 100%;
 		margin: 0;
 		padding: 0;
 	}
+}
 
-    tr, th {
-        font-size: 0.7rem;
+@media screen and (max-width: #{map-get($grid-breakpoints, sm)}) {
+    th, td{
+        font-size: 0.8rem;
+    }
+}
+
+@media screen and (min-width: #{map-get($grid-breakpoints, lg)}) {
+    .w-lg-50 {
+        width: 50% !important;
     }
 }
 //navbar

@@ -1,61 +1,56 @@
 ﻿@model List<SmartKitchen.Models.StorageType>
 @{
-	int count = 0;
-	ViewBag.Title = "Storage types";
+    int count = 0;
+    ViewBag.Title = "Storage types";
 }
-<div class="row justify-content-between mt-4 mx-4">
-	<h4>@ViewBag.Title</h4>
-	@Html.ActionLink("Back", "Create", "Storage", new { @class = "btn btn-secondary" })
-</div>
-
-<div class="row">
-	@foreach (var item in Model)
-	{
-		<div class="col-lg-4 col-12">
-			<div id="@count" class="storage-small row" style="background-color: #@item.Background" onclick='updateForm("@item.Name","@item.Background","@item.Icon");'>
-				<div class="@item.Icon col-1"></div>
-				<div class="col">@item.Name</div>
-			</div>
-		</div>
-		count++;
-	}
+<div class="row justify-content-center">
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-4 col-12 col-md-6">
+            <div id="@count" class="storage-small row" style="background-color: #@item.Background" onclick='updateForm("@item.Name","@item.Background","@item.Icon");'>
+                <div class="@item.Icon col-1"></div>
+                <div class="col">@item.Name</div>
+            </div>
+        </div>
+        count++;
+    }
 </div>
 
 @using (Html.BeginForm("CreateType", "Storage", FormMethod.Post, new { @class = "row justify-content-center" }))
 {
-	@Html.AntiForgeryToken()
-	<div class="col-lg-6 col-12 storage preview" id="storage">
-		<div class="row justify-content-center py-2">
-			<div class="col-lg-1">Name</div>
-			<div class="col-lg-1"></div>
-			<div class="col-lg-9">@Html.Editor("Name")</div>
-			<div class="error col-12">@Html.ValidationMessage("Name")</div>
-		</div>
-		<div class="row justify-content-center py-2">
-			<div class="col-lg-1 col-2">Icon</div>
-			<div class="col-lg-1 col-10"><span id="IconPre" style="height: 100%;"></span></div>
-			<div class="col-lg-9">@Html.Editor("Icon")</div>
-			<div class="error col-12">@Html.ValidationMessage("Icon")</div>
-		</div>
-		<div class="row justify-content-center py-2">
-			<div class="col-lg-1">Color</div>
-			<div class="col-lg-1"></div>
-			<div class="col-lg-9">@Html.Editor("Background", $"ffffff", new { disabled = "disabled", @readonly = "readonly" })</div>
-			<div class="error col-12">@Html.ValidationMessage("Background")</div>
-		</div>
-		<div class="row justify-content-center py-2">
-			<div class="text-center col-6"><input type="submit" value="Save" class="btn btn-main col-6" /></div>
-		</div>
-	</div>
+    @Html.AntiForgeryToken()
+    <div class="col-lg-6 col-12 storage preview" id="storage">
+        <div class="row justify-content-center py-2">
+            <div class="col-lg-1">Name</div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-9">@Html.Editor("Name")</div>
+            <div class="error col-12">@Html.ValidationMessage("Name")</div>
+        </div>
+        <div class="row justify-content-center py-2">
+            <div class="col-lg-1 col-2">Icon</div>
+            <div class="col-lg-1 col-10"><span id="IconPre" style="height: 100%;"></span></div>
+            <div class="col-lg-9">@Html.Editor("Icon")</div>
+            <div class="error col-12">@Html.ValidationMessage("Icon")</div>
+        </div>
+        <div class="row justify-content-center py-2">
+            <div class="col-lg-1">Color</div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-9">@Html.Editor("Background", $"ffffff", new { disabled = "disabled", @readonly = "readonly" })</div>
+            <div class="error col-12">@Html.ValidationMessage("Background")</div>
+        </div>
+        <div class="row justify-content-center py-2">
+            <div class="text-center col-6"><input type="submit" value="Save" class="btn btn-main col-6" /></div>
+        </div>
+    </div>
 }
 <div id="pickerDiv" class="row justify-content-center" style="display: none;">
-	<div class="storage col-lg-6 col-12 mt-0">
-		<canvas id="picker" class="w-100"></canvas>
-	</div>
+    <div class="storage col-lg-6 col-12 mt-0">
+        <canvas id="picker" class="w-100"></canvas>
+    </div>
 </div>
 @section scripts
 {
-	<script>
+    <script>
 		$("#Icon").on('change', function () {
 			$('#IconPre').removeClass();
 			$("#IconPre").addClass("fa fa-" + $(this).val());
@@ -107,5 +102,5 @@
 				bCanPreview = true;
 			});
 		});
-	</script>
+    </script>
 }

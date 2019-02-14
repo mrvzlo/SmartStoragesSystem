@@ -6,16 +6,16 @@
         <div class="modal-content big-border">
             <div class="modal-header text-center d-block h5" id="DateModalLabel"></div>
             <div class="modal-body pt-0">
-                @using (Html.BeginForm("DateUpdate", "Product", FormMethod.Post))
+                @using (Html.BeginForm("DateUpdate", "Cell", FormMethod.Post))
                 {
                     <div class="row justify-content-around">
                         @foreach (var i in list)
                         {
                             <div class="col-lg-4">
-                                <div class="row my-1 flex-nowrap">
+                                <div class="row my-1">
                                     <div class="text-lg-center col-4 col-lg-12">@i</div>
                                     <div class="d-lg-none fa fa-minus-circle px-1" onclick="inputChange('@i',-1)">&nbsp;</div>
-                                    <input class = "text-center col-6 col-lg-12" type = "number" id = "@i" name="@i"/>
+                                    <input class="text-center col-6 col-lg-12" type="number" id="@i" name="@i" />
                                     <div class="d-lg-none fa fa-plus-circle px-1" onclick="inputChange('@i', 1)">&nbsp;</div>
                                 </div>
                             </div>

@@ -23,8 +23,6 @@ namespace SmartKitchen.Controllers
         [HttpPost]
 		public ActionResult Create(CellCreation product)
         {
-            product.Name = product.Name.Trim();
-			product.Name = product.Name[0].ToString().ToUpper() + product.Name.Substring(1).ToLower();
 			var storage = product.Storage;
 			using (var db = new Context())
 			{
@@ -39,8 +37,9 @@ namespace SmartKitchen.Controllers
 		}
 
 		public Product GetOrCreateAndGet(string name, Context db)
-		{
-			var result = db.Products.FirstOrDefault(x => x.Name == name);
+        {
+            name = name.Trim();
+			var result = db.Products.FirstOrDefault(x => x.Name.Equals(name,StringComparison.OrdinalIgnoreCase));
 			if (result != null) return result;
 			db.Products.Add(new Product {Category = 1, Name = name});
 			db.SaveChanges();

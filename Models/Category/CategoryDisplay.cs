@@ -6,11 +6,10 @@ using SmartKitchen.Enums;
 
 namespace SmartKitchen.Models
 {
-	public class CategoryDisplay
+	public class CategoryDisplay 
     {
-        public int Id { get; set; }
+        public Category Category { get; set; }
         public int ProductsCount { get; set; }
-		public string Name { get; set; }
 
         public static List<int> GetIds()
         {
