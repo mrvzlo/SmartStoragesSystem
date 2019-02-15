@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
+using SmartKitchen.Models;
 
 namespace SmartKitchen.Controllers
 {
@@ -8,16 +10,13 @@ namespace SmartKitchen.Controllers
 		{
 			return View();
 		}
-
-		public ActionResult Admin()
+		public ActionResult About()
 		{
-            return View();
-		}
-
-		public ActionResult Contact()
-		{
-			ViewBag.Message = "Your contact page.";
-
+            using (var db = new Context())
+            {
+                ViewBag.StorageCount = db.StorageTypes.Count();
+                ViewBag.ProductCount = db.Products.Count();
+            }
 			return View();
 		}
 	}

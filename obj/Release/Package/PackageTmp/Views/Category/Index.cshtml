@@ -1,20 +1,25 @@
 ﻿@model List<int>
 @{
-    ViewBag.Title = "Create storage";
+    ViewBag.Title = "Create category";
 }
-<table id="table" class="table table-hover table-borderless text-center">
-    <tr>
-        <th style="width: 35%">Category</th>
-        <th style="width: 45%">Products</th>
-        <th style="width: 20%"></th>
-    </tr>
-    @foreach (var i in Model)
-    {
+<div class="storage-new mb-2">
+    <table id="table" class="table table-hover table-borderless text-center m-0">
+        <tr>
+            <th style="width: 35%">Category</th>
+            <th style="width: 45%">Products</th>
+            <th style="width: 20%"></th>
+        </tr>
+        @foreach (var i in Model)
+        {
         <tr id="@i"></tr>
-    }
-</table>
+        }
+        <tr id="loading">
+            <td colspan="3" class="font-weight-bold">Loading</td>
+        </tr>
+    </table>
+</div>
 
-@using (Html.BeginForm("Create", "Category", FormMethod.Post, new { @class = "row  justify-content-center" }))
+@using (Html.BeginForm("Create", "Category", FormMethod.Post, new { @class = "row  justify-content-center mt-md-3" }))
 {
     <div class="col-9">
         <div class="form-group row text-center justify-content-center">
@@ -88,6 +93,7 @@
             @foreach (var id in Model){
                 @: getProduct(@id);
             }
+            $("#loading").remove();
         });
     </script>
 }

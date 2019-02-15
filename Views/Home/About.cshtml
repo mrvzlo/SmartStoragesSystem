@@ -1,7 +1,12 @@
 ﻿@{
-    ViewBag.Title = "About";
+    ViewBag.Title = "Quick guide";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
-
-<p>Use this area to provide additional information.</p>
+<div class="h3 m-4">Quick guide</div>
+<div>
+    After registration @Html.ActionLink("here", "Create", "Storage")
+    you can create your <b>Smart Storages</b> using <b>@ViewBag.StorageCount</b> different templates.
+    <br/>
+    Each storage allows you to manage a big amount of different products. 
+    Each product has specific amount and expiration date which you can set manually.
+    The system will inform you if any product <span class="text-danger font-weight-bold">become unsafe</span> or <span class="text-warning font-weight-bold">will become soon</span>.
+</div>

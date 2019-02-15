@@ -2,24 +2,30 @@
     <div class="container p-0">
         <nav class="navbar font-weight-bold navbar-expand justify-content-md-around navbar-dark">
             <div class="collapse navbar-collapse justify-content-center" id="nav">
-                <ul class="mobile navbar-nav flex-fill justify-content-around">
-                    @{
-                        var authed = Request.IsAuthenticated;
-                        var disabled = authed ? "text-light" : "disabled";
-                    }
+                @{ var authed = Request.IsAuthenticated;}
+                <ul class="navbar-nav flex-fill w-100 flex-nowrap justify-content-md-end justify-content-around">
                     <li class="nav-item">
                         <a href="@Url.Action("Index", "Home")" class="nav-link text-light">
-                            <div class="fa fa-home"></div>
+                            <div class="d-md-inline d-none">Home</div>
+                            <div class="d-md-none fa fa-home"></div>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="@(authed ? Url.Action("Index", "Storage" ) : "" )" class="nav-link @disabled">
-                            <div class="fa fa-th-list"></div>
+                        <a href="@(authed ? Url.Action("Index", "Storage") : "")" class="nav-link text-light">
+                            <div class="d-md-inline d-none">Storages</div>
+                            <div class="d-md-none fa fa-th-list"></div>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="@(authed ? Url.Action("Index", "Basket") : "")" class="nav-link @disabled">
-                            <div class="fa fa-shopping-basket"></div>
+                        <a href="@(authed ? Url.Action("Index", "Basket" ) : "" )" class="nav-link text-light">
+                            <div class="d-md-inline d-none">Basket</div>
+                            <div class="d-md-none fa fa-shopping-basket"></div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("About", "Home")" class="nav-link text-light">
+                            <div class="d-md-inline d-none">Guide</div>
+                            <div class="d-md-none fa fa-question"></div>
                         </a>
                     </li>
                     @if (authed)
@@ -27,56 +33,9 @@
                         if (HttpContext.Current.User.IsInRole("admin"))
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link text-light" id="dmb"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <div class="fa fa-tools"></div>
-                                </a>
-                                @Html.Partial("_Admin")
-                            </li>
-                        }
-                        <li class="nav-item">
-                            <a class="nav-link text-light" href="javascript:document.getElementById('logoutForm').submit()">
-                                <div class="fa fa-sign-out-alt"></div>
-                            </a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "Account")" class="nav-link text-light">
-                                <div class="fa fa-sign-in-alt"></div>
-                            </a>
-                        </li>
-                    }
-                </ul>
-
-                <ul class="widescreen navbar-nav flex-fill w-100 flex-nowrap">
-                    <li class="nav-item">
-                        <a href="@Url.Action("Index", "Home")" class="nav-link text-light">
-                            Home
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="@(authed ? Url.Action("Index", "Storage") : "")" class="nav-link @disabled">
-                            Storages
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="@(authed ? Url.Action("Index", "Basket") : "")" class="nav-link @disabled">
-                            Basket
-                        </a>
-                    </li>
-                </ul>
-
-                <ul class="widescreen navbar-nav flex-fill w-100 flex-nowrap justify-content-end">
-                    @if (authed)
-                    {
-                        if (HttpContext.Current.User.IsInRole("admin"))
-                        {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-light" id="dmb"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Admin
+                                <a class="nav-link text-light" id="dmb" data-toggle="dropdown">
+                                    <div class="d-md-inline d-none d-md-inline">Admin</div>
+                                    <div class="d-md-none fa fa-tools"></div>
                                 </a>
                                 @Html.Partial("_Admin")
                             </li>
@@ -87,7 +46,8 @@
                         }
                         <li class="nav-item">
                             <a class="nav-link text-light" href="javascript:document.getElementById('logoutForm').submit()">
-                                Sign out
+                                <div class="d-md-inline d-none">Log out</div>
+                                <div class="d-md-none fa fa-sign-out-alt"></div>
                             </a>
                         </li>
                     }
@@ -95,7 +55,8 @@
                     {
                         <li class="nav-item">
                             <a href="@Url.Action("Index", "Account")" class="nav-link text-light">
-                                Sign in
+                                <div class="d-md-inline d-none">Log in</div>
+                                <div class="d-md-none fa fa-sign-in-alt"></div>
                             </a>
                         </li>
                     }

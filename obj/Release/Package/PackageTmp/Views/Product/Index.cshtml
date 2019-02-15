@@ -4,13 +4,14 @@
     ViewBag.Title = "Products";
     var selectList = new List<SelectListItem>();
 }
-@using (Html.BeginForm("SaveChanges", "Product", FormMethod.Post, new { id = "f" }))
+@{ Html.RenderPartial("_AddNew"); }
+@using (Html.BeginForm("SaveChanges", "Product", FormMethod.Post, new { id = "f", @class = "storage-new mb-2" }))
 {
-    <table class="table table-borderless table-hover">
+    <table class="table table-borderless table-hover m-0">
         <tr class="text-center">
-            <th style="width: 33%">Product</th>
-            <th style="width: 33%">Category</th>
-            <th style="width: 33%">Usages</th>
+            <th style="width: 40%">Product</th>
+            <th style="width: 40%">Category</th>
+            <th style="width: 20%">Usages</th>
         </tr>
         @for (int i = 0; i < Model.Count; i++)
         {
@@ -18,11 +19,11 @@
                 <td class="text-center">
                     @Html.HiddenFor(x => x[i].Product.Id, Model[i].Product.Id)
                     <div id="0_@i" onclick="toggle(@i, 1)">@Model[i].Product.Name</div>
-                    @Html.TextBoxFor(x => x[i].Product.Name, new { @class = "text-center w-lg-50", id = "1_" + i })
+                    @Html.TextBoxFor(x => x[i].Product.Name, new { @class = "text-center w-lg-50", style = "display: none;", id = "1_" + i })
                 </td>
                 <td class="text-center">
                     <div id="2_@i" onclick="toggle(@i, 3)">@Model[i].CategoryName</div>
-                    @Html.DropDownListFor(x => x[i].Product.Category, selectList, new { @class = "input w-lg-50", id = "3_" + i })
+                    @Html.DropDownListFor(x => x[i].Product.Category, selectList, new { @class = "input w-lg-50", style = "display: none;", id = "3_" + i })
                 </td>
                 <td class="text-center">@Model[i].Usages</td>
             </tr>
@@ -33,7 +34,6 @@
     <button class="col-md-3 col-5 btn btn-main m-1" type="submit" form="f">Save</button>
     <button class="col-md-3 col-5 btn btn-info m-1" onclick="location.reload();">Reset</button>
 </div>
-@{ Html.RenderPartial("_AddNew"); }
 @section scripts{
     @{ Html.RenderAction("Categories"); }
     <script>

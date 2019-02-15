@@ -6,22 +6,22 @@ $border-radius: 1rem !default;
 
 //forms
 input, .input {
-	padding: 0px 10px;
-	background-color: lighten($main, 60%);
-	width: 100%;
+    padding: 0px 10px;
+    background-color: lighten($main, 60%);
+    width: 100%;
 }
 
-.big-border, input, .input, .storage, .storage-small {
-	border: solid 2px darken($main, 20%);
-	border-radius: $border-radius;
+.big-border, input, .input, .storage, .storage-small, .storage-new {
+    border: solid 2px darken($main, 20%);
+    border-radius: $border-radius;
 }
 
 .btn-unactive {
-	background-color: desaturate($main, 50%);
+    background-color: desaturate($main, 50%);
 }
 
-.btn{
-	font-weight: 600;
+.btn {
+    font-weight: 600;
 }
 
 .error {
@@ -34,81 +34,74 @@ form div {
 }
 //forms
 
-.disabled:hover, .disabled{
+td .loading{
+    background: linear-gradient(to right, #eee 20%, #ddd 50%, #eee 80%);
+    background-size: 100% 100%;
+    animation-name: moving-gradient;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+.disabled:hover, .disabled {
     color: gray;
 }
 
-.storage{
-	margin: 1rem;
-	padding: 1rem;
+.storage {
+    margin: 1rem;
+    padding: 1rem;
 }
 
 .storage-small {
-	margin: 0.2rem;
-	font-size: 1.4rem;
+    margin: 0.2rem;
+    font-size: 1.4rem;
 }
+
 .storage-new {
-	background-color: lighten($main, 40%);
+    background-color: lighten($main, 60%);
 }
 
 body {
-	padding: 0;
+    padding: 0;
 }
 
-.nav-link{
-	padding: 0.2rem;
-	font-size: large;
+.nav-link {
+    padding: 0.2rem;
+    font-size: large;
 }
+.lds-ellipsis {
+    display: inline-block;
+    position: relative;
+    height: 1rem;
+}
+
 //icons
 .fa:before {
-	display: flex;
-	align-items: center;
-	width: 1rem;
+    display: flex;
+    align-items: center;
+    width: 1rem;
 }
+
 .fa {
-	display: flex;
+    display: flex;
 }
-.nav-link div::before{
+
+.nav-link div::before {
     font-size: 1.5rem;
 }
 //icons
 //navbar
 .mobile {
-	display: none;
+    display: none;
 }
-.gap{
+
+.gap {
     margin-bottom: 4rem;
-}
-@media screen and (max-width: #{map-get($grid-breakpoints, md)}) {
-	.widescreen {
-		display: none;
-	}
-
-	.mobile {
-		display: flex;
-	}
-
-    .gap {
-        margin-bottom: 3rem;
-    }
-
-	.navbar{
-		padding: 5px;
-	}
-
-    .nav-item{
-        font-size: 1.5rem;
-    }
-
-	li a, a div, button div {
-		height: 100%;
-		margin: 0;
-		padding: 0;
-	}
 }
 
 @media screen and (max-width: #{map-get($grid-breakpoints, sm)}) {
-    th, td{
+    th, td {
         font-size: 0.8rem;
     }
 }

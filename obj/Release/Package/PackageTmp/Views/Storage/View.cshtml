@@ -20,15 +20,19 @@
             </tr>
             @foreach (var product in Model.Products)
             {
-                <tr id="@product"></tr>
+            <tr id="@product">
+            </tr>
             }
+            <tr id="loading">
+                <td colspan="4" class="font-weight-bold">Loading</td>
+            </tr>
         </table>
     }
 </div>
 @{ Html.RenderAction("DateUpdatePre", "Cell");}
 @{ Html.RenderAction("AmountUpdatePre", "Cell");}
 @section scripts{
-    <script>
+<script>
         var cellId;
 
         function showDatePicker(product, productName) {
@@ -133,9 +137,11 @@
         }
 
         $(function() {
-            @foreach (var product in Model.Products){ 
-                @: getProduct(@product);
+            @foreach (var product in Model.Products)
+            {
+                    @: getProduct(@product);
             }
+            $("#loading").remove();
             UpdateDaysinMonth();
             $("#Month").attr({
                 "max": 12,
@@ -149,5 +155,5 @@
             });
             setTodayDate();
         });
-    </script>
+</script>
 }

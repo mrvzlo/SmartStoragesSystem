@@ -9,6 +9,8 @@ namespace SmartKitchen.Controllers
 	[Authorize]
 	public class StorageController : Controller
     {
+        #region CRD
+
         public ActionResult Index()
         {
 			List<StorageDescription> storages = new List<StorageDescription>();
@@ -59,7 +61,7 @@ namespace SmartKitchen.Controllers
 		    return View(StorageType.GetAll());
 	    }
 
-	    [HttpPost]
+        [HttpPost]
 	    [ValidateAntiForgeryToken]
         public ActionResult Create(Storage storage)
 	    {
@@ -86,6 +88,10 @@ namespace SmartKitchen.Controllers
 		    ViewBag.Selected = storage.Type;
 			return View(StorageType.GetAll());
 	    }
+
+        #endregion
+
+        #region Types CD
 
         [Authorize(Roles = "admin")]
         public ActionResult CreateType(string s)
@@ -124,5 +130,25 @@ namespace SmartKitchen.Controllers
 			}
 		    return View(StorageType.GetAll());
 		}
-	}
+
+        public ActionResult RemoveType(int fromId, int toId)
+        {
+            var result = Redirect(Url.Action("Index"));
+            using (var db = new Context())
+            {
+                var from = db.StorageTypes.Find(fromId);
+                var to = db.StorageTypes.Find(toId);
+                if (from == null || to == null || fromId == 1) return result;
+                foreach (var product in db.Storages.Where(x => x.Type == fromId))
+                {
+                    product.Type = toId;
+                }
+                db.StorageTypes.Remove(from);
+                db.SaveChanges();
+            }
+            return result;
+        }
+
+        #endregion
+    }
 }

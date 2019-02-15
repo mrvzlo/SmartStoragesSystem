@@ -7020,7 +7020,7 @@ input, .input {
   background-color: #ece7f6;
   width: 100%; }
 
-.big-border, input, .input, .storage, .storage-small {
+.big-border, input, .input, .storage, .storage-small, .storage-new {
   border: solid 2px #1c1332;
   border-radius: 1rem; }
 
@@ -7037,6 +7037,15 @@ input, .input {
 form div {
   padding: 0px 5px; }
 
+td .loading {
+  background: linear-gradient(to right, #eee 20%, #ddd 50%, #eee 80%);
+  background-size: 100% 100%;
+  animation-name: moving-gradient;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards; }
+
 .disabled:hover, .disabled {
   color: gray; }
 
@@ -7049,7 +7058,7 @@ form div {
   font-size: 1.4rem; }
 
 .storage-new {
-  background-color: #af9ed9; }
+  background-color: #ece7f6; }
 
 body {
   padding: 0; }
@@ -7057,6 +7066,11 @@ body {
 .nav-link {
   padding: 0.2rem;
   font-size: large; }
+
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  height: 1rem; }
 
 .fa:before {
   display: flex;
@@ -7074,22 +7088,6 @@ body {
 
 .gap {
   margin-bottom: 4rem; }
-
-@media screen and (max-width: 768px) {
-  .widescreen {
-    display: none; }
-  .mobile {
-    display: flex; }
-  .gap {
-    margin-bottom: 3rem; }
-  .navbar {
-    padding: 5px; }
-  .nav-item {
-    font-size: 1.5rem; }
-  li a, a div, button div {
-    height: 100%;
-    margin: 0;
-    padding: 0; } }
 
 @media screen and (max-width: 576px) {
   th, td {

@@ -94,7 +94,7 @@ namespace SmartKitchen.Controllers
 					if (p != null)
                     {
                         CreateTicket(p);
-						return RedirectToAction("Index", "Storage");
+						return RedirectToAction("About", "Home");
 					}
 				}
 				else

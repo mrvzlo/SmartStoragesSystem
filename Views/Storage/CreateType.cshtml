@@ -6,10 +6,11 @@
 <div class="row justify-content-center">
     @foreach (var item in Model)
     {
-        <div class="col-lg-4 col-12 col-md-6">
+        <div class="col-lg-6 col-12 col-md-6">
             <div id="@count" class="storage-small row" style="background-color: #@item.Background" onclick='updateForm("@item.Name","@item.Background","@item.Icon");'>
                 <div class="@item.Icon col-1"></div>
-                <div class="col">@item.Name</div>
+                <div class="col" id="name_@item.Id">@item.Name</div>
+                <div class="mr-1" onclick="remove(@item.Id)" data-toggle="modal" data-target="#StorageTypeModal">❌</div>
             </div>
         </div>
         count++;
@@ -48,59 +49,108 @@
         <canvas id="picker" class="w-100"></canvas>
     </div>
 </div>
+
+
+<div class="modal fade" id="StorageTypeModal" tabindex="-1" role="dialog" aria-labelledby="StorageTypeModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content big-border">
+            <div class="modal-header text-center d-block h5" id="StorageTypeLabel"></div>
+            <div class="modal-body pt-0">
+                <div class="row justify-content-center mx-3 text-center">
+                    @foreach (var i in Model)
+                    {
+                        <div id="modal_@i.Id" class="col-md-3 col-5 btn btn-main m-1" data-dismiss="modal" onclick="removeConfirm(@i.Id);"></div>
+                    }
+                    <div class="col-12"></div>
+                    <button data-dismiss="modal" class="btn btn-secondary col-md-4 col-6 m-1">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @section scripts
 {
     <script>
-		$("#Icon").on('change', function () {
-			$('#IconPre').removeClass();
-			$("#IconPre").addClass("fa fa-" + $(this).val());
-		});
+        var storageId;
+        function remove(id) {
+            storageId = id;
+            loadNames(id);
+            $("#StorageTypeLabel").text("Choose the storage type which will replace "+$("#name_" + id).text());
+        }
+        
+        function loadNames(id) {
+            @foreach (var i in Model)
+            {
+                var id = i.Id;
+                <text> 
+                    if (id != @id) {
+                        $("#modal_@id").text($("#name_@id").text());
+                        $("#modal_@id").show();
+                    }
+                    else $("#modal_@id").hide();
+                </text>
+            }
+        }
 
-		$("body").click(function () {
-			$("#storage").css("background-color", "#" + $("#Background").val());
-		});
+        function removeConfirm(id) {
+            $.ajax({
+                url: '@Url.Action("RemoveType", "Storage")?fromId=' + storageId+"&toId="+id,
+                success: function () {
+                    location.reload();
+                }
+            });
+        }
 
-		function updateForm(name, color, icon) {
-			$("#Name").val(name);
-			$("#Icon").val(icon.substring(6, icon.length)).change();
-			$("#Background").val(color);
-			$('.preview').css('backgroundColor', "#"+color);
-		}
+        $("#Icon").on('change', function () {
+            $('#IconPre').removeClass();
+            $("#IconPre").addClass("fa fa-" + $(this).val());
+        });
 
-		$(function () {
-			var bCanPreview = true;
-			var canvas = document.getElementById('picker');
-			var ctx = canvas.getContext('2d');
-			ctx.fillStyle = "#000";
-			ctx.fillRect(0, 0, canvas.width, canvas.height);
-			var image = new Image();
-			image.onload = function () {
-				ctx.drawImage(image, 0, 0, image.width, canvas.height);
-			}
-			image.src = '@Url.Content("~/Content/ColorPicker.jpg")';
-			$('#picker').mousemove(function (e) {
-				if (bCanPreview) {
-					var canvasOffset = $(canvas).offset();
-					var canvasX = Math.floor(e.pageX - canvasOffset.left);
-					var canvasY = Math.floor(e.pageY - canvasOffset.top);
-					canvasX *= 300 / $("#picker").width();
-					canvasY *= 150 / $("#picker").height() ;
-					console.log(canvasY);
-					var imageData = ctx.getImageData(canvasX, canvasY, 1, 1);
-					var pixel = imageData.data;
-					var pixelColor = "rgb(" + pixel[0] + ", " + pixel[1] + ", " + pixel[2] + ")";
-					$('.preview').css('backgroundColor', pixelColor);
-					var dColor = pixel[2] + 256 * pixel[1] + 65536 * pixel[0];
-					$('#Background').val(dColor.toString(16).substr(-6).toUpperCase());
-				}
-			});
-			$('#picker').click(function (e) { // click event handler
-				bCanPreview = !bCanPreview;
-			});
-			$('#Background').click(function (e) { // preview click
-				$('#pickerDiv').fadeToggle("fast", "linear");
-				bCanPreview = true;
-			});
-		});
+        $("body").click(function () {
+            $("#storage").css("background-color", "#" + $("#Background").val());
+        });
+
+        function updateForm(name, color, icon) {
+            $("#Name").val(name);
+            $("#Icon").val(icon.substring(6, icon.length)).change();
+            $("#Background").val(color);
+            $('.preview').css('backgroundColor', "#"+color);
+        }
+
+        $(function () {
+            var bCanPreview = true;
+            var canvas = document.getElementById('picker');
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle = "#000";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            var image = new Image();
+            image.onload = function () {
+                ctx.drawImage(image, 0, 0, image.width, canvas.height);
+            }
+            image.src = '@Url.Content("~/Content/ColorPicker.jpg")';
+            $('#picker').mousemove(function (e) {
+                if (bCanPreview) {
+                    var canvasOffset = $(canvas).offset();
+                    var canvasX = Math.floor(e.pageX - canvasOffset.left);
+                    var canvasY = Math.floor(e.pageY - canvasOffset.top);
+                    canvasX *= 300 / $("#picker").width();
+                    canvasY *= 150 / $("#picker").height() ;
+                    console.log(canvasY);
+                    var imageData = ctx.getImageData(canvasX, canvasY, 1, 1);
+                    var pixel = imageData.data;
+                    var pixelColor = "rgb(" + pixel[0] + ", " + pixel[1] + ", " + pixel[2] + ")";
+                    $('.preview').css('backgroundColor', pixelColor);
+                    var dColor = pixel[2] + 256 * pixel[1] + 65536 * pixel[0];
+                    $('#Background').val(dColor.toString(16).substr(-6).toUpperCase());
+                }
+            });
+            $('#picker').click(function (e) { // click event handler
+                bCanPreview = !bCanPreview;
+            });
+            $('#Background').click(function (e) { // preview click
+                $('#pickerDiv').fadeToggle("fast", "linear");
+                bCanPreview = true;
+            });
+        });
     </script>
 }
