@@ -226,7 +226,6 @@
     border-radius: 0;
   }
   @include box-shadow($custom-select-box-shadow);
-  appearance: none;
 
   &:focus {
     border-color: $custom-select-focus-border-color;
@@ -368,7 +367,6 @@
   height: calc(#{$custom-range-thumb-height} + #{$custom-range-thumb-focus-box-shadow-width * 2});
   padding: 0; // Need to reset padding
   background-color: transparent;
-  appearance: none;
 
   &:focus {
     outline: none;
@@ -393,7 +391,6 @@
     @include border-radius($custom-range-thumb-border-radius);
     @include box-shadow($custom-range-thumb-box-shadow);
     @include transition($custom-forms-transition);
-    appearance: none;
 
     &:active {
       @include gradient-bg($custom-range-thumb-active-bg);
@@ -419,7 +416,6 @@
     @include border-radius($custom-range-thumb-border-radius);
     @include box-shadow($custom-range-thumb-box-shadow);
     @include transition($custom-forms-transition);
-    appearance: none;
 
     &:active {
       @include gradient-bg($custom-range-thumb-active-bg);
@@ -448,7 +444,6 @@
     @include border-radius($custom-range-thumb-border-radius);
     @include box-shadow($custom-range-thumb-box-shadow);
     @include transition($custom-forms-transition);
-    appearance: none;
 
     &:active {
       @include gradient-bg($custom-range-thumb-active-bg);

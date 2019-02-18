@@ -1,23 +1,32 @@
 ﻿@model List<SmartKitchen.Models.StorageDescription>
 
 <div class="row">
-	@foreach (var item in Model)
-	{
-		<div class="col-12 col-lg-6">
-			<div class="storage row h4" style="background-color: #@item.Type.Background" 
-			     onclick="window.location = '@Url.Action("View","Storage",new {id = item.Id})'">
-				<div class="@item.Type.Icon col-2"></div>
-				<div class="col-9">@Html.DisplayFor(modelItem => item.Name)</div>
-				<a href="@Url.Action("Delete", "Storage", new {id = item.Id})" class="col-1 p-0 text-danger fa fa-times text-decoration-none">
-					<div class=""></div>
-				</a>
-			</div>
-		</div>
-	}
-	<div class="col-12 col-lg-6">
-		<div class="storage bg-main text-light row h4" onclick="window.location = '@Url.Action("Create", "Storage")';">
-			<div class="fa fa-plus-circle col-2"></div>
-			<div class="col">Add new storage</div>
-		</div>
-	</div>
+    @foreach (var item in Model)
+    {
+        <div class="col-12 col-lg-6">
+            <div class="storage row justify-content-between" style="background-color: #@item.Type.Background">
+                <div class="@item.Type.Icon"></div>
+                <div class="col h4 m-0" onclick="window.location = '@Url.Action("View", "Storage", new {id = item.Id})'">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </div>
+                <img class="rowicon" src="~/Content/images/remove.svg" onclick="remove('@item.Name',@item.Id)"/>
+            </div>
+        </div>
+    }
+    <div class="col-12 col-lg-6">
+        <div class="storage bg-main text-light row justify-content-between" onclick="window.location = '@Url.Action("Create", "Storage")';">
+            <img class="navicon" src="~/Content/images/add.png"/>
+            <div class="col h4 m-0">Add new storage</div>
+        </div>
+    </div>
 </div>
+@section scripts
+{
+    <script>
+        function remove(name,id) {
+            if (confirm("Storage "+name + " will be removed")) {
+                window.location = '@Url.Action("Delete", "Storage")/'+id;
+            }
+        }
+    </script>
+}

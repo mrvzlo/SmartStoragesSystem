@@ -190,6 +190,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\ColorPicker.jpg" />
+    <Content Include="Content\images\add.png" />
+    <Content Include="Content\images\admin.png" />
+    <Content Include="Content\images\basket.png" />
+    <Content Include="Content\images\guide.png" />
+    <Content Include="Content\images\home.svg" />
+    <Content Include="Content\images\login.png" />
+    <Content Include="Content\images\logout.png" />
+    <Content Include="Content\images\remove.svg" />
+    <Content Include="Content\images\storages.svg" />
     <Content Include="Content\My.css">
       <DependentUpon>My.scss</DependentUpon>
     </Content>
@@ -365,6 +374,7 @@
     <Content Include="Views\Product\_Categories.cshtml" />
     <Content Include="Views\Product\_AddNew.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Category\_AddNew.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

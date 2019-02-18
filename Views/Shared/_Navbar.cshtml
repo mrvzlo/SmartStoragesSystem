@@ -3,29 +3,44 @@
         <nav class="navbar font-weight-bold navbar-expand justify-content-md-around navbar-dark">
             <div class="collapse navbar-collapse justify-content-center" id="nav">
                 @{ var authed = Request.IsAuthenticated;}
-                <ul class="navbar-nav flex-fill w-100 flex-nowrap justify-content-md-end justify-content-around">
+                
+                <ul class="navbar-nav flex-fill w-100 flex-nowrap justify-content-start d-none d-md-flex">
                     <li class="nav-item">
                         <a href="@Url.Action("Index", "Home")" class="nav-link text-light">
                             <div class="d-md-inline d-none">Home</div>
-                            <div class="d-md-none fa fa-home"></div>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="@(authed ? Url.Action("Index", "Storage") : "")" class="nav-link text-light">
                             <div class="d-md-inline d-none">Storages</div>
-                            <div class="d-md-none fa fa-th-list"></div>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="@(authed ? Url.Action("Index", "Basket" ) : "" )" class="nav-link text-light">
                             <div class="d-md-inline d-none">Basket</div>
-                            <div class="d-md-none fa fa-shopping-basket"></div>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav flex-fill w-100 flex-nowrap justify-content-md-end justify-content-around">
+                    <li class="d-md-none nav-item">
+                        <a href="@Url.Action("Index", "Home")" class="nav-link text-light">
+                            <img class="navicon" src="@Url.Content("~/Content/images/home.svg")"/>
+                        </a>
+                    </li>
+                    <li class="d-md-none nav-item">
+                        <a href="@(authed ? Url.Action("Index", "Storage") : "")" class="nav-link text-light">
+                            <img class="navicon" src="@Url.Content("~/Content/images/storages.svg")" />
+                        </a>
+                    </li>
+                    <li class="d-md-none nav-item">
+                        <a href="@(authed ? Url.Action("Index", "Basket" ) : "" )" class="nav-link text-light">
+                            <img class="navicon" src="@Url.Content("~/Content/images/basket.png")" />
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="@Url.Action("About", "Home")" class="nav-link text-light">
                             <div class="d-md-inline d-none">Guide</div>
-                            <div class="d-md-none fa fa-question"></div>
+                            <img class="d-md-none navicon" src="@Url.Content("~/Content/images/guide.png")" />
                         </a>
                     </li>
                     @if (authed)
@@ -35,7 +50,7 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link text-light" id="dmb" data-toggle="dropdown">
                                     <div class="d-md-inline d-none d-md-inline">Admin</div>
-                                    <div class="d-md-none fa fa-tools"></div>
+                                    <img class="d-md-none navicon" src="@Url.Content("~/Content/images/admin.png")" />
                                 </a>
                                 @Html.Partial("_Admin")
                             </li>
@@ -47,7 +62,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" href="javascript:document.getElementById('logoutForm').submit()">
                                 <div class="d-md-inline d-none">Log out</div>
-                                <div class="d-md-none fa fa-sign-out-alt"></div>
+                                <img class="d-md-none navicon" src="@Url.Content("~/Content/images/logout.png")" />
                             </a>
                         </li>
                     }
@@ -56,7 +71,7 @@
                         <li class="nav-item">
                             <a href="@Url.Action("Index", "Account")" class="nav-link text-light">
                                 <div class="d-md-inline d-none">Log in</div>
-                                <div class="d-md-none fa fa-sign-in-alt"></div>
+                                <img class="d-md-none navicon" src="@Url.Content("~/Content/images/login.png")" />
                             </a>
                         </li>
                     }

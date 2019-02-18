@@ -2,34 +2,25 @@
 @{
     ViewBag.Title = "Create category";
 }
-<div class="storage-new mb-2">
-    <table id="table" class="table table-hover table-borderless text-center m-0">
-        <tr>
-            <th style="width: 35%">Category</th>
-            <th style="width: 45%">Products</th>
-            <th style="width: 20%"></th>
-        </tr>
-        @foreach (var i in Model)
-        {
-        <tr id="@i"></tr>
-        }
-        <tr id="loading">
-            <td colspan="3" class="font-weight-bold">Loading</td>
-        </tr>
-    </table>
-</div>
-
-@using (Html.BeginForm("Create", "Category", FormMethod.Post, new { @class = "row  justify-content-center mt-md-3" }))
-{
-    <div class="col-9">
-        <div class="form-group row text-center justify-content-center">
-            <div class="col-md-4 col-lg-3 col-form-label text-md-right">New category</div>
-            @Html.TextBox("Name", "", new { @class = "col-md-6 mb-md-0 mb-2" })
-            <input type="submit" value="Add" class="col-md-2 col-4 btn btn-success p-0" />
-            @Html.ValidationMessage("Name", "", new { @class = "col-12 error" })
-        </div>
+@Html.Partial("_AddNew")
+<div class="row justify-content-center m-0">
+    <div class="storage-new mb-2 col-lg-6">
+        <table id="table" class="table table-hover table-borderless text-center m-0">
+            <tr>
+                <th style="width: 35%">Category</th>
+                <th style="width: 45%">Products</th>
+                <th style="width: 20%"></th>
+            </tr>
+            @foreach (var i in Model)
+            {
+                <tr id="@i"></tr>
+            }
+            <tr id="loading">
+                <td colspan="3" class="font-weight-bold">Loading</td>
+            </tr>
+        </table>
     </div>
-}
+</div>
 
 <div class="modal fade" id="CategoryModal" tabindex="-1" role="dialog" aria-labelledby="CategoryModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -79,7 +70,7 @@
 
         function loadNames(id) {
             @foreach (var id in Model){
-                <text> 
+                <text>
                 if (id != @id) {
                     $("#modal_@id").text($("#name_@id").text());
                     $("#modal_@id").show();

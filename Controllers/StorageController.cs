@@ -21,7 +21,7 @@ namespace SmartKitchen.Controllers
 		        var s = db.Storages.Where(x => x.Owner == person.Id).ToList();
 		        foreach (var storage in s)
 		        {
-					storages.Add(new StorageDescription(storage,db));
+					storages.Add(new StorageDescription(storage,db,1));
 		        }
 	        }
             return View(storages);
@@ -43,17 +43,18 @@ namespace SmartKitchen.Controllers
 		    return Redirect(Url.Action("Index"));
 	    }
 
-	    public ActionResult View(int id)
+	    public ActionResult View(int id, int order = 1)
 	    {
 		    var content = new StorageDescription();
 			using (var db = new Context())
 			{
 				var storage = db.Storages.Find(id);
-				content = new StorageDescription(storage, db);
+				content = new StorageDescription(storage, db, order);
 			}
 
 			if (content.Type == null) return Redirect(Url.Action("Index"));
-			return View(content);
+            ViewBag.Order = order;
+            return View(content);
 	    }
 
 	    public ActionResult Create()

@@ -60,6 +60,7 @@ body {
     padding: 0.2rem;
     font-size: large;
 }
+
 .lds-ellipsis {
     display: inline-block;
     position: relative;
@@ -77,8 +78,14 @@ body {
     display: flex;
 }
 
-.nav-link div::before {
-    font-size: 1.5rem;
+.navicon {
+    height: 2rem;
+    filter: brightness(0) invert(1);
+}
+
+.rowicon {
+    width: 2rem;
+    height: 2rem;
 }
 //icons
 //navbar
@@ -90,9 +97,18 @@ body {
     margin-bottom: 4rem;
 }
 
+.grid-header-title a{
+    text-decoration-line:none;
+    color:#000000;
+}
+
 @media screen and (max-width: #{map-get($grid-breakpoints, sm)}) {
     th, td {
         font-size: 0.8rem;
+    }
+    td .rowicon {
+        height: 1.6rem;
+        width: 1.6rem;
     }
 }
 

@@ -9,9 +9,10 @@ namespace SmartKitchen.Controllers
     public class ProductController : Controller
     {
         // GET: Product
-        public ActionResult Index()
+        public ActionResult Index(int order = 1)
         {
-            return View(GetAllProducts());
+            ViewBag.Order = order;
+            return View(GetAllProducts(order));
         }
 
         public PartialViewResult Categories()
@@ -60,7 +61,7 @@ namespace SmartKitchen.Controllers
                 return db.Categories.ToList();
             }
         }
-        private List<ProductDisplay> GetAllProducts()
+        private List<ProductDisplay> GetAllProducts(int order)
         {
             using (var db = new Context())
             {
@@ -74,7 +75,21 @@ namespace SmartKitchen.Controllers
                         Usages = db.Cells.Count(x => x.Product == i.Id)
                     });
 
-                return list.OrderBy(x => x.Product.Name).ToList();
+                switch (order)
+                {
+                    default:
+                        return list.OrderBy(x => x.Product.Name).ToList();
+                    case -1:
+                        return list.OrderByDescending(x => x.Product.Name).ToList();
+                    case 2:
+                        return list.OrderBy(x => x.CategoryName).ToList();
+                    case -2:
+                        return list.OrderByDescending(x => x.CategoryName).ToList();
+                    case 3:
+                        return list.OrderBy(x => x.Usages).ToList();
+                    case -3:
+                        return list.OrderByDescending(x => x.Usages).ToList();
+                }
             }
         }
     }

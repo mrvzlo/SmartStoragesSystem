@@ -5,7 +5,7 @@
 <div class="h4 text-center">@ViewBag.Title</div>
 @{ Html.RenderAction("_AddProduct", "Cell", new { storage = Model.Id });}
 <div class="text-center table-responsive m-0 big-border" style="background-color: #@Model.Type.Background">
-    @if (Model.Products.Count == 0)
+    @if (Model.Cells.Count == 0)
     {
         <div class="alert m-0 h3">This storage is empty now</div>
     }
@@ -13,15 +13,14 @@
     {
         <table class="w-100 table table-hover table-borderless p-0 m-0">
             <tr>
-                <th style="width: 25%">Name</th>
-                <th style="width: 25%">Category</th>
-                <th style="width: 25%">Safety</th>
-                <th style="width: 25%">Amount</th>
+                <th style="width: 25%" onclick="order(1)">Name</th>
+                <th style="width: 25%" onclick="order(2)">Category</th>
+                <th style="width: 25%" onclick="order(3)">Safety</th>
+                <th style="width: 25%" onclick="order(4)">Amount</th>
             </tr>
-            @foreach (var product in Model.Products)
+            @foreach (var product in Model.Cells)
             {
-            <tr id="@product">
-            </tr>
+                <tr id="@product"></tr>
             }
             <tr id="loading">
                 <td colspan="4" class="font-weight-bold">Loading</td>
@@ -32,8 +31,13 @@
 @{ Html.RenderAction("DateUpdatePre", "Cell");}
 @{ Html.RenderAction("AmountUpdatePre", "Cell");}
 @section scripts{
-<script>
+    <script>
         var cellId;
+
+        function order(type) {
+            if (type == @ViewBag.Order) type = -type;
+            window.location = '@Url.Action("View","Storage")?id=@Model.Id&order='+type;
+        }
 
         function showDatePicker(product, productName) {
             cellId = product;
@@ -137,7 +141,7 @@
         }
 
         $(function() {
-            @foreach (var product in Model.Products)
+            @foreach (var product in Model.Cells)
             {
                     @: getProduct(@product);
             }
@@ -155,5 +159,5 @@
             });
             setTodayDate();
         });
-</script>
+    </script>
 }
