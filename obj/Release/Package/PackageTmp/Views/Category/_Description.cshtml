@@ -4,7 +4,7 @@
     <td>@Model.ProductsCount</td>
     <td>@if (Model.Category.Id != 1)
         {
-            <a class="text-decoration-none" data-toggle="modal" data-target="#CategoryModal" onclick="remove(@Model.Category.Id)">❌</a>
+            <img class="rowicon" src="~/Content/images/remove.svg" onclick="remove(@Model.Category.Id)" data-toggle="modal" data-target="#CategoryModal"/>
         }
     </td>
 </tr>

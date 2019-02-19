@@ -182,6 +182,7 @@
     <Compile Include="Models\Cell\CellDescription.cs" />
     <Compile Include="Models\Product\ProductDisplay.cs" />
     <Compile Include="Models\Product\Product.cs" />
+    <Compile Include="Models\Storage\StorageTypeCreation.cs" />
     <Compile Include="Models\Storage\StorageType.cs" />
     <Compile Include="Models\Storage\StorageDescription.cs" />
     <Compile Include="Models\Storage\Storage.cs" />
@@ -190,6 +191,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\ColorPicker.jpg" />
+    <Content Include="Content\images\1.png" />
+    <Content Include="Content\images\2.png" />
+    <Content Include="Content\images\3.png" />
+    <Content Include="Content\images\4.png" />
+    <Content Include="Content\images\5.png" />
+    <Content Include="Content\images\6.png" />
+    <Content Include="Content\images\8.png" />
+    <Content Include="Content\images\9.png" />
     <Content Include="Content\images\add.png" />
     <Content Include="Content\images\admin.png" />
     <Content Include="Content\images\basket.png" />

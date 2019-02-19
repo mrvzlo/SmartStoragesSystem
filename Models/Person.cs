@@ -15,7 +15,5 @@ namespace SmartKitchen.Models
 		public string Password { get; set; }
 		
 		public static Person Current(Context db) => db.People.FirstOrDefault(x => x.Email == HttpContext.Current.User.Identity.Name);
-
-		public bool IsAdmin() => Role == Role.Admin;
 	}
 }

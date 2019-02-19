@@ -26,7 +26,7 @@
         <div class="row justify-content-center py-2">
             <div class="col-lg-2 col-12">
                 <div class="row justify-content-center">
-                    <div id="IconPre"></div>
+                    <img class="rowicon" />
                     <div class="py-1">Name</div>
                 </div>
             </div>
@@ -45,8 +45,6 @@
 			$("#Name").val(list[id].Name);
 			$("#Type").val(list[id].Id);
 			$("form").css("background", list[id].Color);
-			$('#IconPre').removeClass();
-			$("#IconPre").addClass(list[id].Icon);
 		}
 
 		$(function () {
@@ -57,8 +55,7 @@
 				list[@i.Id] = {
 					Name: "@i.Name",
 					Color: "#@i.Background",
-					Id: "#@i.Id",
-					Icon: "@i.Icon"
+					Id: "#@i.Id"
 				}
 				$('#TypeName').append($("<option></option>").val(@i.Id).text("@i.Name"));
 				</text>

@@ -103,26 +103,22 @@ namespace SmartKitchen.Controllers
 	    [HttpPost]
 	    [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
-        public ActionResult CreateType(StorageType newType)
+        public ActionResult CreateType(StorageTypeCreation newType)
 	    {
 		    if (string.IsNullOrEmpty(newType.Name)) ModelState.AddModelError("Name", "Name is required");
-		    if (string.IsNullOrEmpty(newType.Icon)) ModelState.AddModelError("Icon", "Icon is required");
-		    newType.Icon = "fa fa-" + newType.Icon;
-		    using (var db = new Context())
-		    {
-			    if (!Person.Current(db).IsAdmin()) return Redirect(Url.Action("Index"));
-		    }
-
-		    if (ModelState.IsValid)
-			{
-				using (var db = new Context())
+            if (newType.Icon == null) ModelState.AddModelError("Icon", "Icon is required");
+            if (!newType.IconIsValid()) ModelState.AddModelError("Icon", "Select a PNG image smaller than 1MB");
+            if (ModelState.IsValid)
+            {
+                newType.Icon.SaveAs(Server.MapPath("~/Content/images/" + newType.Id+".png"));
+                using (var db = new Context())
 				{
-					var old = db.StorageTypes.FirstOrDefault(x => x.Name == newType.Name);
-					if (old == null) db.StorageTypes.Add(newType);
+					var old = db.StorageTypes.Find(newType.Id);
+					if (old == null) db.StorageTypes.Add(new StorageType{ Background = newType.Background, Name = newType.Name});
 					else
-					{
+                    {
+                        old.Name = newType.Name;
 						old.Background = newType.Background;
-						old.Icon = newType.Icon;
 					}
 
 					db.SaveChanges();

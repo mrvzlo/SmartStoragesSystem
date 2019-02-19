@@ -6955,9 +6955,6 @@ input, .input {
 form div {
   padding: 0px 5px; }
 
-.disabled:hover, .disabled {
-  color: gray; }
-
 .storage {
   margin: 1rem;
   padding: 1rem; }
@@ -6980,14 +6977,6 @@ body {
   display: inline-block;
   position: relative;
   height: 1rem; }
-
-.fa:before {
-  display: flex;
-  align-items: center;
-  width: 1rem; }
-
-.fa {
-  display: flex; }
 
 .navicon {
   height: 2rem;
