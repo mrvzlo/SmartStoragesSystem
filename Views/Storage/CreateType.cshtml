@@ -2,61 +2,61 @@
 @{
     ViewBag.Title = "Storage types";
 }
-
 <div class="row justify-content-center">
-    @foreach (var item in Model)
-    {
-        <div class="col-lg-4 col-sm-6">
-            <div class="storage-small row px-2 py-1" style="background-color: #@item.Background" onclick='updateForm(@item.Id,"@item.Name","@item.Background");'>
-                @{ var filename = item.Id + ".png";}
-                <img class="rowicon" src="~/Content/images/@filename" />
-                <div class="col" id="name_@item.Id">@item.Name</div>
-                <img class="rowicon" src="~/Content/images/remove.svg" onclick="remove(@item.Id)" data-toggle="modal" data-target="#StorageTypeModal" />
-            </div>
-        </div>
-    }
-    <div class="col-lg-4 col-12 col-sm-6">
-        <div class="storage-small row px-2 py-1" onclick='updateForm(0,"","FFFFFF");'><div class="col text-center">Clear</div></div>
-    </div>
-</div>
-
-@using (Html.BeginForm("CreateType", "Storage", FormMethod.Post, new { @class = "row justify-content-center m-0", enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
-    @Html.Hidden("Id",0)
-    <div class="col-lg-6 col-12 storage preview" id="storage">
-        <div class="row justify-content-center py-2">
-            <div class="col-md-2">Name</div>
-            <div class="col-md-10">@Html.Editor("Name")</div>
-            <div class="error col-12">@Html.ValidationMessage("Name")</div>
-        </div>
-        <div class="row justify-content-center py-2">
-            <div class="col-md-2">Icon</div>
-            <div class="col-md-10">
-                <div class="row m-0 p-0">
-                    @Html.TextBox("Icon", "", new { type = "file", id = "upload", @class = "d-none" })
-                    <span id="uploadBtn" class="btn-main btn py-0 col-6 text-nowrap">Choose image</span>
-                    @Html.TextBox("UploadStatus", "", new { @readonly = "readonly", @class = "col-6" })
+    <div class="col-12 col-lg-8">
+        <div class="row justify-content-center">
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-3 col-4 px-1">
+                    <div class="storage-small row justify-content-between px-2 py-1" style="background-color: #@item.Background" onclick='updateForm(@item.Id,"@item.Name","@item.Background");'>
+                        @{ var filename = item.Id + ".png";}
+                        <img class="rowicon" src="~/Content/images/@filename" />
+                        @Html.Hidden("name_" + item.Id, item.Name)
+                        <img class="rowicon" src="~/Content/images/remove.svg" onclick="remove(@item.Id)" />
+                    </div>
                 </div>
+            }
+            <div class="col-lg-3 col-4 px-1">
+                <div class="storage-small row py-1" onclick='updateForm(0,"","FFFFFF");'><div class="col text-center">Clear</div></div>
             </div>
-            <div class="error col-12">@Html.ValidationMessage("Icon")</div>
         </div>
-        <div class="row justify-content-center py-2">
-            <div class="col-md-2">Color</div>
-            <div class="col-md-10">@Html.Editor("Background", $"FFFFFF", new { disabled = "disabled", @readonly = "readonly" })</div>
-            <div class="error col-12">@Html.ValidationMessage("Background")</div>
+
+        @using (Html.BeginForm("CreateType", "Storage", FormMethod.Post, new { @class = "storage justify-content-center mx-0", enctype = "multipart/form-data", id = "storage" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("Id", 0)
+            <div class="row justify-content-center py-2">
+                <div class="col-md-2">Name</div>
+                <div class="col-md-10">@Html.Editor("Name")</div>
+                <div class="error col-12">@Html.ValidationMessage("Name")</div>
+            </div>
+            <div class="row justify-content-center py-2">
+                <div class="col-md-2">Icon</div>
+                <div class="col-md-10">
+                    <div class="row m-0 p-0">
+                        @Html.TextBox("Icon", "", new { type = "file", id = "upload", @class = "d-none" })
+                        <span id="uploadBtn" class="btn-main btn py-0 col-6 text-nowrap font-weight-normal">Pick image</span>
+                        @Html.TextBox("UploadStatus", "", new { @readonly = "readonly", @class = "col-6" })
+                    </div>
+                </div>
+                <div class="error col-12">@Html.ValidationMessage("Icon", new { id = "IconError" })</div>
+            </div>
+            <div class="row justify-content-center py-2">
+                <div class="col-md-2">Color</div>
+                <div class="col-md-10">@Html.TextBox("Background", "FFFFFF", new { @readonly = "readonly" })</div>
+                <div class="error col-12">@Html.ValidationMessage("Background")</div>
+            </div>
+            <div class="row justify-content-center py-2">
+                <div class="text-center col-6"><input type="submit" id="submit" value="Create" class="btn btn-main" /></div>
+            </div>
+        }
+        <div id="pickerDiv" class="row justify-content-center" style="display: none;">
+            <div class="storage col-lg-6 col-12 mt-0">
+                <canvas id="picker" class="w-100"></canvas>
+            </div>
         </div>
-        <div class="row justify-content-center py-2">
-            <div class="text-center col-6"><input type="submit" id="submit" value="Create" class="btn btn-main col-6" /></div>
-        </div>
-    </div>
-}
-<div id="pickerDiv" class="row justify-content-center" style="display: none;">
-    <div class="storage col-lg-6 col-12 mt-0">
-        <canvas id="picker" class="w-100"></canvas>
     </div>
 </div>
-
 
 <div class="modal fade" id="StorageTypeModal" tabindex="-1" role="dialog" aria-labelledby="StorageTypeModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -82,25 +82,35 @@
             $("#upload").click();
         });
 
-        $("#upload").change(function() {
-            $("#UploadStatus").val($("#upload").val());
+        $("#upload").change(function () {
+            var filename = $("#upload").val();
+            if (filename.match(/fakepath/)) filename = filename.replace(/C:\\fakepath\\/i, '');
+            if (filename.match(/png/) || filename == "") {
+                $("#IconError").text("");
+                $("#submit").removeAttr("disabled");  
+            } else {
+                $("#IconError").text("Invalid file type");
+                $("#submit").attr("disabled", "disabled");
+            }
+            $("#UploadStatus").val(filename);
         });
 
         var storageId;
         function remove(id) {
             event.stopPropagation();
+            $("#StorageTypeModal").modal();
             storageId = id;
             loadNames(id);
-            $("#StorageTypeLabel").text("Choose the storage type which will replace "+$("#name_" + id).text());
+            $("#StorageTypeLabel").text("Choose the storage type which will replace "+$("#name_" + id).val());
         }
-        
+
         function loadNames(id) {
             @foreach (var i in Model)
             {
                 var id = i.Id;
-                <text> 
+                <text>
                     if (id != @id) {
-                        $("#modal_@id").text($("#name_@id").text());
+                        $("#modal_@id").text($("#name_@id").val());
                         $("#modal_@id").show();
                     }
                     else $("#modal_@id").hide();
@@ -123,11 +133,16 @@
 
         function updateForm(id, name, color) {
             if (id !== 0) $("#submit").val("Update");
-            else $("#submit").val("Create");
+            else { 
+                $("#upload").wrap('<form>').closest('form').get(0).reset();
+                $("#upload").unwrap();
+                $("#upload").trigger("change");
+                $("#submit").val("Create");
+            }
             $("#Name").val(name);
             $("#Id").val(id);
             $("#Background").val(color);
-            $('.preview').css('backgroundColor', "#"+color);
+            $('#storage').css('backgroundColor', "#"+color);
         }
 
         $(function () {

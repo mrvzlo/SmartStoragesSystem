@@ -6,7 +6,7 @@
 }
 @{ Html.RenderPartial("_AddNew"); }
 <div class="row justify-content-center m-0">
-    @using (Html.BeginForm("SaveChanges", "Product", FormMethod.Post, new { id = "f", @class = "storage-new mb-2 col-lg-6" }))
+    @using (Html.BeginForm("SaveChanges", "Product", FormMethod.Post, new { id = "f", @class = "storage-new mb-2 col-lg-8" }))
     {
         <table class="table table-borderless table-hover m-0 ">
             <tr class="text-center">
@@ -33,8 +33,8 @@
     }
 </div>
 <div class="row justify-content-center m-0">
-    <button class="col-md-3 col-6 btn btn-main my-1" type="submit" form="f">Save</button>
-    <button class="col-md-3 col-6 btn btn-info my-1" onclick="location.reload();">Reset</button>
+    <button class="col-lg-3 col-6 btn btn-main my-1" type="submit" form="f">Save</button>
+    <button class="col-lg-3 col-6 btn btn-info my-1" onclick="location.reload();">Reset</button>
 </div>
 @section scripts{
     @{ Html.RenderAction("Categories"); }

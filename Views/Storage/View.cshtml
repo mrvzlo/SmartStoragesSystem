@@ -1,9 +1,10 @@
-﻿@model SmartKitchen.Models.StorageDescription
+﻿@using SmartKitchen.Models
+@model SmartKitchen.Models.StorageDescription
 @{
-    ViewBag.Title = Model.Name;
+    ViewBag.Title = "Storage " + Model.Name;
 }
-<div class="h4 text-center">@ViewBag.Title</div>
-@{ Html.RenderAction("_AddProduct", "Cell", new { storage = Model.Id });}
+<div class="h4 text-center">@Model.Name</div>
+@Html.Partial("_AddProduct", new CellCreation{ Storage = Model.Id });
 <div class="text-center table-responsive m-0 big-border" style="background-color: #@Model.Type.Background">
     @if (Model.Cells.Count == 0)
     {
@@ -28,8 +29,17 @@
         </table>
     }
 </div>
-@{ Html.RenderAction("DateUpdatePre", "Cell");}
-@{ Html.RenderAction("AmountUpdatePre", "Cell");}
+@if (Model.Cells.Count > 0)
+{
+    <div class="row justify-content-around">
+        <div class="col-5 col-md-3 col-lg-2 p-1"><button class="btn btn-main w-100">Remove all</button></div>
+        <div class="col-5 col-md-3 col-lg-2 p-1"><button class="btn btn-main w-100">Add expired</button></div>
+        <div class="col-5 col-md-3 col-lg-2 p-1"><button class="btn btn-main w-100">Add absent</button></div>
+        <div class="col-5 col-md-3 col-lg-2 p-1"><button class="btn btn-main w-100">Add all</button></div>
+    </div>
+}
+@Html.Partial("_DatePicker")
+@Html.Partial("_AmountPicker")
 @section scripts{
     <script>
         var cellId;
@@ -84,7 +94,7 @@
             var Year = $("#Year").val();
             var newDate = Day + "/" + Month + "/" + Year;
             $.ajax({
-                url: '@Url.Action("DateUpdate", "Cell")?cell=' + cellId + '&dateStr=' + newDate,
+                url: '@Url.Action("DateUpdate", "Storage")?cell=' + cellId + '&dateStr=' + newDate,
                 success: function(data) {
                     document.getElementById(cellId).innerHTML = data;
                 }
@@ -93,7 +103,7 @@
 
         function changeProductAmount(amount) {
             $.ajax({
-                url: '@Url.Action("SetAmount", "Cell")?cell=' + cellId + '&amount=' + amount,
+                url: '@Url.Action("SetAmount", "Storage")?cell=' + cellId + '&amount=' + amount,
                 success: function(data) {
                     document.getElementById(cellId).innerHTML = data;
                 }
@@ -104,7 +114,7 @@
             var name = $("#name_" + cellId).text();
             if (confirm(name + " will be removed")) {
                 $.ajax({
-                    url: '@Url.Action("Remove", "Cell")?cellId=' + cellId,
+                    url: '@Url.Action("Remove", "Storage")?cellId=' + cellId,
                     success: function() {
                         document.getElementById(cellId).outerHTML = "";
                     }
@@ -114,7 +124,7 @@
 
         function getProduct(product) {
             $.ajax({
-                url: '@Url.Action("Description", "Cell")?cell=' + product,
+                url: '@Url.Action("ProductDescription", "Storage")?cell=' + product,
                 success: function(data) {
                     document.getElementById(product).outerHTML = data;
                 }

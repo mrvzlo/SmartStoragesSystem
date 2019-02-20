@@ -5,14 +5,14 @@ using SmartKitchen.Enums;
 
 namespace SmartKitchen.Models
 {
-	public sealed class Person
+	public class Person
 	{
 		[Key]
-		public int Id { get; set; }
-		public Role Role { get; set; }
-		public string Name { get; set; }
-		public string Email { get; set; }
-		public string Password { get; set; }
+		public virtual int Id { get; set; }
+		public virtual Role Role { get; set; }
+		public virtual string Name { get; set; }
+		public virtual string Email { get; set; }
+		public virtual string Password { get; set; }
 		
 		public static Person Current(Context db) => db.People.FirstOrDefault(x => x.Email == HttpContext.Current.User.Identity.Name);
 	}

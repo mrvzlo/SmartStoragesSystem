@@ -1,29 +1,33 @@
 ﻿@model List<SmartKitchen.Models.StorageDescription>
-
+@{
+    ViewBag.Title = "My storages";
+}
 <div class="row">
     @foreach (var item in Model)
     {
-        <div class="col-12 col-lg-6">
+        <a class="col-12 col-lg-6 text-decoration-none text-dark" href="@Url.Action("View", "Storage", new {id = item.Id})">
             <div class="storage row justify-content-between" style="background-color: #@item.Type.Background">
-                <div class="@item.Type.Icon"></div>
-                <div class="col h4 m-0" onclick="window.location = '@Url.Action("View", "Storage", new {id = item.Id})'">
+                @{ var filename = item.Type.Id + ".png";}
+                <img class="rowicon" src="~/Content/images/@filename"/>
+                <div class="col h4 m-0">
                     @Html.DisplayFor(modelItem => item.Name)
                 </div>
-                <img class="rowicon" src="~/Content/images/remove.svg" onclick="remove('@item.Name',@item.Id)"/>
+                <img class="rowicon" src="~/Content/images/remove.svg" onclick="remove('@item.Name', @item.Id)"/>
             </div>
-        </div>
+        </a>
     }
-    <div class="col-12 col-lg-6">
-        <div class="storage bg-main text-light row justify-content-between" onclick="window.location = '@Url.Action("Create", "Storage")';">
+    <a class="col-12 col-lg-6 text-decoration-none text-light" href="@Url.Action("Create", "Storage")">
+        <div class="storage bg-main row justify-content-between">
             <img class="navicon" src="~/Content/images/add.png"/>
             <div class="col h4 m-0">Add new storage</div>
         </div>
-    </div>
+    </a>
 </div>
 @section scripts
 {
     <script>
-        function remove(name,id) {
+        function remove(name, id) {
+            event.stopPropagation();
             if (confirm("Storage "+name + " will be removed")) {
                 window.location = '@Url.Action("Delete", "Storage")/'+id;
             }

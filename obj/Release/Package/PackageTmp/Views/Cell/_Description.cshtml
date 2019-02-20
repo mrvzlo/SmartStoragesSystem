@@ -9,11 +9,13 @@
     <td @if (ChangeableDate) { 
             @: onclick="showDatePicker(@Model.Cell.Id,'@Model.Product.Name')"
         }>
-        <div class="font-weight-bold text-@Model.Safety.Type" 
+        <a class="font-weight-bold text-@Model.Safety.Type" 
              @if (ChangeableDate){
                  @: data-toggle="modal" data-target="#DateModal"
-             }>@Model.Safety.Info</div>
+             }>@Model.Safety.Info</a>
     </td>
 
-    <td class="font-weight-bold text-@Model.Amount.Type" data-toggle="modal" data-target="#AmountModal" onclick="showAmountPicker(@Model.Cell.Id)">@Model.Amount.Info</td>
+    <td onclick="showAmountPicker(@Model.Cell.Id)">
+        <a class="font-weight-bold text-decoration-none text-@Model.Amount.Type" data-toggle="modal" data-target="#AmountModal">@Model.Amount.Info</a>
+    </td>
 </tr>

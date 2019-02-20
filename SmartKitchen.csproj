@@ -75,6 +75,7 @@
       <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.2\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -172,6 +173,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Basket\Basket.cs" />
+    <Compile Include="Models\Basket\BasketDescription.cs" />
     <Compile Include="Models\Category\CategoryDisplay.cs" />
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Context.cs" />
@@ -180,8 +183,11 @@
     <Compile Include="Models\Cell\CellCreation.cs" />
     <Compile Include="Models\Cell\Cell.cs" />
     <Compile Include="Models\Cell\CellDescription.cs" />
+    <Compile Include="Models\Basket\BasketProduct.cs" />
     <Compile Include="Models\Product\ProductDisplay.cs" />
     <Compile Include="Models\Product\Product.cs" />
+    <Compile Include="Models\Response.cs" />
+    <Compile Include="Models\Basket\BasketProductCreation.cs" />
     <Compile Include="Models\Storage\StorageTypeCreation.cs" />
     <Compile Include="Models\Storage\StorageType.cs" />
     <Compile Include="Models\Storage\StorageDescription.cs" />
@@ -202,12 +208,14 @@
     <Content Include="Content\images\add.png" />
     <Content Include="Content\images\admin.png" />
     <Content Include="Content\images\basket.png" />
+    <Content Include="Content\images\down.png" />
     <Content Include="Content\images\guide.png" />
     <Content Include="Content\images\home.svg" />
     <Content Include="Content\images\login.png" />
     <Content Include="Content\images\logout.png" />
     <Content Include="Content\images\remove.svg" />
     <Content Include="Content\images\storages.svg" />
+    <Content Include="Content\images\up.png" />
     <Content Include="Content\My.css">
       <DependentUpon>My.scss</DependentUpon>
     </Content>
@@ -371,10 +379,10 @@
     <Content Include="Views\Storage\Create.cshtml" />
     <Content Include="Views\Storage\CreateType.cshtml" />
     <Content Include="Views\Storage\View.cshtml" />
-    <Content Include="Views\Cell\_AddProduct.cshtml" />
-    <Content Include="Views\Cell\_Description.cshtml" />
-    <Content Include="Views\Cell\_DatePicker.cshtml" />
-    <Content Include="Views\Cell\_AmountPicker.cshtml" />
+    <Content Include="Views\Storage\_AddProduct.cshtml" />
+    <Content Include="Views\Storage\_Description.cshtml" />
+    <Content Include="Views\Storage\_DatePicker.cshtml" />
+    <Content Include="Views\Storage\_AmountPicker.cshtml" />
     <Content Include="Views\Shared\_Admin.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />
     <Content Include="Views\Category\_Description.cshtml" />
@@ -384,6 +392,11 @@
     <Content Include="Views\Product\_AddNew.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Category\_AddNew.cshtml" />
+    <Content Include="Views\Basket\_AddNew.cshtml" />
+    <Content Include="Views\Basket\View.cshtml" />
+    <Content Include="Views\Basket\_AddNewProduct.cshtml" />
+    <Content Include="Views\Error\Forbidden.cshtml" />
+    <Content Include="Views\Basket\_Description.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

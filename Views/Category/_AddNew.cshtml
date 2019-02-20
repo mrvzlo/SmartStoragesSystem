@@ -2,7 +2,7 @@
     <div class="col-lg-6">
         @using (Html.BeginForm("Create", "Category", FormMethod.Post, new { @class = "row  justify-content-center mt-md-3" }))
         {
-            @Html.TextBox("Name", "", new { @class = "col-8" })
+            @Html.TextBox("Name", "", new { @class = "col-8", placeholder = "New category" })
             <input type="submit" value="Add" class="btn btn-main col-4" />
             @Html.ValidationMessage("Name", "", new { @class = "col-12 error" })
         }

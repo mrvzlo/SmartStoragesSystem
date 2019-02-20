@@ -13,9 +13,11 @@ namespace SmartKitchen.Controllers
 {
 	public class AccountController : Controller
 	{
-		public ActionResult Index()
+		public ActionResult Index(bool login = true)
 		{
-			return View(new AuthModel{Login = true});
+            if (User.Identity.IsAuthenticated)
+                return Redirect(Url.Action("Index","Home"));
+            return View(new AuthModel{Login = login});
 		}
 		
 		//
