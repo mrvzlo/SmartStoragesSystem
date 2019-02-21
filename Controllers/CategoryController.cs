@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using AutoMapper;
+﻿using System.Collections.Generic;
 using SmartKitchen.Models;
 using System.Linq;
 using System.Web.Mvc;
@@ -11,7 +10,19 @@ namespace SmartKitchen.Controllers
     {
         public ActionResult Index()
         {
-            return View(CategoryDisplay.GetIds());
+            if (TempData.ContainsKey("error")) ModelState.AddModelError("Name", TempData["error"].ToString());
+            var list = new List<CategoryDisplay>();
+            using (var db = new Context())
+            {
+                foreach (var i in db.Categories.ToList())
+                {
+                    var cd = new CategoryDisplay();
+                    cd.Category = i;
+                    cd.ProductsCount = db.Products.Count(x => x.Category == i.Id);
+                    list.Add(cd);
+                }
+            }
+            return View(list);
         }
 
         [HttpPost]
@@ -21,8 +32,12 @@ namespace SmartKitchen.Controllers
             if (string.IsNullOrWhiteSpace(name)) return result;
             using (var db = new Context())
             {
-                var exists = db.Categories.FirstOrDefault(x => x.Name == name.Trim());
-                if (exists != null) return result;
+                if (db.Categories.Any(x => x.Name == name.Trim()))
+                {
+                    TempData["error"] = "This name is already taken";
+                    return Redirect(Url.Action("Index"));
+                }
+
                 db.Categories.Add(new Category { Name = name });
                 db.SaveChanges();
             }

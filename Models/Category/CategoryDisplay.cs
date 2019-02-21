@@ -10,13 +10,5 @@ namespace SmartKitchen.Models
     {
         public Category Category { get; set; }
         public int ProductsCount { get; set; }
-
-        public static List<int> GetIds()
-        {
-            using (var db = new Context())
-            {
-                return db.Categories.Select(x => x.Id).ToList();
-            }
-        }
 	}
 }

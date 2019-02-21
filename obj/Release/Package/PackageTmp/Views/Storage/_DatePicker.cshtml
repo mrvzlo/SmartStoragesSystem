@@ -6,7 +6,7 @@
         <div class="modal-content big-border">
             <div class="modal-header text-center d-block h5" id="DateModalLabel"></div>
             <div class="modal-body pt-0">
-                @using (Html.BeginForm("DateUpdate", "Cell", FormMethod.Post))
+                @using (Html.BeginForm("DateUpdate", "Storage", FormMethod.Post))
                 {
                     <div class="row justify-content-around">
                         @foreach (var i in list)

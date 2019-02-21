@@ -11,9 +11,12 @@ input, .input {
     width: 100%;
 }
 
-.big-border, input, .input, .storage, .storage-small, .storage-new {
+.big-border, input, .input, .storage, .storage-small, .storage-new, .card {
     border: solid 2px darken($main, 20%);
     border-radius: $border-radius;
+}
+.card{
+    margin-bottom:1rem;
 }
 
 .btn-unactive {

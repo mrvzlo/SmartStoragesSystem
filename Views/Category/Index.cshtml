@@ -1,10 +1,10 @@
-﻿@model List<int>
+﻿@model List<SmartKitchen.Models.CategoryDisplay>
 @{
     ViewBag.Title = "Categories";
 }
 @Html.Partial("_AddNew")
 <div class="row justify-content-center m-0">
-    <div class="storage-new mb-2 col-lg-6">
+    <div class="storage-new mb-2 col-lg-6 p-0">
         <table id="table" class="table table-hover table-borderless text-center m-0">
             <tr>
                 <th style="width: 35%">Category</th>
@@ -13,11 +13,8 @@
             </tr>
             @foreach (var i in Model)
             {
-                <tr id="@i"></tr>
+                Html.RenderPartial("_Description", i);
             }
-            <tr id="loading">
-                <td colspan="3" class="font-weight-bold">Loading</td>
-            </tr>
         </table>
     </div>
 </div>
@@ -44,14 +41,6 @@
 @section scripts{
     <script>
         var categoryId;
-        function getProduct(id) {
-            $.ajax({
-                url: '@Url.Action("Description", "Category")?id=' + id,
-                success: function(data) {
-                    document.getElementById(id).outerHTML = data;
-                }
-            });
-        }
 
         function remove(id) {
             categoryId = id;
@@ -79,12 +68,5 @@
                 </text>
             }
         }
-
-        $(function() {
-            @foreach (var id in Model){
-                @: getProduct(@id);
-            }
-            $("#loading").remove();
-        });
     </script>
 }

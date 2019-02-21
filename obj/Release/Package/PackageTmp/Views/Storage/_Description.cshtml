@@ -3,7 +3,7 @@
 @{bool ChangeableDate = Model.Cell.Amount != Amount.None;}
 
 <tr id="@Model.Cell.Id">
-    <td class="font-weight-bold" id="name_@Model.Cell.Id">@Model.Product.Name</td>
+    <td id="name_@Model.Cell.Id">@Model.Product.Name</td>
     <td>@Model.Category.Name</td>
 
     <td @if (ChangeableDate) { 

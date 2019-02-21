@@ -6938,9 +6938,12 @@ input, .input {
   background-color: #ece7f6;
   width: 100%; }
 
-.big-border, input, .input, .storage, .storage-small, .storage-new {
+.big-border, input, .input, .storage, .storage-small, .storage-new, .card {
   border: solid 2px #1c1332;
   border-radius: 1rem; }
+
+.card {
+  margin-bottom: 1rem; }
 
 .btn-unactive {
   background-color: #565656; }

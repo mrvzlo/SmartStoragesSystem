@@ -12,6 +12,7 @@ namespace SmartKitchen.Controllers
         public ActionResult Index(int order = 1)
         {
             ViewBag.Order = order;
+            if (TempData.ContainsKey("error")) ModelState.AddModelError("Name", TempData["error"].ToString());
             return View(GetAllProducts(order));
         }
 
@@ -25,7 +26,9 @@ namespace SmartKitchen.Controllers
         {
             using (var db = new Context())
             {
-                if (!db.Products.Any(x => x.Name == name))
+                if (db.Products.Any(x => x.Name == name))
+                    TempData["error"] = "This name is already taken";
+                else
                 {
                     db.Products.Add(new Product { Category = 1, Name = name });
                     db.SaveChanges();

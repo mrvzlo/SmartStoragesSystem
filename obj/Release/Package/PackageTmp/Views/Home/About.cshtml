@@ -1,12 +1,13 @@
-﻿@{
+﻿@using SmartKitchen.Models
+@{
     ViewBag.Title = "Quick guide";
 }
 <div class="h4">Quick guide</div>
 <div>
-    After registration @Html.ActionLink("here", "Create", "Storage")
-    you can create your <b>Smart Storages</b> using <b>@ViewBag.StorageCount</b> different templates.
-    <br/>
-    Each storage allows you to manage a big amount of different products. 
+    After <a href="@Url.Action("Index","Account",new{Login = false})">registration</a>
+    you can create your <b>Smart Storages</b> @Html.ActionLink("here", "Create", "Storage") using <b>@ViewBag.StorageCount</b> different templates.
+    <br />
+    Each storage allows you to manage a big amount of different products.
     Each product has specific amount and expiration date which you can set manually.
     The system will inform you if any product <span class="text-danger font-weight-bold">become unsafe</span> or <span class="text-warning font-weight-bold">will become soon</span>.
 </div>

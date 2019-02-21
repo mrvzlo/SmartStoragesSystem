@@ -6,7 +6,7 @@
 }
 @{ Html.RenderPartial("_AddNew"); }
 <div class="row justify-content-center m-0">
-    @using (Html.BeginForm("SaveChanges", "Product", FormMethod.Post, new { id = "f", @class = "storage-new mb-2 col-lg-8" }))
+    @using (Html.BeginForm("SaveChanges", "Product", FormMethod.Post, new { id = "f", @class = "storage-new mb-2 col-lg-8 p-0" }))
     {
         <table class="table table-borderless table-hover m-0 ">
             <tr class="text-center">

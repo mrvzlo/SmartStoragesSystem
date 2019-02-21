@@ -23,9 +23,9 @@ namespace SmartKitchen.Controllers
 		        var s = db.Storages.Where(x => x.Owner == person.Id).ToList();
 		        foreach (var storage in s)
 		        {
-					storages.Add(new StorageDescription(storage,db,1));
+					storages.Add(new StorageDescription(storage,db));
 		        }
-	        }
+            }
             return View(storages);
         }
 		
@@ -53,11 +53,13 @@ namespace SmartKitchen.Controllers
                 var person = Person.Current(db);
 				var storage = db.Storages.Find(id);
                 if (storage == null || storage.Owner != person.Id) return Redirect(Url.Action("Index"));
-                content = new StorageDescription(storage, db, order);
+                content = new StorageDescription(storage, db);
 			}
 
 			if (content.Type == null) return Redirect(Url.Action("Index"));
             ViewBag.Order = order;
+            if (TempData.ContainsKey("error"))
+                ModelState.AddModelError("Name", TempData["error"].ToString());
             return View(content);
 	    }
 
@@ -151,8 +153,8 @@ namespace SmartKitchen.Controllers
 
         #endregion
 
-        #region Product
-        public PartialViewResult ProductDescription(int cell)
+        #region Cell
+        public PartialViewResult CellDescription(int cell)
         {
             CellDescription description = new CellDescription();
             using (var db = new Context())
@@ -187,10 +189,10 @@ namespace SmartKitchen.Controllers
             using (var db = new Context())
             {
                 var cell = db.Cells.Find(cellId);
+                if (cell == null) return;
                 var storage = db.Storages.Find(cell.Storage);
                 var response = Storage.IsOwner(storage, Person.Current(db));
                 if (!response.Successfull) return;
-                if (cell == null) return;
                 db.Cells.Remove(cell);
                 db.SaveChanges();
             }
@@ -223,6 +225,42 @@ namespace SmartKitchen.Controllers
             }
 
             return PartialView("_Description", description);
+        }
+
+        public ActionResult ShowAllCells(int storage, int order)
+        {
+            var cells = new List<CellDescription>();
+            using (var db = new Context())
+            {
+                foreach (var cell in db.Cells.Where(x => x.Storage == storage).Select(x => x.Id).ToList())
+                    cells.Add(new CellDescription(db, cell));
+                cells = GetCellOrder(order, cells);
+            }
+            return PartialView("_ShowAllCells",cells);
+        }
+
+
+        private List<CellDescription> GetCellOrder(int order, List<CellDescription> cells)
+        {
+            switch (order)
+            {
+                default:
+                    return cells.OrderBy(x => x.Product.Name).ToList();
+                case -1:
+                    return cells.OrderByDescending(x => x.Product.Name).ToList();
+                case 2:
+                    return cells.OrderBy(x => x.Category.Name).ToList();
+                case -2:
+                    return cells.OrderByDescending(x => x.Category.Name).ToList();
+                case 3:
+                    return cells.OrderBy(x => x.Cell.BestBefore).ToList();
+                case -3:
+                    return cells.OrderByDescending(x => x.Cell.BestBefore).ToList();
+                case 4:
+                    return cells.OrderBy(x => x.Cell.Amount).ToList();
+                case -4:
+                    return cells.OrderByDescending(x => x.Cell.Amount).ToList();
+            }
         }
         #endregion
     }

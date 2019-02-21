@@ -24,6 +24,7 @@ namespace SmartKitchen.Controllers
                     bdlist.Add(new BasketDescription { Basket = b, Products = products, BoughtProducts = bought });
                 }
             }
+            if (TempData.ContainsKey("error")) ModelState.AddModelError("Name", TempData["error"].ToString());
             return View(bdlist.OrderByDescending(x=>x.Basket.CreationDate).ToList());
         }
 
@@ -36,9 +37,15 @@ namespace SmartKitchen.Controllers
             using (var db = new Context())
             {
                 var person = Person.Current(db);
+                if (db.Baskets.Any(x => x.Name == name && x.Owner == person.Id))
+                {
+                    TempData["error"] = "This name is already taken";
+                    return Redirect(Url.Action("Index"));
+                }
+
                 db.Baskets.Add(new Basket { Name = name, CreationDate = DateTime.Now, Owner = person.Id, Private = true});
                 db.SaveChanges();
-                b = db.Baskets.First(x => x.Name == name);
+                b = db.Baskets.FirstOrDefault(x => x.Name == name && x.Owner == person.Id);
             }
 
             return Redirect(Url.Action("View", new { id = b.Id }));

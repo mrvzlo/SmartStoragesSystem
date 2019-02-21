@@ -4,8 +4,9 @@
         @using (Html.BeginForm("Create", "Cell", FormMethod.Post, new { @class = "row" }))
         {
             @Html.HiddenFor(x => x.Storage, Model.Storage)
-            @Html.TextBoxFor(x => x.Name, new {@class = "col-8", placeholder = "New product" })
+            @Html.TextBoxFor(x => x.Name, new { @class = "col-8", placeholder = "New product" })
             <input type="submit" value="Add" class="btn btn-main col-4" />
+            @Html.ValidationMessageFor(x=>x.Name,"", new { @class = "col-12 error" })
         }
     </div>
 </div>
