@@ -16,7 +16,7 @@
             <select id="TypeName" class="input col-md-7 col-9" onchange="change()"></select>
             @Html.Hidden("Type")
             <div class="text-center col-md-3 col-6 mt-md-0 mt-3">
-                @if (HttpContext.Current.User.IsInRole("admin"))
+                @if (HttpContext.Current.User.IsInRole("Admin"))
                 {
                     @Html.ActionLink("Edit types", "CreateType", "Storage", new { @class = "btn btn-main w-100 py-1" })
                 }

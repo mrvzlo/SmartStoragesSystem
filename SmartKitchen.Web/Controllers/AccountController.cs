@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
@@ -109,29 +111,23 @@ namespace SmartKitchen.Controllers
 			return View("Index", model);
 		}
 
-		private void CreateTicket(Person user)
-		{
-			var ticket = new FormsAuthenticationTicket(
-				version: 1,
-				name: user.Email,
-				issueDate: DateTime.Now,
-				expiration: DateTime.Now.AddDays(14),
-				isPersistent: false,
-				userData: RoleIntToString(user.Role));
-
+		private void CreateTicket(Person person)
+        {
+            var ticket = new FormsAuthenticationTicket(
+                version: 1,
+                name: person.Email,
+                issueDate: DateTime.Now,
+                expiration: DateTime.Now.AddDays(14),
+                isPersistent: false,
+                userData: person.Role.GetType()
+                    .GetMember(person.Role.ToString())
+                    .FirstOrDefault()?
+                    .GetCustomAttribute<DescriptionAttribute>()?
+                    .Description
+            );
 			var encryptedTicket = FormsAuthentication.Encrypt(ticket);
 			var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
 			HttpContext.Response.Cookies.Add(cookie);
-		}
-
-		public string RoleIntToString(Role role)
-		{
-			switch (role)
-			{
-				case Role.Admin: return "admin";
-				case Role.Simple: return "simple";
-				default: return "unknown";
-			}
 		}
 
 		//

@@ -96,7 +96,7 @@ namespace SmartKitchen.Controllers
 
         #region Types CD
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult CreateType(string s)
 	    {
 		    return View(StorageType.GetAll());
@@ -104,7 +104,7 @@ namespace SmartKitchen.Controllers
 
 	    [HttpPost]
 	    [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult CreateType(StorageTypeCreation newType)
 	    {
 		    if (string.IsNullOrEmpty(newType.Name)) ModelState.AddModelError("Name", "Name is required");
@@ -129,6 +129,7 @@ namespace SmartKitchen.Controllers
 		    return View(StorageType.GetAll());
 		}
 
+        [Authorize(Roles = "Admin")]
         public ActionResult RemoveType(int fromId, int toId)
         {
             var result = Redirect(Url.Action("Index"));
