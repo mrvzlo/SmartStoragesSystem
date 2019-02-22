@@ -4,9 +4,8 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Security;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using SmartKitchen.Enums;
+using SmartKitchen.Helpers;
 using SmartKitchen.Models;
 
 namespace SmartKitchen.Controllers
@@ -117,7 +116,7 @@ namespace SmartKitchen.Controllers
 				issueDate: DateTime.Now,
 				expiration: DateTime.Now.AddDays(14),
 				isPersistent: false,
-				userData: RoleIntToString(user.Role));
+				userData: user.Role.GetDescription()); // RoleIntToString(user.Role));
 
 			var encryptedTicket = FormsAuthentication.Encrypt(ticket);
 			var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
