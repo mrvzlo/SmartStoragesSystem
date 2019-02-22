@@ -1,0 +1,7 @@
+﻿@model SmartKitchen.Models.BasketProductDescription
+<tr id="@Model.Product.Id">
+    <td class="@( Model.Product.Bought ? "bought" : "" )">@Model.Name</td>
+    <td>@Model.Product.BestBefore</td>
+    <td>@(Model.Amount!=0 ? Model.Amount.ToString() : "")</td>
+    <td>@Model.Product.Price</td>
+</tr>

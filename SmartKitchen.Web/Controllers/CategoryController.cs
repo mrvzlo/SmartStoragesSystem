@@ -5,7 +5,7 @@ using System.Web.Mvc;
 
 namespace SmartKitchen.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
         public ActionResult Index()

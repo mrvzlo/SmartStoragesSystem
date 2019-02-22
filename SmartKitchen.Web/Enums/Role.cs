@@ -1,8 +1,12 @@
-﻿namespace SmartKitchen.Enums
+﻿using System.ComponentModel;
+
+namespace SmartKitchen.Enums
 {
 	public enum Role
 	{
+        [Description("Simple")]
 		Simple = 0,
-		Admin = 1
+        [Description("Admin")]
+        Admin = 1
 	}
 }
