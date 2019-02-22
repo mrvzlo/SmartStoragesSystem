@@ -3,14 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartKitchen", "SmartKitchen\SmartKitchen.csproj", "{EC131A70-C38D-40EE-808C-52F906BE7ACB}"
-EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Backup", "Backup\Backup.sqlproj", "{BF43E57F-A379-4F00-8129-816A7CE1A28D}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EE1AC84C-32EA-4D17-B61E-A63964C8EBEF}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartKitchen.Web", "SmartKitchen.Web\SmartKitchen.Web.csproj", "{EC131A70-C38D-40EE-808C-52F906BE7ACB}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SmartKitchen.DB", "SmartKitchen.DB\SmartKitchen.DB.sqlproj", "{BF43E57F-A379-4F00-8129-816A7CE1A28D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +31,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EC131A70-C38D-40EE-808C-52F906BE7ACB} = {EE1AC84C-32EA-4D17-B61E-A63964C8EBEF}
+		{BF43E57F-A379-4F00-8129-816A7CE1A28D} = {EE1AC84C-32EA-4D17-B61E-A63964C8EBEF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {71FCE453-8113-422A-A9E0-FC8B41114F8B}
