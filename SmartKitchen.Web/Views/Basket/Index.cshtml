@@ -9,9 +9,9 @@
 }
 else
 {
-    <div class="storage text-center py-0">
-        <div class="h5 my-3" onclick="toggleTable(1);">Open baskets <img id="tog1" class="rowicon" src="~/Content/images/up.png" /></div>
-        <table id="tab1" class="table table-hover mb-0">
+    <div class="storage text-center">
+        <a class="h5 text-dark" onclick="toggleTable(1);">Open baskets <img id="tog1" class="rowicon" src="~/Content/images/up.png" /></a>
+        <div id="tab1">
             @foreach (var b in Model)
             {
                 if (!b.Basket.Closed)
@@ -19,11 +19,11 @@ else
                     Html.RenderPartial("_Description", b);
                 }
             }
-        </table>
+        </div>
     </div>
-    <div class="storage text-center py-0">
-        <div class="h5 my-3" onclick="toggleTable(2);">Closed baskets <img id="tog2" class="rowicon" src="~/Content/images/down.png" /></div>
-        <table id="tab2" class="table table-hover mb-0">
+    <div class="storage text-center">
+        <a class="h5 text-dark" onclick="toggleTable(2);">Closed baskets <img id="tog2" class="rowicon" src="~/Content/images/down.png" /></a>
+        <div id="tab2">
             @foreach (var b in Model)
             {
                 if (b.Basket.Closed)
@@ -31,7 +31,7 @@ else
                     Html.RenderPartial("_Description", b);
                 }
             }
-        </table>
+        </div>
     </div>
 }
 @section scripts

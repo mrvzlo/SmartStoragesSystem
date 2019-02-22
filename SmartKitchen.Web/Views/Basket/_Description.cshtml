@@ -1,12 +1,11 @@
 ﻿@model SmartKitchen.Models.BasketDescription
-<tr id="@Model.Basket.Id" class="row flex-nowrap" 
-    onclick="window.location='@Url.Action("View","Basket",new{id = Model.Basket.Id})';">
-    <td class="col">@Model.Basket.Name</td>
-    <td class="col">@Model.BoughtProducts/@Model.Products.Count<span class="d-md-inline d-none"> products</span></td>
-    <td class="col">@Model.Basket.CreationDate.ToString("dd.MM.yy")</td>
-    <td class="col-md-1 col-2">
+<a id="@Model.Basket.Id" class="row flex-nowrap my-2 text-dark text-decoration-none" href="@Url.Action("View","Basket",new{id = Model.Basket.Id})">
+    <div class="col">@Model.Basket.Name</div>
+    <div class="col">@Model.BoughtProducts/@Model.Products.Count<span class="d-md-inline d-none"> products</span></div>
+    <div class="col">@Model.Basket.CreationDate.ToString("dd.MM.yy")</div>
+    <div class="col-md-1 col-2">
         <img src="@Html.Raw( Model.Basket.Closed ? "../Content/images/remove.svg" : "../Content/images/lock.svg")"
              onclick="@Html.Raw( !Model.Basket.Closed ? "lock("+Model.Basket.Id+", '"+Model.Basket.Name+"')" : "remove("+Model.Basket.Id+", '"+Model.Basket.Name+"')")"
              class="rowicon h-75" />
-    </td>
-</tr>
+    </div>
+</a>
