@@ -175,6 +175,7 @@
     </Compile>
     <Compile Include="Models\Basket\Basket.cs" />
     <Compile Include="Models\Basket\BasketDescription.cs" />
+    <Compile Include="Models\Basket\BasketProductDescription.cs" />
     <Compile Include="Models\Category\CategoryDisplay.cs" />
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Context.cs" />
@@ -400,6 +401,7 @@
     <Content Include="Views\Basket\_Description.cshtml" />
     <Content Include="Views\Storage\_ShowAllCells.cshtml" />
     <Content Include="Views\Basket\_StorageSelect.cshtml" />
+    <Content Include="Views\Basket\_ProductDescription.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

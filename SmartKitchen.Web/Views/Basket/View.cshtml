@@ -5,8 +5,7 @@
 <div class="h4 text-center">@Model.Basket.Name</div>
 @if (Request.IsAuthenticated)
 {
-    ViewBag.Basket = Model.Basket.Id;
-    Html.RenderAction("CreateProduct");
+    Html.RenderAction("CreateProduct", new {basket = Model.Basket.Id});
 }
 <div class="text-center table-responsive m-0 big-border">
     @if (Model.Products.Count == 0)
@@ -15,15 +14,17 @@
     }
     else
     {
-        <table class="w-100 table table-hover table-borderless p-0 m-0" id="table">
+        <table class="w-100 table table-hover p-0 m-0" id="table">
             <tr>
-                <th style="width: 20%" onclick="order(1)">Name</th>
-                <th style="width: 18%" onclick="order(2)">Category</th>
-                <th style="width: 18%" onclick="order(3)">Storage</th>
-                <th style="width: 18%" onclick="order(4)">Safety</th>
-                <th style="width: 18%" onclick="order(5)">Amount</th>
-                <th style="width: 18%" onclick="order(6)">Price</th>
+                <th style="width: 25%" onclick="order(1)">Name</th>
+                <th style="width: 25%" onclick="order(4)">Safety</th>
+                <th style="width: 25%" onclick="order(5)">Amount</th>
+                <th style="width: 25%" onclick="order(6)">Price</th>
             </tr>
+            @foreach (var i in Model.Products)
+            {
+                Html.RenderAction("Description",new {id=i});
+            }
         </table>
     }
 </div>
