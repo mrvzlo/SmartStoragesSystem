@@ -1,6 +1,0 @@
-﻿@model SmartKitchen.Models.BasketDescription
-<a class="row my-2 text-dark text-decoration-none" href="@Url.Action("View","Basket",new{id = Model.Basket.Id})">
-    <div class="col">@Model.Basket.Name</div>
-    <div class="col">@Model.BoughtProducts/@Model.Products.Count products</div>
-    <div class="col">@Model.Basket.CreationDate.ToShortDateString()</div>
-</a>

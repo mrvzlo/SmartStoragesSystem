@@ -1,6 +1,0 @@
-﻿@model SmartKitchen.Models.BasketDescription
-@{
-    ViewBag.Title = "Basket " + Model.Basket.Name;
-}
-<div class="h4 text-center">@Model.Basket.Name</div>
-@Html.Partial("_AddNewProduct", Model.Basket.Id)

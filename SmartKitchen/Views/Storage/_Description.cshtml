@@ -1,0 +1,19 @@
+﻿@using SmartKitchen.Enums
+@model SmartKitchen.Models.CellDescription
+@{bool ChangeableDate = Model.Cell.Amount != Amount.None;}
+@{var id = Model.Cell.Id;}
+<tr id="@id">
+    <td id="name_@id" onclick="mark(@id)">@Model.Product.Name</td>
+    <td>@Model.Category.Name</td>
+    <td @Html.Raw(ChangeableDate ? "onclick=\"showDatePicker(" + id + ", '" + Model.Product.Name + "')\"" : "")>
+        <a id="safety_@id" alt="@Model.Safety.Type" class="font-weight-bold text-@Model.Safety.Type" @Html.Raw(ChangeableDate ? "data-toggle='modal' data-target='#DateModal'" : "")>
+            @Model.Safety.Info
+        </a>
+    </td>
+
+    <td onclick="showAmountPicker(@id)">
+        <a id="amount_@id" alt="@Model.Amount.Type" class="font-weight-bold text-decoration-none text-@Model.Amount.Type" data-toggle="modal" data-target="#AmountModal">
+            @Model.Amount.Info
+        </a>
+    </td>
+</tr>
