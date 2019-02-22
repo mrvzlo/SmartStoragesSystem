@@ -1,0 +1,29 @@
+﻿@model SmartKitchen.Models.BasketDescription
+@{
+    ViewBag.Title = "Basket " + Model.Basket.Name;
+}
+<div class="h4 text-center">@Model.Basket.Name</div>
+@if (Request.IsAuthenticated)
+{
+    ViewBag.Basket = Model.Basket.Id;
+    Html.RenderAction("CreateProduct");
+}
+<div class="text-center table-responsive m-0 big-border">
+    @if (Model.Products.Count == 0)
+    {
+        <div class="alert m-0 h3">This basket is empty now</div>
+    }
+    else
+    {
+        <table class="w-100 table table-hover table-borderless p-0 m-0" id="table">
+            <tr>
+                <th style="width: 20%" onclick="order(1)">Name</th>
+                <th style="width: 18%" onclick="order(2)">Category</th>
+                <th style="width: 18%" onclick="order(3)">Storage</th>
+                <th style="width: 18%" onclick="order(4)">Safety</th>
+                <th style="width: 18%" onclick="order(5)">Amount</th>
+                <th style="width: 18%" onclick="order(6)">Price</th>
+            </tr>
+        </table>
+    }
+</div>

@@ -1,0 +1,70 @@
+﻿@using SmartKitchen.Models
+@model SmartKitchen.Models.AuthModel
+@{
+	ViewBag.Title = "Autorisation";
+}
+
+<div class="row justify-content-center mt-3">
+	<div class="col-md-5 col-12">
+		<div class="row">
+			<div class="col"><button class="btn w-100 py-2 text-light bg-main" id="signin" onclick="activate(true);">Sign in</button></div>
+			<div class="col"><button class="btn w-100 py-2 text-light btn-unactive" id="signup" onclick="activate(false);">Sign up</button></div>
+		</div>
+		@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "formSignIn" }))
+		{
+			@Html.AntiForgeryToken()
+			<h3 class="text-center m-3">Registered user</h3>
+			<div>Email</div>
+			<div>@Html.EditorFor(Model => Model.EmailIn)</div>
+			<div class="error">@Html.ValidationMessageFor(Model => Model.EmailIn)</div>
+			<div>Password</div>
+			<div>@Html.PasswordFor(Model => Model.PasswordIn)</div>
+			<div class="error">@Html.ValidationMessageFor(Model => Model.PasswordIn)</div>
+			<div class="text-center"><button type="submit" class="w-75 btn btn-main py-2 mt-3">Sign in</button></div>
+		}
+		@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { id = "formSignUp" }))
+		{
+			@Html.AntiForgeryToken()
+			<h3 class="text-center m-3">New user</h3>
+			<div>Email</div>
+			<div>@Html.EditorFor(Model => Model.EmailUp)</div>
+			<div class="error">@Html.ValidationMessageFor(Model => Model.EmailUp)</div>
+			<div>User name</div>
+			<div>@Html.EditorFor(Model => Model.NameUp)</div>
+			<div class="error">@Html.ValidationMessageFor(Model => Model.NameUp)</div>
+			<div>Password</div>
+			<div>@Html.PasswordFor(Model => Model.PasswordUp)</div>
+			<div class="error">@Html.ValidationMessageFor(Model => Model.PasswordUp)</div>
+			<div>Confirm password</div>
+			<div>@Html.PasswordFor(Model => Model.ConfirmUp)</div>
+			<div class="error">@Html.ValidationMessageFor(Model => Model.ConfirmUp)</div>
+
+			<div class="text-center"><button type="submit" class="w-75 btn btn-main py-2 mt-3">Sign up</button></div>
+		}
+	</div>
+</div>
+@section Scripts {
+	<script>
+		function activate(type) {
+			if (type) {
+				$('#signin').addClass("bg-main");
+				$('#signup').removeClass("bg-main");
+				$('#signup').addClass("btn-unactive");
+				$('#signin').removeClass("btn-unactive");
+				$("#formSignIn").show();
+				$("#formSignUp").hide();
+			} else {
+				$('#signin').removeClass("bg-main");
+				$('#signup').addClass("bg-main");
+				$('#signup').removeClass("btn-unactive");
+				$('#signin').addClass("btn-unactive");
+				$("#formSignIn").hide();
+				$("#formSignUp").show();
+			}
+		}
+
+		$(function() {
+			activate(@Model.Login.ToString().ToLower());
+		});
+	</script>
+}
