@@ -62,12 +62,14 @@
     <Compile Include="Enums\AuthenticationError.cs" />
     <Compile Include="IRepository\IBasketProductRepository.cs" />
     <Compile Include="IRepository\IBasketRepository.cs" />
+    <Compile Include="IRepository\ICategoryRepository.cs" />
     <Compile Include="IRepository\ICellRepository.cs" />
     <Compile Include="IRepository\IProductRepository.cs" />
     <Compile Include="IRepository\IStorageRepository.cs" />
     <Compile Include="IRepository\IPersonRepository.cs" />
     <Compile Include="IRepository\IStorageTypeRepository.cs" />
     <Compile Include="IService\IAuthenticationService.cs" />
+    <Compile Include="IService\ICategoryService.cs" />
     <Compile Include="IService\IHomeService.cs" />
     <Compile Include="IService\IStorageService.cs" />
     <Compile Include="IService\IPersonService.cs" />

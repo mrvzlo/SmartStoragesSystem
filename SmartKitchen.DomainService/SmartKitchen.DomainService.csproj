@@ -66,8 +66,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Profiles\CategoryProfile.cs" />
     <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Services\BaseService.cs" />
+    <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\HomeService.cs" />
     <Compile Include="Services\PersonService.cs" />
     <Compile Include="Profiles\StorageProfile.cs" />

@@ -3,12 +3,21 @@ using SmartKitchen.Models;
 using System.Linq;
 using System.Web.Mvc;
 using SmartKitchen.Domain.Enitities;
+using SmartKitchen.Domain.IRepository;
+using SmartKitchen.Domain.IService;
 
 namespace SmartKitchen.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class CategoryController : Controller
+    public class CategoryController : BaseController
     {
+        private readonly ICategoryService _categoryService;
+
+        public CategoryController(ICategoryRepository categoryService)
+        {
+            _categoryService = categoryService;
+        }
+
         public ActionResult Index()
         {
             if (TempData.ContainsKey("error")) ModelState.AddModelError("Name", TempData["error"].ToString());
@@ -48,12 +57,7 @@ namespace SmartKitchen.Controllers
 
         public ActionResult Description(int id)
         {
-            CategoryDisplay description = new CategoryDisplay();
-            using (var db = new Context())
-            {
-                description.Category = db.Categories.Find(id);
-                description.ProductsCount = db.Products.Count(x => x.Category == description.Category.Id);
-            }
+            var description = _categoryService.GetCategoryDisplayById(id);
             return PartialView("_Description", description);
         }
 
