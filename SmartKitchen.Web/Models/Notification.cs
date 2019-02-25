@@ -1,7 +1,5 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+using SmartKitchen.Domain.Enums;
 using SmartKitchen.Enums;
 
 namespace SmartKitchen.Models

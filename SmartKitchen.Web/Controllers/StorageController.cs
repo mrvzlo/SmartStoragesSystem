@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using SmartKitchen.Domain.Enitities;
+using SmartKitchen.Domain.Enums;
 using SmartKitchen.Enums;
 using SmartKitchen.Models;
 

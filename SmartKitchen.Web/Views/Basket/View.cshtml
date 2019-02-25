@@ -17,9 +17,9 @@
         <table class="w-100 table table-hover p-0 m-0" id="table">
             <tr>
                 <th style="width: 25%" onclick="order(1)">Name</th>
-                <th style="width: 25%" onclick="order(4)">Safety</th>
-                <th style="width: 25%" onclick="order(5)">Amount</th>
-                <th style="width: 25%" onclick="order(6)">Price</th>
+                <th style="width: 25%" onclick="order(2)">Safety</th>
+                <th style="width: 25%" onclick="order(3)">Amount</th>
+                <th style="width: 25%" onclick="order(4)">Price</th>
             </tr>
             @foreach (var i in Model.Products)
             {
@@ -28,3 +28,4 @@
         </table>
     }
 </div>
+<button class="btn btn-success float-right m-2">Finish and close</button>

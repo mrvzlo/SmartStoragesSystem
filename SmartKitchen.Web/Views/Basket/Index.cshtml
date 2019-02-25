@@ -49,7 +49,7 @@ else
         }
 
         function lock(id, name) {
-            event.preventDefault();
+            event.stopPropagation();
             if (confirm(name+" will be locked")) { $.ajax({
                     url: '@Url.Action("Lock","Basket")/' + id,
                 success: function (data) {
@@ -63,7 +63,7 @@ else
         }
 
         function remove(id, name) {
-            event.preventDefault();
+            event.stopPropagation();
             if (confirm(name+" will be removed")) {
                 $.ajax({
                     url: '@Url.Action("Remove","Basket")/' + id,

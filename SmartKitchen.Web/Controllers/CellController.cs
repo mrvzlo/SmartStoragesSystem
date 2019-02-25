@@ -5,6 +5,7 @@ using System.Data.SqlTypes;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Enums;
 using SmartKitchen.Models;
 

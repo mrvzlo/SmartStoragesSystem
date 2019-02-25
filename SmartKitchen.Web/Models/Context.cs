@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using SmartKitchen.Domain.Enitities;
 
 namespace SmartKitchen.Models
 {

@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Enums;
 using SmartKitchen.Models;
 

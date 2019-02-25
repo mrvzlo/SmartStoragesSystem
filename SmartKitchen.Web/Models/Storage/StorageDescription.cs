@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using SmartKitchen.Domain.Enitities;
 
 namespace SmartKitchen.Models
 {

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Enums;
 
 namespace SmartKitchen.Models

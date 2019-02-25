@@ -167,33 +167,22 @@
     <Compile Include="Controllers\CellController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\StorageController.cs" />
-    <Compile Include="Enums\Amount.cs" />
-    <Compile Include="Enums\Safety.cs" />
-    <Compile Include="Enums\Role.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Basket\Basket.cs" />
     <Compile Include="Models\Basket\BasketDescription.cs" />
     <Compile Include="Models\Basket\BasketProductDescription.cs" />
     <Compile Include="Models\Category\CategoryDisplay.cs" />
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Context.cs" />
     <Compile Include="Models\AuthModel.cs" />
-    <Compile Include="Models\Category\Category.cs" />
     <Compile Include="Models\Cell\CellCreation.cs" />
-    <Compile Include="Models\Cell\Cell.cs" />
     <Compile Include="Models\Cell\CellDescription.cs" />
-    <Compile Include="Models\Basket\BasketProduct.cs" />
     <Compile Include="Models\Product\ProductDisplay.cs" />
-    <Compile Include="Models\Product\Product.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\Basket\BasketProductCreation.cs" />
     <Compile Include="Models\Storage\StorageTypeCreation.cs" />
-    <Compile Include="Models\Storage\StorageType.cs" />
     <Compile Include="Models\Storage\StorageDescription.cs" />
-    <Compile Include="Models\Storage\Storage.cs" />
-    <Compile Include="Models\Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -416,6 +405,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SmartKitchen.IoC\SmartKitchen.IoC.csproj">
+      <Project>{ed86005b-8b27-4a89-b129-619e020846ea}</Project>
+      <Name>SmartKitchen.IoC</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Enums;
 
 namespace SmartKitchen.Models
