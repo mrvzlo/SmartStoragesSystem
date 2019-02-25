@@ -171,7 +171,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Basket\BasketDescription.cs" />
     <Compile Include="Models\Basket\BasketProductDescription.cs" />
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Cell\CellCreation.cs" />

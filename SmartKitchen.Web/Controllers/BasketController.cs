@@ -1,55 +1,43 @@
-﻿using SmartKitchen.Enums;
+﻿using SmartKitchen.Domain.Enitities;
+using SmartKitchen.Domain.Enums;
+using SmartKitchen.Domain.IServices;
 using SmartKitchen.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using SmartKitchen.Domain.CreationModels;
 using System.Web.Mvc;
-using SmartKitchen.Domain.Enitities;
-using SmartKitchen.Domain.Enums;
 
 namespace SmartKitchen.Controllers
 {
     [Authorize]
     public class BasketController : Controller
     {
+        private readonly IBasketService _basketService;
+
+        public BasketController(IBasketService basketService)
+        {
+            _basketService = basketService;
+        }
+
         #region Basket
         public ActionResult Index()
         {
-            List<BasketDescription> bdlist = new List<BasketDescription>();
-            using (var db = new Context())
-            {
-                var person = Person.Current(db);
-                foreach (var b in db.Baskets.Where(x => x.Owner == person.Id).ToList())
-                {
-                    var products = db.BasketProducts.Where(x => x.Basket == b.Id).OrderByDescending(x => x.Bought).Select(x => x.Id).ToList();
-                    var bought = db.BasketProducts.Count(x => x.Basket == b.Id && x.Bought);
-                    bdlist.Add(new BasketDescription { Basket = b, Products = products, BoughtProducts = bought });
-                }
-            }
+            var list = _basketService.GetBasketsWithDescriptionByOwnerEmail(HttpContext.User.Identity.Name);
             if (TempData.ContainsKey("error")) ModelState.AddModelError("Name", TempData["error"].ToString());
-            return View(bdlist.OrderByDescending(x => x.Basket.CreationDate).ToList());
+            return View(list);
         }
 
         [HttpPost]
-        public RedirectResult Create(string name)
+        public RedirectResult Create(NameCreationModel name)
         {
-            if (string.IsNullOrWhiteSpace(name)) return Redirect(Url.Action("Index"));
-            Basket b;
-            using (var db = new Context())
+            var response = _basketService.CreateBasket(name, HttpContext.User.Identity.Name);
+            if (response.IsSuccessful)
             {
-                var person = Person.Current(db);
-                if (db.Baskets.Any(x => x.Name == name && x.Owner == person.Id))
-                {
-                    TempData["error"] = "This name is already taken";
-                    return Redirect(Url.Action("Index"));
-                }
-
-                db.Baskets.Add(new Basket { Name = name, CreationDate = DateTime.Now, Owner = person.Id });
-                db.SaveChanges();
-                b = db.Baskets.FirstOrDefault(x => x.Name == name && x.Owner == person.Id);
+                TempData["error"] = "This name is already taken";
+                return Redirect(Url.Action("Index"));
             }
 
-            return Redirect(Url.Action("View", new { id = b.Id }));
+            return Redirect(Url.Action("View", new { id = response.Id }));
         }
 
         public ActionResult View(int id)

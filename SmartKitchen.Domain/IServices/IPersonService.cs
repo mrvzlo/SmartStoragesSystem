@@ -3,7 +3,7 @@ using SmartKitchen.Domain.DisplayModel;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Models;
 
-namespace SmartKitchen.Domain.IService
+namespace SmartKitchen.Domain.IServices
 {
     public interface IPersonService
     {

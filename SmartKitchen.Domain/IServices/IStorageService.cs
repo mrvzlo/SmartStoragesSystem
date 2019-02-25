@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using SmartKitchen.Domain.DisplayModel;
 
-namespace SmartKitchen.Domain.IService
+namespace SmartKitchen.Domain.IServices
 {
     public interface IStorageService
     {

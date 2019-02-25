@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace SmartKitchen.Domain.Enitities
@@ -11,5 +12,7 @@ namespace SmartKitchen.Domain.Enitities
         public virtual bool Closed { get; set; }
         public virtual string Name { get; set; }
         public virtual DateTime CreationDate { get; set; }
+
+        public virtual ICollection<BasketProduct> BasketProducts { get; set; }
     }
 }

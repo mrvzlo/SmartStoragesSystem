@@ -1,7 +1,7 @@
 ﻿using SmartKitchen.Domain.Enitities;
-using SmartKitchen.Domain.IRepository;
 using System;
 using System.Linq;
+using SmartKitchen.Domain.IRepositories;
 
 namespace SmartKitchen.Infrastructure.Repositories
 {

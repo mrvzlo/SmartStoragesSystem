@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SmartKitchen.Domain.DisplayModel;
+using SmartKitchen.Models;
 
-namespace SmartKitchen.Domain.IService
+namespace SmartKitchen.Domain.IServices
 {
-    public interface IHomeService
+    public interface ICategoryService
     {
-        HelpModel GetHelpModel();
+        CategoryDisplay GetCategoryDisplayById(int id);
     }
 }

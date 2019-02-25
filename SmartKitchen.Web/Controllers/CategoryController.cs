@@ -2,9 +2,10 @@
 using SmartKitchen.Models;
 using System.Linq;
 using System.Web.Mvc;
+using SmartKitchen.Domain.DisplayModel;
 using SmartKitchen.Domain.Enitities;
-using SmartKitchen.Domain.IRepository;
-using SmartKitchen.Domain.IService;
+using SmartKitchen.Domain.IRepositories;
+using SmartKitchen.Domain.IServices;
 
 namespace SmartKitchen.Controllers
 {

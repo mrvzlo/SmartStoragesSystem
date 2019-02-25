@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SmartKitchen.Domain.DisplayModel;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Models;
 

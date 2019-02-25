@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreationModels\NameCreationModel.cs" />
+    <Compile Include="DisplayModel\BasketDisplayModel.cs" />
     <Compile Include="DisplayModel\CategoryDisplay.cs" />
     <Compile Include="DisplayModel\HelpModel.cs" />
     <Compile Include="DisplayModel\SignInModel.cs" />
@@ -60,21 +62,23 @@
     <Compile Include="Enums\Role.cs" />
     <Compile Include="Enums\Safety.cs" />
     <Compile Include="Enums\AuthenticationError.cs" />
-    <Compile Include="IRepository\IBasketProductRepository.cs" />
-    <Compile Include="IRepository\IBasketRepository.cs" />
-    <Compile Include="IRepository\ICategoryRepository.cs" />
-    <Compile Include="IRepository\ICellRepository.cs" />
-    <Compile Include="IRepository\IProductRepository.cs" />
-    <Compile Include="IRepository\IStorageRepository.cs" />
-    <Compile Include="IRepository\IPersonRepository.cs" />
-    <Compile Include="IRepository\IStorageTypeRepository.cs" />
-    <Compile Include="IService\IAuthenticationService.cs" />
-    <Compile Include="IService\ICategoryService.cs" />
-    <Compile Include="IService\IHomeService.cs" />
-    <Compile Include="IService\IStorageService.cs" />
-    <Compile Include="IService\IPersonService.cs" />
+    <Compile Include="IRepositories\IBasketProductRepository.cs" />
+    <Compile Include="IRepositories\IBasketRepository.cs" />
+    <Compile Include="IRepositories\ICategoryRepository.cs" />
+    <Compile Include="IRepositories\ICellRepository.cs" />
+    <Compile Include="IRepositories\IProductRepository.cs" />
+    <Compile Include="IRepositories\IStorageRepository.cs" />
+    <Compile Include="IRepositories\IPersonRepository.cs" />
+    <Compile Include="IRepositories\IStorageTypeRepository.cs" />
+    <Compile Include="IServices\IAuthenticationService.cs" />
+    <Compile Include="IServices\IBasketService.cs" />
+    <Compile Include="IServices\ICategoryService.cs" />
+    <Compile Include="IServices\IHomeService.cs" />
+    <Compile Include="IServices\IStorageService.cs" />
+    <Compile Include="IServices\IPersonService.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Responses\ItemCreationReponse.cs" />
     <Compile Include="Responses\AuthenticationResponse.cs" />
     <Compile Include="Responses\ModelStateError.cs" />
     <Compile Include="Responses\AccessResponse.cs" />

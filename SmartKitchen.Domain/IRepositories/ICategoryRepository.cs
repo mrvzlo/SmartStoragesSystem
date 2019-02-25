@@ -1,6 +1,6 @@
 ﻿using SmartKitchen.Domain.Enitities;
 
-namespace SmartKitchen.Domain.IRepository
+namespace SmartKitchen.Domain.IRepositories
 {
     public interface ICategoryRepository
     {

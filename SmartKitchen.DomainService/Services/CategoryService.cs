@@ -1,5 +1,6 @@
-﻿using SmartKitchen.Domain.IRepository;
-using SmartKitchen.Domain.IService;
+﻿using SmartKitchen.Domain.DisplayModel;
+using SmartKitchen.Domain.IRepositories;
+using SmartKitchen.Domain.IServices;
 using SmartKitchen.Models;
 
 namespace SmartKitchen.DomainService.Services
