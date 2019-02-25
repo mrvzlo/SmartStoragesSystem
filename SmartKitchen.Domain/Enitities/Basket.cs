@@ -11,12 +11,5 @@ namespace SmartKitchen.Domain.Enitities
         public virtual bool Closed { get; set; }
         public virtual string Name { get; set; }
         public virtual DateTime CreationDate { get; set; }
-
-        public static Response IsOwner(Basket b, Person p)
-        {
-            if (b == null || p == null) return new Response(404);
-            if (b.Owner != p.Id) return new Response(403);
-            return Response.Success();
-        }
     }
 }

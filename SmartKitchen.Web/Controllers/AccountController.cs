@@ -8,42 +8,55 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using SmartKitchen.Domain.DisplayModel;
 using SmartKitchen.Domain.Enitities;
+using SmartKitchen.Domain.IService;
 using SmartKitchen.Enums;
 using SmartKitchen.Models;
 
 namespace SmartKitchen.Controllers
 {
 	public class AccountController : Controller
-	{
-		public ActionResult Index(bool login = true)
+    {
+        private readonly IPersonService _personService;
+
+        public AccountController(IPersonService personService)
+        {
+            _personService = personService;
+        }
+
+        public ActionResult Index(bool login = true)
 		{
             if (User.Identity.IsAuthenticated)
                 return Redirect(Url.Action("Index","Home"));
-            return View(new AuthModel{Login = login});
-		}
-		
-		//
-		// POST: /Account/Login
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Login(AuthModel model)
-		{
-			if (string.IsNullOrEmpty(model.EmailIn)) ModelState.AddModelError("EmailIn", "Email is required");
-			if (string.IsNullOrEmpty(model.PasswordIn)) ModelState.AddModelError("PasswordIn", "Password is required");
-			if (ModelState.IsValid)
-			{
-				Person p;
-				using (var db = new Context())
-				{
-					p = db.People.FirstOrDefault(x => x.Email == model.EmailIn);
-				}
+            return View();
+        }
 
-				if (p == null)
+        public PartialViewResult SignIn()
+        {
+            return PartialView("_SignIn", new SignInModel());
+        }
+
+        public PartialViewResult SignUp()
+        {
+            return PartialView("_SignUp", new SignUpModel());
+        }
+
+        [HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Login(SignInModel model)
+		{
+			if (string.IsNullOrEmpty(model.Email)) ModelState.AddModelError("EmailIn", "Email is required");
+			if (string.IsNullOrEmpty(model.Password)) ModelState.AddModelError("PasswordIn", "Password is required");
+			if (ModelState.IsValid)
+            {
+                var person = _personService.GetPersonByEmail(model.Email);
+
+				if (person == null)
 				{
 					ModelState.AddModelError("EmailIn", "User not found");
 				}
-				else if (!Crypto.VerifyHashedPassword(p.Password, model.PasswordIn))
+				else if (!Crypto.VerifyHashedPassword(person.Password, model.Password))
 				{
 					ModelState.AddModelError("PasswordIn", "Email or password is incorrect");
 				}
@@ -58,8 +71,6 @@ namespace SmartKitchen.Controllers
 			return View("Index",model);
 		}
 		
-		//
-		// POST: /Account/Register
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Register(AuthModel model)
@@ -131,8 +142,6 @@ namespace SmartKitchen.Controllers
 			HttpContext.Response.Cookies.Add(cookie);
 		}
 
-		//
-		// POST: /Account/LogOff
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult LogOff()

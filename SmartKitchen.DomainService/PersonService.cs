@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using SmartKitchen
 using AutoMapper.QueryableExtensions;
 using SmartKitchen.Domain.DisplayModel;
 using SmartKitchen.Domain.Enitities;
@@ -19,6 +18,11 @@ namespace SmartKitchen.DomainService
         {
             _personRepository = personRepository;
             _storageRepository = storageRepository;
+        }
+
+        public Person GetPersonByEmail(string email)
+        {
+            return _personRepository.GetPersonByEmail(email);
         }
 
         public List<StorageDescription> GetMyStoragesWithDescription(string email)

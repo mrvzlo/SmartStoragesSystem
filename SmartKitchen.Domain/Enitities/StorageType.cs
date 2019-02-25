@@ -10,13 +10,5 @@ namespace SmartKitchen.Domain.Enitities
 		public virtual int Id { get; set; }
 		public virtual string Name { get; set; }
 		public virtual string Background{ get; set; }
-
-		public static List<StorageType> GetAll()
-		{
-			using (var db = new Context())
-			{
-				return db.StorageTypes.OrderBy(x=>x.Name).ToList();
-			}
-		}
 	}
 }

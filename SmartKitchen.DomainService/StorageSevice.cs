@@ -13,10 +13,5 @@ namespace SmartKitchen.DomainService
         {
             _storageRepository = storageRepository;
         }
-
-        public StorageDescription GetDescriptionForStorage(Storage storage)
-        {
-
-        }
     }
 }

@@ -56,6 +56,7 @@
     <Compile Include="Enums\Role.cs" />
     <Compile Include="Enums\Safety.cs" />
     <Compile Include="IRepository\ICellRepository.cs" />
+    <Compile Include="IRepository\IProductRepository.cs" />
     <Compile Include="IRepository\IStorageRepository.cs" />
     <Compile Include="IRepository\IPersonRepository.cs" />
     <Compile Include="IService\IStorageService.cs" />

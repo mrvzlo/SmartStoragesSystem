@@ -1,0 +1,13 @@
+﻿@model SmartKitchen.Models.SignInModel
+@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "formSignIn" }))
+{
+    @Html.AntiForgeryToken()
+    <h3 class="text-center m-3">Registered user</h3>
+    <div>Email</div>
+    <div>@Html.EditorFor(Model => Model.Email)</div>
+    <div class="error">@Html.ValidationMessageFor(Model => Model.Email)</div>
+    <div>Password</div>
+    <div>@Html.PasswordFor(Model => Model.Password)</div>
+    <div class="error">@Html.ValidationMessageFor(Model => Model.Password)</div>
+    <div class="text-center"><button type="submit" class="w-75 btn btn-main py-2 mt-3">Sign in</button></div>
+}
