@@ -19,5 +19,21 @@ namespace SmartKitchen.Infrastructure.Repositories
 
         public Category GetCategoryById(int id) =>
             _dbContext.Categories.Find(id);
+
+        public Category GetCategoryByName(string name) =>
+            _dbContext.Categories.FirstOrDefault(x => x.Name.Equals(name.Trim(), StringComparison.OrdinalIgnoreCase));
+
+        public IQueryable<Category> GetAllCategories() =>
+            _dbContext.Categories;
+
+        public void AddCategory(Category category)
+        {
+            _dbContext.InsertOrUpdate(category);
+        }
+
+        public void RemoveCategoryById(int id)
+        {
+            _dbContext.Delete(_dbContext.Categories.Find(id));
+        }
     }
 }

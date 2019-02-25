@@ -1,7 +1,8 @@
 ﻿using SmartKitchen.Domain.Enitities;
+using SmartKitchen.Domain.Enums;
 using SmartKitchen.Domain.IRepository;
 using SmartKitchen.Domain.IService;
-using SmartKitchen.Models;
+using SmartKitchen.Domain.Responses;
 
 namespace SmartKitchen.DomainService.Services
 {
@@ -16,17 +17,19 @@ namespace SmartKitchen.DomainService.Services
             _storageRepository = storageRepository;
         }
 
-        public Response IsOwner(Storage s, Person p)
+        public ServiceResponse IsOwner(Storage s, Person p)
         {
-            if (s == null || p == null) return new Response(404);
-            if (s.Owner != p.Id) return new Response(403);
-            return Response.Success();
+            var response = new ServiceResponse();
+            if (s == null || p == null) response.Errors.Add(new ModelStateError("", AccessError.StorageNotFound));
+            else if (s.Owner != p.Id) response.Errors.Add(new ModelStateError("", AccessError.NoPermission));
+            return response;
         }
-        public Response IsOwner(Basket b, Person p)
+        public ServiceResponse IsOwner(Basket b, Person p)
         {
-            if (b == null || p == null) return new Response(404);
-            if (b.Owner != p.Id) return new Response(403);
-            return Response.Success();
+            var response = new ServiceResponse();
+            if (b == null || p == null) response.Errors.Add(new ModelStateError("", AccessError.BasketNotFound));
+            else if (b.Owner != p.Id) response.Errors.Add(new ModelStateError("", AccessError.NoPermission));
+            return response;
         }
     }
 }
