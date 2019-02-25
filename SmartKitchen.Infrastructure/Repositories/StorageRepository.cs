@@ -1,10 +1,11 @@
 ﻿using SmartKitchen.Domain.Enitities;
 using System.Collections.Generic;
 using System.Linq;
+using SmartKitchen.Domain.IRepository;
 
 namespace SmartKitchen.Infrastructure.Repositories
 {
-    public class StorageRepository
+    public class StorageRepository : IStorageRepository
     {
         private readonly AppDbContext _dbContext;
 
@@ -13,14 +14,10 @@ namespace SmartKitchen.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public Storage GetStorageById(int id)
-        {
-            return _dbContext.Storages.Find(id);
-        }
+        public Storage GetStorageById(int id) => 
+            _dbContext.Storages.Find(id);
 
-        public List<Storage> GetAllUserStorages(int person)
-        {
-            return _dbContext.Storages.Where(x => x.Owner == person).ToList();
-        }
+        public IQueryable<Storage> GetAllUserStorages(int person) =>
+            _dbContext.Storages.Where(x => x.Owner == person);
     }
 }

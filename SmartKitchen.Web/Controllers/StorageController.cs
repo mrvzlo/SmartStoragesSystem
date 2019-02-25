@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web.Mvc;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Enums;
+using SmartKitchen.Domain.IService;
 using SmartKitchen.Enums;
 using SmartKitchen.Models;
 
@@ -13,17 +14,20 @@ namespace SmartKitchen.Controllers
 	[Authorize]
 	public class StorageController : Controller
     {
+        private readonly IStorageService _storageService;
+        private readonly IPersonService _personService;
+
+        public StorageController(IStorageService storageService, IPersonService personService)
+        {
+            _storageService = storageService;
+            _personService = personService;
+        }
+
         #region CRD
 
         public ActionResult Index()
         {
-			List<StorageDescription> storages = new List<StorageDescription>();
-	        using (var db = new Context())
-            {
-                var s = Storage.GetMyStorages(Person.Current(db).Id,db);
-		        foreach (var storage in s)
-					storages.Add(new StorageDescription(storage,db));
-            }
+            var storages = _personService.GetMyStoragesWithDescription(HttpContext.User.Identity.Name).ToList();
             return View(storages);
         }
 

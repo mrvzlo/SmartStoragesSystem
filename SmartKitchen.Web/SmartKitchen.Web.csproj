@@ -174,15 +174,12 @@
     <Compile Include="Models\Basket\BasketProductDescription.cs" />
     <Compile Include="Models\Category\CategoryDisplay.cs" />
     <Compile Include="Models\Notification.cs" />
-    <Compile Include="Models\Context.cs" />
     <Compile Include="Models\AuthModel.cs" />
     <Compile Include="Models\Cell\CellCreation.cs" />
     <Compile Include="Models\Cell\CellDescription.cs" />
     <Compile Include="Models\Product\ProductDisplay.cs" />
-    <Compile Include="Models\Response.cs" />
     <Compile Include="Models\Basket\BasketProductCreation.cs" />
     <Compile Include="Models\Storage\StorageTypeCreation.cs" />
-    <Compile Include="Models\Storage\StorageDescription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

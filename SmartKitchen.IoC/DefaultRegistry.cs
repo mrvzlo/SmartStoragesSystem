@@ -16,6 +16,7 @@ namespace SmartKitchen.IoC
                 scan.WithDefaultConventions();
                 scan.With(new ControllerConvention());
                 scan.With(new DbContextConvention());
+                scan.With(new AutoMapperConvention());
                 scan.LookForRegistries();
             });
         }
