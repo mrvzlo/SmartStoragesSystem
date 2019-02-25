@@ -7,7 +7,6 @@ namespace SmartKitchen.Domain.IService
 {
     public interface IPersonService
     {
-        List<StorageDescription> GetMyStoragesWithDescription(string email);
         Response IsOwner(Storage s, Person p);
         Response IsOwner(Basket b, Person p);
     }

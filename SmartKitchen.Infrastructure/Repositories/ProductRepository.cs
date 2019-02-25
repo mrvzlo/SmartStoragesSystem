@@ -16,5 +16,8 @@ namespace SmartKitchen.Infrastructure.Repositories
 
         public Product GetProductByName(string name) =>
             _dbContext.Products.FirstOrDefault(x => x.Name.Equals(name.Trim(), StringComparison.OrdinalIgnoreCase));
+
+        public IQueryable<Product> GetAllProducts() =>
+            _dbContext.Products;
     }
 }

@@ -27,7 +27,7 @@ namespace SmartKitchen.Controllers
 
         public ActionResult Index()
         {
-            var storages = _personService.GetMyStoragesWithDescription(HttpContext.User.Identity.Name).ToList();
+            var storages = _storageService.GetStoragesWithDescriptionByOwnerEmail(HttpContext.User.Identity.Name).ToList();
             return View(storages);
         }
 

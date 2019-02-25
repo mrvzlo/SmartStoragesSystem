@@ -52,7 +52,7 @@ namespace SmartKitchen.Controllers
                 AddModelStateErrors(response);
                 return PartialView("_SignIn", model);
             }
-            CreateTicket(response.Person);
+            CreateTicket(response.Email, response.Role);
             return Redirect(Url.Action("Index", "Storage"));
         }
 		
@@ -66,20 +66,20 @@ namespace SmartKitchen.Controllers
                 AddModelStateErrors(response);
                 return PartialView("_SignUp", model);
             }
-            CreateTicket(response.Person);
+            CreateTicket(response.Email, response.Role);
             return RedirectToAction("About", "Home");
 		}
 
-		private void CreateTicket(Person person)
+		private void CreateTicket(string email, Role role)
         {
             var ticket = new FormsAuthenticationTicket(
                 version: 1,
-                name: person.Email,
+                name: email,
                 issueDate: DateTime.Now,
                 expiration: DateTime.Now.AddDays(14),
                 isPersistent: false,
-                userData: person.Role.GetType()
-                    .GetMember(person.Role.ToString())
+                userData: role.GetType()
+                    .GetMember(role.ToString())
                     .FirstOrDefault()?
                     .GetCustomAttribute<DescriptionAttribute>()?
                     .Description

@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DisplayModel\CategoryDisplay.cs" />
+    <Compile Include="DisplayModel\HelpModel.cs" />
     <Compile Include="DisplayModel\SignInModel.cs" />
     <Compile Include="DisplayModel\SignUpModel.cs" />
     <Compile Include="DisplayModel\StorageDescription.cs" />
@@ -58,12 +60,15 @@
     <Compile Include="Enums\Role.cs" />
     <Compile Include="Enums\Safety.cs" />
     <Compile Include="Enums\AuthenticationError.cs" />
+    <Compile Include="IRepository\IBasketProductRepository.cs" />
+    <Compile Include="IRepository\IBasketRepository.cs" />
     <Compile Include="IRepository\ICellRepository.cs" />
     <Compile Include="IRepository\IProductRepository.cs" />
     <Compile Include="IRepository\IStorageRepository.cs" />
     <Compile Include="IRepository\IPersonRepository.cs" />
     <Compile Include="IRepository\IStorageTypeRepository.cs" />
     <Compile Include="IService\IAuthenticationService.cs" />
+    <Compile Include="IService\IHomeService.cs" />
     <Compile Include="IService\IStorageService.cs" />
     <Compile Include="IService\IPersonService.cs" />
     <Compile Include="Notification.cs" />

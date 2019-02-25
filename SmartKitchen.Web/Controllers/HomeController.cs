@@ -1,23 +1,27 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using SmartKitchen.Domain.IService;
 using SmartKitchen.Models;
 
 namespace SmartKitchen.Controllers
 {
 	public class HomeController : Controller
-	{
-		public ActionResult Index()
+    {
+        private readonly IHomeService _homeService;
+
+        public HomeController(IHomeService homeService)
+        {
+            _homeService = homeService;
+        }
+
+        public ActionResult Index()
 		{
 			return View();
 		}
 		public ActionResult About()
-		{
-            using (var db = new Context())
-            {
-                ViewBag.StorageCount = db.StorageTypes.Count();
-                ViewBag.ProductCount = db.Products.Count();
-            }
-			return View();
+        {
+            var model = _homeService.GetHelpModel();
+            return View(model);
 		}
 	}
 }
