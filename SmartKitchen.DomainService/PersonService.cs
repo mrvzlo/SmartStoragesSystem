@@ -5,6 +5,7 @@ using SmartKitchen.Domain.DisplayModel;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.IRepository;
 using SmartKitchen.Domain.IService;
+using SmartKitchen.Domain.Responses;
 using SmartKitchen.Models;
 
 namespace SmartKitchen.DomainService
@@ -18,11 +19,6 @@ namespace SmartKitchen.DomainService
         {
             _personRepository = personRepository;
             _storageRepository = storageRepository;
-        }
-
-        public Person GetPersonByEmail(string email)
-        {
-            return _personRepository.GetPersonByEmail(email);
         }
 
         public List<StorageDescription> GetMyStoragesWithDescription(string email)

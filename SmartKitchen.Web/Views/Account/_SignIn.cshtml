@@ -1,5 +1,5 @@
-﻿@model SmartKitchen.Models.SignInModel
-@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "formSignIn" }))
+﻿@model SmartKitchen.Domain.DisplayModel.SignInModel
+@using (Html.BeginForm("SignIn", "Account", FormMethod.Post, new { id = "formSignIn" }))
 {
     @Html.AntiForgeryToken()
     <h3 class="text-center m-3">Registered user</h3>

@@ -14,6 +14,12 @@ namespace SmartKitchen.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
+        public void AddStorage(Storage storage)
+        {
+            _dbContext.Storages.Add(storage);
+            _dbContext.SaveChanges();
+        }
+
         public Storage GetStorageById(int id) => 
             _dbContext.Storages.Find(id);
 

@@ -160,6 +160,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BasketController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -178,8 +179,6 @@
     <Compile Include="Models\Cell\CellDescription.cs" />
     <Compile Include="Models\Product\ProductDisplay.cs" />
     <Compile Include="Models\Basket\BasketProductCreation.cs" />
-    <Compile Include="Models\SignInModel.cs" />
-    <Compile Include="Models\SignUpModel.cs" />
     <Compile Include="Models\Storage\StorageTypeCreation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -394,6 +393,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

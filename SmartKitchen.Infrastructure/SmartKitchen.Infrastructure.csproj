@@ -55,6 +55,7 @@
     <Compile Include="Repositories\ProductRepository.cs" />
     <Compile Include="Repositories\PersonRepository.cs" />
     <Compile Include="Repositories\StorageRepository.cs" />
+    <Compile Include="Repositories\StorageTypeRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SmartKitchen.Domain\SmartKitchen.Domain.csproj">

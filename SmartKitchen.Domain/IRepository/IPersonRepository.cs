@@ -10,5 +10,7 @@ namespace SmartKitchen.Domain.IRepository
     public interface IPersonRepository
     {
         Person GetPersonByEmail(string email);
+        Person GetPersonByName(string name);
+        void Register(Person person);
     }
 }

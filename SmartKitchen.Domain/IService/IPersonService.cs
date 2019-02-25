@@ -10,6 +10,5 @@ namespace SmartKitchen.Domain.IService
         List<StorageDescription> GetMyStoragesWithDescription(string email);
         Response IsOwner(Storage s, Person p);
         Response IsOwner(Basket b, Person p);
-        Person GetPersonByEmail(string email);
     }
 }

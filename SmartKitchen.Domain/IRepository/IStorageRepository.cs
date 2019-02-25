@@ -11,5 +11,6 @@ namespace SmartKitchen.Domain.IRepository
     {
         Storage GetStorageById(int id);
         IQueryable<Storage> GetAllUserStorages(int person);
+        void AddStorage(Storage storage);
     }
 }
