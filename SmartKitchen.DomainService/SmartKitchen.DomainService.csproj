@@ -43,5 +43,15 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SmartKitchen.Domain\SmartKitchen.Domain.csproj">
+      <Project>{b2427d34-ffbd-4b0f-a190-a6b5c420e9c4}</Project>
+      <Name>SmartKitchen.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SmartKitchen.Infrastructure\SmartKitchen.Infrastructure.csproj">
+      <Project>{675cee24-ae85-4bbc-8e60-5658be24e223}</Project>
+      <Name>SmartKitchen.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

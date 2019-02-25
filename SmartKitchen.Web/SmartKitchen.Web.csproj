@@ -407,6 +407,18 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SmartKitchen.DomainService\SmartKitchen.DomainService.csproj">
+      <Project>{d649423c-3b9b-4f2d-b33b-630337cf6daa}</Project>
+      <Name>SmartKitchen.DomainService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SmartKitchen.Domain\SmartKitchen.Domain.csproj">
+      <Project>{b2427d34-ffbd-4b0f-a190-a6b5c420e9c4}</Project>
+      <Name>SmartKitchen.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SmartKitchen.Infrastructure\SmartKitchen.Infrastructure.csproj">
+      <Project>{675cee24-ae85-4bbc-8e60-5658be24e223}</Project>
+      <Name>SmartKitchen.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SmartKitchen.IoC\SmartKitchen.IoC.csproj">
       <Project>{ed86005b-8b27-4a89-b129-619e020846ea}</Project>
       <Name>SmartKitchen.IoC</Name>

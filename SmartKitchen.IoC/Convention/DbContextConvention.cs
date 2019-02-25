@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using StructureMap;
+using System.Configuration;
 using StructureMap.Graph;
 using StructureMap.Graph.Scanning;
 using StructureMap.TypeRules;
 
-namespace SmartKitchen.IoC
+namespace SmartKitchen.IoC.Convention
 {
-    public class DBContextConvention : IRegistrationConvention
+    public class DbContextConvention : IRegistrationConvention
     {
         private readonly string _nameOrConnectionString;
 
-        public DBContextConvention(string nameOrConnectionString = "DefaultConnection")
+        public DbContextConvention(string nameOrConnectionString = "DefaultConnection")
         {
             _nameOrConnectionString = nameOrConnectionString;
         }

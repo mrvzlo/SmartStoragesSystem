@@ -7,7 +7,7 @@ using StructureMap.Graph.Scanning;
 using StructureMap.Pipeline;
 using StructureMap.TypeRules;
 
-namespace SmartKitchen.IoC
+namespace SmartKitchen.IoC.Convention
 {
     class ControllerConvention : IRegistrationConvention
     {
