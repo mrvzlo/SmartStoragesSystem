@@ -60,7 +60,7 @@ namespace SmartKitchen.DomainService.Services
                 Owner = personId
             };
             _basketRepository.AddBasket(basket);
-            if (basket.Id > 0) response.Id = basket.Id;
+            if (basket.Id > 0) response.AddedId = basket.Id;
             else response.AddError(GeneralError.AnErrorOccured);
             return response;
         }

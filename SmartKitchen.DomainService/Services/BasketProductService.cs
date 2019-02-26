@@ -45,7 +45,7 @@ namespace SmartKitchen.DomainService.Services
                 return response;
             }
 
-            var cellId = _cellService.GetOrCreateAndGet(Mapper.Map<CellCreationModel>(model)).Id;
+            var cellId = _cellService.GetOrAddAndGet(Mapper.Map<CellCreationModel>(model), email).Id;
             var basketProduct = new BasketProduct
             {
                 BasketId = model.Basket,
@@ -53,7 +53,11 @@ namespace SmartKitchen.DomainService.Services
                 BestBefore = null
             };
             _basketProductRepository.AddBasketProduct(basketProduct);
-            if (basketProduct.Id > 0) response.Id = basketProduct.Id;
+            if (basketProduct.Id > 0)
+            {
+                response.AddedGroupId = basketProduct.BasketId;
+                response.AddedId = basketProduct.Id;
+            }
             else response.AddError(GeneralError.AnErrorOccured);
             return response;
         }

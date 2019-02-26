@@ -5,7 +5,8 @@ namespace SmartKitchen.Domain.IServices
 {
     public interface IProductService
     {
-        Product GetOrCreateAndGet(string name);
+        Product GetOrAddAndGet(string name);
         Product GetProductByName(string name);
+        ItemCreationResponse AddProduct(string name);
     }
 }

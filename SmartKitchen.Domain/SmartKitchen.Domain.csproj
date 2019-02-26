@@ -49,9 +49,11 @@
     <Compile Include="DisplayModels\BasketProductDisplayModel.cs" />
     <Compile Include="DisplayModels\BasketWithProductsDisplayModel.cs" />
     <Compile Include="DisplayModels\CategoryDisplay.cs" />
+    <Compile Include="DisplayModels\CellDisplayModel.cs" />
     <Compile Include="DisplayModels\HelpModel.cs" />
     <Compile Include="CreationModels\SignInModel.cs" />
     <Compile Include="CreationModels\SignUpModel.cs" />
+    <Compile Include="DisplayModels\Notification.cs" />
     <Compile Include="DisplayModels\StorageDescription.cs" />
     <Compile Include="DisplayModels\StorageTypeDisplayModel.cs" />
     <Compile Include="Enitities\Basket.cs" />

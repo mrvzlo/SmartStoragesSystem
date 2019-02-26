@@ -1,19 +1,18 @@
 ﻿@using SmartKitchen.Domain.Enums
-@model SmartKitchen.Models.CellDescription
-@{bool ChangeableDate = Model.Cell.Amount != Amount.None;}
-@{var id = Model.Cell.Id;}
-<tr id="@id">
-    <td id="name_@id" onclick="mark(@id)">@Model.Product.Name</td>
-    <td>@Model.Category.Name</td>
-    <td @Html.Raw(ChangeableDate ? "onclick=\"showDatePicker(" + id + ", '" + Model.Product.Name + "')\"" : "")>
-        <a id="safety_@id" alt="@Model.Safety.Type" class="font-weight-bold text-@Model.Safety.Type" @Html.Raw(ChangeableDate ? "data-toggle='modal' data-target='#DateModal'" : "")>
-            @Model.Safety.Info
+@model SmartKitchen.Domain.DisplayModels.CellDisplayModel
+@{bool changeableDate = Model.Amount != Amount.None;}
+<tr id="@Model.Id">
+    <td id="name_@Model.Id" onclick="mark(@Model.Id)">@Model.ProductName</td>
+    <td>@Model.CategoryName</td>
+    <td @Html.Raw(changeableDate ? "onclick=\"showDatePicker(" + Model.Id + ", '" + Model.ProductName + "')\"" : "")>
+        <a id="safety_@Model.Id" alt="@Model.SafetyNotification.Type" class="font-weight-bold text-@Model.SafetyNotification.Type" @Html.Raw(changeableDate ? "data-toggle='modal' data-target='#DateModal'" : "")>
+            @Model.SafetyNotification.Info
         </a>
     </td>
 
-    <td onclick="showAmountPicker(@id)">
-        <a id="amount_@id" alt="@Model.Amount.Type" class="font-weight-bold text-decoration-none text-@Model.Amount.Type" data-toggle="modal" data-target="#AmountModal">
-            @Model.Amount.Info
+    <td onclick="showAmountPicker(@Model.Id)">
+        <a id="amount_@Model.Id" alt="@Model.AmountNotification.Type" class="font-weight-bold text-decoration-none text-@Model.AmountNotification.Type" data-toggle="modal" data-target="#AmountModal">
+            @Model.AmountNotification.Info
         </a>
     </td>
 </tr>

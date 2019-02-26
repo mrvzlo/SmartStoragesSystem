@@ -25,7 +25,11 @@ namespace SmartKitchen.Controllers
         public ActionResult Create(string name)
         {
             var response = _categoryService.AddCategoryWithName(name);
-            if (!response.Successful()) TempData["error"] = GeneralError.NameIsAlreadyTaken;
+            if (!response.Successful())
+            {
+                AddModelStateErrors(response);
+                TempData["error"] = GeneralError.NameIsAlreadyTaken;
+            }
             return Redirect(Url.Action("Index"));
         }
 

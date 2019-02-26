@@ -1,10 +1,10 @@
-﻿@using SmartKitchen.Models
+﻿@using SmartKitchen.Domain.CreationModels
 @model SmartKitchen.Domain.DisplayModels.StorageDescription
 @{
     ViewBag.Title = "Storage " + Model.Name;
 }
 <div class="h4 text-center">@Model.Name</div>
-@Html.Partial("_AddProduct", new CellCreation { Storage = Model.Id })
+@Html.Partial("_AddProduct", new CellCreationModel { Storage = Model.Id })
 <div class="text-center table-responsive m-0 big-border" style="background-color: #@Model.Type.Background">
     @if (Model.CellCount == 0)
     {

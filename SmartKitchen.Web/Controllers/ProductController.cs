@@ -3,13 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using SmartKitchen.Domain.Enitities;
+using SmartKitchen.Domain.IServices;
 
 namespace SmartKitchen.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class ProductController : Controller
+    public class ProductController : BaseController
     {
-        // GET: Product
+        private readonly IProductService _productService;
+        private readonly ICategoryService _categoryService;
+
+        public ProductController(IProductService productService, ICategoryService categoryService)
+        {
+            _productService = productService;
+            _categoryService = categoryService;
+        }
+
         public ActionResult Index(int order = 1)
         {
             ViewBag.Order = order;
@@ -19,23 +28,19 @@ namespace SmartKitchen.Controllers
 
         public PartialViewResult Categories()
         {
-            return PartialView("_Categories", GetAllCategories());
+            var list = _categoryService.GetAllCategoryDisplays();
+            return PartialView("_Categories", list);
         }
 
         [HttpPost]
         public RedirectResult Add(string name)
         {
-            using (var db = new Context())
+            var response = _productService.AddProduct(name);
+            if (!response.Successful())
             {
-                if (db.Products.Any(x => x.Name == name))
-                    TempData["error"] = "This name is already taken";
-                else
-                {
-                    db.Products.Add(new Product { Category = 1, Name = name });
-                    db.SaveChanges();
-                }
+                AddModelStateErrors(response);
+                TempData["error"] = "This name is already taken";
             }
-
             return Redirect(Url.Action("Index"));
         }
 
@@ -58,13 +63,6 @@ namespace SmartKitchen.Controllers
             return Redirect(Url.Action("Index"));
         }
 
-        private List<Category> GetAllCategories()
-        {
-            using (var db = new Context())
-            {
-                return db.Categories.ToList();
-            }
-        }
         private List<ProductDisplay> GetAllProducts(int order)
         {
             using (var db = new Context())

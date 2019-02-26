@@ -23,7 +23,7 @@ namespace SmartKitchen.Infrastructure.Repositories
             _dbContext.InsertOrUpdate(product);
 
         public void ReplaceCategory(int fromId, int toId) => 
-            _dbContext.Products.Where(x => x.Category == fromId).Update(x => new Product { Category = toId });
+            _dbContext.Products.Where(x => x.CategoryId == fromId).Update(x => new Product { CategoryId = toId });
 
         public Product GetProductById(int id) =>
             _dbContext.Products.Find(id);

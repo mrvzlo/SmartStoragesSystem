@@ -10,7 +10,7 @@ using System.Web.Mvc;
 namespace SmartKitchen.Controllers
 {
     [Authorize]
-    public class BasketController : Controller
+    public class BasketController : BaseController
     {
         private readonly IBasketService _basketService;
         private readonly IBasketProductService _basketProductService;
@@ -39,11 +39,12 @@ namespace SmartKitchen.Controllers
             var response = _basketService.AddBasket(name, CurrentUser());
             if (response.Successful())
             {
+                AddModelStateErrors(response);
                 TempData["error"] = "This name is already taken";
                 return Redirect(Url.Action("Index"));
             }
 
-            return Redirect(Url.Action("View", new { id = response.Id }));
+            return Redirect(Url.Action("View", new { id = response.AddedId }));
         }
 
         public ActionResult View(int id)
@@ -88,8 +89,12 @@ namespace SmartKitchen.Controllers
         public RedirectResult CreateProduct(BasketProductCreationModel model)
         {
             var response = _basketProductService.AddBasketProduct(model, CurrentUser());
-            if (!response.Successful()) return Redirect(Url.Action("Index"));
-            return Redirect(Url.Action("View", new { id = response.Id }));
+            if (!response.Successful())
+            {
+                AddModelStateErrors(response);
+                return Redirect(Url.Action("Index"));
+            }
+            return Redirect(Url.Action("View", new { id = response.AddedGroupId }));
         }
 
         public ActionResult Description(int id)
