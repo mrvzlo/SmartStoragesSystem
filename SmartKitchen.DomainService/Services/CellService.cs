@@ -24,7 +24,7 @@ namespace SmartKitchen.DomainService.Services
             cell = new Cell
             {
                 Storage = model.Storage,
-                Product = productId,
+                ProductId = productId,
                 BestBefore = null
             };
             _cellRepository.AddCell(cell);
@@ -33,5 +33,6 @@ namespace SmartKitchen.DomainService.Services
 
         public Cell GetCellByProductAndStorage(int product, int storage) => 
             _cellRepository.GetCellByProductAndStorage(product, storage);
+        
     }
 }

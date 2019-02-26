@@ -46,6 +46,7 @@
     <Compile Include="CreationModels\CellCreationModel.cs" />
     <Compile Include="CreationModels\NameCreationModel.cs" />
     <Compile Include="DisplayModels\BasketDisplayModel.cs" />
+    <Compile Include="DisplayModels\BasketProductDisplayModel.cs" />
     <Compile Include="DisplayModels\BasketWithProductsDisplayModel.cs" />
     <Compile Include="DisplayModels\CategoryDisplay.cs" />
     <Compile Include="DisplayModels\HelpModel.cs" />

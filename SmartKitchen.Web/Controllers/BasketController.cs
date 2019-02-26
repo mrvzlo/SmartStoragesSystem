@@ -94,24 +94,9 @@ namespace SmartKitchen.Controllers
 
         public ActionResult Description(int id)
         {
-            var redirect = Redirect(Url.Action("Index"));
-            var bpd = new BasketProductDescription();
-            using (var db = new Context())
-            {
-                var bp = db.BasketProducts.Find(id);
-                if (bp == null) return redirect;
-                var basket = db.Baskets.Find(bp.Basket);
-                var response = Basket.IsOwner(basket, Person.Current(db));
-                if (!response.Successfull) return redirect;
-                bpd.Product = bp;
-                var cell = db.Cells.Find(bp.Cell);
-                if (cell == null) return redirect;
-                var product = db.Products.Find(cell.Product);
-                if (product == null) return redirect;
-                bpd.Name = product.Name;
-            }
-
-            return PartialView("_ProductDescription", bpd);
+            var basketProduct = _basketProductService.GetBasketProductDisplayModelById(id, CurrentUser());
+            if (basketProduct == null) return Redirect(Url.Action("Index"));
+            return PartialView("_ProductDescription", basketProduct);
         }
         #endregion
     }

@@ -1,4 +1,6 @@
-﻿using SmartKitchen.Domain.CreationModels;
+﻿using System.Web.UI.WebControls;
+using SmartKitchen.Domain.CreationModels;
+using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Enums;
 using SmartKitchen.Domain.IRepositories;
@@ -46,14 +48,22 @@ namespace SmartKitchen.DomainService.Services
             var cellId = _cellService.GetOrCreateAndGet(Mapper.Map<CellCreationModel>(model)).Id;
             var basketProduct = new BasketProduct
             {
-                Basket = model.Basket,
-                Cell = cellId,
+                BasketId = model.Basket,
+                CellId = cellId,
                 BestBefore = null
             };
             _basketProductRepository.AddBasketProduct(basketProduct);
             if (basketProduct.Id > 0) response.Id = basketProduct.Id;
             else response.AddError(GeneralError.AnErrorOccured);
             return response;
+        }
+
+        public BasketProductDisplayModel GetBasketProductDisplayModelById(int id, string email)
+        {
+            var basketProduct = _basketProductRepository.GetBasketProductById(id);
+            var basket = _basketRepository.GetBasketById(basketProduct.BasketId);
+            if (_personService.BasketAccessError(basket, email) != null) return null;
+            return Mapper.Map<BasketProductDisplayModel>(basket);
         }
     }
 }

@@ -7,10 +7,14 @@ namespace SmartKitchen.Domain.Enitities
 	{
 		[Key]
         public virtual int Id { get; set; }
-        public virtual int Cell { get; set; }
+        public virtual int CellId { get; set; }
         public virtual bool Bought { get; set; }
-        public virtual int Basket { get; set; }
+        public virtual int BasketId { get; set; }
         public virtual decimal Price{ get; set; }
         public virtual DateTime? BestBefore { get; set; }
+        public virtual decimal Amount { get; set; }
+
+        public virtual Cell Cell { get; set; }
+        public virtual Basket Basket{ get; set; }
     }
 }

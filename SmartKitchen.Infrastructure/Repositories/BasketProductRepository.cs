@@ -9,5 +9,8 @@ namespace SmartKitchen.Infrastructure.Repositories
 
         public void AddBasketProduct(BasketProduct basketProduct) =>
             _dbContext.InsertOrUpdate(basketProduct);
+
+        public BasketProduct GetBasketProductById(int id) =>
+            _dbContext.BasketProducts.Find(id);
     }
 }
