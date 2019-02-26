@@ -9,16 +9,11 @@ namespace SmartKitchen.Infrastructure.Repositories
     {
         private readonly AppDbContext _dbContext;
 
-        public PersonRepository(AppDbContext dbContext)
-        {
+        public PersonRepository(AppDbContext dbContext) => 
             _dbContext = dbContext;
-        }
 
-        public void Register(Person person)
-        {
-            _dbContext.People.Add(person);
-            _dbContext.SaveChanges();
-        }
+        public void Register(Person person) => 
+            _dbContext.InsertOrUpdate(person);
 
         public Person GetPersonByEmail(string email) =>
             _dbContext.People.FirstOrDefault(x => x.Email == email);

@@ -16,14 +16,28 @@ namespace SmartKitchen.DomainService.Services
     {
         private readonly IPersonRepository _personRepository;
         private readonly IBasketRepository _basketRepository;
+        private readonly IPersonService _personService;
 
-        public BasketService(IBasketRepository basketRepository, IPersonRepository personRepository)
+        public BasketService(IBasketRepository basketRepository, IPersonRepository personRepository, IPersonService personService)
         {
             _basketRepository = basketRepository;
             _personRepository = personRepository;
+            _personService = personService;
         }
 
-        public List<BasketDisplayModel> GetBasketsWithDescriptionByOwnerEmail(string email)
+        public BasketDisplayModel GetBasketById(int id, string email)
+        {
+            var basket = _basketRepository.GetBasketById(id);
+            return HasAccess(basket, email) ? null : Mapper.Map<BasketDisplayModel>(basket);
+        }
+
+        public BasketWithProductsDisplayModel GetBasketWithProductsById(int id, string email)
+        {
+            var basket = _basketRepository.GetBasketById(id);
+            return HasAccess(basket, email) ? null : Mapper.Map<BasketWithProductsDisplayModel>(basket);
+        }
+
+        public List<BasketDisplayModel> GetBasketsByOwnerEmail(string email)
         {
             var person = _personRepository.GetPersonByEmail(email);
             return _basketRepository.GetAllUserBaskets(person.Id).ProjectTo<BasketDisplayModel>(MapperConfig).ToList();
@@ -36,7 +50,7 @@ namespace SmartKitchen.DomainService.Services
             var exists = _basketRepository.GetBasketByNameAndOwner(name.Value, personId) != null;
             if (exists)
             {
-                response.Errors.Add(new ModelStateError("Name", null)); //todo
+                response.AddError(GeneralError.NameIsAlreadyTaken,"Name");
                 return response;
             }
             var basket = new Basket
@@ -49,6 +63,28 @@ namespace SmartKitchen.DomainService.Services
             if (basket.Id > 0) response.Id = basket.Id;
             else response.AddError(GeneralError.AnErrorOccured);
             return response;
+        }
+
+        public bool LockBasket(int id, string email)
+        {
+            var basket = _basketRepository.GetBasketById(id);
+            if (!HasAccess(basket, email)) return false;
+            _basketRepository.LockBasketById(id);
+            return true;
+        }
+
+        public bool DeleteBasket(int id, string email)
+        {
+            var basket = _basketRepository.GetBasketById(id);
+            if (!HasAccess(basket, email)) return false;
+            _basketRepository.DeleteBasket(basket);
+            return true;
+        }
+
+        private bool HasAccess(Basket basket, string email)
+        {
+            var person = _personRepository.GetPersonByEmail(email);
+            return _personService.IsOwner(basket, person).Successful();
         }
     }
 }

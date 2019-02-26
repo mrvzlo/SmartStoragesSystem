@@ -11,11 +11,9 @@ namespace SmartKitchen.Infrastructure.Repositories
     public class StorageTypeRepository : IStorageTypeRepository
     {
         private readonly AppDbContext _dbContext;
-
-        public StorageTypeRepository(AppDbContext dbContext)
-        {
+        
+        public StorageTypeRepository(AppDbContext dbContext) =>
             _dbContext = dbContext;
-        }
 
         public IQueryable<StorageType> GetAllStorageTypes() =>
             _dbContext.StorageTypes;

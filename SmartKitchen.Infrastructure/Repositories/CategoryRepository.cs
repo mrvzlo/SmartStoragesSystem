@@ -24,7 +24,7 @@ namespace SmartKitchen.Infrastructure.Repositories
         public void AddCategory(Category category) => 
             _dbContext.InsertOrUpdate(category);
 
-        public void RemoveCategoryById(int id) => 
+        public void DeleteCategoryById(int id) => 
             _dbContext.Delete(_dbContext.Categories.Find(id));
     }
 }

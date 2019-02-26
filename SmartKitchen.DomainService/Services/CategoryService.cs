@@ -50,7 +50,7 @@ namespace SmartKitchen.DomainService.Services
             var toCategory = _categoryRepository.GetCategoryById(toId);
             if (fromCategory == null || toCategory == null || fromId == 1) return;
             _productRepository.ReplaceCategory(fromId, toId);
-            _categoryRepository.RemoveCategoryById(fromId);
+            _categoryRepository.DeleteCategoryById(fromId);
         }
     }
 }

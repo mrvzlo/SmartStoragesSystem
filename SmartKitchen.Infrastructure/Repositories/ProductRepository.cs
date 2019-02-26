@@ -19,10 +19,7 @@ namespace SmartKitchen.Infrastructure.Repositories
         public IQueryable<Product> GetAllProducts() =>
             _dbContext.Products;
 
-        public void ReplaceCategory(int fromId, int toId)
-        {
+        public void ReplaceCategory(int fromId, int toId) => 
             _dbContext.Products.Where(x => x.Category == fromId).Update(x => new Product { Category = toId });
-            _dbContext.SaveChanges();
-        }
     }
 }

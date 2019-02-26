@@ -8,7 +8,7 @@ namespace SmartKitchen.Domain.IRepositories
         Category GetCategoryById(int id);
         Category GetCategoryByName(string name);
         void AddCategory(Category category);
-        void RemoveCategoryById(int id);
+        void DeleteCategoryById(int id);
         IQueryable<Category> GetAllCategories();
     }
 }

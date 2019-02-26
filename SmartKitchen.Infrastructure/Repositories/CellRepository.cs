@@ -8,12 +8,13 @@ namespace SmartKitchen.Infrastructure.Repositories
     {
         private readonly AppDbContext _dbContext;
 
-        public CellRepository(AppDbContext dbContext)
-        {
+        public CellRepository(AppDbContext dbContext) => 
             _dbContext = dbContext;
-        }
 
         public IQueryable<Cell> GetCellsForStorage(int storageId) =>
             _dbContext.Cells.Where(x => x.Storage == storageId);
+
+        public void AddCell(Cell cell) =>
+            _dbContext.InsertOrUpdate(cell);
     }
 }

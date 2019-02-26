@@ -9,15 +9,11 @@ namespace SmartKitchen.Infrastructure.Repositories
     {
         private readonly AppDbContext _dbContext;
 
-        public StorageRepository(AppDbContext dbContext)
-        {
+        public StorageRepository(AppDbContext dbContext) =>
             _dbContext = dbContext;
-        }
 
-        public void AddStorage(Storage storage)
-        {
+        public void AddStorage(Storage storage) =>
             _dbContext.InsertOrUpdate(storage);
-        }
 
         public Storage GetStorageById(int id) => 
             _dbContext.Storages.Find(id);

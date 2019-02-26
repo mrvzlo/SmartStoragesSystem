@@ -13,16 +13,20 @@ namespace SmartKitchen.Controllers
     public class BasketController : Controller
     {
         private readonly IBasketService _basketService;
+        private readonly IStorageService _storageService;
 
-        public BasketController(IBasketService basketService)
+        public BasketController(IBasketService basketService, IStorageService storageService)
         {
             _basketService = basketService;
+            _storageService = storageService;
         }
+
+        public string CurrentUser() => HttpContext.User.Identity.Name;
 
         #region Basket
         public ActionResult Index()
         {
-            var list = _basketService.GetBasketsWithDescriptionByOwnerEmail(HttpContext.User.Identity.Name);
+            var list = _basketService.GetBasketsByOwnerEmail(CurrentUser());
             if (TempData.ContainsKey("error")) ModelState.AddModelError("Name", TempData["error"].ToString());
             return View(list);
         }
@@ -30,7 +34,7 @@ namespace SmartKitchen.Controllers
         [HttpPost]
         public RedirectResult Create(NameCreationModel name)
         {
-            var response = _basketService.CreateBasket(name, HttpContext.User.Identity.Name);
+            var response = _basketService.CreateBasket(name, CurrentUser());
             if (response.Successful())
             {
                 TempData["error"] = "This name is already taken";
@@ -42,61 +46,28 @@ namespace SmartKitchen.Controllers
 
         public ActionResult View(int id)
         {
-            BasketDescription bd;
-            using (var db = new Context())
-            {
-                var person = Person.Current(db);
-                var basket = db.Baskets.Find(id);
-                var response = Basket.IsOwner(basket, person);
-                if (!response.Successfull) return Redirect(Url.Action("Index", "Error", new { id = response.Error }));
-                var products = db.BasketProducts.Where(x => x.Basket == id).OrderByDescending(x => x.Bought).Select(x => x.Id).ToList();
-                int bought = db.BasketProducts.Count(x => x.Basket == id && x.Bought);
-                bd = new BasketDescription { Basket = basket, Products = products, BoughtProducts = bought };
-            }
-            return View(bd);
+            var basket = _basketService.GetBasketWithProductsById(id, CurrentUser());
+            if (basket == null) return Redirect(Url.Action("Index"));
+            return View(basket);
         }
 
         public PartialViewResult GetMyStorages()
         {
-            var list = new List<Storage>();
-            using (var db = new Context())
-            {
-                list = Storage.GetMyStorages(Person.Current(db).Id, db);
-            }
-
+            var list = _storageService.GetStoragesWithDescriptionByOwnerEmail(CurrentUser());
             return PartialView("_StorageSelect", list);
         }
 
         public ActionResult Lock(int id)
         {
-            var bd = new BasketDescription();
-            using (var db = new Context())
-            {
-                var person = Person.Current(db);
-                var basket = db.Baskets.Find(id);
-                var response = Basket.IsOwner(basket, person);
-                if (!response.Successfull) return Redirect(Url.Action("Index", "Error", new { id = response.Error }));
-                basket.Closed = true;
-                db.SaveChanges();
-                bd.Basket = basket;
-                bd.Products = db.BasketProducts.Where(x => x.Basket == basket.Id).OrderByDescending(x => x.Bought).Select(x => x.Id).ToList();
-                bd.BoughtProducts = db.BasketProducts.Count(x => x.Basket == basket.Id && x.Bought);
-            }
-            return PartialView("_Description", bd);
+            _basketService.LockBasket(id, HttpContext.User.Identity.Name);
+            var description = _basketService.GetBasketById(id, CurrentUser());
+            if (description == null) return Redirect(Url.Action("Index"));
+            return PartialView("_Description", description);
         }
 
         public bool Remove(int id)
         {
-            using (var db = new Context())
-            {
-                var person = Person.Current(db);
-                var basket = db.Baskets.Find(id);
-                var response = Basket.IsOwner(basket, person);
-                if (!response.Successfull) return false;
-                db.Baskets.Remove(basket);
-                db.SaveChanges();
-            }
-            return true;
+            return _basketService.DeleteBasket(id, CurrentUser());
         }
         #endregion
 

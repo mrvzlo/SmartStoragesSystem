@@ -34,10 +34,8 @@ namespace SmartKitchen.Infrastructure.Repositories
             dbContext.SaveChanges();
         }
 
-        public static bool IsAttached<TEntity>(this DbContext dbContext, TEntity entity) where TEntity : class
-        {
-            return dbContext.Set<TEntity>().Local.Any(e => e == entity);
-        }
+        private static bool IsAttached<TEntity>(this DbContext dbContext, TEntity entity) where TEntity : class => 
+            dbContext.Set<TEntity>().Local.Any(e => e == entity);
 
         public static void Delete<TEntity>(this DbContext dbContext, TEntity entity) where TEntity : class
         {

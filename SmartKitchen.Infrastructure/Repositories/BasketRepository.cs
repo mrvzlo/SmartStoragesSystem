@@ -1,7 +1,8 @@
-﻿using System;
-using SmartKitchen.Domain.Enitities;
+﻿using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.IRepositories;
+using System;
 using System.Linq;
+using Z.EntityFramework.Plus;
 
 namespace SmartKitchen.Infrastructure.Repositories
 {
@@ -12,13 +13,20 @@ namespace SmartKitchen.Infrastructure.Repositories
         public IQueryable<Basket> GetAllUserBaskets(int personId) =>
             _dbContext.Baskets.Where(x => x.Owner == personId).OrderBy(x => x.Closed).ThenByDescending(x => x.CreationDate);
 
+        public Basket GetBasketById(int id) =>
+            _dbContext.Baskets.Find(id);
+
         public Basket GetBasketByNameAndOwner(string name, int owner) =>
             _dbContext.Baskets.FirstOrDefault(x => x.Owner == owner && x.Name.Equals(name.Trim(), StringComparison.OrdinalIgnoreCase));
 
-        public void AddBasket(Basket basket)
-        {
-            _dbContext.Baskets.Add(basket); //todo
-            _dbContext.SaveChanges();
-        }
+        public void AddBasket(Basket basket) => 
+            _dbContext.InsertOrUpdate(basket);
+
+        public void LockBasketById(int id) =>
+            _dbContext.Baskets.Where(x => x.Id == id).Update(x => new Basket {Closed = true});
+
+        public void DeleteBasket(Basket basket) =>
+            _dbContext.Delete(basket);
+        
     }
 }
