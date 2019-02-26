@@ -19,6 +19,9 @@ namespace SmartKitchen.Infrastructure.Repositories
         public IQueryable<Product> GetAllProducts() =>
             _dbContext.Products;
 
+        public void AddProduct(Product product) =>
+            _dbContext.InsertOrUpdate(product);
+
         public void ReplaceCategory(int fromId, int toId) => 
             _dbContext.Products.Where(x => x.Category == fromId).Update(x => new Product { Category = toId });
     }

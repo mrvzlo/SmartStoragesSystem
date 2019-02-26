@@ -16,5 +16,8 @@ namespace SmartKitchen.Infrastructure.Repositories
 
         public void AddCell(Cell cell) =>
             _dbContext.InsertOrUpdate(cell);
+
+        public Cell GetCellByProductAndStorage(int product, int storage) =>
+            _dbContext.Cells.FirstOrDefault(x => x.Product == product && x.Storage == storage);
     }
 }

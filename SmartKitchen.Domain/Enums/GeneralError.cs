@@ -12,6 +12,10 @@ namespace SmartKitchen.Domain.Enums
         [Description("An error occured")]
         AnErrorOccured = 1,
         [Description("This name is already taken")]
-        NameIsAlreadyTaken = 2
+        NameIsAlreadyTaken = 2,
+        [Description("Access denied")]
+        AccessDenied = 3,
+        [Description("Item not found")]
+        ItemNotFound = 3
     }
 }

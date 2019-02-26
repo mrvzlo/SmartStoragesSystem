@@ -17,19 +17,33 @@ namespace SmartKitchen.DomainService.Services
             _storageRepository = storageRepository;
         }
 
-        public ServiceResponse IsOwner(Storage s, Person p)
+        public ModelStateError StorageAccessError(Storage storage, Person person) =>
+            storage == null || person == null 
+                ? new ModelStateError("", GeneralError.ItemNotFound) 
+                : storage.Owner != person.Id 
+                    ? new ModelStateError("", GeneralError.AccessDenied) 
+                    : null;
+
+        public ModelStateError BasketAccessError(Basket basket, Person person) =>
+            basket == null || person == null 
+                ? new ModelStateError("", GeneralError.ItemNotFound) 
+                : basket.Owner != person.Id 
+                    ? new ModelStateError("", GeneralError.AccessDenied) 
+                    : null;
+
+        public ModelStateError StorageAccessError(Storage storage, string email)
         {
-            var response = new ServiceResponse();
-            if (s == null || p == null) response.Errors.Add(new ModelStateError("", AccessError.StorageNotFound));
-            else if (s.Owner != p.Id) response.Errors.Add(new ModelStateError("", AccessError.NoPermission));
-            return response;
+            var person = GetPersonByEmail(email);
+            return StorageAccessError(storage, person);
         }
-        public ServiceResponse IsOwner(Basket b, Person p)
+
+        public ModelStateError BasketAccessError(Basket basket, string email)
         {
-            var response = new ServiceResponse();
-            if (b == null || p == null) response.Errors.Add(new ModelStateError("", AccessError.BasketNotFound));
-            else if (b.Owner != p.Id) response.Errors.Add(new ModelStateError("", AccessError.NoPermission));
-            return response;
+            var person = GetPersonByEmail(email);
+            return BasketAccessError(basket, person);
         }
+
+        public Person GetPersonByEmail(string email) =>
+            _personRepository.GetPersonByEmail(email);
     }
 }

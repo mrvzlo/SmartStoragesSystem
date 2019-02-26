@@ -1,4 +1,4 @@
-﻿using SmartKitchen.Domain.DisplayModels;
+﻿using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Responses;
 

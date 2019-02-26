@@ -176,7 +176,6 @@
     <Compile Include="Models\Cell\CellCreation.cs" />
     <Compile Include="Models\Cell\CellDescription.cs" />
     <Compile Include="Models\Product\ProductDisplay.cs" />
-    <Compile Include="Models\Basket\BasketProductCreation.cs" />
     <Compile Include="Models\Storage\StorageTypeCreation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

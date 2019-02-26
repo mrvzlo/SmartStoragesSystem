@@ -42,13 +42,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreationModels\BasketProductCreationModel.cs" />
+    <Compile Include="CreationModels\CellCreationModel.cs" />
     <Compile Include="CreationModels\NameCreationModel.cs" />
     <Compile Include="DisplayModels\BasketDisplayModel.cs" />
     <Compile Include="DisplayModels\BasketWithProductsDisplayModel.cs" />
     <Compile Include="DisplayModels\CategoryDisplay.cs" />
     <Compile Include="DisplayModels\HelpModel.cs" />
-    <Compile Include="DisplayModels\SignInModel.cs" />
-    <Compile Include="DisplayModels\SignUpModel.cs" />
+    <Compile Include="CreationModels\SignInModel.cs" />
+    <Compile Include="CreationModels\SignUpModel.cs" />
     <Compile Include="DisplayModels\StorageDescription.cs" />
     <Compile Include="DisplayModels\StorageTypeDisplayModel.cs" />
     <Compile Include="Enitities\Basket.cs" />
@@ -59,7 +61,6 @@
     <Compile Include="Enitities\Product.cs" />
     <Compile Include="Enitities\Storage.cs" />
     <Compile Include="Enitities\StorageType.cs" />
-    <Compile Include="Enums\AccessError.cs" />
     <Compile Include="Enums\Amount.cs" />
     <Compile Include="Enums\GeneralError.cs" />
     <Compile Include="Enums\Role.cs" />
@@ -74,9 +75,12 @@
     <Compile Include="IRepositories\IPersonRepository.cs" />
     <Compile Include="IRepositories\IStorageTypeRepository.cs" />
     <Compile Include="IServices\IAuthenticationService.cs" />
+    <Compile Include="IServices\IBasketProductService.cs" />
     <Compile Include="IServices\IBasketService.cs" />
     <Compile Include="IServices\ICategoryService.cs" />
+    <Compile Include="IServices\ICellService.cs" />
     <Compile Include="IServices\IHomeService.cs" />
+    <Compile Include="IServices\IProductService.cs" />
     <Compile Include="IServices\IStorageService.cs" />
     <Compile Include="IServices\IPersonService.cs" />
     <Compile Include="Notification.cs" />

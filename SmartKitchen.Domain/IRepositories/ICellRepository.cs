@@ -7,5 +7,6 @@ namespace SmartKitchen.Domain.IRepositories
     {
         IQueryable<Cell> GetCellsForStorage(int storageId);
         void AddCell(Cell cell);
+        Cell GetCellByProductAndStorage(int product, int storage);
     }
 }

@@ -8,5 +8,6 @@ namespace SmartKitchen.Domain.IRepositories
         Product GetProductByName(string name);
         IQueryable<Product> GetAllProducts();
         void ReplaceCategory(int fromId, int toId);
+        void AddProduct(Product product);
     }
 }

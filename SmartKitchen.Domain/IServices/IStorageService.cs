@@ -1,5 +1,7 @@
 ﻿using SmartKitchen.Domain.DisplayModels;
 using System.Collections.Generic;
+using SmartKitchen.Domain.Enitities;
+using SmartKitchen.Domain.Responses;
 
 namespace SmartKitchen.Domain.IServices
 {

@@ -20,5 +20,7 @@ namespace SmartKitchen.DomainService.Services
         /// </summary>
         protected IConfigurationProvider MapperConfig => Mapper.ConfigurationProvider;
 
+        protected static string TitledString(string src) =>
+            src.Length < 1 ? "" : src[0].ToString().ToUpper() + (src.Length < 2 ? "" : src.Substring(1).ToLower());
     }
 }

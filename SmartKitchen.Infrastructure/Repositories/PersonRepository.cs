@@ -16,7 +16,7 @@ namespace SmartKitchen.Infrastructure.Repositories
             _dbContext.InsertOrUpdate(person);
 
         public Person GetPersonByEmail(string email) =>
-            _dbContext.People.FirstOrDefault(x => x.Email == email);
+            _dbContext.People.FirstOrDefault(x => x.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
 
         public Person GetPersonByName(string name) =>
             _dbContext.People.FirstOrDefault(x => x.Name.Equals(name.Trim(), StringComparison.OrdinalIgnoreCase));

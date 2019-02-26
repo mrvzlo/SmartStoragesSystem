@@ -28,13 +28,13 @@ namespace SmartKitchen.DomainService.Services
         public BasketDisplayModel GetBasketById(int id, string email)
         {
             var basket = _basketRepository.GetBasketById(id);
-            return HasAccess(basket, email) ? null : Mapper.Map<BasketDisplayModel>(basket);
+            return _personService.BasketAccessError(basket, email) != null ? null : Mapper.Map<BasketDisplayModel>(basket);
         }
 
         public BasketWithProductsDisplayModel GetBasketWithProductsById(int id, string email)
         {
             var basket = _basketRepository.GetBasketById(id);
-            return HasAccess(basket, email) ? null : Mapper.Map<BasketWithProductsDisplayModel>(basket);
+            return _personService.BasketAccessError(basket, email) != null ? null : Mapper.Map<BasketWithProductsDisplayModel>(basket);
         }
 
         public List<BasketDisplayModel> GetBasketsByOwnerEmail(string email)
@@ -43,7 +43,7 @@ namespace SmartKitchen.DomainService.Services
             return _basketRepository.GetAllUserBaskets(person.Id).ProjectTo<BasketDisplayModel>(MapperConfig).ToList();
         }
 
-        public ItemCreationResponse CreateBasket(NameCreationModel name, string email)
+        public ItemCreationResponse AddBasket(NameCreationModel name, string email)
         {
             var response = new ItemCreationResponse();
             var personId = _personRepository.GetPersonByEmail(email).Id;
@@ -68,7 +68,7 @@ namespace SmartKitchen.DomainService.Services
         public bool LockBasket(int id, string email)
         {
             var basket = _basketRepository.GetBasketById(id);
-            if (!HasAccess(basket, email)) return false;
+            if (_personService.BasketAccessError(basket, email) != null) return false;
             _basketRepository.LockBasketById(id);
             return true;
         }
@@ -76,15 +76,9 @@ namespace SmartKitchen.DomainService.Services
         public bool DeleteBasket(int id, string email)
         {
             var basket = _basketRepository.GetBasketById(id);
-            if (!HasAccess(basket, email)) return false;
+            if (_personService.BasketAccessError(basket, email) != null) return false;
             _basketRepository.DeleteBasket(basket);
             return true;
-        }
-
-        private bool HasAccess(Basket basket, string email)
-        {
-            var person = _personRepository.GetPersonByEmail(email);
-            return _personService.IsOwner(basket, person).Successful();
         }
     }
 }

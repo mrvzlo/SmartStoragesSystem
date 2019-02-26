@@ -39,7 +39,7 @@ namespace SmartKitchen.DomainService.Services
             }
             _categoryRepository.AddCategory(new Category
             {
-                Name = name
+                Name = TitledString(name)
             });
             return response;
         }

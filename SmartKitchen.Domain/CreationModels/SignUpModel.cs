@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SmartKitchen.Domain.DisplayModels
+namespace SmartKitchen.Domain.CreationModels
 {
 	public class SignUpModel
     {

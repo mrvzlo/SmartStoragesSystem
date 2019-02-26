@@ -13,11 +13,13 @@ namespace SmartKitchen.Controllers
     public class BasketController : Controller
     {
         private readonly IBasketService _basketService;
+        private readonly IBasketProductService _basketProductService;
         private readonly IStorageService _storageService;
 
-        public BasketController(IBasketService basketService, IStorageService storageService)
+        public BasketController(IBasketService basketService, IStorageService storageService, IBasketProductService basketProductService)
         {
             _basketService = basketService;
+            _basketProductService = basketProductService;
             _storageService = storageService;
         }
 
@@ -34,7 +36,7 @@ namespace SmartKitchen.Controllers
         [HttpPost]
         public RedirectResult Create(NameCreationModel name)
         {
-            var response = _basketService.CreateBasket(name, CurrentUser());
+            var response = _basketService.AddBasket(name, CurrentUser());
             if (response.Successful())
             {
                 TempData["error"] = "This name is already taken";
@@ -59,7 +61,7 @@ namespace SmartKitchen.Controllers
 
         public ActionResult Lock(int id)
         {
-            _basketService.LockBasket(id, HttpContext.User.Identity.Name);
+            var locked = _basketService.LockBasket(id, HttpContext.User.Identity.Name);
             var description = _basketService.GetBasketById(id, CurrentUser());
             if (description == null) return Redirect(Url.Action("Index"));
             return PartialView("_Description", description);
@@ -74,50 +76,20 @@ namespace SmartKitchen.Controllers
         #region BasketProduct
         public PartialViewResult CreateProduct(int basket)
         {
-            ViewBag.Basket = basket;
-            return PartialView("_AddNewProduct", new BasketProductCreation());
+            var basketProduct = new BasketProductCreationModel
+            {
+                Basket = basket
+            };
+            return PartialView("_AddNewProduct", basketProduct);
         }
 
         [Authorize]
         [HttpPost]
-        public RedirectResult CreateProduct(BasketProductCreation model)
+        public RedirectResult CreateProduct(BasketProductCreationModel model)
         {
-            if (string.IsNullOrWhiteSpace(model.Name)) return Redirect(Url.Action("Index"));
-            using (var db = new Context())
-            {
-                var person = Person.Current(db);
-                var basket = db.Baskets.Find(model.Basket);
-                var storage = db.Storages.Find(model.Storage);
-                var response = Basket.IsOwner(basket, person);
-                if (!response.Successfull) return Redirect(Url.Action("Index", "Error", new { id = response.Error }));
-                response = Storage.IsOwner(storage, person);
-                if (!response.Successfull) return Redirect(Url.Action("Index", "Error", new { id = response.Error }));
-                var cell = GetOrCreateAndGet(model.Name, storage.Id, db);
-                if (cell != null)
-                {
-                    db.BasketProducts.Add(new BasketProduct { Basket = basket.Id, Cell = cell.Id, BestBefore = null });
-                    db.SaveChanges();
-                }
-            }
-
-            return Redirect(Url.Action("View", new { id = model.Basket }));
-        }
-
-        private Cell GetOrCreateAndGet(string name, int storage, Context db)
-        {
-            var product = Product.GetByName(name, db);
-            if (product == null)
-            {
-                db.Products.Add(new Product { Category = 1, Name = name });
-                db.SaveChanges();
-                product = Product.GetByName(name, db);
-            }
-
-            var result = db.Cells.FirstOrDefault(x => x.Storage == storage && x.Product == product.Id);
-            if (result != null) return result;
-            db.Cells.Add(new Cell { Amount = Amount.None, BestBefore = null, Product = product.Id, Storage = storage });
-            db.SaveChanges();
-            return db.Cells.FirstOrDefault(x => x.Storage == storage && x.Product == product.Id);
+            var response = _basketProductService.AddBasketProduct(model, CurrentUser());
+            if (!response.Successful()) return Redirect(Url.Action("Index"));
+            return Redirect(Url.Action("View", new { id = response.Id }));
         }
 
         public ActionResult Description(int id)

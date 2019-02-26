@@ -1,4 +1,4 @@
-﻿using SmartKitchen.Domain.DisplayModels;
+﻿using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Enums;
 using SmartKitchen.Domain.IRepositories;
@@ -9,7 +9,7 @@ using System.Web.Helpers;
 
 namespace SmartKitchen.DomainService.Services
 {
-    class AuthenticationService : IAuthenticationService
+    class AuthenticationService : BaseService, IAuthenticationService
     {
         private readonly IPersonRepository _personRepository;
         private readonly IStorageRepository _storageRepository;
