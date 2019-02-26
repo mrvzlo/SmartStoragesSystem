@@ -1,11 +1,9 @@
-﻿using System.Linq;
+﻿using SmartKitchen.Domain.IServices;
 using System.Web.Mvc;
-using SmartKitchen.Domain.IService;
-using SmartKitchen.Models;
 
 namespace SmartKitchen.Controllers
 {
-	public class HomeController : Controller
+    public class HomeController : Controller
     {
         private readonly IHomeService _homeService;
 
@@ -15,13 +13,13 @@ namespace SmartKitchen.Controllers
         }
 
         public ActionResult Index()
-		{
-			return View();
-		}
-		public ActionResult About()
+        {
+            return View();
+        }
+        public ActionResult About()
         {
             var model = _homeService.GetHelpModel();
             return View(model);
-		}
-	}
+        }
+    }
 }

@@ -1,11 +1,6 @@
-﻿using System.Collections.Generic;
-using SmartKitchen.Models;
-using System.Linq;
+﻿using SmartKitchen.Domain.IServices;
 using System.Web.Mvc;
-using SmartKitchen.Domain.DisplayModel;
-using SmartKitchen.Domain.Enitities;
-using SmartKitchen.Domain.IRepositories;
-using SmartKitchen.Domain.IServices;
+using SmartKitchen.Domain.Enums;
 
 namespace SmartKitchen.Controllers
 {
@@ -30,7 +25,7 @@ namespace SmartKitchen.Controllers
         public ActionResult Create(string name)
         {
             var response = _categoryService.AddCategoryWithName(name);
-            if (!response.IsSuccessful) TempData["error"] = FormError.NameIsAlreadyTaken;
+            if (!response.Successful()) TempData["error"] = GeneralError.NameIsAlreadyTaken;
             return Redirect(Url.Action("Index"));
         }
 

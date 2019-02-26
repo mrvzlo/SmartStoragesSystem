@@ -31,10 +31,10 @@ namespace SmartKitchen.DomainService.Services
         {
             var response = new ServiceResponse();
             name = name.Trim();
-            var category = _categoryRepository.GetCategoryByName(name);
-            if (category != null)
+            var exists = _categoryRepository.GetCategoryByName(name) != null;
+            if (exists)
             {
-                response.Errors.Add(new ModelStateError("Name", FormError.NameIsAlreadyTaken));
+                response.Errors.Add(new ModelStateError("Name", GeneralError.NameIsAlreadyTaken));
                 return response;
             }
             _categoryRepository.AddCategory(new Category

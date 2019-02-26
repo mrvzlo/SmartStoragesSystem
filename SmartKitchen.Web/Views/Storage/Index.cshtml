@@ -10,7 +10,7 @@
                 @{ var filename = item.Type.Id + ".png";}
                 <img class="rowicon" src="~/Content/images/@filename"/>
                 <div class="col h4 m-0">
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @item.Name
                 </div>
                 <img class="rowicon" src="~/Content/images/remove.svg" onclick="remove('@item.Name', @item.Id)"/>
             </div>

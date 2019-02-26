@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace SmartKitchen.Domain.Enums
 {
-    public enum FormError
+    public enum GeneralError
     {
+        [Description("An error occured")]
+        AnErrorOccured = 1,
         [Description("This name is already taken")]
-        NameIsAlreadyTaken = 1
+        NameIsAlreadyTaken = 2
     }
 }

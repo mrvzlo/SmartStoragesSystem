@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using SmartKitchen.Domain.Responses;
 using System.Web.Mvc;
-using SmartKitchen.Domain.Responses;
 
 namespace SmartKitchen.Controllers
 {
     public class BaseController : Controller
     {
-        // GET: Base
         protected void AddModelStateErrors(ServiceResponse response)
         {
-            if (response.IsSuccessful || !response.Errors.Any()) return;
+            if (response.Successful()) return;
             foreach (var error in response.Errors)
                 ModelState.AddModelError(error.Key, error.ErrorEnum.ToString());
         }

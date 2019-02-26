@@ -1,18 +1,18 @@
-﻿using System;
+﻿using SmartKitchen.Domain.DisplayModels;
+using SmartKitchen.Domain.Enitities;
+using SmartKitchen.Domain.Enums;
+using SmartKitchen.Domain.IServices;
+using SmartKitchen.Models;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using SmartKitchen.Domain.Enitities;
-using SmartKitchen.Domain.Enums;
-using SmartKitchen.Domain.IService;
-using SmartKitchen.Enums;
-using SmartKitchen.Models;
 
 namespace SmartKitchen.Controllers
 {
-	[Authorize]
-	public class StorageController : Controller
+    [Authorize]
+    public class StorageController : Controller
     {
         private readonly IStorageService _storageService;
         private readonly IPersonService _personService;
@@ -32,71 +32,71 @@ namespace SmartKitchen.Controllers
         }
 
         public ActionResult Delete(int id)
-	    {
-		    using (var db = new Context())
-		    {
-			    var person = Person.Current(db);
-			    var storage = db.Storages.Find(id);
-			    if (storage !=null && storage.Owner == person.Id)
-			    {
-				    db.Storages.Remove(storage);
-				    db.Cells.RemoveRange(db.Cells.Where(x => x.Storage == id));
-				    db.SaveChanges();
-			    }
-		    }
-		    return Redirect(Url.Action("Index"));
-	    }
-
-	    public ActionResult View(int id, int order = 1)
-	    {
-		    var content = new StorageDescription();
-			using (var db = new Context())
+        {
+            using (var db = new Context())
             {
                 var person = Person.Current(db);
-				var storage = db.Storages.Find(id);
+                var storage = db.Storages.Find(id);
+                if (storage != null && storage.Owner == person.Id)
+                {
+                    db.Storages.Remove(storage);
+                    db.Cells.RemoveRange(db.Cells.Where(x => x.Storage == id));
+                    db.SaveChanges();
+                }
+            }
+            return Redirect(Url.Action("Index"));
+        }
+
+        public ActionResult View(int id, int order = 1)
+        {
+            var content = new StorageDescription();
+            using (var db = new Context())
+            {
+                var person = Person.Current(db);
+                var storage = db.Storages.Find(id);
                 if (storage == null || storage.Owner != person.Id) return Redirect(Url.Action("Index"));
                 content = new StorageDescription(storage, db);
-			}
+            }
 
-			if (content.Type == null) return Redirect(Url.Action("Index"));
+            if (content.Type == null) return Redirect(Url.Action("Index"));
             ViewBag.Order = order;
             if (TempData.ContainsKey("error"))
                 ModelState.AddModelError("Name", TempData["error"].ToString());
             return View(content);
-	    }
+        }
 
-	    public ActionResult Create()
-	    {
-		    return View(StorageType.GetAll());
-	    }
+        public ActionResult Create()
+        {
+            return View(StorageType.GetAll());
+        }
 
         [HttpPost]
-	    [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(Storage storage)
-	    {
-		    if (string.IsNullOrEmpty(storage.Name)) ModelState.AddModelError("Name", "Name is required");
-		    Person person;
-		    using (var db = new Context())
-		    {
-			    person = Person.Current(db);
-			    if (db.Storages.FirstOrDefault(x => x.Owner == person.Id && x.Name == storage.Name) != null)
-				    ModelState.AddModelError("Name", "This name is already taken");
-			    if (db.StorageTypes.Find(storage.Type) == null) ModelState.AddModelError("Type", "Unknown type");
-		    }
-		    if (ModelState.IsValid)
-		    {
-			    using (var db = new Context())
-			    {
-				    storage.Owner = person.Id;
-				    db.Storages.Add(storage);
-				    db.SaveChanges();
-				    return Redirect(Url.Action("Index"));
-			    }
-		    }
+        {
+            if (string.IsNullOrEmpty(storage.Name)) ModelState.AddModelError("Name", "Name is required");
+            Person person;
+            using (var db = new Context())
+            {
+                person = Person.Current(db);
+                if (db.Storages.FirstOrDefault(x => x.Owner == person.Id && x.Name == storage.Name) != null)
+                    ModelState.AddModelError("Name", "This name is already taken");
+                if (db.StorageTypes.Find(storage.Type) == null) ModelState.AddModelError("Type", "Unknown type");
+            }
+            if (ModelState.IsValid)
+            {
+                using (var db = new Context())
+                {
+                    storage.Owner = person.Id;
+                    db.Storages.Add(storage);
+                    db.SaveChanges();
+                    return Redirect(Url.Action("Index"));
+                }
+            }
 
-		    ViewBag.Selected = storage.Type;
-			return View(StorageType.GetAll());
-	    }
+            ViewBag.Selected = storage.Type;
+            return View(StorageType.GetAll());
+        }
 
         #endregion
 
@@ -104,36 +104,36 @@ namespace SmartKitchen.Controllers
 
         [Authorize(Roles = "Admin")]
         public ActionResult CreateType(string s)
-	    {
-		    return View(StorageType.GetAll());
-		}
+        {
+            return View(StorageType.GetAll());
+        }
 
-	    [HttpPost]
-	    [ValidateAntiForgeryToken]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
         public ActionResult CreateType(StorageTypeCreation newType)
-	    {
-		    if (string.IsNullOrEmpty(newType.Name)) ModelState.AddModelError("Name", "Name is required");
+        {
+            if (string.IsNullOrEmpty(newType.Name)) ModelState.AddModelError("Name", "Name is required");
             if (newType.Icon != null && !newType.IconIsValid()) ModelState.AddModelError("Icon", "Select a PNG image smaller than 1MB");
             if (ModelState.IsValid)
             {
-                newType.Icon?.SaveAs(Server.MapPath("~/Content/images/" + newType.Id+".png"));
+                newType.Icon?.SaveAs(Server.MapPath("~/Content/images/" + newType.Id + ".png"));
                 using (var db = new Context())
-				{
-					var old = db.StorageTypes.Find(newType.Id);
-					if (old == null) db.StorageTypes.Add(new StorageType{ Background = newType.Background, Name = newType.Name});
-					else
+                {
+                    var old = db.StorageTypes.Find(newType.Id);
+                    if (old == null) db.StorageTypes.Add(new StorageType { Background = newType.Background, Name = newType.Name });
+                    else
                     {
                         old.Name = newType.Name;
-						old.Background = newType.Background;
-					}
+                        old.Background = newType.Background;
+                    }
 
-					db.SaveChanges();
-				}
-				return Redirect(Url.Action("CreateType"));
-			}
-		    return View(StorageType.GetAll());
-		}
+                    db.SaveChanges();
+                }
+                return Redirect(Url.Action("CreateType"));
+            }
+            return View(StorageType.GetAll());
+        }
 
         [Authorize(Roles = "Admin")]
         public ActionResult RemoveType(int fromId, int toId)
@@ -200,7 +200,7 @@ namespace SmartKitchen.Controllers
                 db.SaveChanges();
             }
         }
-        
+
         public ActionResult DateUpdate(int cell, string dateStr)
         {
             DateTime? newDate;
@@ -239,7 +239,7 @@ namespace SmartKitchen.Controllers
                     cells.Add(new CellDescription(db, cell));
                 cells = GetCellOrder(order, cells);
             }
-            return PartialView("_ShowAllCells",cells);
+            return PartialView("_ShowAllCells", cells);
         }
 
 

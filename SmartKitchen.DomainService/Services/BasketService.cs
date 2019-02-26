@@ -8,6 +8,7 @@ using SmartKitchen.Domain.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SmartKitchen.Domain.Enums;
 
 namespace SmartKitchen.DomainService.Services
 {
@@ -45,9 +46,8 @@ namespace SmartKitchen.DomainService.Services
                 Owner = personId
             };
             _basketRepository.AddBasket(basket);
-            if (basket.Id <= 0) return response;
-            response.Id = basket.Id;
-            response.Success();
+            if (basket.Id > 0) response.Id = basket.Id;
+            else response.AddError(GeneralError.AnErrorOccured);
             return response;
         }
     }

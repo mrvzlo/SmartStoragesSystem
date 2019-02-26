@@ -43,13 +43,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CreationModels\NameCreationModel.cs" />
-    <Compile Include="DisplayModel\BasketDisplayModel.cs" />
-    <Compile Include="DisplayModel\CategoryDisplay.cs" />
-    <Compile Include="DisplayModel\HelpModel.cs" />
-    <Compile Include="DisplayModel\SignInModel.cs" />
-    <Compile Include="DisplayModel\SignUpModel.cs" />
-    <Compile Include="DisplayModel\StorageDescription.cs" />
-    <Compile Include="DisplayModel\StorageTypeDisplayModel.cs" />
+    <Compile Include="DisplayModels\BasketDisplayModel.cs" />
+    <Compile Include="DisplayModels\BasketWithProductsDisplayModel.cs" />
+    <Compile Include="DisplayModels\CategoryDisplay.cs" />
+    <Compile Include="DisplayModels\HelpModel.cs" />
+    <Compile Include="DisplayModels\SignInModel.cs" />
+    <Compile Include="DisplayModels\SignUpModel.cs" />
+    <Compile Include="DisplayModels\StorageDescription.cs" />
+    <Compile Include="DisplayModels\StorageTypeDisplayModel.cs" />
     <Compile Include="Enitities\Basket.cs" />
     <Compile Include="Enitities\BasketProduct.cs" />
     <Compile Include="Enitities\Category.cs" />
@@ -60,7 +61,7 @@
     <Compile Include="Enitities\StorageType.cs" />
     <Compile Include="Enums\AccessError.cs" />
     <Compile Include="Enums\Amount.cs" />
-    <Compile Include="Enums\FormError.cs" />
+    <Compile Include="Enums\GeneralError.cs" />
     <Compile Include="Enums\Role.cs" />
     <Compile Include="Enums\Safety.cs" />
     <Compile Include="Enums\AuthenticationError.cs" />

@@ -31,7 +31,7 @@ namespace SmartKitchen.Controllers
         public RedirectResult Create(NameCreationModel name)
         {
             var response = _basketService.CreateBasket(name, HttpContext.User.Identity.Name);
-            if (response.IsSuccessful)
+            if (response.Successful())
             {
                 TempData["error"] = "This name is already taken";
                 return Redirect(Url.Action("Index"));

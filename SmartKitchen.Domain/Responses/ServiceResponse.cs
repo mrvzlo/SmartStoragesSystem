@@ -1,22 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using SmartKitchen.Domain.Enums;
 
 namespace SmartKitchen.Domain.Responses
 {
     public class ServiceResponse
     {
-        public bool IsSuccessful { get; set; }
         public List<ModelStateError> Errors { get; set; }
 
-        public ServiceResponse()
-        {
-            IsSuccessful = false;
-            Errors = new List<ModelStateError>();
-        }
+        public ServiceResponse() => Errors = new List<ModelStateError>();
 
-        public ServiceResponse Success()
-        {
-            IsSuccessful = true;
-            return this;
-        }
+        public bool Successful() => !Errors.Any();
+        
+        public void AddError(Enum error, string key = "") => Errors.Add(new ModelStateError(key, error));
     }
 }

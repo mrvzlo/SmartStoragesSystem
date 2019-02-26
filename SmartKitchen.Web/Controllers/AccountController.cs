@@ -42,7 +42,7 @@ namespace SmartKitchen.Controllers
         public ActionResult SignIn(SignInModel model)
         {
             var response = _authenticationService.SignIn(model);
-            if (!response.IsSuccessful)
+            if (!response.Successful())
             {
                 AddModelStateErrors(response);
                 return PartialView("_SignIn", model);
@@ -56,7 +56,7 @@ namespace SmartKitchen.Controllers
         public ActionResult Register(SignUpModel model)
         {
             var response = _authenticationService.SignUp(model);
-            if (!response.IsSuccessful)
+            if (!response.Successful())
             {
                 AddModelStateErrors(response);
                 return PartialView("_SignUp", model);
