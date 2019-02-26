@@ -1,22 +1,17 @@
-﻿using System;
+﻿using SmartKitchen.Domain.DisplayModels;
+using SmartKitchen.Domain.IServices;
+using SmartKitchen.Enums;
+using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Web;
-using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Security;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using SmartKitchen.Domain.DisplayModel;
-using SmartKitchen.Domain.Enitities;
-using SmartKitchen.Domain.IService;
-using SmartKitchen.Enums;
-using SmartKitchen.Models;
 
 namespace SmartKitchen.Controllers
 {
-	public class AccountController : BaseController
+    public class AccountController : BaseController
     {
         private readonly IAuthenticationService _authenticationService;
 
@@ -26,9 +21,9 @@ namespace SmartKitchen.Controllers
         }
 
         public ActionResult Index(bool login = true)
-		{
+        {
             if (User.Identity.IsAuthenticated)
-                return Redirect(Url.Action("Index","Home"));
+                return Redirect(Url.Action("Index", "Home"));
             return View();
         }
 
@@ -43,8 +38,8 @@ namespace SmartKitchen.Controllers
         }
 
         [HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult SignIn(SignInModel model)
+        [ValidateAntiForgeryToken]
+        public ActionResult SignIn(SignInModel model)
         {
             var response = _authenticationService.SignIn(model);
             if (!response.IsSuccessful)
@@ -55,10 +50,10 @@ namespace SmartKitchen.Controllers
             CreateTicket(response.Email, response.Role);
             return Redirect(Url.Action("Index", "Storage"));
         }
-		
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Register(SignUpModel model)
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(SignUpModel model)
         {
             var response = _authenticationService.SignUp(model);
             if (!response.IsSuccessful)
@@ -68,9 +63,9 @@ namespace SmartKitchen.Controllers
             }
             CreateTicket(response.Email, response.Role);
             return RedirectToAction("About", "Home");
-		}
+        }
 
-		private void CreateTicket(string email, Role role)
+        private void CreateTicket(string email, Role role)
         {
             var ticket = new FormsAuthenticationTicket(
                 version: 1,
@@ -84,17 +79,17 @@ namespace SmartKitchen.Controllers
                     .GetCustomAttribute<DescriptionAttribute>()?
                     .Description
             );
-			var encryptedTicket = FormsAuthentication.Encrypt(ticket);
-			var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
-			HttpContext.Response.Cookies.Add(cookie);
-		}
+            var encryptedTicket = FormsAuthentication.Encrypt(ticket);
+            var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+            HttpContext.Response.Cookies.Add(cookie);
+        }
 
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult LogOff()
-		{
-			FormsAuthentication.SignOut();
-			return RedirectToAction("Index", "Home");
-		}
-	}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LogOff()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index", "Home");
+        }
+    }
 }

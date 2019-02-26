@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SmartKitchen.Domain.DisplayModel;
+using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Enitities;
 
 namespace SmartKitchen.DomainService.Profiles

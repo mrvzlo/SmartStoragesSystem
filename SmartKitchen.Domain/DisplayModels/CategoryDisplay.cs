@@ -1,4 +1,4 @@
-﻿namespace SmartKitchen.Domain.DisplayModel
+﻿namespace SmartKitchen.Domain.DisplayModels
 {
 	public class CategoryDisplay
     {

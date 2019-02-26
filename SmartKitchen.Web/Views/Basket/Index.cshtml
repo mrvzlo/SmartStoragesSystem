@@ -1,4 +1,4 @@
-﻿@model List<SmartKitchen.Models.BasketDescription>
+﻿@model List<SmartKitchen.Domain.DisplayModels.BasketDisplayModel>
 @{
     ViewBag.Title = "My baskets";
 }
@@ -14,7 +14,7 @@ else
         <table id="tab1" class="table table-hover mb-0">
             @foreach (var b in Model)
             {
-                if (!b.Basket.Closed)
+                if (!b.Closed)
                 {
                     Html.RenderPartial("_Description", b);
                 }
@@ -26,7 +26,7 @@ else
         <table id="tab2" class="table table-hover mb-0">
             @foreach (var b in Model)
             {
-                if (b.Basket.Closed)
+                if (b.Closed)
                 {
                     Html.RenderPartial("_Description", b);
                 }

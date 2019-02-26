@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Responses;
-using SmartKitchen.Models;
+using System.Collections.Generic;
 
 namespace SmartKitchen.Domain.IServices
 {

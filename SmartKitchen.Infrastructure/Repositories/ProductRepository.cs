@@ -1,5 +1,5 @@
-﻿using SmartKitchen.Domain.Enitities;
-using SmartKitchen.Domain.IRepository;
+using SmartKitchen.Domain.Enitities;
+using SmartKitchen.Domain.IRepositories;
 using System;
 using System.Linq;
 using Z.EntityFramework.Plus;
@@ -21,7 +21,7 @@ namespace SmartKitchen.Infrastructure.Repositories
 
         public void ReplaceCategory(int fromId, int toId)
         {
-            _dbContext.Products.Where(x => x.Category == fromId).Update(x => new Product{ Category = toId});
+            _dbContext.Products.Where(x => x.Category == fromId).Update(x => new Product { Category = toId });
             _dbContext.SaveChanges();
         }
     }

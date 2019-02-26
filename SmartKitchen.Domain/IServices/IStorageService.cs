@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using SmartKitchen.Domain.DisplayModel;
+﻿using SmartKitchen.Domain.DisplayModels;
+using System.Collections.Generic;
 
 namespace SmartKitchen.Domain.IServices
 {

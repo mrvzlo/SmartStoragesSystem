@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using SmartKitchen.Domain.DisplayModel;
+﻿using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.IRepositories;
 using SmartKitchen.Domain.IServices;
+using System.Linq;
 
 namespace SmartKitchen.DomainService.Services
 {

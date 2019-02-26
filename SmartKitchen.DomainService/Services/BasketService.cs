@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AutoMapper.QueryableExtensions;
+﻿using AutoMapper.QueryableExtensions;
 using SmartKitchen.Domain.CreationModels;
-using SmartKitchen.Domain.DisplayModel;
+using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.IRepositories;
 using SmartKitchen.Domain.IServices;
 using SmartKitchen.Domain.Responses;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SmartKitchen.DomainService.Services
 {

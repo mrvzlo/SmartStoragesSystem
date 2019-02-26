@@ -1,7 +1,7 @@
 ﻿using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Enums;
-using SmartKitchen.Domain.IRepository;
-using SmartKitchen.Domain.IService;
+using SmartKitchen.Domain.IRepositories;
+using SmartKitchen.Domain.IServices;
 using SmartKitchen.Domain.Responses;
 
 namespace SmartKitchen.DomainService.Services

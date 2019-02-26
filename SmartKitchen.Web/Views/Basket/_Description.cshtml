@@ -1,12 +1,12 @@
-﻿@model SmartKitchen.Models.BasketDescription
-<tr id="@Model.Basket.Id" class="row flex-nowrap" 
-    onclick="window.location='@Url.Action("View","Basket",new{id = Model.Basket.Id})';">
-    <td class="col">@Model.Basket.Name</td>
-    <td class="col">@Model.BoughtProducts/@Model.Products.Count<span class="d-md-inline d-none"> products</span></td>
-    <td class="col">@Model.Basket.CreationDate.ToString("dd.MM.yy")</td>
+﻿@model SmartKitchen.Domain.DisplayModels.BasketDisplayModel
+<tr id="@Model.Id" class="row flex-nowrap" 
+    onclick="window.location='@Url.Action("View","Basket",new{id = Model.Id})';">
+    <td class="col">@Model.Name</td>
+    <td class="col">@Model.BoughtProducts/@Model.Products<span class="d-md-inline d-none"> products</span></td>
+    <td class="col">@Model.CreationDate.ToString("dd.MM.yy")</td>
     <td class="col-md-1 col-2">
-        <img src="@Html.Raw( Model.Basket.Closed ? "../Content/images/remove.svg" : "../Content/images/lock.svg")"
-             onclick="@Html.Raw( !Model.Basket.Closed ? "lock("+Model.Basket.Id+", '"+Model.Basket.Name+"')" : "remove("+Model.Basket.Id+", '"+Model.Basket.Name+"')")"
+        <img src="@Html.Raw( Model.Closed ? "../Content/images/remove.svg" : "../Content/images/lock.svg")"
+             onclick="@Html.Raw( !Model.Closed ? "lock("+Model.Id+", '"+Model.Name+"')" : "remove("+Model.Id+", '"+Model.Name+"')")"
              class="rowicon h-75" />
     </td>
 </tr>

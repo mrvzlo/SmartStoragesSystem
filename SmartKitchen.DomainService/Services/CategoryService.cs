@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Security.Policy;
-using AutoMapper.QueryableExtensions;
+﻿using AutoMapper.QueryableExtensions;
+using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Enums;
-using SmartKitchen.Domain.IRepository;
-using SmartKitchen.Domain.IService;
+using SmartKitchen.Domain.IRepositories;
+using SmartKitchen.Domain.IServices;
 using SmartKitchen.Domain.Responses;
-using SmartKitchen.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SmartKitchen.DomainService.Services
 {
@@ -22,10 +21,10 @@ namespace SmartKitchen.DomainService.Services
             _productRepository = productRepository;
         }
 
-        public CategoryDisplay GetCategoryDisplayById(int id) => 
+        public CategoryDisplay GetCategoryDisplayById(int id) =>
             Mapper.Map<CategoryDisplay>(_categoryRepository.GetCategoryById(id));
 
-        public List<CategoryDisplay> GetAllCategoryDisplays() => 
+        public List<CategoryDisplay> GetAllCategoryDisplays() =>
             _categoryRepository.GetAllCategories().ProjectTo<CategoryDisplay>(MapperConfig).ToList();
 
         public ServiceResponse AddCategoryWithName(string name)

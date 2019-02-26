@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using SmartKitchen.Domain.DisplayModel;
+using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Enitities;
-using SmartKitchen.Models;
 
 namespace SmartKitchen.DomainService.Profiles
 {
@@ -10,7 +9,7 @@ namespace SmartKitchen.DomainService.Profiles
         public CategoryProfile()
         {
             CreateMap<Category, CategoryDisplay>()
-                .ForMember(dest => dest.ProductsCount, opts => { opts.MapFrom(from => from.Products.Count); });            
+                .ForMember(dest => dest.ProductsCount, opts => { opts.MapFrom(from => from.Products.Count); });
         }
     }
 }

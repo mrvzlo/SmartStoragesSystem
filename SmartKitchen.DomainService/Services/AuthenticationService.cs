@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using System.Web.Helpers;
-using SmartKitchen.Domain.DisplayModel;
+﻿using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Enums;
 using SmartKitchen.Domain.IRepositories;
 using SmartKitchen.Domain.IServices;
 using SmartKitchen.Domain.Responses;
+using System.Linq;
+using System.Web.Helpers;
 
 namespace SmartKitchen.DomainService.Services
 {
@@ -58,7 +58,7 @@ namespace SmartKitchen.DomainService.Services
                 Email = model.Email
             };
             _personRepository.Register(person);
-            
+
             if (person.Id <= 0)
                 response.Errors.Add(new ModelStateError("", AuthenticationError.AnErrorOccured));
             else
