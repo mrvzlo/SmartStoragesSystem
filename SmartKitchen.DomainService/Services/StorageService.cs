@@ -2,8 +2,8 @@
 using System.Linq;
 using AutoMapper.QueryableExtensions;
 using SmartKitchen.Domain.DisplayModel;
-using SmartKitchen.Domain.IRepository;
-using SmartKitchen.Domain.IService;
+using SmartKitchen.Domain.IRepositories;
+using SmartKitchen.Domain.IServices;
 
 namespace SmartKitchen.DomainService.Services
 {

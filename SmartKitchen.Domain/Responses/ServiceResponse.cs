@@ -12,5 +12,11 @@ namespace SmartKitchen.Domain.Responses
             IsSuccessful = false;
             Errors = new List<ModelStateError>();
         }
+
+        public ServiceResponse Success()
+        {
+            IsSuccessful = true;
+            return this;
+        }
     }
 }

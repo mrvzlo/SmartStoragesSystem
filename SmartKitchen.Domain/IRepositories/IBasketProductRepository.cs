@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using SmartKitchen.Domain.Enitities;
 
-namespace SmartKitchen.Domain.IRepository
+namespace SmartKitchen.Domain.IRepositories
 {
-    public interface IBasketRepository
+    public interface IBasketProductRepository
     {
-        
+
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SmartKitchen.Domain.DisplayModel;
 
-namespace SmartKitchen.Domain.IService
+namespace SmartKitchen.Domain.IServices
 {
     public interface IHomeService
     {

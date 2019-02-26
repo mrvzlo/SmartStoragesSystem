@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using SmartKitchen.Domain.Responses;
 using SmartKitchen.Models;
 
-namespace SmartKitchen.Domain.IService
+namespace SmartKitchen.Domain.IServices
 {
     public interface ICategoryService
     {

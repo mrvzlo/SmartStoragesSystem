@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="AppDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\BasketRepository.cs" />
     <Compile Include="Repositories\CategoryRepository.cs" />
     <Compile Include="Repositories\CellRepository.cs" />
     <Compile Include="Repositories\ProductRepository.cs" />
