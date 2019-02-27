@@ -19,7 +19,7 @@ namespace SmartKitchen.Infrastructure.Repositories
             _dbContext.Categories.FirstOrDefault(x => x.Name.Equals(name.Trim(), StringComparison.OrdinalIgnoreCase));
 
         public IQueryable<Category> GetAllCategories() =>
-            _dbContext.Categories;
+            _dbContext.Categories.AsQueryable();
 
         public void AddCategory(Category category) => 
             _dbContext.InsertOrUpdate(category);

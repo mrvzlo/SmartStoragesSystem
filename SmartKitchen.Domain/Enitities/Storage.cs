@@ -13,5 +13,6 @@ namespace SmartKitchen.Domain.Enitities
 
         public virtual ICollection<Cell> Cells { get; set; }
         public virtual StorageType Type { get; set; }
+        public virtual Person Person { get; set; }
     }
 }

@@ -1,13 +1,11 @@
-﻿using AutoMapper.QueryableExtensions;
+﻿using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.DisplayModels;
-using SmartKitchen.Domain.IRepositories;
-using SmartKitchen.Domain.IServices;
-using System.Collections.Generic;
-using System.Linq;
-using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Enums;
+using SmartKitchen.Domain.IRepositories;
+using SmartKitchen.Domain.IServices;
 using SmartKitchen.Domain.Responses;
+using System.Collections.Generic;
 
 namespace SmartKitchen.DomainService.Services
 {
@@ -36,8 +34,7 @@ namespace SmartKitchen.DomainService.Services
         public StorageDescription GetStorageDescriptionById(int id, string email)
         {
             var storage = _storageRepository.GetStorageById(id);
-            var storageAccessError = _personService.StorageAccessError(storage, email);
-            return storageAccessError != null ? null : Mapper.Map<StorageDescription>(storage);
+            return storage == null || storage.Person.Email != email ? null : Mapper.Map<StorageDescription>(storage);
         }
 
         public ItemCreationResponse AddStorage(StorageCreationModel model, string email)
@@ -55,12 +52,8 @@ namespace SmartKitchen.DomainService.Services
                 Owner = personId,
                 TypeId = model.TypeId
             };
-            if (storage.Id > 0)
-            {
-                response.AddedId = storage.Id;
-                response.AddedGroupId = storage.TypeId;
-            }
-            else response.AddError(GeneralError.AnErrorOccured);
+            response.AddedId = storage.Id;
+            response.AddedGroupId = storage.TypeId;
             return response;
         }
     }

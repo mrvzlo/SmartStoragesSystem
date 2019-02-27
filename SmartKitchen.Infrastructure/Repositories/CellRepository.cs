@@ -12,13 +12,13 @@ namespace SmartKitchen.Infrastructure.Repositories
             _dbContext = dbContext;
 
         public IQueryable<Cell> GetCellsForStorage(int storageId) =>
-            _dbContext.Cells.Where(x => x.Storage == storageId);
+            _dbContext.Cells.Where(x => x.StorageId == storageId);
 
         public void AddCell(Cell cell) =>
             _dbContext.InsertOrUpdate(cell);
 
         public Cell GetCellByProductAndStorage(int product, int storage) =>
-            _dbContext.Cells.FirstOrDefault(x => x.ProductId == product && x.Storage == storage);
+            _dbContext.Cells.FirstOrDefault(x => x.ProductId == product && x.StorageId == storage);
 
         public Cell GetCellById(int id) =>
             _dbContext.Cells.Find(id);

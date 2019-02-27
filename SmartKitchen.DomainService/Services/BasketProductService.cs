@@ -1,5 +1,4 @@
-﻿using System.Web.UI.WebControls;
-using SmartKitchen.Domain.CreationModels;
+﻿using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Enums;
@@ -17,7 +16,7 @@ namespace SmartKitchen.DomainService.Services
         private readonly IBasketRepository _basketRepository;
         private readonly IBasketProductRepository _basketProductRepository;
 
-        public BasketProductService(IBasketRepository basketRepository, IBasketProductRepository basketProductRepository, 
+        public BasketProductService(IBasketRepository basketRepository, IBasketProductRepository basketProductRepository,
             IStorageRepository storageRepository, ICellService cellService, IPersonService personService)
         {
             _cellService = cellService;
@@ -32,16 +31,15 @@ namespace SmartKitchen.DomainService.Services
             var response = new ItemCreationResponse();
             var basket = _basketRepository.GetBasketById(model.Basket);
             var storage = _storageRepository.GetStorageById(model.Storage);
-            var basketAccessError = _personService.BasketAccessError(basket, email);
-            var storageAccessError = _personService.StorageAccessError(storage, email);
-            if (basketAccessError != null)
+            if (basket == null || storage == null)
             {
-                response.Errors.Add(basketAccessError);
+                response.AddError(GeneralError.ItemNotFound);
                 return response;
             }
-            if (storageAccessError != null)
+
+            if (basket.Person.Email != email || storage.Person.Email != email)
             {
-                response.Errors.Add(storageAccessError);
+                response.AddError(GeneralError.AccessDenied);
                 return response;
             }
 
@@ -53,12 +51,8 @@ namespace SmartKitchen.DomainService.Services
                 BestBefore = null
             };
             _basketProductRepository.AddBasketProduct(basketProduct);
-            if (basketProduct.Id > 0)
-            {
-                response.AddedGroupId = basketProduct.BasketId;
-                response.AddedId = basketProduct.Id;
-            }
-            else response.AddError(GeneralError.AnErrorOccured);
+            response.AddedGroupId = basketProduct.BasketId;
+            response.AddedId = basketProduct.Id;
             return response;
         }
 
@@ -66,7 +60,7 @@ namespace SmartKitchen.DomainService.Services
         {
             var basketProduct = _basketProductRepository.GetBasketProductById(id);
             var basket = _basketRepository.GetBasketById(basketProduct.BasketId);
-            if (_personService.BasketAccessError(basket, email) != null) return null;
+            if (basket == null || basket.Person.Email != email) return null;
             return Mapper.Map<BasketProductDisplayModel>(basket);
         }
     }

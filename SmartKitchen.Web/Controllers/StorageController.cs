@@ -20,12 +20,12 @@ namespace SmartKitchen.Controllers
     {
         private readonly IStorageService _storageService;
         private readonly IStorageTypeService _storageTypeService;
-        private readonly IPersonService _personService;
+        private readonly ICellService _cellService;
 
-        public StorageController(IStorageService storageService, IPersonService personService, IStorageTypeService storageTypeService)
+        public StorageController(IStorageService storageService, ICellService cellService, IStorageTypeService storageTypeService)
         {
             _storageService = storageService;
-            _personService = personService;
+            _cellService = cellService;
             _storageTypeService = storageTypeService;
         }
 
@@ -110,11 +110,7 @@ namespace SmartKitchen.Controllers
         #region Cell
         public PartialViewResult CellDescription(int cell)
         {
-            CellDescription description = new CellDescription();
-            using (var db = new Context())
-            {
-                description = new CellDescription(db, cell);
-            }
+            var description = _cellService.GetCellDisplayModelById(cell, CurrentUser());
             return PartialView("_Description", description);
         }
 

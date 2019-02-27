@@ -53,9 +53,7 @@ namespace SmartKitchen.DomainService.Services
 
             if (model.Id > 0) storageType.Id = model.Id;
             _storageTypeRepository.AddStorageType(storageType);
-            if (storageType.Id > 0) response.AddedId = model.Id;
-            else response.AddError(GeneralError.AnErrorOccured);
-
+            response.AddedId = model.Id;
             return response;
         }
     }

@@ -9,10 +9,11 @@ namespace SmartKitchen.Domain.Enitities
 		[Key]
 		public virtual int Id { get; set; }
 		public virtual int ProductId { get; set; }
-		public virtual int Storage { get; set; }
+		public virtual int StorageId { get; set; }
 		public virtual Amount Amount { get; set; }
 		public virtual DateTime? BestBefore { get; set; }
 
         public virtual Product Product { get; set; }
-	}
+        public virtual Storage Storage { get; set; }
+    }
 }

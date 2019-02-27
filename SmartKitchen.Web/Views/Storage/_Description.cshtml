@@ -5,14 +5,14 @@
     <td id="name_@Model.Id" onclick="mark(@Model.Id)">@Model.ProductName</td>
     <td>@Model.CategoryName</td>
     <td @Html.Raw(changeableDate ? "onclick=\"showDatePicker(" + Model.Id + ", '" + Model.ProductName + "')\"" : "")>
-        <a id="safety_@Model.Id" alt="@Model.SafetyNotification.Type" class="font-weight-bold text-@Model.SafetyNotification.Type" @Html.Raw(changeableDate ? "data-toggle='modal' data-target='#DateModal'" : "")>
-            @Model.SafetyNotification.Info
+        <a id="safety_@Model.Id" alt="@Model.SafetyStatus.Type" class="font-weight-bold text-@Model.SafetyStatus.Type" @Html.Raw(changeableDate ? "data-toggle='modal' data-target='#DateModal'" : "")>
+            @Model.SafetyStatus.Info
         </a>
     </td>
 
     <td onclick="showAmountPicker(@Model.Id)">
-        <a id="amount_@Model.Id" alt="@Model.AmountNotification.Type" class="font-weight-bold text-decoration-none text-@Model.AmountNotification.Type" data-toggle="modal" data-target="#AmountModal">
-            @Model.AmountNotification.Info
+        <a id="amount_@Model.Id" alt="@Model.AmountStatus.Type" class="font-weight-bold text-decoration-none text-@Model.AmountStatus.Type" data-toggle="modal" data-target="#AmountModal">
+            @Model.AmountStatus.Info
         </a>
     </td>
 </tr>

@@ -17,32 +17,6 @@ namespace SmartKitchen.DomainService.Services
             _storageRepository = storageRepository;
         }
 
-        public ModelStateError StorageAccessError(Storage storage, Person person) =>
-            storage == null || person == null 
-                ? new ModelStateError("", GeneralError.ItemNotFound) 
-                : storage.Owner != person.Id 
-                    ? new ModelStateError("", GeneralError.AccessDenied) 
-                    : null;
-
-        public ModelStateError BasketAccessError(Basket basket, Person person) =>
-            basket == null || person == null 
-                ? new ModelStateError("", GeneralError.ItemNotFound) 
-                : basket.Owner != person.Id 
-                    ? new ModelStateError("", GeneralError.AccessDenied) 
-                    : null;
-
-        public ModelStateError StorageAccessError(Storage storage, string email)
-        {
-            var person = GetPersonByEmail(email);
-            return StorageAccessError(storage, person);
-        }
-
-        public ModelStateError BasketAccessError(Basket basket, string email)
-        {
-            var person = GetPersonByEmail(email);
-            return BasketAccessError(basket, person);
-        }
-
         public Person GetPersonByEmail(string email) =>
             _personRepository.GetPersonByEmail(email);
 

@@ -1,4 +1,5 @@
 ﻿using SmartKitchen.Domain.CreationModels;
+using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Enums;
 using SmartKitchen.Domain.IRepositories;
@@ -35,36 +36,38 @@ namespace SmartKitchen.DomainService.Services
         {
             var response = new ItemCreationResponse();
             var storage = _storageRepository.GetStorageById(model.Storage);
-            var storageAccessError = _personService.StorageAccessError(storage, email);
-            if (storageAccessError != null)
+            if (storage == null) response.AddError(GeneralError.ItemNotFound, nameof(model.Storage));
+            else if (storage.Person.Email != email) response.AddError(GeneralError.AccessDenied, nameof(model.Storage));
+            if (!response.Successful()) return response;
+
+            var productId = _productService.GetOrAddAndGet(model.Product).Id;
+            if (GetCellByProductAndStorage(productId, model.Storage) != null)
             {
-                response.Errors.Add(storageAccessError);
+                response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Product));
                 return response;
             }
 
-            var productId = _productService.GetOrAddAndGet(model.Product).Id;
-            if (GetCellByProductAndStorage(productId,model.Storage) != null) response.AddError(GeneralError.NameIsAlreadyTaken,"Name");
-            else
+            var cell = new Cell
             {
-                var cell = new Cell
-                {
-                    ProductId = productId,
-                    Storage = model.Storage,
-                    BestBefore = null
-                };
-                _cellRepository.AddCell(cell);
-                if (cell.Id > 0)
-                {
-                    response.AddedId = cell.Id;
-                    response.AddedGroupId = cell.Storage;
-                }
-                else response.AddError(GeneralError.AnErrorOccured);
-            }
+                ProductId = productId,
+                StorageId = model.Storage,
+                BestBefore = null
+            };
+            _cellRepository.AddCell(cell);
+            response.AddedId = cell.Id;
+            response.AddedGroupId = cell.StorageId;
             return response;
         }
 
-        public Cell GetCellByProductAndStorage(int product, int storage) => 
+        public Cell GetCellByProductAndStorage(int product, int storage) =>
             _cellRepository.GetCellByProductAndStorage(product, storage);
-        
+
+        public CellDisplayModel GetCellDisplayModelById(int id, string email)
+        {
+            var cell = _cellRepository.GetCellById(id);
+            if (cell.Storage.Person.Email != email) return null;
+            var result = Mapper.Map<CellDisplayModel>(cell);
+            return result;
+        }
     }
 }

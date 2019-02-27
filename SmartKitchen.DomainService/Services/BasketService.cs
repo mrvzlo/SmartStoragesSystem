@@ -28,13 +28,13 @@ namespace SmartKitchen.DomainService.Services
         public BasketDisplayModel GetBasketById(int id, string email)
         {
             var basket = _basketRepository.GetBasketById(id);
-            return _personService.BasketAccessError(basket, email) != null ? null : Mapper.Map<BasketDisplayModel>(basket);
+            return basket == null || basket.Person.Email != email ? null : Mapper.Map<BasketDisplayModel>(basket);
         }
 
         public BasketWithProductsDisplayModel GetBasketWithProductsById(int id, string email)
         {
             var basket = _basketRepository.GetBasketById(id);
-            return _personService.BasketAccessError(basket, email) != null ? null : Mapper.Map<BasketWithProductsDisplayModel>(basket);
+            return basket == null || basket.Person.Email != email ? null : Mapper.Map<BasketWithProductsDisplayModel>(basket);
         }
         
         public IQueryable<BasketDisplayModel> GetBasketsByOwnerEmail(string email)
@@ -61,15 +61,14 @@ namespace SmartKitchen.DomainService.Services
                 Owner = personId
             };
             _basketRepository.AddBasket(basket);
-            if (basket.Id > 0) response.AddedId = basket.Id;
-            else response.AddError(GeneralError.AnErrorOccured);
+            response.AddedId = basket.Id;
             return response;
         }
 
         public bool LockBasket(int id, string email)
         {
             var basket = _basketRepository.GetBasketById(id);
-            if (_personService.BasketAccessError(basket, email) != null) return false;
+            if (basket == null || basket.Person.Email != email) return false;
             _basketRepository.LockBasketById(id);
             return true;
         }
@@ -77,7 +76,7 @@ namespace SmartKitchen.DomainService.Services
         public bool DeleteBasket(int id, string email)
         {
             var basket = _basketRepository.GetBasketById(id);
-            if (_personService.BasketAccessError(basket, email) != null) return false;
+            if (basket == null || basket.Person.Email != email) return false;
             _basketRepository.DeleteBasket(basket);
             return true;
         }

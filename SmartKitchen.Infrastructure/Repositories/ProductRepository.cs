@@ -17,7 +17,7 @@ namespace SmartKitchen.Infrastructure.Repositories
             _dbContext.Products.FirstOrDefault(x => x.Name.Equals(name.Trim(), StringComparison.OrdinalIgnoreCase));
 
         public IQueryable<Product> GetAllProducts() =>
-            _dbContext.Products;
+            _dbContext.Products.AsQueryable();
 
         public void AddProduct(Product product) =>
             _dbContext.InsertOrUpdate(product);

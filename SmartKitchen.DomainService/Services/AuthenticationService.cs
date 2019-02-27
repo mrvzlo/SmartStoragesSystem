@@ -33,7 +33,7 @@ namespace SmartKitchen.DomainService.Services
             var person = GetPersonByEmail(model.Email);
 
             if (person == null || !Crypto.VerifyHashedPassword(person.Password, model.Password))
-                response.Errors.Add(new ModelStateError("", AuthenticationError.EmailOrPasswordIsIncorrect));
+                response.AddError(AuthenticationError.EmailOrPasswordIsIncorrect);
             else
             {
                 response.Email = person.Email;
@@ -59,26 +59,22 @@ namespace SmartKitchen.DomainService.Services
             };
             _personRepository.Register(person);
 
-            if (person.Id <= 0)
-                response.Errors.Add(new ModelStateError("", AuthenticationError.AnErrorOccured));
-            else
-            {
-                CreateInitialStorage(person.Id);
-                response.Email = person.Email;
-                response.Role = person.Role;
-            }
+            CreateInitialStorage(person.Id);
+            response.Email = person.Email;
+            response.Role = person.Role;
             return response;
         }
 
         public void CreateInitialStorage(int personId)
         {
             var firstType = _storageTypeRepository.GetAllStorageTypes().First();
-            _storageRepository.AddStorage(new Storage
+            var initialStorage = new Storage
             {
                 Name = firstType.Name,
                 Owner = personId,
                 TypeId = firstType.Id
-            });
+            };
+            _storageRepository.AddStorage(initialStorage);
         }
     }
 }

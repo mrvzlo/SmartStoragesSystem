@@ -16,7 +16,7 @@ namespace SmartKitchen.Infrastructure.Repositories
             _dbContext = dbContext;
 
         public IQueryable<StorageType> GetAllStorageTypes() =>
-            _dbContext.StorageTypes;
+            _dbContext.StorageTypes.AsQueryable();
 
         public StorageType GetStorageTypeById(int id) =>
             _dbContext.StorageTypes.Find(id);

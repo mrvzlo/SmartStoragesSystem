@@ -14,5 +14,6 @@ namespace SmartKitchen.Domain.Enitities
         public virtual DateTime CreationDate { get; set; }
 
         public virtual ICollection<BasketProduct> BasketProducts { get; set; }
+        public virtual Person Person { get; set; }
     }
 }
