@@ -5,6 +5,8 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
+using CommonServiceLocator;
+using SmartKitchen.Controllers;
 
 namespace SmartKitchen
 {
@@ -12,7 +14,6 @@ namespace SmartKitchen
     {
         protected void Application_Start()
         {
-            var temp = ServiceLocator.Current
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

@@ -9,7 +9,7 @@ using System.Web.Helpers;
 
 namespace SmartKitchen.DomainService.Services
 {
-    class AuthenticationService : BaseService, IAuthenticationService
+    public class AuthenticationService : BaseService, IAuthenticationService
     {
         private readonly IPersonRepository _personRepository;
         private readonly IStorageRepository _storageRepository;
