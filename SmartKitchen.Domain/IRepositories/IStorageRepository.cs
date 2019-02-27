@@ -6,6 +6,8 @@ namespace SmartKitchen.Domain.IRepositories
     public interface IStorageRepository
     {
         Storage GetStorageById(int id);
+        Storage GetStorageByNameAndOwner(string name, int owner);
         void AddStorage(Storage storage);
+        void DeleteStorageById(int id);
     }
 }

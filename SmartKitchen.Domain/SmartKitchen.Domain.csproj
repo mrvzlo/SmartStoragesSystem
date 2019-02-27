@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CreationModels\BasketProductCreationModel.cs" />
+    <Compile Include="CreationModels\StorageCreationModel.cs" />
     <Compile Include="CreationModels\CellCreationModel.cs" />
     <Compile Include="CreationModels\NameCreationModel.cs" />
     <Compile Include="DisplayModels\BasketDisplayModel.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="CreationModels\SignInModel.cs" />
     <Compile Include="CreationModels\SignUpModel.cs" />
     <Compile Include="DisplayModels\Notification.cs" />
+    <Compile Include="DisplayModels\ProductDisplayModel.cs" />
     <Compile Include="DisplayModels\StorageDescription.cs" />
     <Compile Include="DisplayModels\StorageTypeDisplayModel.cs" />
     <Compile Include="Enitities\Basket.cs" />
@@ -86,6 +88,7 @@
     <Compile Include="IServices\IProductService.cs" />
     <Compile Include="IServices\IStorageService.cs" />
     <Compile Include="IServices\IPersonService.cs" />
+    <Compile Include="IServices\IStorageTypeService.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Responses\ItemCreationReponse.cs" />

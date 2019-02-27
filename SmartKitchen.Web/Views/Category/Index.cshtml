@@ -1,8 +1,9 @@
-﻿@model List<SmartKitchen.Domain.DisplayModels.CategoryDisplay>
+﻿@using SmartKitchen.Domain.CreationModels
+@model List<SmartKitchen.Domain.DisplayModels.CategoryDisplay>
 @{
     ViewBag.Title = "Categories";
 }
-@Html.Partial("_AddNew")
+@Html.Partial("_AddNew", new NameCreationModel())
 <div class="row justify-content-center m-0">
     <div class="storage-new mb-2 col-lg-6 p-0">
         <table id="table" class="table table-hover table-borderless text-center m-0">

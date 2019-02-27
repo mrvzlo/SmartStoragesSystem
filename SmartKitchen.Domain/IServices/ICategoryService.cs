@@ -1,14 +1,16 @@
 ﻿using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Responses;
-using System.Collections.Generic;
+using System.Linq;
+using SmartKitchen.Domain.CreationModels;
 
 namespace SmartKitchen.Domain.IServices
 {
     public interface ICategoryService
     {
         CategoryDisplay GetCategoryDisplayById(int id);
-        List<CategoryDisplay> GetAllCategoryDisplays();
-        ServiceResponse AddCategoryWithName(string name);
+        IQueryable<CategoryDisplay> GetAllCategoryDisplays();
+        ServiceResponse AddCategoryWithName(NameCreationModel model);
         void ReplaceCategory(int fromId, int toId);
+        bool ExistsWithId(int id);
     }
 }

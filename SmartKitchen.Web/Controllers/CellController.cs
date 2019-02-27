@@ -19,7 +19,7 @@ namespace SmartKitchen.Controllers
         [HttpPost]
         public ActionResult Create(CellCreationModel model)
         {
-            var response = _cellService.AddCell(model, HttpContext.User.Identity.Name);
+            var response = _cellService.AddCell(model, CurrentUser());
             if (response.Successful())
             {
                 AddModelStateErrors(response);

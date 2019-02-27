@@ -1,35 +1,14 @@
-﻿@model List<SmartKitchen.Models.ProductDisplay>
+﻿@using SmartKitchen.Domain.CreationModels
 @{
     Html.RenderAction("Categories");
     ViewBag.Title = "Products";
     var selectList = new List<SelectListItem>();
 }
-@{ Html.RenderPartial("_AddNew"); }
+@Html.Partial("_AddNew", new NameCreationModel())
 <div class="row justify-content-center m-0">
     @using (Html.BeginForm("SaveChanges", "Product", FormMethod.Post, new { id = "f", @class = "storage-new mb-2 col-lg-8 p-0" }))
     {
-        <table class="table table-borderless table-hover m-0 ">
-            <tr class="text-center">
-                <th style="width: 40%" onclick="order(1)">Product</th>
-                <th style="width: 40%" onclick="order(2)">Category</th>
-                <th style="width: 20%" onclick="order(3)">Usages</th>
-            </tr>
-            @for (int i = 0; i < Model.Count; i++)
-            {
-                <tr id="@Model[i].Product.Id">
-                    <td class="text-center">
-                        @Html.HiddenFor(x => x[i].Product.Id, Model[i].Product.Id)
-                        <div id="0_@i" onclick="toggle(@i, 1)">@Model[i].Product.Name</div>
-                        @Html.TextBoxFor(x => x[i].Product.Name, new { @class = "text-center", style = "display: none;", id = "1_" + i })
-                    </td>
-                    <td class="text-center">
-                        <div id="2_@i" onclick="toggle(@i, 3)">@Model[i].CategoryName</div>
-                        @Html.DropDownListFor(x => x[i].Product.Category, selectList, new { @class = "input", style = "display: none;", id = "3_" + i })
-                    </td>
-                    <td class="text-center">@Model[i].Usages</td>
-                </tr>
-            }
-        </table>
+        Html.RenderAction("ProductGrid");
     }
 </div>
 <div class="row justify-content-center m-0">
@@ -39,11 +18,6 @@
 @section scripts{
     @{ Html.RenderAction("Categories"); }
     <script>
-        function order(type) {
-            if (type == @ViewBag.Order) type = -type;
-            window.location = '@Url.Action("Index","Product")?order='+type;
-        }
-
         function toggle(id, type) {
             if (type == 0) {
                 $("#0_" + id).show();

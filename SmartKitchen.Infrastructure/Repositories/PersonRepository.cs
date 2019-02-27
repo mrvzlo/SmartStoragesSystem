@@ -20,5 +20,8 @@ namespace SmartKitchen.Infrastructure.Repositories
 
         public Person GetPersonByName(string name) =>
             _dbContext.People.FirstOrDefault(x => x.Name.Equals(name.Trim(), StringComparison.OrdinalIgnoreCase));
+
+        public Person GetPersonById(int id) =>
+            _dbContext.People.Find(id);
     }
 }

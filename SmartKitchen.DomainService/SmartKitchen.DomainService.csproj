@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Profiles\ProductProfile.cs" />
     <Compile Include="Profiles\BasketProfile.cs" />
     <Compile Include="Profiles\CategoryProfile.cs" />
     <Compile Include="Profiles\CellProfile.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Profiles\StorageProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ProductService.cs" />
+    <Compile Include="Services\StorageTypeService.cs" />
     <Compile Include="Services\StorageService.cs" />
   </ItemGroup>
   <ItemGroup>

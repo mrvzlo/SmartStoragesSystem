@@ -1,5 +1,7 @@
-﻿using SmartKitchen.Domain.IServices;
+﻿using System.Linq;
+using SmartKitchen.Domain.IServices;
 using System.Web.Mvc;
+using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.Enums;
 
 namespace SmartKitchen.Controllers
@@ -17,14 +19,14 @@ namespace SmartKitchen.Controllers
         public ActionResult Index()
         {
             if (TempData.ContainsKey("error")) ModelState.AddModelError("Name", TempData["error"].ToString());
-            var list = _categoryService.GetAllCategoryDisplays();
-            return View(list);
+            var query = _categoryService.GetAllCategoryDisplays();
+            return View(query.ToList());
         }
 
         [HttpPost]
-        public ActionResult Create(string name)
+        public ActionResult Create(NameCreationModel model)
         {
-            var response = _categoryService.AddCategoryWithName(name);
+            var response = _categoryService.AddCategoryWithName(model);
             if (!response.Successful())
             {
                 AddModelStateErrors(response);

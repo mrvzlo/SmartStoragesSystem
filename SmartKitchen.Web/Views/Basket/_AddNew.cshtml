@@ -3,9 +3,9 @@
     <div class="col-lg-6">
         @using (Html.BeginForm("Create", "Basket", FormMethod.Post, new { @class = "row  justify-content-center mt-md-3" }))
         {
-            @Html.TextBoxFor(x=>x.Value, new { @class = "col-8", placeholder = "New basket" })
+            @Html.TextBoxFor(x=>x.Name, new { @class = "col-8", placeholder = "New basket" })
             <input type="submit" value="Add" class="btn btn-main col-4" />
-            @Html.ValidationMessageFor(x => x.Value, "", new { @class = "col-12 error" })
+            @Html.ValidationMessageFor(x => x.Name, "", new { @class = "col-12 error" })
         }
     </div>
 </div>

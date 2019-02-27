@@ -76,6 +76,9 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Mvc.Grid.Core, Version=6.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NonFactors.Grid.Core.Mvc5.6.0.3\lib\net45\Mvc.Grid.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -172,7 +175,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Notification.cs" />
-    <Compile Include="Models\Product\ProductDisplay.cs" />
     <Compile Include="Models\Storage\StorageTypeCreation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -198,6 +200,7 @@
     <Content Include="Content\images\remove.svg" />
     <Content Include="Content\images\storages.svg" />
     <Content Include="Content\images\up.png" />
+    <Content Include="Content\MvcGrid\mvc-grid.css" />
     <Content Include="Content\My.css">
       <DependentUpon>My.scss</DependentUpon>
     </Content>
@@ -313,6 +316,7 @@
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
+    <Content Include="Content\MvcGrid\Fonts\GridGlyphs.woff" />
     <None Include="Properties\PublishProfiles\aveSK - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -324,6 +328,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\MvcGrid\mvc-grid.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -384,6 +389,9 @@
     <Content Include="Views\Storage\_ShowAllCells.cshtml" />
     <Content Include="Views\Basket\_StorageSelect.cshtml" />
     <Content Include="Views\Basket\_ProductDescription.cshtml" />
+    <Content Include="Views\Shared\MvcGrid\_Pager.cshtml" />
+    <Content Include="Views\Shared\MvcGrid\_Grid.cshtml" />
+    <Content Include="Views\Product\_ProductGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

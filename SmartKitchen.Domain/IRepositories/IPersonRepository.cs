@@ -6,6 +6,7 @@ namespace SmartKitchen.Domain.IRepositories
     {
         Person GetPersonByEmail(string email);
         Person GetPersonByName(string name);
+        Person GetPersonById(int id);
         void Register(Person person);
     }
 }

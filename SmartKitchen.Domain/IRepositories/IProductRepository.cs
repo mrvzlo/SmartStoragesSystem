@@ -10,5 +10,6 @@ namespace SmartKitchen.Domain.IRepositories
         void ReplaceCategory(int fromId, int toId);
         void AddProduct(Product product);
         Product GetProductById(int id);
+        void UpdateProduct(Product product);
     }
 }

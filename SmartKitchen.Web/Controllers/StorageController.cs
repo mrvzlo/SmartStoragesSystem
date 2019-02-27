@@ -8,94 +8,67 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using SmartKitchen.Domain.CreationModels;
+using SmartKitchen.Domain.IRepositories;
 
 namespace SmartKitchen.Controllers
 {
     [Authorize]
-    public class StorageController : Controller
+    public class StorageController : BaseController
     {
         private readonly IStorageService _storageService;
+        private readonly IStorageTypeService _storageTypeService;
         private readonly IPersonService _personService;
 
-        public StorageController(IStorageService storageService, IPersonService personService)
+        public StorageController(IStorageService storageService, IPersonService personService, IStorageTypeService storageTypeService)
         {
             _storageService = storageService;
             _personService = personService;
+            _storageTypeService = storageTypeService;
         }
 
         #region CRD
 
         public ActionResult Index()
         {
-            var storages = _storageService.GetStoragesWithDescriptionByOwnerEmail(HttpContext.User.Identity.Name).ToList();
+            var storages = _storageService.GetStoragesWithDescriptionByOwnerEmail(CurrentUser()).ToList();
             return View(storages);
         }
 
         public ActionResult Delete(int id)
         {
-            using (var db = new Context())
-            {
-                var person = Person.Current(db);
-                var storage = db.Storages.Find(id);
-                if (storage != null && storage.Owner == person.Id)
-                {
-                    db.Storages.Remove(storage);
-                    db.Cells.RemoveRange(db.Cells.Where(x => x.Storage == id));
-                    db.SaveChanges();
-                }
-            }
+            _storageService.DeleteStorageById(id);
             return Redirect(Url.Action("Index"));
         }
 
-        public ActionResult View(int id, int order = 1)
+        public ActionResult View(int id)
         {
-            var content = new StorageDescription();
-            using (var db = new Context())
-            {
-                var person = Person.Current(db);
-                var storage = db.Storages.Find(id);
-                if (storage == null || storage.Owner != person.Id) return Redirect(Url.Action("Index"));
-                content = new StorageDescription(storage, db);
-            }
-
-            if (content.Type == null) return Redirect(Url.Action("Index"));
-            ViewBag.Order = order;
+            var description = _storageService.GetStorageDescriptionById(id, HttpContext.User.Identity.Name);
+            if (description == null) return Redirect(Url.Action("Index"));
             if (TempData.ContainsKey("error"))
                 ModelState.AddModelError("Name", TempData["error"].ToString());
-            return View(content);
+            return View(description);
         }
 
         public ActionResult Create()
         {
-            return View(StorageType.GetAll());
+            var query = _storageTypeService.GetAllStorageTypes();
+            return View(query.ToList());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Storage storage)
+        public ActionResult Create(StorageCreationModel storage)
         {
-            if (string.IsNullOrEmpty(storage.Name)) ModelState.AddModelError("Name", "Name is required");
-            Person person;
-            using (var db = new Context())
+            var response = _storageService.AddStorage(storage, CurrentUser());
+            if (!response.Successful())
             {
-                person = Person.Current(db);
-                if (db.Storages.FirstOrDefault(x => x.Owner == person.Id && x.Name == storage.Name) != null)
-                    ModelState.AddModelError("Name", "This name is already taken");
-                if (db.StorageTypes.Find(storage.Type) == null) ModelState.AddModelError("Type", "Unknown type");
+                ModelState.AddModelError(response);
+                ViewBag.Selected = storage.TypeId;
+                var query = _storageTypeService.GetAllStorageTypes();
+                return View(query.ToList());
             }
-            if (ModelState.IsValid)
-            {
-                using (var db = new Context())
-                {
-                    storage.Owner = person.Id;
-                    db.Storages.Add(storage);
-                    db.SaveChanges();
-                    return Redirect(Url.Action("Index"));
-                }
-            }
-
-            ViewBag.Selected = storage.Type;
-            return View(StorageType.GetAll());
+            return Redirect(Url.Action("Index"));
         }
 
         #endregion
@@ -105,7 +78,8 @@ namespace SmartKitchen.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult CreateType(string s)
         {
-            return View(StorageType.GetAll());
+            var query = _storageTypeService.GetAllStorageTypes();
+            return View(query.ToList());
         }
 
         [HttpPost]
@@ -132,7 +106,8 @@ namespace SmartKitchen.Controllers
                 }
                 return Redirect(Url.Action("CreateType"));
             }
-            return View(StorageType.GetAll());
+            var query = _storageTypeService.GetAllStorageTypes();
+            return View(query.ToList());
         }
 
         [Authorize(Roles = "Admin")]
@@ -242,29 +217,6 @@ namespace SmartKitchen.Controllers
             return PartialView("_ShowAllCells", cells);
         }
 
-
-        private List<CellDescription> GetCellOrder(int order, List<CellDescription> cells)
-        {
-            switch (order)
-            {
-                default:
-                    return cells.OrderBy(x => x.Product.Name).ToList();
-                case -1:
-                    return cells.OrderByDescending(x => x.Product.Name).ToList();
-                case 2:
-                    return cells.OrderBy(x => x.Category.Name).ToList();
-                case -2:
-                    return cells.OrderByDescending(x => x.Category.Name).ToList();
-                case 3:
-                    return cells.OrderBy(x => x.Cell.BestBefore).ToList();
-                case -3:
-                    return cells.OrderByDescending(x => x.Cell.BestBefore).ToList();
-                case 4:
-                    return cells.OrderBy(x => x.Cell.Amount).ToList();
-                case -4:
-                    return cells.OrderByDescending(x => x.Cell.Amount).ToList();
-            }
-        }
         #endregion
     }
 }

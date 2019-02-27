@@ -1,4 +1,8 @@
-﻿using SmartKitchen.Domain.Enitities;
+﻿using System.Collections.Generic;
+using System.Linq;
+using SmartKitchen.Domain.CreationModels;
+using SmartKitchen.Domain.DisplayModels;
+using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Responses;
 
 namespace SmartKitchen.Domain.IServices
@@ -7,6 +11,8 @@ namespace SmartKitchen.Domain.IServices
     {
         Product GetOrAddAndGet(string name);
         Product GetProductByName(string name);
-        ItemCreationResponse AddProduct(string name);
+        IQueryable<ProductDisplayModel> GetAllProductDisplays();
+        ItemCreationResponse AddProduct(NameCreationModel model);
+        void UpdateProductList(List<ProductDisplayModel> list);
     }
 }

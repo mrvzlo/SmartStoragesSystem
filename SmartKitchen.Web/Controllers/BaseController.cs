@@ -1,4 +1,5 @@
-﻿using SmartKitchen.Domain.Responses;
+﻿using System.Linq;
+using SmartKitchen.Domain.Responses;
 using System.Web.Mvc;
 
 namespace SmartKitchen.Controllers
@@ -11,5 +12,10 @@ namespace SmartKitchen.Controllers
             foreach (var error in response.Errors)
                 ModelState.AddModelError(error.Key, error.ErrorEnum.ToString());
         }
+
+        protected string GetErrorsToString(ServiceResponse response) => 
+            response.Errors.Any() ? string.Join("<br/>", response.Errors) : "";
+
+        protected string CurrentUser() => HttpContext.User.Identity.Name;
     }
 }

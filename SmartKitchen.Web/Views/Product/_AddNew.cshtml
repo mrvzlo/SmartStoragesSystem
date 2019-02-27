@@ -1,10 +1,11 @@
-﻿<div class="row justify-content-center my-3 mx-0">
+﻿@model SmartKitchen.Domain.CreationModels.NameCreationModel
+<div class="row justify-content-center my-3 mx-0">
     <div class="col-lg-6">
         @using (Html.BeginForm("Add", "Product", FormMethod.Post, new { @class = "row" }))
         {
-            @Html.TextBox("Name", "", new { @class = "col-8", placeholder = "New product" })
+            @Html.TextBoxFor( x => x.Name, new { @class = "col-8", placeholder = "New product" })
             <input type="submit" value="Add" class="btn btn-main col-4" />
-            @Html.ValidationMessage("Name", "", new { @class = "col-12 error" })
+            @Html.ValidationMessageFor(x => x.Name, "", new { @class = "col-12 error" })
         }
     </div>
 </div>

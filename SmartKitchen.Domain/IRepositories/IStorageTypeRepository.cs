@@ -6,5 +6,6 @@ namespace SmartKitchen.Domain.IRepositories
     public interface IStorageTypeRepository
     {
         IQueryable<StorageType> GetAllStorageTypes();
+        StorageType GetStorageTypeById(int id);
     }
 }

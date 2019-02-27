@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SmartKitchen.Domain.CreationModels
 {
@@ -8,6 +9,9 @@ namespace SmartKitchen.Domain.CreationModels
         [DataType(DataType.Text)]
         [Display(Description = "Name")]
         [StringLength(64)]
-        public string Value { get; set; }
+        public string Name { get; set; }
+
+        public NameCreationModel(string name) => Name = name;
+        public NameCreationModel() => Name = string.Empty;
     }
 }

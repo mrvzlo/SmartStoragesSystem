@@ -27,5 +27,8 @@ namespace SmartKitchen.Infrastructure.Repositories
 
         public Product GetProductById(int id) =>
             _dbContext.Products.Find(id);
+
+        public void UpdateProduct(Product product) =>
+            _dbContext.InsertOrUpdate(product);
     }
 }

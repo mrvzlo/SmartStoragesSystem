@@ -1,9 +1,9 @@
-﻿using SmartKitchen.Models;
+﻿using SmartKitchen.Domain.DisplayModels;
+using SmartKitchen.Domain.IServices;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using SmartKitchen.Domain.Enitities;
-using SmartKitchen.Domain.IServices;
+using SmartKitchen.Domain.CreationModels;
 
 namespace SmartKitchen.Controllers
 {
@@ -19,80 +19,39 @@ namespace SmartKitchen.Controllers
             _categoryService = categoryService;
         }
 
-        public ActionResult Index(int order = 1)
+        public ActionResult Index()
         {
-            ViewBag.Order = order;
             if (TempData.ContainsKey("error")) ModelState.AddModelError("Name", TempData["error"].ToString());
-            return View(GetAllProducts(order));
+            return View();
+        }
+
+        public PartialViewResult ProductGrid()
+        {
+            var query = _productService.GetAllProductDisplays();
+            return PartialView("_ProductGrid", query);
         }
 
         public PartialViewResult Categories()
         {
-            var list = _categoryService.GetAllCategoryDisplays();
-            return PartialView("_Categories", list);
+            var query = _categoryService.GetAllCategoryDisplays();
+            return PartialView("_Categories", query.ToList());
         }
 
         [HttpPost]
-        public RedirectResult Add(string name)
+        public RedirectResult Add(NameCreationModel model)
         {
-            var response = _productService.AddProduct(name);
+            var response = _productService.AddProduct(model);
             if (!response.Successful())
-            {
-                AddModelStateErrors(response);
-                TempData["error"] = "This name is already taken";
-            }
+                TempData["error"] = GetErrorsToString(response);
             return Redirect(Url.Action("Index"));
         }
 
         [HttpPost]
-        public RedirectResult SaveChanges(List<ProductDisplay> list)
+        public RedirectResult SaveChanges(List<ProductDisplayModel> list)
         {
-            using (var db = new Context())
-            {
-                foreach (var i in list)
-                {
-                    var product = db.Products.Find(i.Product.Id);
-                    if (product == null) continue;
-                    if (product.Name != i.Product.Name) product.Name = i.Product.Name.Trim();
-                    if (db.Categories.Find(i.Product.Category) == null) continue;
-                    if (product.Category != i.Product.Category) product.Category = i.Product.Category;
-                }
-
-                db.SaveChanges();
-            }
+            _productService.UpdateProductList(list);
             return Redirect(Url.Action("Index"));
         }
         
-        private List<ProductDisplay> GetAllProducts(int order)
-        {
-            using (var db = new Context())
-            {
-                var list = new List<ProductDisplay>();
-                var products = db.Products.ToList();
-                foreach (var i in products)
-                    list.Add(new ProductDisplay
-                    {
-                        Product = i,
-                        CategoryName = db.Categories.Find(i.Category).Name,
-                        Usages = db.Cells.Count(x => x.Product == i.Id)
-                    });
-
-                switch (order)
-                {
-                    default:
-                        return list.OrderBy(x => x.Product.Name).ToList();
-                    case -1:
-                        return list.OrderByDescending(x => x.Product.Name).ToList();
-                    case 2:
-                        return list.OrderBy(x => x.CategoryName).ToList();
-                    case -2:
-                        return list.OrderByDescending(x => x.CategoryName).ToList();
-                    case 3:
-                        return list.OrderBy(x => x.Usages).ToList();
-                    case -3:
-                        return list.OrderByDescending(x => x.Usages).ToList();
-                }
-            }
-        }
     }
 }

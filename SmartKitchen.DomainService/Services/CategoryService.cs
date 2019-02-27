@@ -7,6 +7,7 @@ using SmartKitchen.Domain.IServices;
 using SmartKitchen.Domain.Responses;
 using System.Collections.Generic;
 using System.Linq;
+using SmartKitchen.Domain.CreationModels;
 
 namespace SmartKitchen.DomainService.Services
 {
@@ -24,22 +25,22 @@ namespace SmartKitchen.DomainService.Services
         public CategoryDisplay GetCategoryDisplayById(int id) =>
             Mapper.Map<CategoryDisplay>(_categoryRepository.GetCategoryById(id));
 
-        public List<CategoryDisplay> GetAllCategoryDisplays() =>
-            _categoryRepository.GetAllCategories().ProjectTo<CategoryDisplay>(MapperConfig).ToList();
+        public IQueryable<CategoryDisplay> GetAllCategoryDisplays() =>
+            _categoryRepository.GetAllCategories().ProjectTo<CategoryDisplay>(MapperConfig);
 
-        public ServiceResponse AddCategoryWithName(string name)
+        public ServiceResponse AddCategoryWithName(NameCreationModel model)
         {
             var response = new ServiceResponse();
-            name = name.Trim();
-            var exists = _categoryRepository.GetCategoryByName(name) != null;
+            model.Name = model.Name.Trim();
+            var exists = _categoryRepository.GetCategoryByName(model.Name) != null;
             if (exists)
             {
-                response.Errors.Add(new ModelStateError("Name", GeneralError.NameIsAlreadyTaken));
+                response.AddError(GeneralError.NameIsAlreadyTaken,nameof(model.Name));
                 return response;
             }
             _categoryRepository.AddCategory(new Category
             {
-                Name = TitledString(name)
+                Name = TitledString(model.Name)
             });
             return response;
         }
@@ -52,5 +53,8 @@ namespace SmartKitchen.DomainService.Services
             _productRepository.ReplaceCategory(fromId, toId);
             _categoryRepository.DeleteCategoryById(fromId);
         }
+
+        public bool ExistsWithId(int id) =>
+            _categoryRepository.GetCategoryById(id) != null;
     }
 }

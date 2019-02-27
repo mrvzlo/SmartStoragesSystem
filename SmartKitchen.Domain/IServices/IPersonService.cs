@@ -10,5 +10,6 @@ namespace SmartKitchen.Domain.IServices
         ModelStateError StorageAccessError(Storage storage, string email);
         ModelStateError BasketAccessError(Basket basket, string email);
         Person GetPersonByEmail(string email);
+        bool ExistsById(int id);
     }
 }

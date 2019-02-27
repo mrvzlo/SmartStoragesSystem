@@ -36,27 +36,28 @@ namespace SmartKitchen.DomainService.Services
             var basket = _basketRepository.GetBasketById(id);
             return _personService.BasketAccessError(basket, email) != null ? null : Mapper.Map<BasketWithProductsDisplayModel>(basket);
         }
-
-        public List<BasketDisplayModel> GetBasketsByOwnerEmail(string email)
+        
+        public IQueryable<BasketDisplayModel> GetBasketsByOwnerEmail(string email)
         {
             var person = _personRepository.GetPersonByEmail(email);
-            return Mapper.Map<List<BasketDisplayModel>>(person.Baskets);
+            return Mapper.Map<IQueryable<BasketDisplayModel>>(person.Baskets);
         }
 
-        public ItemCreationResponse AddBasket(NameCreationModel name, string email)
+        public ItemCreationResponse AddBasket(NameCreationModel model, string email)
         {
+            model.Name = model.Name.Trim();
             var response = new ItemCreationResponse();
             var personId = _personRepository.GetPersonByEmail(email).Id;
-            var exists = _basketRepository.GetBasketByNameAndOwner(name.Value, personId) != null;
+            var exists = _basketRepository.GetBasketByNameAndOwner(model.Name, personId) != null;
             if (exists)
             {
-                response.AddError(GeneralError.NameIsAlreadyTaken,"Name");
+                response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
                 return response;
             }
             var basket = new Basket
             {
                 CreationDate = DateTime.Now,
-                Name = name.Value.Trim(),
+                Name = model.Name,
                 Owner = personId
             };
             _basketRepository.AddBasket(basket);

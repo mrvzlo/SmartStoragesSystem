@@ -17,5 +17,8 @@ namespace SmartKitchen.Infrastructure.Repositories
 
         public IQueryable<StorageType> GetAllStorageTypes() =>
             _dbContext.StorageTypes;
+
+        public StorageType GetStorageTypeById(int id) =>
+            _dbContext.StorageTypes.Find(id);
     }
 }

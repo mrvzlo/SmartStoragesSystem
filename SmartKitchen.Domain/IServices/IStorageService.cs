@@ -1,12 +1,15 @@
-﻿using SmartKitchen.Domain.DisplayModels;
-using System.Collections.Generic;
-using SmartKitchen.Domain.Enitities;
+﻿using SmartKitchen.Domain.CreationModels;
+using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Responses;
+using System.Collections.Generic;
 
 namespace SmartKitchen.Domain.IServices
 {
     public interface IStorageService
     {
         List<StorageDescription> GetStoragesWithDescriptionByOwnerEmail(string email);
+        void DeleteStorageById(int id);
+        StorageDescription GetStorageDescriptionById(int id, string email);
+        ItemCreationResponse AddStorage(StorageCreationModel model, string email);
     }
 }

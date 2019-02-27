@@ -4,6 +4,7 @@ using SmartKitchen.Domain.IServices;
 using SmartKitchen.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using SmartKitchen.Domain.CreationModels;
 using System.Web.Mvc;
 
@@ -22,21 +23,19 @@ namespace SmartKitchen.Controllers
             _basketProductService = basketProductService;
             _storageService = storageService;
         }
-
-        public string CurrentUser() => HttpContext.User.Identity.Name;
-
+        
         #region Basket
         public ActionResult Index()
         {
-            var list = _basketService.GetBasketsByOwnerEmail(CurrentUser());
+            var query = _basketService.GetBasketsByOwnerEmail(CurrentUser());
             if (TempData.ContainsKey("error")) ModelState.AddModelError("Name", TempData["error"].ToString());
-            return View(list);
+            return View(query.ToList());
         }
 
         [HttpPost]
-        public RedirectResult Create(NameCreationModel name)
+        public RedirectResult Create(NameCreationModel model)
         {
-            var response = _basketService.AddBasket(name, CurrentUser());
+            var response = _basketService.AddBasket(model, CurrentUser());
             if (response.Successful())
             {
                 AddModelStateErrors(response);
@@ -62,7 +61,7 @@ namespace SmartKitchen.Controllers
 
         public ActionResult Lock(int id)
         {
-            var locked = _basketService.LockBasket(id, HttpContext.User.Identity.Name);
+            var locked = _basketService.LockBasket(id, CurrentUser());
             var description = _basketService.GetBasketById(id, CurrentUser());
             if (description == null) return Redirect(Url.Action("Index"));
             return PartialView("_Description", description);

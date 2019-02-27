@@ -45,5 +45,8 @@ namespace SmartKitchen.DomainService.Services
 
         public Person GetPersonByEmail(string email) =>
             _personRepository.GetPersonByEmail(email);
+
+        public bool ExistsById(int id) => 
+            _personRepository.GetPersonById(id) != null;
     }
 }
