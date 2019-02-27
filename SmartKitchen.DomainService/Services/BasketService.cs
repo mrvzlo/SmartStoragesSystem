@@ -40,7 +40,7 @@ namespace SmartKitchen.DomainService.Services
         public List<BasketDisplayModel> GetBasketsByOwnerEmail(string email)
         {
             var person = _personRepository.GetPersonByEmail(email);
-            return _basketRepository.GetAllUserBaskets(person.Id).ProjectTo<BasketDisplayModel>(MapperConfig).ToList();
+            return Mapper.Map<List<BasketDisplayModel>>(person.Baskets);
         }
 
         public ItemCreationResponse AddBasket(NameCreationModel name, string email)

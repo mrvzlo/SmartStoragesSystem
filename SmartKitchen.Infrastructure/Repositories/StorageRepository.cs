@@ -18,7 +18,5 @@ namespace SmartKitchen.Infrastructure.Repositories
         public Storage GetStorageById(int id) => 
             _dbContext.Storages.Find(id);
 
-        public IQueryable<Storage> GetAllUserStorages(int person) =>
-            _dbContext.Storages.Where(x => x.Owner == person);
     }
 }

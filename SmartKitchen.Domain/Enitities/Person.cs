@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using SmartKitchen.Enums;
@@ -13,5 +14,8 @@ namespace SmartKitchen.Domain.Enitities
 		public virtual string Name { get; set; }
 		public virtual string Email { get; set; }
 		public virtual string Password { get; set; }
-	}
+
+        public virtual ICollection<Basket> Baskets { get; set; }
+        public virtual ICollection<Storage> Storages { get; set; }
+    }
 }

@@ -25,7 +25,7 @@ namespace SmartKitchen.DomainService.Services
         public List<StorageDescription> GetStoragesWithDescriptionByOwnerEmail(string email)
         {
             var person = _personRepository.GetPersonByEmail(email);
-            return _storageRepository.GetAllUserStorages(person.Id).ProjectTo<StorageDescription>(MapperConfig).ToList();
+            return Mapper.Map<List<StorageDescription>>(person.Storages);
         }
     }
 }

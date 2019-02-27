@@ -9,7 +9,6 @@ namespace SmartKitchen.Domain.IRepositories
 {
     public interface IBasketRepository
     {
-        IQueryable<Basket> GetAllUserBaskets(int personId);
         Basket GetBasketById(int id);
         Basket GetBasketByNameAndOwner(string name, int owner);
         void AddBasket(Basket basket);

@@ -9,10 +9,7 @@ namespace SmartKitchen.Infrastructure.Repositories
     public class BasketRepository : IBasketRepository
     {
         private readonly AppDbContext _dbContext;
-
-        public IQueryable<Basket> GetAllUserBaskets(int personId) =>
-            _dbContext.Baskets.Where(x => x.Owner == personId).OrderBy(x => x.Closed).ThenByDescending(x => x.CreationDate);
-
+        
         public Basket GetBasketById(int id) =>
             _dbContext.Baskets.Find(id);
 

@@ -62,7 +62,7 @@ namespace SmartKitchen.Controllers
             }
             return Redirect(Url.Action("Index"));
         }
-
+        
         private List<ProductDisplay> GetAllProducts(int order)
         {
             using (var db = new Context())
