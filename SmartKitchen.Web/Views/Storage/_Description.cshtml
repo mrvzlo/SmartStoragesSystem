@@ -1,18 +1,25 @@
 ﻿@using SmartKitchen.Domain.Enums
+@using SmartKitchen.Domain.Extensions
 @model SmartKitchen.Domain.DisplayModels.CellDisplayModel
-@{bool changeableDate = Model.Amount != Amount.None;}
+@{
+    bool changeableDate = Model.Amount != Amount.None;
+    var color = new Dictionary<StatusType, string>
+    {
+        {StatusType.Unknown, "text-secondary"}, {StatusType.Danger, "text-danger"}, {StatusType.Warning, "text-warning"}, {StatusType.Normal, "text-success"}
+    };
+}
 <tr id="@Model.Id">
     <td id="name_@Model.Id" onclick="mark(@Model.Id)">@Model.ProductName</td>
     <td>@Model.CategoryName</td>
     <td @Html.Raw(changeableDate ? "onclick=\"showDatePicker(" + Model.Id + ", '" + Model.ProductName + "')\"" : "")>
-        <a id="safety_@Model.Id" alt="@Model.SafetyStatus.Type" class="font-weight-bold text-@Model.SafetyStatus.Type" @Html.Raw(changeableDate ? "data-toggle='modal' data-target='#DateModal'" : "")>
-            @Model.SafetyStatus.Info
+        <a id="safety_@Model.Id" alt="@Model.SafetyStatus.GetStatus()" class="font-weight-bold @color[Model.SafetyStatus.GetStatus()]" @Html.Raw(changeableDate ? "data-toggle='modal' data-target='#DateModal'" : "")>
+            @Model.SafetyStatus.GetDescription()
         </a>
     </td>
 
     <td onclick="showAmountPicker(@Model.Id)">
-        <a id="amount_@Model.Id" alt="@Model.AmountStatus.Type" class="font-weight-bold text-decoration-none text-@Model.AmountStatus.Type" data-toggle="modal" data-target="#AmountModal">
-            @Model.AmountStatus.Info
+        <a id="amount_@Model.Id" alt="@Model.Amount.GetStatus()" class="font-weight-bold text-decoration-none @color[Model.Amount.GetStatus()]" data-toggle="modal" data-target="#AmountModal">
+            @Model.Amount.GetDescription()
         </a>
     </td>
 </tr>

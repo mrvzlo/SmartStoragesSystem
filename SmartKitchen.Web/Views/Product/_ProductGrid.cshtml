@@ -1,31 +1,16 @@
-﻿@using SmartKitchen.Domain.Enitities
-@model IQueryable<SmartKitchen.Domain.DisplayModels.ProductDisplayModel>
-
+﻿@model List<SmartKitchen.Domain.DisplayModels.ProductDisplayModel>
+@{ var i = 0;}
 @Html.Grid(Model).Build(c =>
 {
-
+    i++;
+    c.Add(x => x.Name).Titled("Product").RenderedAs( x => Html.Display(
+        Html.HiddenFor(y => y[i].Id, x.Id).ToHtmlString() +
+        "<div id='0_"+i+"' onclick='toggle("+i+", 1)'>"+ x.Name + "</div>" +
+        Html.TextBoxFor(y => y[i].Name, new { @class = "text-center", style = "display: none;", id = "1_" + i })
+    ));
+    c.Add(x => x.CategoryName).Titled("Category").RenderedAs(x => Html.Display(
+        "<div id='2_"+i+"' onclick='toggle("+i+", 3)'>"+ x.CategoryName + "</div>"+
+        Html.DropDownListFor(y => y[i].CategoryId, new List<SelectListItem>(), new { @class = "input", style = "display: none;", id = "3_" + i })
+    ));
+    c.Add(x => x.Usages).Titled("Usages");
 }).Sortable().Pageable(x => { x.RowsPerPage = 20; }).Css("table-borderless table-hover m-0 table")
-
-
-<table class="table table-borderless table-hover m-0 ">
-    <tr class="text-center">
-        <th style="width: 40%">Product</th>
-        <th style="width: 40%">Category</th>
-        <th style="width: 20%" >Usages</th>
-    </tr>
-    @for (int i = 0; i < Model.Count; i++)
-    {
-        <tr id="@Model[i].Id">
-            <td class="text-center">
-                @Html.HiddenFor(x => x[i].Id, Model[i].Id)
-                <div id="0_@i" onclick="toggle(@i, 1)">@Model[i].Name</div>
-                @Html.TextBoxFor(x => x[i].Name, new { @class = "text-center", style = "display: none;", id = "1_" + i })
-            </td>
-            <td class="text-center">
-                <div id="2_@i" onclick="toggle(@i, 3)">@Model[i].CategoryName</div>
-                @Html.DropDownListFor(x => x[i].CategoryId, selectList, new { @class = "input", style = "display: none;", id = "3_" + i })
-            </td>
-            <td class="text-center">@Model[i].Usages</td>
-        </tr>
-    }
-</table>

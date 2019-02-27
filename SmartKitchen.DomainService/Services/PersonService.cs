@@ -9,12 +9,10 @@ namespace SmartKitchen.DomainService.Services
     public class PersonService : BaseService, IPersonService
     {
         private readonly IPersonRepository _personRepository;
-        private readonly IStorageRepository _storageRepository;
 
-        public PersonService(IPersonRepository personRepository, IStorageRepository storageRepository)
+        public PersonService(IPersonRepository personRepository)
         {
             _personRepository = personRepository;
-            _storageRepository = storageRepository;
         }
 
         public Person GetPersonByEmail(string email) =>

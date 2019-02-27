@@ -1,6 +1,8 @@
-﻿using SmartKitchen.Domain.Enitities;
+﻿using System;
+using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.IRepositories;
 using System.Linq;
+using Z.EntityFramework.Plus;
 
 namespace SmartKitchen.Infrastructure.Repositories
 {
@@ -22,5 +24,14 @@ namespace SmartKitchen.Infrastructure.Repositories
 
         public Cell GetCellById(int id) =>
             _dbContext.Cells.Find(id);
+
+        public void DeleteCell(Cell cell) =>
+            _dbContext.Delete(cell);
+
+        public void UpdateAmount(int cell, int amount) =>
+            _dbContext.Cells.Where(x => x.Id == cell).Update(x => new Cell { Amount = amount });
+
+        public void UpdateDatetime(int cell, DateTime? datetime) =>
+            _dbContext.Cells.Where(x => x.Id == cell).Update(x => new Cell { BestBefore = datetime });
     }
 }

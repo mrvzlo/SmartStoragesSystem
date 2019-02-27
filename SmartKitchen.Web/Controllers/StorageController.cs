@@ -116,36 +116,15 @@ namespace SmartKitchen.Controllers
 
         public ActionResult SetAmount(int cell, int amount)
         {
-            CellDescription description = new CellDescription();
-            using (var db = new Context())
-            {
-                Cell cellold = db.Cells.Find(cell);
-                var storage = db.Storages.Find(cellold.Storage);
-                var response = Storage.IsOwner(storage, Person.Current(db));
-                if (!response.Successfull) return Redirect(Url.Action("Index", "Error", new { id = response.Error }));
-                if (cellold.Amount == Amount.None || amount == (int)Amount.None) cellold.BestBefore = null;
-                if (amount > (int)Amount.Plenty) cellold.Amount = Amount.Plenty;
-                else if (amount < (int)Amount.None) cellold.Amount = Amount.None;
-                else cellold.Amount = (Amount)amount;
-                db.SaveChanges();
-                description = new CellDescription(db, cell);
-            }
-
+            _cellService.UpdateCellAmount(cell, amount, CurrentUser());
+            var description = _cellService.GetCellDisplayModelById(cell, CurrentUser());
             return PartialView("_Description", description);
         }
 
-        public void Remove(int cellId)
+        public bool Remove(int cellId)
         {
-            using (var db = new Context())
-            {
-                var cell = db.Cells.Find(cellId);
-                if (cell == null) return;
-                var storage = db.Storages.Find(cell.Storage);
-                var response = Storage.IsOwner(storage, Person.Current(db));
-                if (!response.Successfull) return;
-                db.Cells.Remove(cell);
-                db.SaveChanges();
-            }
+            var response = _cellService.DeleteCellById(cellId, CurrentUser());
+            return response.Successful();
         }
 
         public ActionResult DateUpdate(int cell, string dateStr)
@@ -159,34 +138,16 @@ namespace SmartKitchen.Controllers
             {
                 newDate = null;
             }
-            CellDescription description = new CellDescription();
-            using (var db = new Context())
-            {
-                Cell cellold = db.Cells.Find(cell);
-                var storage = db.Storages.Find(cellold.Storage);
-                var response = Storage.IsOwner(storage, Person.Current(db));
-                if (!response.Successfull) return Redirect(Url.Action("Index", "Error", new { id = response.Error }));
-                if (cellold != null)
-                {
-                    if (newDate != null) cellold.BestBefore = newDate;
-                    db.SaveChanges();
-                    description = new CellDescription(db, cell);
-                }
-            }
 
+            _cellService.UpdateCellBestBefore(cell, newDate, CurrentUser());
+            var description = _cellService.GetCellDisplayModelById(cell,CurrentUser());
             return PartialView("_Description", description);
         }
 
-        public ActionResult ShowAllCells(int storage, int order)
+        public ActionResult ShowAllCells(int storage)
         {
-            var cells = new List<CellDescription>();
-            using (var db = new Context())
-            {
-                foreach (var cell in db.Cells.Where(x => x.Storage == storage).Select(x => x.Id).ToList())
-                    cells.Add(new CellDescription(db, cell));
-                cells = GetCellOrder(order, cells);
-            }
-            return PartialView("_ShowAllCells", cells);
+            var list = _cellService.GetCellsOfStorage(storage, CurrentUser());
+            return PartialView("_ShowAllCells", list);
         }
 
         #endregion

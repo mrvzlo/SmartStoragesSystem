@@ -10,7 +10,6 @@ namespace SmartKitchen.Domain.DisplayModels
         public string CategoryName { get; set; }
         public DateTime? BestBefore { get; set; }
         public Amount Amount { get; set; }
-        public Notification SafetyStatus { get; set; }
-        public Notification AmountStatus { get; set; }
+        public Safety SafetyStatus { get; set; }
     }
 }

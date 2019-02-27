@@ -28,7 +28,7 @@ namespace SmartKitchen.Controllers
         public PartialViewResult ProductGrid()
         {
             var query = _productService.GetAllProductDisplays();
-            return PartialView("_ProductGrid", query);
+            return PartialView("_ProductGrid", query.ToList());
         }
 
         public PartialViewResult Categories()

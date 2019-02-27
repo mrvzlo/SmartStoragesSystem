@@ -1,4 +1,5 @@
-﻿using SmartKitchen.Domain.CreationModels;
+﻿using System;
+using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Enums;
@@ -6,6 +7,7 @@ using SmartKitchen.Domain.IRepositories;
 using SmartKitchen.Domain.IServices;
 using SmartKitchen.Domain.Responses;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SmartKitchen.DomainService.Services
 {
@@ -41,15 +43,15 @@ namespace SmartKitchen.DomainService.Services
         {
             var response = new ItemCreationResponse();
             model.Name = model.Name.Trim();
-            var personId = _personService.GetPersonByEmail(email).Id;
-            var exists = _storageRepository.GetStorageByNameAndOwner(model.Name, personId) != null;
+            var person = _personService.GetPersonByEmail(email);
+            var exists = person.Storages.Any(x => x.Name.Equals(model.Name, StringComparison.OrdinalIgnoreCase));
             if (exists) response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
             if (!_storageTypeService.ExistsWithId(model.TypeId)) response.AddError(GeneralError.ItemNotFound, nameof(model.TypeId));
             if (!response.Successful()) return response;
             var storage = new Storage
             {
                 Name = model.Name,
-                Owner = personId,
+                Owner = person.Id,
                 TypeId = model.TypeId
             };
             response.AddedId = storage.Id;

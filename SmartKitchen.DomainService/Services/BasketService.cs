@@ -16,13 +16,11 @@ namespace SmartKitchen.DomainService.Services
     {
         private readonly IPersonRepository _personRepository;
         private readonly IBasketRepository _basketRepository;
-        private readonly IPersonService _personService;
 
-        public BasketService(IBasketRepository basketRepository, IPersonRepository personRepository, IPersonService personService)
+        public BasketService(IBasketRepository basketRepository, IPersonRepository personRepository)
         {
             _basketRepository = basketRepository;
             _personRepository = personRepository;
-            _personService = personService;
         }
 
         public BasketDisplayModel GetBasketById(int id, string email)
@@ -47,8 +45,8 @@ namespace SmartKitchen.DomainService.Services
         {
             model.Name = model.Name.Trim();
             var response = new ItemCreationResponse();
-            var personId = _personRepository.GetPersonByEmail(email).Id;
-            var exists = _basketRepository.GetBasketByNameAndOwner(model.Name, personId) != null;
+            var person = _personRepository.GetPersonByEmail(email);
+            var exists = person.Baskets.Any(x => x.Name.Equals(model.Name, StringComparison.OrdinalIgnoreCase));
             if (exists)
             {
                 response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
@@ -58,7 +56,7 @@ namespace SmartKitchen.DomainService.Services
             {
                 CreationDate = DateTime.Now,
                 Name = model.Name,
-                Owner = personId
+                Owner = person.Id
             };
             _basketRepository.AddBasket(basket);
             response.AddedId = basket.Id;

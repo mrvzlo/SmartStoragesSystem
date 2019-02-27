@@ -1,4 +1,8 @@
-﻿using SmartKitchen.Domain.CreationModels;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using SmartKitchen.Domain;
+using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Enums;
@@ -12,20 +16,20 @@ namespace SmartKitchen.DomainService.Services
     {
         private readonly ICellRepository _cellRepository;
         private readonly IProductService _productService;
-        private readonly IPersonService _personService;
         private readonly IStorageRepository _storageRepository;
 
-        public CellService(ICellRepository cellRepository, IProductService productService, IPersonService personService, IStorageRepository storageRepository)
+        public CellService(ICellRepository cellRepository, IProductService productService, IStorageRepository storageRepository)
         {
             _cellRepository = cellRepository;
             _productService = productService;
-            _personService = personService;
             _storageRepository = storageRepository;
         }
 
         public Cell GetOrAddAndGet(CellCreationModel model, string email)
         {
             var productId = _productService.GetOrAddAndGet(model.Product).Id;
+            var storage = _storageRepository.GetStorageById(model.Storage);
+            if (storage.Person.Email != email) return null;
             var cell = GetCellByProductAndStorage(productId, model.Storage);
             if (cell != null) return cell;
             var creation = AddCell(model, email);
@@ -67,7 +71,63 @@ namespace SmartKitchen.DomainService.Services
             var cell = _cellRepository.GetCellById(id);
             if (cell.Storage.Person.Email != email) return null;
             var result = Mapper.Map<CellDisplayModel>(cell);
+            result.SafetyStatus = GetSafetyStatusByDatetime(result.BestBefore);
             return result;
+        }
+
+        public ServiceResponse UpdateCellAmount(int id, int value, string email)
+        {
+            var response = new ServiceResponse();
+            var cell = _cellRepository.GetCellById(id);
+            if (cell == null || cell.Storage.Person.Email != email) response.AddError(GeneralError.ItemNotFound);
+            else
+            {
+                if (value > (int)Amount.Plenty) value = (int)Amount.Plenty;
+                else if (value < (int)Amount.None) value = (int)Amount.None;
+                _cellRepository.UpdateAmount(id, value);
+            }
+            return response;
+        }
+
+        public ServiceResponse UpdateCellBestBefore(int id, DateTime? value, string email)
+        {
+            var response = new ServiceResponse();
+            var cell = _cellRepository.GetCellById(id);
+            if (cell == null || cell.Storage.Person.Email != email) response.AddError(GeneralError.ItemNotFound);
+            else
+            {
+                _cellRepository.UpdateDatetime(id, value);
+            }
+            return response;
+        }
+
+        public ServiceResponse DeleteCellById(int id, string email)
+        {
+            var response = new ServiceResponse();
+            var cell = _cellRepository.GetCellById(id);
+            if (cell == null || cell.Storage.Person.Email != email) response.AddError(GeneralError.ItemNotFound);
+            else _cellRepository.DeleteCell(cell);
+            return response;
+        }
+
+        public List<CellDisplayModel> GetCellsOfStorage(int storageId, string email)
+        {
+            var storage = _storageRepository.GetStorageById(storageId);
+            if (storage == null || storage.Person.Email != email) return null;
+            var list = Mapper.Map<List<CellDisplayModel>>(storage.Cells.ToList());
+            foreach (var item in list)
+                item.SafetyStatus = GetSafetyStatusByDatetime(item.BestBefore);
+            return list;
+        }
+
+        private Safety GetSafetyStatusByDatetime(DateTime? bestBefore)
+        {
+            if (bestBefore == null) return Safety.Unknown;
+            var days = (int)Math.Floor((bestBefore.Value.Date - DateTime.UtcNow.Date).TotalDays);
+            return days > 1 ? Safety.IsSafe
+                : days > 0 ? Safety.ExpiresTomorrow
+                : days == 0 ? Safety.ExpiresToday
+                : Safety.Expired;
         }
     }
 }

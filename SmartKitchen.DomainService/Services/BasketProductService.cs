@@ -11,16 +11,14 @@ namespace SmartKitchen.DomainService.Services
     public class BasketProductService : BaseService, IBasketProductService
     {
         private readonly ICellService _cellService;
-        private readonly IPersonService _personService;
         private readonly IStorageRepository _storageRepository;
         private readonly IBasketRepository _basketRepository;
         private readonly IBasketProductRepository _basketProductRepository;
 
         public BasketProductService(IBasketRepository basketRepository, IBasketProductRepository basketProductRepository,
-            IStorageRepository storageRepository, ICellService cellService, IPersonService personService)
+            IStorageRepository storageRepository, ICellService cellService)
         {
             _cellService = cellService;
-            _personService = personService;
             _basketRepository = basketRepository;
             _storageRepository = storageRepository;
             _basketProductRepository = basketProductRepository;
