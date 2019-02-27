@@ -3,6 +3,7 @@ using SmartKitchen.Domain.Enitities;
 using System.Collections.Generic;
 using System.Linq;
 using SmartKitchen.Domain.IRepositories;
+using Z.EntityFramework.Plus;
 
 namespace SmartKitchen.Infrastructure.Repositories
 {
@@ -24,5 +25,8 @@ namespace SmartKitchen.Infrastructure.Repositories
 
         public Storage GetStorageByNameAndOwner(string name, int owner) =>
             _dbContext.Storages.FirstOrDefault(x => x.Owner == owner && x.Name.Equals(name.Trim(), StringComparison.OrdinalIgnoreCase));
+
+        public void ReplaceType(int fromId, int toId) =>
+            _dbContext.Storages.Where(x => x.TypeId == fromId).Update(x => new Storage { TypeId = toId });
     }
 }

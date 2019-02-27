@@ -34,6 +34,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,6 +47,7 @@
     <Compile Include="CreationModels\StorageCreationModel.cs" />
     <Compile Include="CreationModels\CellCreationModel.cs" />
     <Compile Include="CreationModels\NameCreationModel.cs" />
+    <Compile Include="CreationModels\StorageTypeCreationModel.cs" />
     <Compile Include="DisplayModels\BasketDisplayModel.cs" />
     <Compile Include="DisplayModels\BasketProductDisplayModel.cs" />
     <Compile Include="DisplayModels\BasketWithProductsDisplayModel.cs" />

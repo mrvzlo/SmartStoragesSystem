@@ -7,9 +7,11 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.IRepositories;
+using SmartKitchen.Helpers;
 
 namespace SmartKitchen.Controllers
 {
@@ -63,7 +65,7 @@ namespace SmartKitchen.Controllers
             var response = _storageService.AddStorage(storage, CurrentUser());
             if (!response.Successful())
             {
-                ModelState.AddModelError(response);
+                AddModelStateErrors(response);
                 ViewBag.Selected = storage.TypeId;
                 var query = _storageTypeService.GetAllStorageTypes();
                 return View(query.ToList());
@@ -85,27 +87,13 @@ namespace SmartKitchen.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public ActionResult CreateType(StorageTypeCreation newType)
+        public ActionResult CreateType(StorageTypeCreationModel model)
         {
-            if (string.IsNullOrEmpty(newType.Name)) ModelState.AddModelError("Name", "Name is required");
-            if (newType.Icon != null && !newType.IconIsValid()) ModelState.AddModelError("Icon", "Select a PNG image smaller than 1MB");
-            if (ModelState.IsValid)
-            {
-                newType.Icon?.SaveAs(Server.MapPath("~/Content/images/" + newType.Id + ".png"));
-                using (var db = new Context())
-                {
-                    var old = db.StorageTypes.Find(newType.Id);
-                    if (old == null) db.StorageTypes.Add(new StorageType { Background = newType.Background, Name = newType.Name });
-                    else
-                    {
-                        old.Name = newType.Name;
-                        old.Background = newType.Background;
-                    }
-
-                    db.SaveChanges();
-                }
-                return Redirect(Url.Action("CreateType"));
-            }
+            var file = System.Web.HttpContext.Current.Request.Files[0];
+            var response = _storageTypeService.AddOrUpdateStorageType(model);
+            if (FileHelper.IconIsNotValid(file)) ModelState.AddModelError("Icon", "Select a PNG image smaller than 1MB");
+            if (response.Successful() && ModelState.IsValid) return Redirect(Url.Action("CreateType"));
+            if (file.ContentLength > 0) FileHelper.SaveImage(file, Server.MapPath("~/Content/images/" + model.Id + ".png"));
             var query = _storageTypeService.GetAllStorageTypes();
             return View(query.ToList());
         }
@@ -113,20 +101,8 @@ namespace SmartKitchen.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult RemoveType(int fromId, int toId)
         {
-            var result = Redirect(Url.Action("Index"));
-            using (var db = new Context())
-            {
-                var from = db.StorageTypes.Find(fromId);
-                var to = db.StorageTypes.Find(toId);
-                if (from == null || to == null || fromId == 1) return result;
-                foreach (var product in db.Storages.Where(x => x.Type == fromId))
-                {
-                    product.Type = toId;
-                }
-                db.StorageTypes.Remove(from);
-                db.SaveChanges();
-            }
-            return result;
+            _storageTypeService.ReplaceType(fromId, toId);
+            return Redirect(Url.Action("Index"));
         }
 
         #endregion
