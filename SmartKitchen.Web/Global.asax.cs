@@ -1,5 +1,4 @@
-﻿using StructureMap.AutoMocking;
-using System;
+﻿using System;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
@@ -13,6 +12,7 @@ namespace SmartKitchen
     {
         protected void Application_Start()
         {
+            var temp = ServiceLocator.Current
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
