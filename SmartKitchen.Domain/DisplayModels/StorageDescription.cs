@@ -5,7 +5,7 @@ namespace SmartKitchen.Domain.DisplayModels
     public class StorageDescription
     {
         [Key]
-        public int Id { get; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public StorageTypeDisplayModel Type { get; set; }
         public int CellCount { get; set; }

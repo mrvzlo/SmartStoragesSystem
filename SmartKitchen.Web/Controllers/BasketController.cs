@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using System.Web.Mvc;
-using SmartKitchen.Domain.CreationModels;
+﻿using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.IServices;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace SmartKitchen.Web.Controllers
 {
@@ -18,7 +18,7 @@ namespace SmartKitchen.Web.Controllers
             _basketProductService = basketProductService;
             _storageService = storageService;
         }
-        
+
         #region Basket
         public ActionResult Index()
         {
@@ -48,12 +48,6 @@ namespace SmartKitchen.Web.Controllers
             return View(basket);
         }
 
-        public PartialViewResult GetMyStorages()
-        {
-            var list = _storageService.GetStoragesWithDescriptionByOwnerEmail(CurrentUser());
-            return PartialView("_StorageSelect", list);
-        }
-
         [HttpPost]
         public ActionResult Lock(int id)
         {
@@ -76,6 +70,11 @@ namespace SmartKitchen.Web.Controllers
             {
                 Basket = basket
             };
+            ViewBag.SelectList = _storageService.GetStoragesWithDescriptionByOwnerEmail(CurrentUser()).Select(x => new SelectListItem
+            {
+                Value = x.Id.ToString(),
+                Text = x.Name
+            }).ToList();
             return PartialView("_AddNewProduct", basketProduct);
         }
 
