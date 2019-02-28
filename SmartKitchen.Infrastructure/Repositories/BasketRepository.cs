@@ -9,7 +9,10 @@ namespace SmartKitchen.Infrastructure.Repositories
     public class BasketRepository : IBasketRepository
     {
         private readonly AppDbContext _dbContext;
-        
+
+        public BasketRepository(AppDbContext dbContext) =>
+            _dbContext = dbContext;
+
         public Basket GetBasketById(int id) =>
             _dbContext.Baskets.Find(id);
 

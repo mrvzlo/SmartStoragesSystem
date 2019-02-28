@@ -8,6 +8,7 @@ using System.Web.Security;
 using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.IServices;
 using SmartKitchen.Enums;
+using SmartKitchen.Web.Helpers;
 
 namespace SmartKitchen.Web.Controllers
 {
@@ -39,34 +40,39 @@ namespace SmartKitchen.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SignIn(SignInModel model)
+        public JsonResult SignIn(SignInModel model)
         {
-            if (!ModelState.IsValid)
-                return PartialView("_SignIn", model);
-            var response = _authenticationService.SignIn(model);
-            if (!response.Successful())
+            if (ModelState.IsValid)
             {
+                var response = _authenticationService.SignIn(model);
+                if (response.Successful())
+                {
+                    CreateTicket(response.Email, response.Role);
+                    return Json(new {success = true, url = Url.Action("Index", "Storage")});
+                }
                 AddModelStateErrors(response);
-                return PartialView("_SignIn", model);
+
             }
-            CreateTicket(response.Email, response.Role);
-            return Redirect(Url.Action("Index", "Storage"));
+            return Json(new { success = false, formHTML = this.RenderPartialViewToString("_SignIn",model) });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(SignUpModel model)
+        public JsonResult Register(SignUpModel model)
         {
-            if (!ModelState.IsValid)
-                return PartialView("_SignUp", model);
-            var response = _authenticationService.SignUp(model);
-            if (!response.Successful())
+            if (ModelState.IsValid)
             {
+                var response = _authenticationService.SignUp(model);
+                if (response.Successful())
+                {
+                    CreateTicket(response.Email, response.Role);
+                    return Json(new { success = true, url = Url.Action("About", "Home") });
+                }
+
                 AddModelStateErrors(response);
-                return PartialView("_SignUp", model);
             }
-            CreateTicket(response.Email, response.Role);
-            return RedirectToAction("About", "Home");
+
+            return Json(new { success = false, formHTML = this.RenderPartialViewToString("_SignUp", model) });
         }
 
         private void CreateTicket(string email, Role role)

@@ -1,5 +1,10 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
+using System.Text;
 using System.Web.Mvc;
+using System.Web.UI;
+using JetBrains.Annotations;
+using SmartKitchen.Domain.Extensions;
 using SmartKitchen.Domain.Responses;
 
 namespace SmartKitchen.Web.Controllers
@@ -10,12 +15,18 @@ namespace SmartKitchen.Web.Controllers
         {
             if (response.Successful()) return;
             foreach (var error in response.Errors)
-                ModelState.AddModelError(error.Key, error.ErrorEnum.ToString());
+                ModelState.AddModelError(error.Key, error.ErrorEnum.GetDescription());
         }
 
-        protected string GetErrorsToString(ServiceResponse response) => 
-            response.Errors.Any() ? string.Join("<br/>", response.Errors) : "";
+        protected string GetErrorsToString(ServiceResponse response)
+        {
+            var res = "";
+            foreach (var e in response.Errors)
+                res += e.ErrorEnum.GetDescription()+"<br/>";
+            return res;
+        }
 
         protected string CurrentUser() => HttpContext.User.Identity.Name;
+
     }
 }

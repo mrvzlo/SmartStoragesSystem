@@ -38,7 +38,7 @@ namespace SmartKitchen.DomainService.Services
         public IQueryable<BasketDisplayModel> GetBasketsByOwnerEmail(string email)
         {
             var person = _personRepository.GetPersonByEmail(email);
-            return person.Baskets.AsQueryable().ProjectTo<BasketDisplayModel>(MapperConfig);
+            return person.Baskets.AsQueryable().ProjectTo<BasketDisplayModel>(MapperConfig).OrderByDescending(x=>x.CreationDate);
         }
 
         public ItemCreationResponse AddBasket(NameCreationModel model, string email)

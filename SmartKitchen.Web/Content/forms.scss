@@ -1,0 +1,35 @@
+﻿input, .input {
+    padding: 0px 10px;
+    background-color: lighten($main, 60%);
+    width: 100%;
+}
+
+label{
+    margin: 0;
+}
+
+.big-border, input, .input, .storage, .storage-small, .storage-new, .card, .mvc-grid-pager button {
+    border: solid 2px darken($main, 20%);
+    border-radius: $border-radius;
+}
+
+.card {
+    margin-bottom: 1rem;
+}
+
+.btn-unactive {
+    background-color: desaturate($main, 50%);
+}
+
+.btn {
+    font-weight: 600;
+}
+
+.error {
+    text-align: center;
+    color: $danger;
+}
+
+form div {
+    padding: 0px 5px;
+}

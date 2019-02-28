@@ -4,57 +4,8 @@ $theme-colors: ( "main": $main );
 $border-radius: 1rem !default;
 @import 'bootstrap/bootstrap.scss';
 @import 'MvcGrid/mvc-grid.css';
-
-//forms
-input, .input {
-    padding: 0px 10px;
-    background-color: lighten($main, 60%);
-    width: 100%;
-}
-
-.big-border, input, .input, .storage, .storage-small, .storage-new, .card, .mvc-grid-pager button {
-    border: solid 2px darken($main, 20%);
-    border-radius: $border-radius;
-}
-.card{
-    margin-bottom:1rem;
-}
-
-.btn-unactive {
-    background-color: desaturate($main, 50%);
-}
-
-.btn {
-    font-weight: 600;
-}
-
-.error {
-    text-align: center;
-    color: $danger;
-}
-
-form div {
-    padding: 0px 5px;
-}
-
-//forms
-.bought{
-    text-decoration: line-through;
-}
-
-.storage {
-    margin: 1rem;
-    padding: 1rem;
-}
-
-.storage-small {
-    margin: 0.2rem;
-    font-size: 1.4rem;
-}
-
-.storage-new {
-    background-color: lighten($main, 60%);
-}
+@import 'tables.scss';
+@import 'forms.scss';
 
 body {
     padding: 0;
@@ -63,12 +14,6 @@ body {
 .nav-link {
     padding: 0.2rem;
     font-size: large;
-}
-
-.lds-ellipsis {
-    display: inline-block;
-    position: relative;
-    height: 1rem;
 }
 
 //icons
@@ -87,6 +32,10 @@ body {
     display: none;
 }
 
+.underline{
+    border-bottom: solid 5px $main;
+}
+
 .gap {
     margin-bottom: 4rem;
 }
@@ -94,19 +43,6 @@ body {
 .grid-header-title a {
     text-decoration-line: none;
     color: #000000;
-}
-
-.w-40 {
-    width: 40% !important;
-}
-
-.w-20 {
-    width: 20% !important;
-}
-
-.mvc-grid-pager button{
-    margin: 0.25rem 0;
-    font-size: 0.8rem;
 }
 
 @media screen and (max-width: #{map-get($grid-breakpoints, sm)}) {

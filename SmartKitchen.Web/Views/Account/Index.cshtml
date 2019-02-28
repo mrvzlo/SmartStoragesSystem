@@ -3,39 +3,55 @@
 }
 
 <div class="row justify-content-center mt-3">
-    <div class="col-md-5 col-12">
-        <div class="row">
-            <div class="col"><button class="btn w-100 py-2 text-light bg-main" id="signin" onclick="activate(true);">Sign in</button></div>
-            <div class="col"><button class="btn w-100 py-2 text-light btn-unactive" id="signup" onclick="activate(false);">Sign up</button></div>
+    <div class="col-md-8 col-12">
+        <div class="row justify-content-center">
+            <a class="col-md-3 col-5 text-center font-weight-bold py-2 text-main underline" id="signin" onclick="activate(true);">Sign in</a>
+            <a class="col-md-3 col-5 text-center font-weight-bold py-2 text-main" id="signup" onclick="activate(false);">Sign up</a>
         </div>
-        @{
-            Html.RenderAction("SignIn");
-            Html.RenderAction("SignUp");
-        }
+        <div id="_SignIn">@{Html.RenderAction("SignIn");}</div>
+        <div id="_SignUp">@{Html.RenderAction("SignUp");}</div>
     </div>
 </div>
 @section Scripts {
     <script>
 		function activate(type) {
 			if (type) {
-				$('#signin').addClass("bg-main");
-				$('#signup').removeClass("bg-main");
-				$('#signup').addClass("btn-unactive");
-				$('#signin').removeClass("btn-unactive");
-				$("#formSignIn").show();
-				$("#formSignUp").hide();
+                $('#signin').addClass("underline");
+                $('#signup').removeClass("underline");
+                $("#_SignIn").show();
+                $("#_SignUp").hide();
 			} else {
-				$('#signin').removeClass("bg-main");
-				$('#signup').addClass("bg-main");
-				$('#signup').removeClass("btn-unactive");
-				$('#signin').addClass("btn-unactive");
-				$("#formSignIn").hide();
-				$("#formSignUp").show();
+                $('#signin').removeClass("underline");
+                $('#signup').addClass("underline");
+                $("#_SignIn").hide();
+                $("#_SignUp").show();
 			}
 		}
 
 		$(function() {
-			activate(0);
-		});
+            activate(1);
+            bindForm("#formSignIn", "#_SignIn");
+            bindForm("#formSignUp", "#_SignUp");
+        });
+        
+        function bindForm(formId, containerId) {
+            var frm = $(formId);
+            frm.off('submit');
+            frm.on('submit', function () {
+                if (!$(this).valid()) return false;
+                var url = frm.attr('action');
+                $.post(url,
+                    frm.serialize(),
+                    function(data) {
+                        if (data.success) window.location = data.url;
+                        else {
+                            $(containerId).html(data.formHTML).promise().done(function() {
+                                bindForm(formId, containerId);
+                            });
+                        }
+                    });
+                return false;
+            });
+        }
     </script>
 }

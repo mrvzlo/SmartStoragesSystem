@@ -7,6 +7,9 @@ namespace SmartKitchen.Infrastructure.Repositories
     {
         private readonly AppDbContext _dbContext;
 
+        public BasketProductRepository(AppDbContext dbContext) =>
+            _dbContext = dbContext;
+
         public void AddBasketProduct(BasketProduct basketProduct) =>
             _dbContext.InsertOrUpdate(basketProduct);
 
