@@ -1,7 +1,7 @@
-﻿using SmartKitchen.Domain.IServices;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using SmartKitchen.Domain.IServices;
 
-namespace SmartKitchen.Controllers
+namespace SmartKitchen.Web.Controllers
 {
     public class HomeController : Controller
     {

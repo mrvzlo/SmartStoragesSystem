@@ -24,7 +24,7 @@ namespace SmartKitchen.Infrastructure.Repositories
             _dbContext.Delete(_dbContext.Storages.Find(id));
 
         public Storage GetStorageByNameAndOwner(string name, int owner) =>
-            _dbContext.Storages.FirstOrDefault(x => x.Owner == owner && x.Name.Equals(name.Trim(), StringComparison.OrdinalIgnoreCase));
+            _dbContext.Storages.FirstOrDefault(x => x.PersonId == owner && x.Name.Equals(name.Trim(), StringComparison.OrdinalIgnoreCase));
 
         public void ReplaceType(int fromId, int toId) =>
             _dbContext.Storages.Where(x => x.TypeId == fromId).Update(x => new Storage { TypeId = toId });

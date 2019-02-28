@@ -1,7 +1,7 @@
 ﻿using System.Linq;
+using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Responses;
-using SmartKitchen.Models;
 
 namespace SmartKitchen.Domain.IServices
 {

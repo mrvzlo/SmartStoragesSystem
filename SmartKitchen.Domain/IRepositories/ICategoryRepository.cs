@@ -10,5 +10,6 @@ namespace SmartKitchen.Domain.IRepositories
         void AddCategory(Category category);
         void DeleteCategoryById(int id);
         IQueryable<Category> GetAllCategories();
+        bool ExistsWithId(int id);
     }
 }

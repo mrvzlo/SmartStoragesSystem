@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace SmartKitchen.Domain.CreationModels
+﻿namespace SmartKitchen.Domain.CreationModels
 {
     public class StorageCreationModel : NameCreationModel
     {

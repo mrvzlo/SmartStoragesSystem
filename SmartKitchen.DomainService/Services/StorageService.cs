@@ -51,7 +51,7 @@ namespace SmartKitchen.DomainService.Services
             var storage = new Storage
             {
                 Name = model.Name,
-                Owner = person.Id,
+                PersonId = person.Id,
                 TypeId = model.TypeId
             };
             response.AddedId = storage.Id;

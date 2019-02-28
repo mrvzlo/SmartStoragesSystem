@@ -3,16 +3,16 @@
 {
     @Html.AntiForgeryToken()
     <h3 class="text-center m-3">New user</h3>
-    <div>@Html.DisplayFor(x => x.Email)</div>
+    <div>@Html.LabelFor(x => x.Email)</div>
     <div>@Html.EditorFor(x => x.Email)</div>
     <div class="error">@Html.ValidationMessageFor(x => x.Email)</div>
-    <div>@Html.DisplayFor(x => x.Username)</div>
+    <div>@Html.LabelFor(x => x.Username)</div>
     <div>@Html.EditorFor(x => x.Username)</div>
     <div class="error">@Html.ValidationMessageFor(x => x.Username)</div>
-    <div>@Html.DisplayFor(x => x.Password)</div>
+    <div>@Html.LabelFor(x => x.Password)</div>
     <div>@Html.PasswordFor(x => x.Password)</div>
     <div class="error">@Html.ValidationMessageFor(x => x.Password)</div>
-    <div>@Html.DisplayFor(x => x.Confirm)</div>
+    <div>@Html.LabelFor(x => x.Confirm)</div>
     <div>@Html.PasswordFor(x => x.Confirm)</div>
     <div class="error">@Html.ValidationMessageFor(x => x.Confirm)</div>
 

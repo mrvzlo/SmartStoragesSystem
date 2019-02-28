@@ -1,16 +1,22 @@
-﻿@model List<SmartKitchen.Domain.DisplayModels.ProductDisplayModel>
+﻿@using SmartKitchen.Domain.DisplayModels
+@model IQueryable<SmartKitchen.Domain.DisplayModels.ProductDisplayModel>
 @{ var i = 0;}
-@Html.Grid(Model).Build(c =>
+@Html.Grid(Model).Build(c =>{
+    c.Add(x => x.Name).RenderedAs( x => NameHelper(x,i)).Titled("Product").Css("w-40");
+    c.Add(x => x.CategoryName).RenderedAs(x => CategoryHelper(x,i++)).Titled("Category").Css("w-40");
+    c.Add(x => x.Usages).Titled("Usages").Css("w-20");
+}).Sortable().Pageable(x => { x.RowsPerPage = 15; }).Css("table-borderless table-hover m-0 table text-center")
+
+@helper NameHelper(ProductDisplayModel item, int i)
 {
-    i++;
-    c.Add(x => x.Name).Titled("Product").RenderedAs( x => Html.Display(
-        Html.HiddenFor(y => y[i].Id, x.Id).ToHtmlString() +
-        "<div id='0_"+i+"' onclick='toggle("+i+", 1)'>"+ x.Name + "</div>" +
-        Html.TextBoxFor(y => y[i].Name, new { @class = "text-center", style = "display: none;", id = "1_" + i })
-    ));
-    c.Add(x => x.CategoryName).Titled("Category").RenderedAs(x => Html.Display(
-        "<div id='2_"+i+"' onclick='toggle("+i+", 3)'>"+ x.CategoryName + "</div>"+
-        Html.DropDownListFor(y => y[i].CategoryId, new List<SelectListItem>(), new { @class = "input", style = "display: none;", id = "3_" + i })
-    ));
-    c.Add(x => x.Usages).Titled("Usages");
-}).Sortable().Pageable(x => { x.RowsPerPage = 20; }).Css("table-borderless table-hover m-0 table")
+    @Html.Hidden($"model[{i}].Id", item.Id)
+    <div id='0_@i' onclick='toggle(@i, 1)'>@item.Name</div>
+    @Html.TextBox($"model[{i}].Name", item.Name, new { @class = "text-center", style = "display: none;", id = "1_" + i })
+}
+
+@helper CategoryHelper(ProductDisplayModel item, int i)
+{
+    <div id='2_@i' onclick='toggle(@i, 3)'>@item.CategoryName</div>
+    @Html.DropDownList($"model[{i}].CategoryId", new SelectList(ViewBag.SelectList, "Value", "Text", item.CategoryId), 
+        new { @class = "input", style = "display: none;", id = "3_" + i })
+}

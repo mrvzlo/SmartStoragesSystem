@@ -26,5 +26,8 @@ namespace SmartKitchen.Infrastructure.Repositories
 
         public void DeleteCategoryById(int id) => 
             _dbContext.Delete(_dbContext.Categories.Find(id));
+
+        public bool ExistsWithId(int id) =>
+            _dbContext.Categories.Any(x => x.Id == id);
     }
 }

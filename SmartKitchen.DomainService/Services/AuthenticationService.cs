@@ -71,7 +71,7 @@ namespace SmartKitchen.DomainService.Services
             var initialStorage = new Storage
             {
                 Name = firstType.Name,
-                Owner = personId,
+                PersonId = personId,
                 TypeId = firstType.Id
             };
             _storageRepository.AddStorage(initialStorage);

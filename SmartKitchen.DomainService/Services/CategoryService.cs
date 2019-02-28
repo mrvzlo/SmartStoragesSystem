@@ -11,7 +11,7 @@ using SmartKitchen.Domain.CreationModels;
 
 namespace SmartKitchen.DomainService.Services
 {
-    class CategoryService : BaseService, ICategoryService
+    public class CategoryService : BaseService, ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IProductRepository _productRepository;
@@ -53,8 +53,5 @@ namespace SmartKitchen.DomainService.Services
             _productRepository.ReplaceCategory(fromId, toId);
             _categoryRepository.DeleteCategoryById(fromId);
         }
-
-        public bool ExistsWithId(int id) =>
-            _categoryRepository.GetCategoryById(id) != null;
     }
 }

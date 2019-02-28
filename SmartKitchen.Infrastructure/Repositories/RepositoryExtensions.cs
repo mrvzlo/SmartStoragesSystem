@@ -39,9 +39,7 @@ namespace SmartKitchen.Infrastructure.Repositories
 
         public static void Delete<TEntity>(this DbContext dbContext, TEntity entity) where TEntity : class
         {
-            if (!IsAttached(dbContext, entity))
-                dbContext.Entry(entity).State = EntityState.Deleted;
-
+            dbContext.Entry(entity).State = EntityState.Deleted;
             dbContext.SaveChanges();
         }
     }

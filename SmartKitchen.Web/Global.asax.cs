@@ -5,10 +5,8 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
-using CommonServiceLocator;
-using SmartKitchen.Controllers;
 
-namespace SmartKitchen
+namespace SmartKitchen.Web
 {
     public class MvcApplication : System.Web.HttpApplication
     {

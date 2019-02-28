@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using SmartKitchen.Domain.IServices;
 using System.Web.Mvc;
 using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.Enums;
+using SmartKitchen.Domain.IServices;
 
-namespace SmartKitchen.Controllers
+namespace SmartKitchen.Web.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class CategoryController : BaseController

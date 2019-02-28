@@ -1,19 +1,12 @@
-﻿using SmartKitchen.Domain.DisplayModels;
-using SmartKitchen.Domain.Enitities;
-using SmartKitchen.Domain.Enums;
-using SmartKitchen.Domain.IServices;
-using SmartKitchen.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Globalization;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using SmartKitchen.Domain.CreationModels;
-using SmartKitchen.Domain.IRepositories;
-using SmartKitchen.Helpers;
+using SmartKitchen.Domain.IServices;
+using SmartKitchen.Web.Helpers;
 
-namespace SmartKitchen.Controllers
+namespace SmartKitchen.Web.Controllers
 {
     [Authorize]
     public class StorageController : BaseController
@@ -89,11 +82,12 @@ namespace SmartKitchen.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult CreateType(StorageTypeCreationModel model)
         {
+            if (!ModelState.IsValid) return Redirect(Url.Action("CreateType"));
             var file = System.Web.HttpContext.Current.Request.Files[0];
             var response = _storageTypeService.AddOrUpdateStorageType(model);
             if (FileHelper.IconIsNotValid(file)) ModelState.AddModelError("Icon", "Select a PNG image smaller than 1MB");
-            if (response.Successful() && ModelState.IsValid) return Redirect(Url.Action("CreateType"));
             if (file.ContentLength > 0) FileHelper.SaveImage(file, Server.MapPath("~/Content/images/" + model.Id + ".png"));
+            if (response.Successful() && ModelState.IsValid) return Redirect(Url.Action("CreateType"));
             var query = _storageTypeService.GetAllStorageTypes();
             return View(query.ToList());
         }

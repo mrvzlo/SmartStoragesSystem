@@ -9,6 +9,7 @@ namespace SmartKitchen.Domain.IRepositories
         StorageType GetStorageTypeById(int id);
         void DeleteStorageTypeById(int id);
         StorageType GetStorageTypeByName(string name);
-        void AddStorageType(StorageType storageType);
+        void AddOrUpdateStorageType(StorageType storageType);
+        bool ExistsWithName(string name);
     }
 }

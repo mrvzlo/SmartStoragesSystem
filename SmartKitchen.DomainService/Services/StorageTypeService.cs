@@ -3,8 +3,8 @@ using SmartKitchen.Domain.Enums;
 using SmartKitchen.Domain.IRepositories;
 using SmartKitchen.Domain.IServices;
 using SmartKitchen.Domain.Responses;
-using SmartKitchen.Models;
 using System.Linq;
+using SmartKitchen.Domain.CreationModels;
 
 namespace SmartKitchen.DomainService.Services
 {
@@ -38,21 +38,29 @@ namespace SmartKitchen.DomainService.Services
         {
             var response = new ItemCreationResponse();
             model.Name = model.Name.Trim();
-            var exists = _storageTypeRepository.GetStorageTypeByName(model.Name) != null;
-            if (exists)
+            var oldType = _storageTypeRepository.GetStorageTypeById(model.Id);
+            if (oldType != null)
             {
-                response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
-                return response;
+                oldType.Name = model.Name;
+                oldType.Background = model.Background;
+                _storageTypeRepository.AddOrUpdateStorageType(oldType);
+            }
+            else
+            {
+                if (_storageTypeRepository.ExistsWithName(model.Name))
+                {
+                    response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
+                    return response;
+                }
+
+                var newType = new StorageType
+                {
+                    Background = model.Background,
+                    Name = model.Name
+                };
+                _storageTypeRepository.AddOrUpdateStorageType(newType);
             }
 
-            var storageType = new StorageType
-            {
-                Background = model.Background,
-                Name = model.Name
-            };
-
-            if (model.Id > 0) storageType.Id = model.Id;
-            _storageTypeRepository.AddStorageType(storageType);
             response.AddedId = model.Id;
             return response;
         }

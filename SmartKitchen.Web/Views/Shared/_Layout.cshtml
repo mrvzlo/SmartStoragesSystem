@@ -9,10 +9,11 @@
 <body class="p-0">
     @Html.Partial("_Navbar")
     <div class="container">
-    <div class="gap"></div>
+        <div class="gap"></div>
         @RenderBody()
     </div>
-    @Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", false)
 </body>

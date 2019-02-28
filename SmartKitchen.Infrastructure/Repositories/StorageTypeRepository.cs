@@ -27,7 +27,10 @@ namespace SmartKitchen.Infrastructure.Repositories
         public StorageType GetStorageTypeByName(string name) =>
             _dbContext.StorageTypes.FirstOrDefault(x => x.Name.Equals(name.Trim(), StringComparison.OrdinalIgnoreCase));
 
-        public void AddStorageType(StorageType storageType) =>
+        public void AddOrUpdateStorageType(StorageType storageType) =>
             _dbContext.InsertOrUpdate(storageType);
+
+        public bool ExistsWithName(string name) =>
+            _dbContext.StorageTypes.Any(x => x.Name.Equals(name.Trim(), StringComparison.OrdinalIgnoreCase));
     }
 }

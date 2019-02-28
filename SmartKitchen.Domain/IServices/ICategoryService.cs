@@ -11,6 +11,5 @@ namespace SmartKitchen.Domain.IServices
         IQueryable<CategoryDisplay> GetAllCategoryDisplays();
         ServiceResponse AddCategoryWithName(NameCreationModel model);
         void ReplaceCategory(int fromId, int toId);
-        bool ExistsWithId(int id);
     }
 }

@@ -1,11 +1,11 @@
-﻿using SmartKitchen.Domain.DisplayModels;
-using SmartKitchen.Domain.IServices;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using SmartKitchen.Domain.CreationModels;
+using SmartKitchen.Domain.DisplayModels;
+using SmartKitchen.Domain.IServices;
 
-namespace SmartKitchen.Controllers
+namespace SmartKitchen.Web.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class ProductController : BaseController
@@ -28,28 +28,30 @@ namespace SmartKitchen.Controllers
         public PartialViewResult ProductGrid()
         {
             var query = _productService.GetAllProductDisplays();
-            return PartialView("_ProductGrid", query.ToList());
-        }
-
-        public PartialViewResult Categories()
-        {
-            var query = _categoryService.GetAllCategoryDisplays();
-            return PartialView("_Categories", query.ToList());
+            ViewBag.SelectList = _categoryService.GetAllCategoryDisplays().Select(x=>new SelectListItem
+            {
+                Value = x.Id.ToString(), Text = x.Name
+            }).ToList();
+            return PartialView("_ProductGrid", query);
         }
 
         [HttpPost]
         public RedirectResult Add(NameCreationModel model)
         {
-            var response = _productService.AddProduct(model);
-            if (!response.Successful())
-                TempData["error"] = GetErrorsToString(response);
+            if (ModelState.IsValid)
+            {
+                var response = _productService.AddProduct(model);
+                if (!response.Successful())
+                    TempData["error"] = GetErrorsToString(response);
+            }
             return Redirect(Url.Action("Index"));
         }
 
         [HttpPost]
         public RedirectResult SaveChanges(List<ProductDisplayModel> list)
         {
-            _productService.UpdateProductList(list);
+            if (ModelState.IsValid)
+                _productService.UpdateProductList(list);
             return Redirect(Url.Action("Index"));
         }
         

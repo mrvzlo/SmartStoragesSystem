@@ -4,6 +4,7 @@
  * Copyright 2011-2018 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
+@import url(MvcGrid/mvc-grid.css);
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
@@ -6938,7 +6939,7 @@ input, .input {
   background-color: #ece7f6;
   width: 100%; }
 
-.big-border, input, .input, .storage, .storage-small, .storage-new, .card {
+.big-border, input, .input, .storage, .storage-small, .storage-new, .card, .mvc-grid-pager button {
   border: solid 2px #1c1332;
   border-radius: 1rem; }
 
@@ -7001,6 +7002,16 @@ body {
 .grid-header-title a {
   text-decoration-line: none;
   color: #000000; }
+
+.w-40 {
+  width: 40% !important; }
+
+.w-20 {
+  width: 20% !important; }
+
+.mvc-grid-pager button {
+  margin: 0.25rem 0;
+  font-size: 0.8rem; }
 
 @media screen and (max-width: 576px) {
   th, td {

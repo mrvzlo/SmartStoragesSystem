@@ -30,5 +30,8 @@ namespace SmartKitchen.Infrastructure.Repositories
 
         public void UpdateProduct(Product product) =>
             _dbContext.InsertOrUpdate(product);
+
+        public bool ExistsAnotherWithEqualName(string name, int id) =>
+            _dbContext.Products.Any(x => x.Id != id && x.Name.Equals(name.Trim(), StringComparison.OrdinalIgnoreCase));
     }
 }

@@ -28,7 +28,7 @@
                 <div class="row justify-content-center mx-3 text-center">
                     @foreach (var i in Model)
                     {
-                        <div id="modal_@i" class="col-md-3 col-5 btn btn-main m-1" data-dismiss="modal" onclick="removeConfirm(@i);"></div>
+                        <div id="modal_@i.Id" class="col-md-3 col-5 btn btn-main m-1" data-dismiss="modal" onclick="removeConfirm(@i.Id);"></div>
                     }
                     <div class="col-12"></div>
                     <button data-dismiss="modal" class="btn btn-secondary col-md-4 col-6 m-1">Close</button>
@@ -59,13 +59,13 @@
         }
 
         function loadNames(id) {
-            @foreach (var id in Model){
+            @foreach (var item in Model){
                 <text>
-                if (id != @id) {
-                    $("#modal_@id").text($("#name_@id").text());
-                    $("#modal_@id").show();
+                if (id != @item.Id) {
+                    $("#modal_@item.Id").text($("#name_@item.Id").text());
+                    $("#modal_@item.Id").show();
                 }
-                else $("#modal_@id").hide();
+                else $("#modal_@item.Id").hide();
                 </text>
             }
         }

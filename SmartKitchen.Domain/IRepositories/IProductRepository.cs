@@ -11,5 +11,6 @@ namespace SmartKitchen.Domain.IRepositories
         void AddProduct(Product product);
         Product GetProductById(int id);
         void UpdateProduct(Product product);
+        bool ExistsAnotherWithEqualName(string name, int id);
     }
 }

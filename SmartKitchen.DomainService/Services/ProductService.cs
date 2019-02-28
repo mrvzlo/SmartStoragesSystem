@@ -14,12 +14,12 @@ namespace SmartKitchen.DomainService.Services
     public class ProductService : BaseService, IProductService
     {
         private readonly IProductRepository _productRepository;
-        private readonly ICategoryService _categoryService;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public ProductService(IProductRepository productRepository, ICategoryService categoryService)
+        public ProductService(IProductRepository productRepository, ICategoryRepository categoryRepository)
         {
             _productRepository = productRepository;
-            _categoryService = categoryService;
+            _categoryRepository = categoryRepository;
         }
 
         public Product GetOrAddAndGet(string name)
@@ -59,13 +59,14 @@ namespace SmartKitchen.DomainService.Services
         {
             foreach (var item in list)
             {
-                var product = new Product
-                {
-                    Name = item.Name
-                };
-                if (_categoryService.ExistsWithId(item.CategoryId))
+                var product = _productRepository.GetProductById(item.Id);
+                if (product == null) continue;
+                if (product.Name == item.Name && product.CategoryId == item.CategoryId) continue;
+                if (!_productRepository.ExistsAnotherWithEqualName(item.Name, item.Id))
+                    product.Name = item.Name;
+                if (_categoryRepository.ExistsWithId(item.CategoryId))
                     product.CategoryId = item.CategoryId;
-                _productRepository.UpdateProduct(product);
+                    _productRepository.UpdateProduct(product);
             }
         }
     }

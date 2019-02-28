@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace SmartKitchen.Controllers
+namespace SmartKitchen.Web.Controllers
 {
 	[HandleError]
     public class ErrorController : Controller

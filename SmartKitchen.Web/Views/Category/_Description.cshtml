@@ -2,7 +2,7 @@
 <tr id="@Model.Id">
     <td class="font-weight-bold" id="name_@Model.Id">@Model.Name</td>
     <td>@Model.ProductsCount</td>
-    <td>@if (Model.Id != 1)
+    <td class="py-2">@if (Model.Id != 1)
         {
             <img class="rowicon" src="~/Content/images/remove.svg" onclick="remove(@Model.Id)" data-toggle="modal" data-target="#CategoryModal"/>
         }

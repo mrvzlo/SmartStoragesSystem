@@ -1,10 +1,8 @@
-﻿using SmartKitchen.Domain.CreationModels;
-using SmartKitchen.Domain.Enitities;
+﻿using System.Web.Mvc;
+using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.IServices;
-using System.Linq;
-using System.Web.Mvc;
 
-namespace SmartKitchen.Controllers
+namespace SmartKitchen.Web.Controllers
 {
     [Authorize]
     public class CellController : BaseController

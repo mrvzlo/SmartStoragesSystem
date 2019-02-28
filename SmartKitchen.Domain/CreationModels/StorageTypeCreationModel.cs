@@ -1,12 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Web;
-using SmartKitchen.Enums;
-
-namespace SmartKitchen.Models
+﻿namespace SmartKitchen.Domain.CreationModels
 {
 	public class StorageTypeCreationModel
 	{

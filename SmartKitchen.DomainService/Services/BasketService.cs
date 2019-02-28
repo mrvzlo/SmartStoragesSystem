@@ -38,7 +38,7 @@ namespace SmartKitchen.DomainService.Services
         public IQueryable<BasketDisplayModel> GetBasketsByOwnerEmail(string email)
         {
             var person = _personRepository.GetPersonByEmail(email);
-            return Mapper.Map<IQueryable<BasketDisplayModel>>(person.Baskets);
+            return person.Baskets.AsQueryable().ProjectTo<BasketDisplayModel>(MapperConfig);
         }
 
         public ItemCreationResponse AddBasket(NameCreationModel model, string email)
@@ -56,7 +56,7 @@ namespace SmartKitchen.DomainService.Services
             {
                 CreationDate = DateTime.Now,
                 Name = model.Name,
-                Owner = person.Id
+                PersonId = person.Id
             };
             _basketRepository.AddBasket(basket);
             response.AddedId = basket.Id;

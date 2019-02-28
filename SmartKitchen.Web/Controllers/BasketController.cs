@@ -1,14 +1,9 @@
-﻿using SmartKitchen.Domain.Enitities;
-using SmartKitchen.Domain.Enums;
-using SmartKitchen.Domain.IServices;
-using SmartKitchen.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using SmartKitchen.Domain.CreationModels;
+﻿using System.Linq;
 using System.Web.Mvc;
+using SmartKitchen.Domain.CreationModels;
+using SmartKitchen.Domain.IServices;
 
-namespace SmartKitchen.Controllers
+namespace SmartKitchen.Web.Controllers
 {
     [Authorize]
     public class BasketController : BaseController

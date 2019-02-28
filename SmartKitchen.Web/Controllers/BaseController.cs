@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using SmartKitchen.Domain.Responses;
 using System.Web.Mvc;
+using SmartKitchen.Domain.Responses;
 
-namespace SmartKitchen.Controllers
+namespace SmartKitchen.Web.Controllers
 {
     public class BaseController : Controller
     {

@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
 using System.Web;
 
-namespace SmartKitchen.Helpers
+namespace SmartKitchen.Web.Helpers
 {
     public static class FileHelper
     {
         public static bool IconIsNotValid(HttpPostedFile fileIcon)
         {
-            if (fileIcon == null) return false;
+            if (fileIcon == null || fileIcon.ContentLength == 0) return false;
             if (fileIcon.ContentLength > 1 * 1024 * 1024) return true;
             try
             {

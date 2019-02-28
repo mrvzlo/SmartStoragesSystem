@@ -1,13 +1,12 @@
 ﻿@using SmartKitchen.Domain.CreationModels
 @{
-    Html.RenderAction("Categories");
     ViewBag.Title = "Products";
 }
 @Html.Partial("_AddNew", new NameCreationModel())
 <div class="row justify-content-center m-0">
     @using (Html.BeginForm("SaveChanges", "Product", FormMethod.Post, new { id = "f", @class = "storage-new mb-2 col-lg-8 p-0" }))
     {
-        Html.RenderAction("ProductGrid");
+        @Html.AjaxGrid(Url.Action("ProductGrid"))
     }
 </div>
 <div class="row justify-content-center m-0">
@@ -15,7 +14,7 @@
     <button class="col-lg-3 col-6 btn btn-info my-1" onclick="location.reload();">Reset</button>
 </div>
 @section scripts{
-    @{ Html.RenderAction("Categories"); }
+    @Scripts.Render("~/bundles/MvcGrid")
     <script>
         function toggle(id, type) {
             if (type == 0) {
@@ -34,23 +33,8 @@
             }
         }
 
-        $(function() {
-            @for (int i = 0; i < Model.Count; i++)
-            {
-            <text>
-                toggle(@i, 0);
-                toggle(@i, 2);
-                select.forEach(function (element) {
-                    $('#3_@i').append($("<option/>",
-                        {
-                            value: element.value,
-                            text: element.innerHTML
-                        }));
-                    if ("@Model[i].CategoryName" == element.innerHTML)
-                        $('#3_@i').val(element.value);
-                });
-            </text>
-            }
+        $(function () {
+            new MvcGrid(document.querySelector('.mvc-grid')).reload();
         });
     </script>
 }

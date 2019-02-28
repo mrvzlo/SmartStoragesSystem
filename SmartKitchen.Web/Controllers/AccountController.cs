@@ -1,15 +1,15 @@
-﻿using SmartKitchen.Domain.CreationModels;
-using SmartKitchen.Domain.IServices;
-using SmartKitchen.Enums;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using SmartKitchen.Domain.CreationModels;
+using SmartKitchen.Domain.IServices;
+using SmartKitchen.Enums;
 
-namespace SmartKitchen.Controllers
+namespace SmartKitchen.Web.Controllers
 {
     public class AccountController : BaseController
     {
@@ -41,6 +41,8 @@ namespace SmartKitchen.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SignIn(SignInModel model)
         {
+            if (!ModelState.IsValid)
+                return PartialView("_SignIn", model);
             var response = _authenticationService.SignIn(model);
             if (!response.Successful())
             {
@@ -55,6 +57,8 @@ namespace SmartKitchen.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(SignUpModel model)
         {
+            if (!ModelState.IsValid)
+                return PartialView("_SignUp", model);
             var response = _authenticationService.SignUp(model);
             if (!response.Successful())
             {

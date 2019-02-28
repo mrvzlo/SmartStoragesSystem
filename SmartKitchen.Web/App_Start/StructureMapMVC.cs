@@ -1,14 +1,14 @@
 ﻿using System.Web.Mvc;
 using CommonServiceLocator;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
-using SmartKitchen;
 using SmartKitchen.IoC;
+using SmartKitchen.Web;
 using WebActivatorEx;
 
 [assembly: System.Web.PreApplicationStartMethod(typeof(StructuremapMvc), "Start")]
 [assembly: ApplicationShutdownMethod(typeof(StructuremapMvc), "End")]
 
-namespace SmartKitchen
+namespace SmartKitchen.Web
 {
     public static class StructuremapMvc
     {
