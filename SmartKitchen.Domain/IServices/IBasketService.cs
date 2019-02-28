@@ -11,7 +11,7 @@ namespace SmartKitchen.Domain.IServices
         BasketDisplayModel GetBasketById(int id, string email);
         BasketWithProductsDisplayModel GetBasketWithProductsById(int id, string email);
         ItemCreationResponse AddBasket(NameCreationModel name, string email);
-        bool LockBasket(int id, string email);
+        BasketDisplayModel LockBasket(int id, string email);
         bool DeleteBasket(int id, string email);
     }
 }

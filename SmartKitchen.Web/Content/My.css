@@ -6958,6 +6958,9 @@ a.text-main:hover, a.text-main:focus {
   margin: 0.25rem 0;
   font-size: 0.8rem; }
 
+.pointer {
+  cursor: pointer; }
+
 input, .input {
   padding: 0px 10px;
   background-color: #ece7f6;
@@ -6999,7 +7002,8 @@ body {
 
 .rowicon {
   width: 2rem;
-  height: 2rem; }
+  height: 2rem;
+  cursor: pointer; }
 
 .mobile {
   display: none; }

@@ -12,26 +12,30 @@ else
 {
     <div class="storage text-center py-0">
         <div class="h5 my-3" onclick="toggleTable(1);">Open baskets <img id="tog1" class="rowicon" src="~/Content/images/up.png" /></div>
-        <table id="tab1" class="table table-hover mb-0">
-            @foreach (var b in Model)
-            {
-                if (!b.Closed)
+        <table class="table table-hover mb-0">
+            <tbody id="tab1">
+                @foreach (var b in Model)
                 {
-                    Html.RenderPartial("_Description", b);
+                    if (!b.Closed)
+                    {
+                        Html.RenderPartial("_Description", b);
+                    }
                 }
-            }
+            </tbody>
         </table>
     </div>
     <div class="storage text-center py-0">
         <div class="h5 my-3" onclick="toggleTable(2);">Closed baskets <img id="tog2" class="rowicon" src="~/Content/images/down.png" /></div>
-        <table id="tab2" class="table table-hover mb-0">
-            @foreach (var b in Model)
-            {
-                if (b.Closed)
+        <table class="table table-hover mb-0">
+            <tbody id="tab2">
+                @foreach (var b in Model)
                 {
-                    Html.RenderPartial("_Description", b);
+                    if (b.Closed)
+                    {
+                        Html.RenderPartial("_Description", b);
+                    }
                 }
-            }
+            </tbody>
         </table>
     </div>
 }
@@ -51,15 +55,17 @@ else
 
         function lock(id, name) {
             event.stopPropagation();
-            if (confirm(name+" will be locked")) { $.ajax({
+            if (confirm(name + " will be locked")) {
+                $.ajax({
+                    type: "POST",
                     url: '@Url.Action("Lock","Basket")/' + id,
-                success: function (data) {
-                    document.getElementById(id).outerHTML = "";
-                    var a = document.createElement('a');
-                    document.getElementById("tab2").appendChild(a);
-                    a.outerHTML = data;
-                }
-                });
+                    success: function (data) {
+                        document.getElementById(id).outerHTML = "";
+                        var a = document.createElement('a');
+                        document.getElementById("tab2").appendChild(a);
+                        a.outerHTML = data;
+                    }
+                    });
             }
         }
 
@@ -67,6 +73,7 @@ else
             event.stopPropagation();
             if (confirm(name+" will be removed")) {
                 $.ajax({
+                    type: "POST",
                     url: '@Url.Action("Remove","Basket")/' + id,
                     success: function(success) {
                         if (success) document.getElementById(id).outerHTML = "";

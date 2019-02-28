@@ -54,14 +54,15 @@ namespace SmartKitchen.Web.Controllers
             return PartialView("_StorageSelect", list);
         }
 
+        [HttpPost]
         public ActionResult Lock(int id)
         {
             var locked = _basketService.LockBasket(id, CurrentUser());
-            var description = _basketService.GetBasketById(id, CurrentUser());
-            if (description == null) return Redirect(Url.Action("Index"));
-            return PartialView("_Description", description);
+            if (locked == null) return Redirect(Url.Action("Index"));
+            return PartialView("_Description", locked);
         }
 
+        [HttpPost]
         public bool Remove(int id)
         {
             return _basketService.DeleteBasket(id, CurrentUser());

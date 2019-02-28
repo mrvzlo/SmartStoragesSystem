@@ -15,15 +15,9 @@ namespace SmartKitchen.Infrastructure.Repositories
 
         public Basket GetBasketById(int id) =>
             _dbContext.Baskets.Find(id);
-
-        public Basket GetBasketByNameAndOwner(string name, int owner) =>
-            _dbContext.Baskets.FirstOrDefault(x => x.PersonId == owner && x.Name.Equals(name.Trim(), StringComparison.OrdinalIgnoreCase));
-
-        public void AddBasket(Basket basket) => 
+        
+        public void AddOrUpdateBasket(Basket basket) => 
             _dbContext.InsertOrUpdate(basket);
-
-        public void LockBasketById(int id) =>
-            _dbContext.Baskets.Where(x => x.Id == id).Update(x => new Basket {Closed = true});
 
         public void DeleteBasket(Basket basket) =>
             _dbContext.Delete(basket);

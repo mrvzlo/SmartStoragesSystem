@@ -58,17 +58,18 @@ namespace SmartKitchen.DomainService.Services
                 Name = model.Name,
                 PersonId = person.Id
             };
-            _basketRepository.AddBasket(basket);
+            _basketRepository.AddOrUpdateBasket(basket);
             response.AddedId = basket.Id;
             return response;
         }
 
-        public bool LockBasket(int id, string email)
+        public BasketDisplayModel LockBasket(int id, string email)
         {
             var basket = _basketRepository.GetBasketById(id);
-            if (basket == null || basket.Person.Email != email) return false;
-            _basketRepository.LockBasketById(id);
-            return true;
+            if (basket == null || basket.Person.Email != email) return null;
+            basket.Closed = true;
+            _basketRepository.AddOrUpdateBasket(basket);
+            return Mapper.Map<BasketDisplayModel>(basket);
         }
 
         public bool DeleteBasket(int id, string email)
