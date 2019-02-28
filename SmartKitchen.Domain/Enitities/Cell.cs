@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using SmartKitchen.Domain.Enums;
 
@@ -15,5 +16,6 @@ namespace SmartKitchen.Domain.Enitities
 
         public virtual Product Product { get; set; }
         public virtual Storage Storage { get; set; }
+        public virtual ICollection<BasketProduct> BasketProducts { get; set; }
     }
 }

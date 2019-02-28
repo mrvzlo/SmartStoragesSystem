@@ -16,12 +16,14 @@ namespace SmartKitchen.DomainService.Services
         private readonly IStorageRepository _storageRepository;
         private readonly IStorageTypeService _storageTypeService;
         private readonly IPersonService _personService;
+        private readonly ICellRepository _cellRepository;
 
-        public StorageService(IStorageRepository storageRepository, IPersonService personService, IStorageTypeService storageTypeService)
+        public StorageService(IStorageRepository storageRepository, IPersonService personService, IStorageTypeService storageTypeService, ICellRepository cellRepository)
         {
             _storageRepository = storageRepository;
             _personService = personService;
             _storageTypeService = storageTypeService;
+            _cellRepository = cellRepository;
         }
 
         public List<StorageDescription> GetStoragesWithDescriptionByOwnerEmail(string email)
@@ -30,8 +32,12 @@ namespace SmartKitchen.DomainService.Services
             return Mapper.Map<List<StorageDescription>>(person.Storages);
         }
 
-        public void DeleteStorageById(int id) =>
-            _storageRepository.DeleteStorageById(id);
+        public void DeleteStorageById(int id)
+        {
+            var storage = _storageRepository.GetStorageById(id);
+            _cellRepository.DeleteCellsRange(storage.Cells);
+            _storageRepository.DeleteStorage(storage);
+        }
 
         public StorageDescription GetStorageDescriptionById(int id, string email)
         {

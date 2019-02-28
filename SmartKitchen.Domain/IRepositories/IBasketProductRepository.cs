@@ -1,4 +1,5 @@
 ﻿using SmartKitchen.Domain.Enitities;
+using System.Collections.Generic;
 
 namespace SmartKitchen.Domain.IRepositories
 {
@@ -6,5 +7,6 @@ namespace SmartKitchen.Domain.IRepositories
     {
         void AddBasketProduct(BasketProduct basketProduct);
         BasketProduct GetBasketProductById(int id);
+        void DeleteBasketProductRange(ICollection<BasketProduct> query);
     }
 }

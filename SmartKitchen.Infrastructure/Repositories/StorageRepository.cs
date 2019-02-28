@@ -20,8 +20,8 @@ namespace SmartKitchen.Infrastructure.Repositories
         public Storage GetStorageById(int id) => 
             _dbContext.Storages.Find(id);
 
-        public void DeleteStorageById(int id) =>
-            _dbContext.Delete(_dbContext.Storages.Find(id));
+        public void DeleteStorage(Storage storage) =>
+            _dbContext.Delete(storage);
 
         public Storage GetStorageByNameAndOwner(string name, int owner) =>
             _dbContext.Storages.FirstOrDefault(x => x.PersonId == owner && x.Name.Equals(name.Trim(), StringComparison.OrdinalIgnoreCase));

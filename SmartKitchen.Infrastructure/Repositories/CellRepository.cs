@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.IRepositories;
 using System.Linq;
@@ -33,5 +34,8 @@ namespace SmartKitchen.Infrastructure.Repositories
 
         public void UpdateDatetime(int cell, DateTime? datetime) =>
             _dbContext.Cells.Where(x => x.Id == cell).Update(x => new Cell { BestBefore = datetime });
+
+        public void DeleteCellsRange(ICollection<Cell> cells) =>
+            _dbContext.Cells.RemoveRange(cells);
     }
 }

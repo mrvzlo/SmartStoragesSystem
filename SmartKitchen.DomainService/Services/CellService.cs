@@ -17,12 +17,14 @@ namespace SmartKitchen.DomainService.Services
         private readonly ICellRepository _cellRepository;
         private readonly IProductService _productService;
         private readonly IStorageRepository _storageRepository;
+        private readonly IBasketProductRepository _basketProductRepository;
 
-        public CellService(ICellRepository cellRepository, IProductService productService, IStorageRepository storageRepository)
+        public CellService(ICellRepository cellRepository, IProductService productService, IStorageRepository storageRepository, IBasketProductRepository basketProductRepository)
         {
             _cellRepository = cellRepository;
             _productService = productService;
             _storageRepository = storageRepository;
+            _basketProductRepository = basketProductRepository;
         }
 
         public Cell GetOrAddAndGet(CellCreationModel model, string email)
@@ -106,7 +108,11 @@ namespace SmartKitchen.DomainService.Services
             var response = new ServiceResponse();
             var cell = _cellRepository.GetCellById(id);
             if (cell == null || cell.Storage.Person.Email != email) response.AddError(GeneralError.ItemNotFound);
-            else _cellRepository.DeleteCell(cell);
+            else
+            {
+                _basketProductRepository.DeleteBasketProductRange(cell.BasketProducts);
+                _cellRepository.DeleteCell(cell);
+            }
             return response;
         }
 

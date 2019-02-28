@@ -14,7 +14,7 @@ namespace SmartKitchen.Domain.Enums
         ExpiresTomorrow = 1,
 
         [Description("Expires today")]
-        [Status(StatusType.Normal)]
+        [Status(StatusType.Warning)]
         ExpiresToday = 2,
 
         [Description("Expired")]

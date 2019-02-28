@@ -1,4 +1,6 @@
-﻿using SmartKitchen.Domain.Enitities;
+﻿using System.Collections.Generic;
+using System.Linq;
+using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.IRepositories;
 
 namespace SmartKitchen.Infrastructure.Repositories
@@ -15,5 +17,8 @@ namespace SmartKitchen.Infrastructure.Repositories
 
         public BasketProduct GetBasketProductById(int id) =>
             _dbContext.BasketProducts.Find(id);
+
+        public void DeleteBasketProductRange(ICollection<BasketProduct> query) =>
+            _dbContext.BasketProducts.RemoveRange(query);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using SmartKitchen.Domain.Enitities;
 using System.Linq;
 
@@ -13,5 +14,6 @@ namespace SmartKitchen.Domain.IRepositories
         void DeleteCell(Cell cell);
         void UpdateDatetime(int cell, DateTime? datetime);
         void UpdateAmount(int cell, int amount);
+        void DeleteCellsRange(ICollection<Cell> cells);
     }
 }

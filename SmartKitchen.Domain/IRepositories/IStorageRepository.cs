@@ -8,7 +8,7 @@ namespace SmartKitchen.Domain.IRepositories
         Storage GetStorageById(int id);
         Storage GetStorageByNameAndOwner(string name, int owner);
         void AddStorage(Storage storage);
-        void DeleteStorageById(int id);
+        void DeleteStorage(Storage storage);
         void ReplaceType(int fromId, int toId);
     }
 }
