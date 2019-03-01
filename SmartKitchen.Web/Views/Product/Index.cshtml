@@ -13,5 +13,8 @@
     <button class="col-lg-3 col-5 btn btn-main m-1" type="submit" form="f">Save</button>
     <button class="col-lg-3 col-5 btn btn-info m-1" onclick="location.reload();">Reset</button>
 </div>
-@Scripts.Render("~/js/productIndex")
 @Scripts.Render("~/MvcGrid")
+@section scripts{
+    @Scripts.Render("~/js/productIndex")
+    <script>$(function () { ProductIndexJs.initialize(); });</script>
+}

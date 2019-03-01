@@ -34,6 +34,10 @@ namespace SmartKitchen.Web
                 "~/Scripts/pages/basket-index.js"
             ));
 
+            bundles.Add(new ScriptBundle("~/js/categoryIndex").Include(
+                "~/Scripts/pages/category-index.js"
+            ));
+
             #endregion
 
         }

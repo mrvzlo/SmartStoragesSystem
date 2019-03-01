@@ -322,6 +322,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\MvcGrid\mvc-grid.js" />
     <Content Include="Scripts\pages\account-index.js" />
+    <Content Include="Scripts\pages\category-index.js" />
     <Content Include="Scripts\pages\form-helper.js" />
     <Content Include="Scripts\pages\basket-index.js" />
     <Content Include="Scripts\pages\product-index.js" />

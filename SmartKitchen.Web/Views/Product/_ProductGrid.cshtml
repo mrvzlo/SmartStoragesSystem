@@ -12,14 +12,14 @@
 
 @helper NameHelper(ProductDisplayModel item, int i)
 {
-    @Html.Hidden($"model[{i}].Id", item.Id)
-    <div id='0_@i' onclick='toggle(@i, 1)'>@item.Name</div>
-    @Html.TextBox($"model[{i}].Name", item.Name, new { @class = "text-center", style = "display: none;", id = "1_" + i })
+    @Html.Hidden($"list[{i}].Id", item.Id)
+    <div id='0_@i' onclick='ProductIndexJs.toggle(@i, 1)'>@item.Name</div>
+    @Html.TextBox($"list[{i}].Name", item.Name, new { @class = "text-center", style = "display: none;", id = "1_" + i })
 }
 
 @helper CategoryHelper(ProductDisplayModel item, int i)
 {
-    <div id='2_@i' onclick='toggle(@i, 3)'>@item.CategoryName</div>
-    @Html.DropDownList($"model[{i}].CategoryId", new SelectList(ViewBag.SelectList, "Value", "Text", item.CategoryId), 
+    <div id='2_@i' onclick='ProductIndexJs.toggle(@i, 3)'>@item.CategoryName</div>
+    @Html.DropDownList($"list[{i}].CategoryId", new SelectList(ViewBag.SelectList, "Value", "Text", item.CategoryId), 
         new { @class = "input", style = "display: none;", id = "3_" + i })
 }

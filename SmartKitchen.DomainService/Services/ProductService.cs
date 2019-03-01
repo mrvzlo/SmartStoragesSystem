@@ -57,6 +57,7 @@ namespace SmartKitchen.DomainService.Services
 
         public void UpdateProductList(List<ProductDisplayModel> list)
         {
+            if (list == null) return;
             foreach (var item in list)
             {
                 var product = _productRepository.GetProductById(item.Id);

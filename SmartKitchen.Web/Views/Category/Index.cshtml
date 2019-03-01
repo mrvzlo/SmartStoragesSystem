@@ -18,7 +18,7 @@
                 <div class="row justify-content-center mx-3 text-center">
                     @foreach (var i in Model)
                     {
-                        <div id="modal_@i.Id" class="col-md-3 col-5 btn btn-main m-1" data-dismiss="modal" onclick="removeConfirm(@i.Id);"></div>
+                        <div id="modal_@i.Id" class="col-md-3 col-5 btn btn-main m-1" data-dismiss="modal" onclick="CategoryIndexJs.removeConfirm(@i.Id);"></div>
                     }
                     <div class="col-12"></div>
                     <button data-dismiss="modal" class="btn btn-secondary col-md-4 col-6 m-1">Close</button>
@@ -31,37 +31,13 @@
 
 @section scripts{
     @Scripts.Render("~/MvcGrid")
-    <script>
-        var categoryId;
-
-        function remove(id) {
-            categoryId = id;
-            loadNames(id);
-            $("#CategoryModalLabel").text("Choose the category which will replace "+$("#name_" + id).text());
-        }
-
-        function removeConfirm(id) {
-            var url = '@Url.Action("Remove", "Category")?fromId=' + categoryId+"&toId=" + id;
-            $.post(url,
-                function (success) {
-                    if (success) location.reload();
-                });
-        }
-
-        function loadNames(id) {
-            @foreach (var item in Model){
-                <text>
-                if (id != @item.Id) {
-                    $("#modal_@item.Id").text($("#name_@item.Id").text());
-                    $("#modal_@item.Id").show();
-                }
-                else $("#modal_@item.Id").hide();
-                </text>
-            }
-        }
-
-        $(function () {
-            new MvcGrid(document.querySelector('.mvc-grid')).reload();
+    @Scripts.Render("~/js/categoryIndex")
+<script>
+    $(function () {
+        CategoryIndexJs.initialize({
+            removeUrl: '@Url.Action("Remove", "Category")?fromId=',
+            list: [@string.Join(", ", Model.Select(x => x.Id))]
         });
-    </script>
+    });
+</script>
 }
