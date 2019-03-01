@@ -6956,10 +6956,44 @@ a.text-main:hover, a.text-main:focus {
 
 .mvc-grid-pager button {
   margin: 0.25rem 0;
-  font-size: 0.8rem; }
+  color: #1c1332; }
 
 .pointer {
   cursor: pointer; }
+
+.mvc-grid th {
+  background-color: transparent; }
+
+.mvc-grid-pager button {
+  background-color: white;
+  box-sizing: content-box;
+  line-height: 1.5rem;
+  padding: 0 0.25em;
+  cursor: pointer;
+  margin: 0.5em 0;
+  min-width: 1.5rem; }
+
+.mvc-grid-pager button:focus,
+.mvc-grid-pager button:hover {
+  background-color: #cdc3e7;
+  color: #1c1332; }
+
+.mvc-grid-pager .active,
+.mvc-grid-pager .active:focus,
+.mvc-grid-pager .active:hover {
+  color: #1c1332;
+  background-color: #cdc3e7;
+  border-color: #1c1332; }
+
+.mvc-grid-pager .disabled,
+.mvc-grid-pager .disabled:focus,
+.mvc-grid-pager .disabled:hover {
+  background-color: white;
+  cursor: pointer;
+  color: #1c1332; }
+
+.mvc-grid {
+  padding: 0; }
 
 input, .input {
   padding: 0px 10px;

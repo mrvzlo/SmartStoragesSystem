@@ -1,7 +1,10 @@
 ﻿using System.Linq;
+using System.Security.Policy;
 using System.Web.Mvc;
 using SmartKitchen.Domain.CreationModels;
+using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Enums;
+using SmartKitchen.Domain.Extensions;
 using SmartKitchen.Domain.IServices;
 
 namespace SmartKitchen.Web.Controllers
@@ -27,24 +30,20 @@ namespace SmartKitchen.Web.Controllers
         public ActionResult Create(NameCreationModel model)
         {
             var response = _categoryService.AddCategoryWithName(model);
-            if (!response.Successful())
-            {
-                AddModelStateErrors(response);
-                TempData["error"] = GeneralError.NameIsAlreadyTaken;
-            }
+            if (!response.Successful()) TempData["error"] = GetErrorsToString(response);
             return Redirect(Url.Action("Index"));
-        }
-
-        public ActionResult Description(int id)
-        {
-            var description = _categoryService.GetCategoryDisplayById(id);
-            return PartialView("_Description", description);
         }
 
         public ActionResult Remove(int fromId, int toId)
         {
             _categoryService.ReplaceCategory(fromId, toId);
             return Redirect(Url.Action("Index"));
+        }
+
+        public PartialViewResult CategoryGrid()
+        {
+            var query = _categoryService.GetAllCategoryDisplays();
+            return PartialView("_CategoryGrid", query);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace SmartKitchen.Web.Controllers
         {
             var res = "";
             foreach (var e in response.Errors)
-                res += e.ErrorEnum.GetDescription()+"<br/>";
+                res += e.ErrorEnum.GetDescription()+"\n";
             return res;
         }
 

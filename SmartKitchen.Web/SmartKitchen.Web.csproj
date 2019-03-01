@@ -315,7 +315,7 @@
     <Content Include="Content\MvcGrid\Fonts\GridGlyphs.woff" />
     <Content Include="Content\tables.scss" />
     <Content Include="Content\forms.scss" />
-    <None Include="Properties\PublishProfiles\aveSK - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\SmartKitchen-dev-as - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -356,7 +356,6 @@
     <Content Include="Views\Storage\_AmountPicker.cshtml" />
     <Content Include="Views\Shared\_Admin.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />
-    <Content Include="Views\Category\_Description.cshtml" />
     <Content Include="Views\Basket\Index.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Product\_AddNew.cshtml" />
@@ -372,6 +371,7 @@
     <Content Include="Views\Shared\MvcGrid\_Pager.cshtml" />
     <Content Include="Views\Shared\MvcGrid\_Grid.cshtml" />
     <Content Include="Views\Product\_ProductGrid.cshtml" />
+    <Content Include="Views\Category\_CategoryGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

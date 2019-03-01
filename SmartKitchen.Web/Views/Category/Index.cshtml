@@ -5,18 +5,8 @@
 }
 @Html.Partial("_AddNew", new NameCreationModel())
 <div class="row justify-content-center m-0">
-    <div class="storage-new mb-2 col-lg-6 p-0">
-        <table id="table" class="table table-hover table-borderless text-center m-0">
-            <tr>
-                <th style="width: 35%">Category</th>
-                <th style="width: 45%">Products</th>
-                <th style="width: 20%"></th>
-            </tr>
-            @foreach (var i in Model)
-            {
-                Html.RenderPartial("_Description", i);
-            }
-        </table>
+    <div class="storage-new mb-2 col-lg-7 p-0">
+        @Html.AjaxGrid(Url.Action("CategoryGrid", Model))
     </div>
 </div>
 
@@ -40,6 +30,7 @@
 
 
 @section scripts{
+    @Scripts.Render("~/bundles/MvcGrid")
     <script>
         var categoryId;
 
@@ -69,5 +60,9 @@
                 </text>
             }
         }
+
+        $(function () {
+            new MvcGrid(document.querySelector('.mvc-grid')).reload();
+        });
     </script>
 }

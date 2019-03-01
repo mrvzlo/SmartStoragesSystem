@@ -5,7 +5,10 @@
     c.Add(x => x.Name).RenderedAs( x => NameHelper(x,i)).Titled("Product").Css("w-40");
     c.Add(x => x.CategoryName).RenderedAs(x => CategoryHelper(x,i++)).Titled("Category").Css("w-40");
     c.Add(x => x.Usages).Titled("Usages").Css("w-20");
-}).Sortable().Pageable(x => { x.RowsPerPage = 15; }).Css("table-borderless table-hover m-0 table text-center")
+}).Sortable().Pageable(x => {
+    x.RowsPerPage = 15;
+    x.PagesToDisplay = 3;
+}).Css("table-borderless table-hover m-0 table text-center")
 
 @helper NameHelper(ProductDisplayModel item, int i)
 {
