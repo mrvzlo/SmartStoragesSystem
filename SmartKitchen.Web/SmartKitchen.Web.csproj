@@ -326,6 +326,7 @@
     <Content Include="Scripts\pages\form-helper.js" />
     <Content Include="Scripts\pages\basket-index.js" />
     <Content Include="Scripts\pages\product-index.js" />
+    <Content Include="Scripts\pages\storage-create-type.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\umd\popper-utils.js" />

@@ -38,6 +38,10 @@ namespace SmartKitchen.Web
                 "~/Scripts/pages/category-index.js"
             ));
 
+            bundles.Add(new ScriptBundle("~/js/storageCreateType").Include(
+                "~/Scripts/pages/storage-create-type.js"
+            ));
+
             #endregion
 
         }
