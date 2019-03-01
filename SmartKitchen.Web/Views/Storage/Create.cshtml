@@ -14,7 +14,7 @@
         <div class="row justify-content-center py-2">
             <div class="text-center col-md-2 col-12 py-1">Type</div>
             <select id="TypeName" class="input col-md-7 col-9" onchange="change()"></select>
-            @Html.Hidden("Type")
+            @Html.Hidden("TypeId")
             <div class="text-center col-md-3 col-6 mt-md-0 mt-3">
                 @if (HttpContext.Current.User.IsInRole("Admin"))
                 {
@@ -43,7 +43,7 @@
 		function change() {
 			var id = $('#TypeName').val();
 			$("#Name").val(list[id].Name);
-            $("#Type").val(list[id].Id);
+            $("#TypeId").val(list[id].Id);
             $("#Icon").attr("src", "../Content/images/" + id + ".png");
 			$("form").css("background", list[id].Color);
 		}
@@ -56,7 +56,7 @@
 				list[@i.Id] = {
 					Name: "@i.Name",
 					Color: "#@i.Background",
-					Id: "#@i.Id"
+					Id: "@i.Id"
 				}
 				$('#TypeName').append($("<option></option>").val(@i.Id).text("@i.Name"));
 				</text>

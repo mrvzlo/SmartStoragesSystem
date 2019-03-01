@@ -60,6 +60,7 @@ namespace SmartKitchen.DomainService.Services
                 PersonId = person.Id,
                 TypeId = model.TypeId
             };
+            _storageRepository.AddStorage(storage);
             response.AddedId = storage.Id;
             response.AddedGroupId = storage.TypeId;
             return response;

@@ -63,7 +63,7 @@ namespace SmartKitchen.Web.Controllers
                 var query = _storageTypeService.GetAllStorageTypes();
                 return View(query.ToList());
             }
-            return Redirect(Url.Action("Index"));
+            return Redirect(Url.Action("View","Storage",new{id = response.AddedId}));
         }
 
         #endregion
