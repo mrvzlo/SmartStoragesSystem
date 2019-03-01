@@ -1,5 +1,5 @@
 ﻿@model List<SmartKitchen.Domain.DisplayModels.CellDisplayModel>
 @foreach (var item in Model)
 {
-    @:@Html.Partial("_Description",item)
+    @Html.Partial("_Description",item)
 }

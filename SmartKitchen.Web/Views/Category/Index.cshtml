@@ -41,12 +41,11 @@
         }
 
         function removeConfirm(id) {
-            $.ajax({
-                url: '@Url.Action("Remove", "Category")?fromId=' + categoryId+"&toId="+id,
-                success: function () {
-                    location.reload();
-                }
-            });
+            var url = '@Url.Action("Remove", "Category")?fromId=' + categoryId+"&toId=" + id;
+            $.post(url,
+                function (success) {
+                    if (success) location.reload();
+                });
         }
 
         function loadNames(id) {

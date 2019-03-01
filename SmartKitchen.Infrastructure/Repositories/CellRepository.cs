@@ -17,7 +17,7 @@ namespace SmartKitchen.Infrastructure.Repositories
         public IQueryable<Cell> GetCellsForStorage(int storageId) =>
             _dbContext.Cells.Where(x => x.StorageId == storageId);
 
-        public void AddCell(Cell cell) =>
+        public void AddOrUpdateCell(Cell cell) =>
             _dbContext.InsertOrUpdate(cell);
 
         public Cell GetCellByProductAndStorage(int product, int storage) =>
@@ -28,13 +28,7 @@ namespace SmartKitchen.Infrastructure.Repositories
 
         public void DeleteCell(Cell cell) =>
             _dbContext.Delete(cell);
-
-        public void UpdateAmount(int cell, int amount) =>
-            _dbContext.Cells.Where(x => x.Id == cell).Update(x => new Cell { Amount = amount });
-
-        public void UpdateDatetime(int cell, DateTime? datetime) =>
-            _dbContext.Cells.Where(x => x.Id == cell).Update(x => new Cell { BestBefore = datetime });
-
+        
         public void DeleteCellsRange(ICollection<Cell> cells) =>
             _dbContext.Cells.RemoveRange(cells);
     }

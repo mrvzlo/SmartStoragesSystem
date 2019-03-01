@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using SmartKitchen.Domain;
-using SmartKitchen.Domain.CreationModels;
+﻿using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Enums;
 using SmartKitchen.Domain.IRepositories;
 using SmartKitchen.Domain.IServices;
 using SmartKitchen.Domain.Responses;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SmartKitchen.DomainService.Services
 {
@@ -59,48 +58,37 @@ namespace SmartKitchen.DomainService.Services
                 StorageId = model.Storage,
                 BestBefore = null
             };
-            _cellRepository.AddCell(cell);
+            _cellRepository.AddOrUpdateCell(cell);
             response.AddedId = cell.Id;
             response.AddedGroupId = cell.StorageId;
             return response;
         }
-
-        public Cell GetCellByProductAndStorage(int product, int storage) =>
-            _cellRepository.GetCellByProductAndStorage(product, storage);
-
+        
         public CellDisplayModel GetCellDisplayModelById(int id, string email)
         {
             var cell = _cellRepository.GetCellById(id);
             if (cell.Storage.Person.Email != email) return null;
-            var result = Mapper.Map<CellDisplayModel>(cell);
-            result.SafetyStatus = GetSafetyStatusByDatetime(result.BestBefore);
-            return result;
+            return GetCellDisplayModel(cell);
         }
 
-        public ServiceResponse UpdateCellAmount(int id, int value, string email)
+        public CellDisplayModel UpdateCellAmount(int id, int value, string email)
         {
-            var response = new ServiceResponse();
             var cell = _cellRepository.GetCellById(id);
-            if (cell == null || cell.Storage.Person.Email != email) response.AddError(GeneralError.ItemNotFound);
-            else
-            {
-                if (value > (int)Amount.Plenty) value = (int)Amount.Plenty;
-                else if (value < (int)Amount.None) value = (int)Amount.None;
-                _cellRepository.UpdateAmount(id, value);
-            }
-            return response;
+            if (cell == null || cell.Storage.Person.Email != email) return null;
+            if (value > (int)Amount.Plenty) value = (int)Amount.Plenty;
+            else if (value < (int)Amount.None) value = (int)Amount.None;
+            cell.Amount = value;
+            _cellRepository.AddOrUpdateCell(cell);
+            return GetCellDisplayModel(cell);
         }
 
-        public ServiceResponse UpdateCellBestBefore(int id, DateTime? value, string email)
+        public CellDisplayModel UpdateCellBestBefore(int id, DateTime? value, string email)
         {
-            var response = new ServiceResponse();
             var cell = _cellRepository.GetCellById(id);
-            if (cell == null || cell.Storage.Person.Email != email) response.AddError(GeneralError.ItemNotFound);
-            else
-            {
-                _cellRepository.UpdateDatetime(id, value);
-            }
-            return response;
+            if (cell == null || cell.Storage.Person.Email != email) return null;
+            cell.BestBefore = value;
+            _cellRepository.AddOrUpdateCell(cell);
+            return GetCellDisplayModel(cell);
         }
 
         public ServiceResponse DeleteCellById(int id, string email)
@@ -124,6 +112,16 @@ namespace SmartKitchen.DomainService.Services
             foreach (var item in list)
                 item.SafetyStatus = GetSafetyStatusByDatetime(item.BestBefore);
             return list;
+        }
+
+        private Cell GetCellByProductAndStorage(int product, int storage) =>
+            _cellRepository.GetCellByProductAndStorage(product, storage);
+
+        private CellDisplayModel GetCellDisplayModel(Cell cell)
+        {
+            var result = Mapper.Map<CellDisplayModel>(cell);
+            result.SafetyStatus = GetSafetyStatusByDatetime(result.BestBefore);
+            return result;
         }
 
         private Safety GetSafetyStatusByDatetime(DateTime? bestBefore)

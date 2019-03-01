@@ -86,41 +86,39 @@ namespace SmartKitchen.Web.Controllers
             var file = System.Web.HttpContext.Current.Request.Files[0];
             var response = _storageTypeService.AddOrUpdateStorageType(model);
             if (FileHelper.IconIsNotValid(file)) ModelState.AddModelError("Icon", "Select a PNG image smaller than 1MB");
-            if (file.ContentLength > 0) FileHelper.SaveImage(file, Server.MapPath("~/Content/images/" + model.Id + ".png"));
+            if (file.ContentLength > 0) FileHelper.SaveImage(file, Server.MapPath("~/Content/images/" + response.AddedId+ ".png"));
             if (response.Successful() && ModelState.IsValid) return Redirect(Url.Action("CreateType"));
             var query = _storageTypeService.GetAllStorageTypes();
             return View(query.ToList());
         }
 
+        [HttpPost]
         [Authorize(Roles = "Admin")]
-        public ActionResult RemoveType(int fromId, int toId)
+        public bool RemoveType(int fromId, int toId)
         {
-            _storageTypeService.ReplaceType(fromId, toId);
-            return Redirect(Url.Action("Index"));
+            return _storageTypeService.ReplaceType(fromId, toId);
         }
 
         #endregion
 
         #region Cell
-        public PartialViewResult CellDescription(int cell)
-        {
-            var description = _cellService.GetCellDisplayModelById(cell, CurrentUser());
-            return PartialView("_Description", description);
-        }
 
+        [HttpPost]
         public ActionResult SetAmount(int cell, int amount)
         {
-            _cellService.UpdateCellAmount(cell, amount, CurrentUser());
-            var description = _cellService.GetCellDisplayModelById(cell, CurrentUser());
+            var description = _cellService.UpdateCellAmount(cell, amount, CurrentUser());
             return PartialView("_Description", description);
         }
 
+        [HttpPost]
         public bool Remove(int cellId)
         {
             var response = _cellService.DeleteCellById(cellId, CurrentUser());
+            if (response.Successful()) FileHelper.RemoveImage(Server.MapPath("~/Content/images/" + cellId + ".png"));
             return response.Successful();
         }
 
+        [HttpPost]
         public ActionResult DateUpdate(int cell, string dateStr)
         {
             DateTime? newDate;
@@ -133,8 +131,7 @@ namespace SmartKitchen.Web.Controllers
                 newDate = null;
             }
 
-            _cellService.UpdateCellBestBefore(cell, newDate, CurrentUser());
-            var description = _cellService.GetCellDisplayModelById(cell,CurrentUser());
+            var description = _cellService.UpdateCellBestBefore(cell, newDate, CurrentUser());
             return PartialView("_Description", description);
         }
 

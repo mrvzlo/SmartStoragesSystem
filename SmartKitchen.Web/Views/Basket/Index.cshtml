@@ -56,29 +56,25 @@ else
         function lock(id, name) {
             event.stopPropagation();
             if (confirm(name + " will be locked")) {
-                $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("Lock","Basket")/' + id,
-                    success: function (data) {
+                var url = '@Url.Action("Lock","Basket")/' + id;
+                $.post(url,
+                    function (data) {
                         document.getElementById(id).outerHTML = "";
                         var a = document.createElement('a');
                         document.getElementById("tab2").appendChild(a);
                         a.outerHTML = data;
-                    }
                     });
             }
         }
 
         function remove(id, name) {
             event.stopPropagation();
-            if (confirm(name+" will be removed")) {
-                $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("Remove","Basket")/' + id,
-                    success: function(success) {
+            if (confirm(name + " will be removed")) {
+                var url = '@Url.Action("Remove","Basket")/' + id;
+                $.post(url,
+                    function (success) {
                         if (success) document.getElementById(id).outerHTML = "";
-                    }
-                });
+                    });
             }
         }
     </script>

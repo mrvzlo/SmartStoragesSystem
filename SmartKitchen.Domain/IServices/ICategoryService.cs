@@ -10,6 +10,6 @@ namespace SmartKitchen.Domain.IServices
         CategoryDisplay GetCategoryDisplayById(int id);
         IQueryable<CategoryDisplay> GetAllCategoryDisplays();
         ServiceResponse AddCategoryWithName(NameCreationModel model);
-        void ReplaceCategory(int fromId, int toId);
+        bool ReplaceCategory(int fromId, int toId);
     }
 }

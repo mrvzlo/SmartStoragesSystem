@@ -25,13 +25,14 @@ namespace SmartKitchen.DomainService.Services
         public bool ExistsWithId(int id) =>
             _storageTypeRepository.GetStorageTypeById(id) != null;
 
-        public void ReplaceType(int fromId, int toId)
+        public bool ReplaceType(int fromId, int toId)
         {
             var fromType = _storageTypeRepository.GetStorageTypeById(fromId);
             var toType = _storageTypeRepository.GetStorageTypeById(toId);
-            if (fromType == null || toType == null || fromId == 1) return;
+            if (fromType == null || toType == null || fromId == 1) return false;
             _storageRepository.ReplaceType(fromId, toId);
             _storageTypeRepository.DeleteStorageTypeById(fromId);
+            return true;
         }
 
         public ItemCreationResponse AddOrUpdateStorageType(StorageTypeCreationModel model)
@@ -44,6 +45,7 @@ namespace SmartKitchen.DomainService.Services
                 oldType.Name = model.Name;
                 oldType.Background = model.Background;
                 _storageTypeRepository.AddOrUpdateStorageType(oldType);
+                response.AddedId = oldType.Id;
             }
             else
             {
@@ -59,9 +61,9 @@ namespace SmartKitchen.DomainService.Services
                     Name = model.Name
                 };
                 _storageTypeRepository.AddOrUpdateStorageType(newType);
+                response.AddedId = newType.Id;
             }
 
-            response.AddedId = model.Id;
             return response;
         }
     }

@@ -45,13 +45,14 @@ namespace SmartKitchen.DomainService.Services
             return response;
         }
 
-        public void ReplaceCategory(int fromId, int toId)
+        public bool ReplaceCategory(int fromId, int toId)
         {
             var fromCategory = _categoryRepository.GetCategoryById(fromId);
             var toCategory = _categoryRepository.GetCategoryById(toId);
-            if (fromCategory == null || toCategory == null || fromId == 1) return;
+            if (fromCategory == null || toCategory == null || fromId == 1) return false;
             _productRepository.ReplaceCategory(fromId, toId);
             _categoryRepository.DeleteCategoryById(fromId);
+            return true;
         }
     }
 }

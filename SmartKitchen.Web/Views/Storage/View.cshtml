@@ -14,10 +14,10 @@
     {
         <table class="w-100 table table-hover table-borderless p-0 m-0" id="table">
             <tr>
-                <th style="width: 25%">Name</th>
-                <th style="width: 25%">Category</th>
-                <th style="width: 25%">Safety</th>
-                <th style="width: 25%">Amount</th>
+                <th class="w-25">Name</th>
+                <th class="w-25">Category</th>
+                <th class="w-25">Safety</th>
+                <th class="w-25">Amount</th>
             </tr>
             @{Html.RenderAction("ShowAllCells", new { storage = Model.Id, order = ViewBag.Order });}
         </table>
@@ -66,10 +66,10 @@
         });
 
         function UpdateDaysinMonth() {
-            var Month = $("#Month").val();
+            var month = $("#Month").val();
             var max = 31;
-            if (Month == 4 || Month == 6 || Month == 9 || Month == 11) max = 30;
-            if (Month == 2) {
+            if (month == 4 || month == 6 || month == 9 || month == 11) max = 30;
+            if (month == 2) {
                 if ($("#Year").val() % 4 == 0) max = 29;
                 else max = 28;
             }
@@ -81,46 +81,34 @@
         }
 
         function DateUpdate() {
-            var Day = $("#Day").val();
-            var Month = $("#Month").val();
-            var Year = $("#Year").val();
-            var newDate = Day + "/" + Month + "/" + Year;
-            $.ajax({
-                url: '@Url.Action("DateUpdate", "Storage")?cell=' + cellId + '&dateStr=' + newDate,
-                success: function(data) {
+            var value = $("#Day").val();
+            var month = $("#Month").val();
+            var year = $("#Year").val();
+            var newDate = value + "/" + month + "/" + year;
+            var url = '@Url.Action("DateUpdate", "Storage")?cell=' + cellId + '&dateStr=' + newDate;
+            $.post(url,
+                function (data) {
                     document.getElementById(cellId).innerHTML = data;
-                }
-            });
+                });
         }
 
         function changeProductAmount(amount) {
-            $.ajax({
-                url: '@Url.Action("SetAmount", "Storage")?cell=' + cellId + '&amount=' + amount,
-                success: function(data) {
-                    document.getElementById(cellId).innerHTML = data;
-                }
-            });
+            var url = '@Url.Action("SetAmount", "Storage")?cell=' + cellId + '&amount=' + amount;
+            $.post(url,
+                function (data) {
+                        document.getElementById(cellId).innerHTML = data;
+                });
         }
 
         function removeProduct() {
             var name = $("#name_" + cellId).text();
             if (confirm(name + " cell will be completely removed")) {
-                $.ajax({
-                    url: '@Url.Action("Remove", "Storage")?cellId=' + cellId,
-                    success: function() {
-                        document.getElementById(cellId).outerHTML = "";
-                    }
-                });
+                var url = '@Url.Action("Remove", "Storage")?cellId=' + cellId;
+                $.post(url,
+                    function () {
+                            document.getElementById(cellId).outerHTML = "";
+                    });
             }
-        }
-
-        function getProduct(product) {
-            $.ajax({
-                url: '@Url.Action("CellDescription", "Storage")?cell=' + product,
-                success: function(data) {
-                    document.getElementById(product).outerHTML = data;
-                }
-            });
         }
 
         function inputChange(id, value) {

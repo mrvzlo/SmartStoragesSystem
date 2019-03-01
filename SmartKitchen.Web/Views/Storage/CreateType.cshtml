@@ -8,7 +8,7 @@
             @foreach (var item in Model)
             {
                 <div class="col-lg-3 col-4 px-1">
-                    <div class="storage-small row justify-content-between px-2 py-1" style="background-color: #@item.Background" onclick='updateForm(@item.Id,"@item.Name","@item.Background");'>
+                    <div class="storage-small row justify-content-around px-2 py-1" style="background-color: #@item.Background" onclick='updateForm(@item.Id,"@item.Name","@item.Background");'>
                         @{ var filename = item.Id + ".png";}
                         <img class="rowicon" src="~/Content/images/@filename" />
                         @Html.Hidden("name_" + item.Id, item.Name)
@@ -26,23 +26,23 @@
             @Html.AntiForgeryToken()
             @Html.Hidden("Id", 0)
             <div class="row justify-content-center py-2">
-                <div class="col-md-2">Name</div>
+                <div class="col-md-2 text-md-center">Name</div>
                 <div class="col-md-10">@Html.Editor("Name")</div>
                 <div class="error col-12">@Html.ValidationMessage("Name")</div>
             </div>
             <div class="row justify-content-center py-2">
-                <div class="col-md-2">Icon</div>
+                <div class="col-md-2 text-md-center">Icon</div>
                 <div class="col-md-10">
                     <div class="row m-0 p-0">
                         @Html.TextBox("Icon", "", new { type = "file", id = "upload", @class = "d-none" })
-                        <span id="uploadBtn" class="btn-main btn py-0 col-6 text-nowrap font-weight-normal">Pick image</span>
-                        @Html.TextBox("UploadStatus", "", new { @readonly = "readonly", @class = "col-6" })
+                        <span id="uploadBtn" class="btn-main btn py-0 col-lg-4 col-5 text-nowrap font-weight-normal">Pick image</span>
+                        @Html.TextBox("UploadStatus", "", new { @readonly = "readonly", @class = "col-7 col-lg-8" })
                     </div>
                 </div>
                 <div class="error col-12">@Html.ValidationMessage("Icon", new { id = "IconError" })</div>
             </div>
             <div class="row justify-content-center py-2">
-                <div class="col-md-2">Color</div>
+                <div class="col-md-2 text-md-center">Color</div>
                 <div class="col-md-10">@Html.TextBox("Background", "FFFFFF", new { @readonly = "readonly" })</div>
                 <div class="error col-12">@Html.ValidationMessage("Background")</div>
             </div>
@@ -119,12 +119,11 @@
         }
 
         function removeConfirm(id) {
-            $.ajax({
-                url: '@Url.Action("RemoveType", "Storage")?fromId=' + storageId+"&toId="+id,
-                success: function () {
-                    location.reload();
-                }
-            });
+            var url = '@Url.Action("RemoveType", "Storage")?fromId=' + storageId+"&toId=" + id;
+            $.post(url,
+                function (success) {
+                    if (success) location.reload();
+                });
         }
 
         $("body").click(function () {

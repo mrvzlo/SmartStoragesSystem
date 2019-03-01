@@ -34,10 +34,10 @@ namespace SmartKitchen.Web.Controllers
             return Redirect(Url.Action("Index"));
         }
 
-        public ActionResult Remove(int fromId, int toId)
+        [HttpPost]
+        public bool Remove(int fromId, int toId)
         {
-            _categoryService.ReplaceCategory(fromId, toId);
-            return Redirect(Url.Action("Index"));
+            return _categoryService.ReplaceCategory(fromId, toId);
         }
 
         public PartialViewResult CategoryGrid()

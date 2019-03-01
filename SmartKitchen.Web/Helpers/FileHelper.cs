@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.Web;
 
@@ -26,6 +27,19 @@ namespace SmartKitchen.Web.Helpers
         public static void SaveImage(HttpPostedFile fileIcon, string path)
         {
             fileIcon?.SaveAs(path);
+        }
+
+        public static bool RemoveImage(string path)
+        {
+            try
+            {
+                System.IO.File.Delete(path);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
     }
 }
