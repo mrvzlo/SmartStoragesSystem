@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
-    @Styles.Render("~/Content/css")
+    @Styles.Render("~/css")
 </head>
 <body class="p-0">
     @Html.Partial("_Navbar")
@@ -12,9 +12,7 @@
         <div class="gap"></div>
         @RenderBody()
     </div>
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/core")
     @RenderSection("scripts", false)
 </body>
 </html>

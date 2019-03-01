@@ -33,7 +33,7 @@ body {
     display: none;
 }
 
-.underline{
+li .active, li .active:hover{
     border-bottom: solid 5px $main;
 }
 
@@ -63,3 +63,11 @@ body {
     }
 }
 //navbar
+
+#tog1:after, #tog2:after {
+    content: " ⯅";
+}
+
+#tog1.collapsed:after, #tog2.collapsed:after {
+    content: " ⯆";
+}

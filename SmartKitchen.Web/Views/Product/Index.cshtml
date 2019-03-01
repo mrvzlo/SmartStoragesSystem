@@ -13,28 +13,5 @@
     <button class="col-lg-3 col-5 btn btn-main m-1" type="submit" form="f">Save</button>
     <button class="col-lg-3 col-5 btn btn-info m-1" onclick="location.reload();">Reset</button>
 </div>
-@section scripts{
-    @Scripts.Render("~/bundles/MvcGrid")
-    <script>
-        function toggle(id, type) {
-            if (type == 0) {
-                $("#0_" + id).show();
-                $("#1_" + id).hide();
-            } else if (type == 1) {
-                $("#1_" + id).show();
-                $("#0_" + id).hide();
-            }
-            if (type == 2) {
-                $("#2_" + id).show();
-                $("#3_" + id).hide();
-            } else if (type == 3) {
-                $("#3_" + id).show();
-                $("#2_" + id).hide();
-            }
-        }
-
-        $(function () {
-            new MvcGrid(document.querySelector('.mvc-grid')).reload();
-        });
-    </script>
-}
+@Scripts.Render("~/js/productIndex")
+@Scripts.Render("~/MvcGrid")

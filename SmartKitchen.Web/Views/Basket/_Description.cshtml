@@ -6,7 +6,7 @@
     <td class="col">@Model.CreationDate.ToString("dd.MM.yy")</td>
     <td class="col-md-1 col-2">
         <img src="@Html.Raw( Model.Closed ? "../Content/images/remove.svg" : "../Content/images/lock.svg")"
-             onclick="@Html.Raw( !Model.Closed ? "lock("+Model.Id+", '"+Model.Name+"')" : "remove("+Model.Id+", '"+Model.Name+"')")"
+             onclick="@Html.Raw( !Model.Closed ? "BasketIndexJs.lock("+Model.Id+", '"+Model.Name+"')" : "BasketIndexJs.remove("+Model.Id+", '"+Model.Name+"')")"
              class="rowicon h-75" />
     </td>
 </tr>

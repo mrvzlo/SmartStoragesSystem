@@ -189,17 +189,16 @@
   <ItemGroup>
     <Content Include="Content\ColorPicker.jpg" />
     <Content Include="Content\images\1.png" />
+    <Content Include="Content\images\12.png" />
     <Content Include="Content\images\2.png" />
     <Content Include="Content\images\3.png" />
     <Content Include="Content\images\4.png" />
     <Content Include="Content\images\5.png" />
-    <Content Include="Content\images\6.png" />
     <Content Include="Content\images\8.png" />
     <Content Include="Content\images\9.png" />
     <Content Include="Content\images\add.png" />
     <Content Include="Content\images\admin.png" />
     <Content Include="Content\images\basket.png" />
-    <Content Include="Content\images\down.png" />
     <Content Include="Content\images\guide.png" />
     <Content Include="Content\images\home.svg" />
     <Content Include="Content\images\lock.svg" />
@@ -207,7 +206,6 @@
     <Content Include="Content\images\logout.png" />
     <Content Include="Content\images\remove.svg" />
     <Content Include="Content\images\storages.svg" />
-    <Content Include="Content\images\up.png" />
     <Content Include="Content\MvcGrid\mvc-grid.css" />
     <Content Include="Content\My.css">
       <DependentUpon>My.scss</DependentUpon>
@@ -323,6 +321,10 @@
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\MvcGrid\mvc-grid.js" />
+    <Content Include="Scripts\pages\account-index.js" />
+    <Content Include="Scripts\pages\form-helper.js" />
+    <Content Include="Scripts\pages\basket-index.js" />
+    <Content Include="Scripts\pages\product-index.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\umd\popper-utils.js" />

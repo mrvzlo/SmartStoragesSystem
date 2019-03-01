@@ -78,6 +78,7 @@ namespace SmartKitchen.DomainService.Services
             if (value > (int)Amount.Plenty) value = (int)Amount.Plenty;
             else if (value < (int)Amount.None) value = (int)Amount.None;
             cell.Amount = value;
+            if (cell.Amount == (int) Amount.None) cell.BestBefore = null;
             _cellRepository.AddOrUpdateCell(cell);
             return GetCellDisplayModel(cell);
         }

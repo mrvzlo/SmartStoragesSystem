@@ -33,3 +33,10 @@ label{
 form div {
     padding: 0px 5px;
 }
+
+.validation-summary-errors ul{
+    padding: 0;
+}
+.validation-summary-errors ul li{
+    display: inline;
+}

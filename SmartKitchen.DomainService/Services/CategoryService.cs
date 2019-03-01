@@ -49,7 +49,7 @@ namespace SmartKitchen.DomainService.Services
         {
             var fromCategory = _categoryRepository.GetCategoryById(fromId);
             var toCategory = _categoryRepository.GetCategoryById(toId);
-            if (fromCategory == null || toCategory == null || fromId == 1) return false;
+            if (fromCategory == null || toCategory == null || fromId == 1 || fromId == toId) return false;
             _productRepository.ReplaceCategory(fromId, toId);
             _categoryRepository.DeleteCategoryById(fromId);
             return true;

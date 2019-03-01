@@ -7,20 +7,35 @@ namespace SmartKitchen.Web
 		// For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
 		public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                "~/Scripts/jquery-{version}.js"));
+            bundles.Add(new ScriptBundle("~/core").Include(
+                    "~/Scripts/jquery-{version}.js", 
+                    "~/Scripts/jquery.validate*",
+                    "~/Scripts/bootstrap.js",
+                    "~/Scripts/pages/form-helper.js"
+            ));
 
-            bundles.Add(new ScriptBundle("~/bundles/MvcGrid").Include(
+            bundles.Add(new StyleBundle("~/css").Include(
+                "~/Content/My.css"));
+
+            bundles.Add(new ScriptBundle("~/MvcGrid").Include(
                 "~/Scripts/MvcGrid/mvc-grid.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-				"~/Scripts/jquery.validate*"));
+            #region Pages
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                "~/Scripts/bootstrap.js"));
-            
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-				"~/Content/My.css"));
-		}
-	}
+            bundles.Add(new ScriptBundle("~/js/accountIndex").Include(
+                "~/Scripts/pages/account-index.js"
+            ));
+
+            bundles.Add(new ScriptBundle("~/js/productIndex").Include(
+                "~/Scripts/pages/product-index.js"
+            ));
+
+            bundles.Add(new ScriptBundle("~/js/basketIndex").Include(
+                "~/Scripts/pages/basket-index.js"
+            ));
+
+            #endregion
+
+        }
+    }
 }

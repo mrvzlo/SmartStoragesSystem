@@ -11,9 +11,10 @@
 else
 {
     <div class="storage text-center py-0">
-        <div class="h5 my-3" onclick="toggleTable(1);">Open baskets <img id="tog1" class="rowicon" src="~/Content/images/up.png" /></div>
-        <table class="table table-hover mb-0">
-            <tbody id="tab1">
+        <div class="h5 my-3" id="tog1" data-toggle="collapse" data-target="#tab1">Open baskets</div>
+        <div id="tab1" class="collapse show">
+            <table class="table table-hover mb-0">
+                <tbody>
                 @foreach (var b in Model)
                 {
                     if (!b.Closed)
@@ -21,13 +22,15 @@ else
                         Html.RenderPartial("_Description", b);
                     }
                 }
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="storage text-center py-0">
-        <div class="h5 my-3" onclick="toggleTable(2);">Closed baskets <img id="tog2" class="rowicon" src="~/Content/images/down.png" /></div>
-        <table class="table table-hover mb-0">
-            <tbody id="tab2">
+        <div class="h5 my-3 collapsed" id="tog2" data-toggle="collapse" data-target="#tab2">Closed baskets</div>
+        <div id="tab2" class="collapse">
+            <table class="table table-hover mb-0">
+                <tbody>
                 @foreach (var b in Model)
                 {
                     if (b.Closed)
@@ -35,47 +38,18 @@ else
                         Html.RenderPartial("_Description", b);
                     }
                 }
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
 }
 @section scripts
 {
-    <script>
-        $("#tab2").hide();
-        function toggleTable(id) {
-            if ($("#tab" + id).is(":hidden")) {
-                $("#tab" + id).show();
-                $("#tog" + id).attr("src", "../Content/images/up.png");
-            } else {
-                $("#tab" + id).hide();
-                $("#tog" + id).attr("src", "../Content/images/down.png");
-            }
-        }
-
-        function lock(id, name) {
-            event.stopPropagation();
-            if (confirm(name + " will be locked")) {
-                var url = '@Url.Action("Lock","Basket")/' + id;
-                $.post(url,
-                    function (data) {
-                        document.getElementById(id).outerHTML = "";
-                        var a = document.createElement('a');
-                        document.getElementById("tab2").appendChild(a);
-                        a.outerHTML = data;
-                    });
-            }
-        }
-
-        function remove(id, name) {
-            event.stopPropagation();
-            if (confirm(name + " will be removed")) {
-                var url = '@Url.Action("Remove","Basket")/' + id;
-                $.post(url,
-                    function (success) {
-                        if (success) document.getElementById(id).outerHTML = "";
-                    });
-            }
-        }
-    </script>
+    @Scripts.Render("~/js/basketIndex")
+    <script>$(function () {
+            BasketIndexJs.initialize({
+                lockUrl: '@Url.Action("Lock","Basket")/',
+                removeUrl: '@Url.Action("Remove","Basket")/'
+            });
+        });</script>
 }

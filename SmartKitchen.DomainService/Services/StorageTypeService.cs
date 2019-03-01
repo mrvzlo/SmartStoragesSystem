@@ -29,7 +29,7 @@ namespace SmartKitchen.DomainService.Services
         {
             var fromType = _storageTypeRepository.GetStorageTypeById(fromId);
             var toType = _storageTypeRepository.GetStorageTypeById(toId);
-            if (fromType == null || toType == null || fromId == 1) return false;
+            if (fromType == null || toType == null || fromId == 1 || fromId == toId) return false;
             _storageRepository.ReplaceType(fromId, toId);
             _storageTypeRepository.DeleteStorageTypeById(fromId);
             return true;

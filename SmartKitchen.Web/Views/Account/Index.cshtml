@@ -1,57 +1,26 @@
 ﻿@{
-    ViewBag.Title = "Autorisation";
+    ViewBag.Title = "Authorization";
 }
 
 <div class="row justify-content-center mt-3">
-    <div class="col-md-8 col-12">
-        <div class="row justify-content-center">
-            <a class="col-md-3 col-5 text-center font-weight-bold py-2 text-main underline" id="signin" onclick="activate(true);">Sign in</a>
-            <a class="col-md-3 col-5 text-center font-weight-bold py-2 text-main" id="signup" onclick="activate(false);">Sign up</a>
+    <div class="col-md-8 col-12">        
+
+        <ul class="nav row justify-content-center text-center font-weight-bold">
+            <li class="nav-item mx-1">
+                <a class="nav-link text-dark px-md-5 px-3 active" id="signIn" href="#_SignIn" data-toggle="tab" >Sign in</a>
+            </li>
+            <li class="nav-item mx-1">
+                <a class="nav-link text-dark px-md-5 px-3" id="signUp" href="#_SignUp" data-toggle="tab" >Sign up</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="_SignIn" class="tab-pane show active" role="tabpanel">@{Html.RenderAction("SignIn");}</div>
+            <div id="_SignUp" class="tab-pane" role="tabpanel">@{Html.RenderAction("SignUp");}</div>
         </div>
-        <div id="_SignIn">@{Html.RenderAction("SignIn");}</div>
-        <div id="_SignUp">@{Html.RenderAction("SignUp");}</div>
+
     </div>
 </div>
-@section Scripts {
-    <script>
-		function activate(type) {
-			if (type) {
-                $('#signin').addClass("underline");
-                $('#signup').removeClass("underline");
-                $("#_SignIn").show();
-                $("#_SignUp").hide();
-			} else {
-                $('#signin').removeClass("underline");
-                $('#signup').addClass("underline");
-                $("#_SignIn").hide();
-                $("#_SignUp").show();
-			}
-		}
-
-		$(function() {
-            activate(1);
-            bindForm("#formSignIn", "#_SignIn");
-            bindForm("#formSignUp", "#_SignUp");
-        });
-        
-        function bindForm(formId, containerId) {
-            var frm = $(formId);
-            frm.off('submit');
-            frm.on('submit', function () {
-                if (!$(this).valid()) return false;
-                var url = frm.attr('action');
-                $.post(url,
-                    frm.serialize(),
-                    function(data) {
-                        if (data.success) window.location = data.url;
-                        else {
-                            $(containerId).html(data.formHTML).promise().done(function() {
-                                bindForm(formId, containerId);
-                            });
-                        }
-                    });
-                return false;
-            });
-        }
-    </script>
+@section scripts{
+    @Scripts.Render("~/js/accountIndex")
+    <script>$(function(){AccountIndexJs.initialize();});</script>
 }
