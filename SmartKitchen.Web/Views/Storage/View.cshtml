@@ -12,24 +12,16 @@
     }
     else
     {
-        <table class="w-100 table table-hover table-borderless p-0 m-0" id="table">
-            <tr>
-                <th class="w-25">Name</th>
-                <th class="w-25">Category</th>
-                <th class="w-25">Safety</th>
-                <th class="w-25">Amount</th>
-            </tr>
-            @{Html.RenderAction("ShowAllCells", new { storage = Model.Id, order = ViewBag.Order });}
-        </table>
+        @Html.AjaxGrid(Url.Action("ShowAllCells", new { storage = Model.Id }))
     }
 </div>
 @if (Model.CellCount > 0)
 {
     <div class="row justify-content-around m-1">
-        <div class="col-6 col-md-3 col-lg-2 p-1"><button class="btn btn-main w-100" onclick="markGroup(1);">Mark all</button></div>
-        <div class="col-6 col-md-3 col-lg-2 p-1"><button class="btn btn-main w-100" onclick="markGroup(3);">Mark expired</button></div>
-        <div class="col-6 col-md-3 col-lg-2 p-1"><button class="btn btn-main w-100" onclick="markGroup(2);">Mark absent</button></div>
-        <div class="col-6 col-md-3 col-lg-2 p-1"><button class="btn btn-main w-100" onclick="markGroup(0);">Clear</button></div>
+        <div class="col-6 col-md-3 col-lg-2 p-1"><button class="btn btn-main w-100" id="btnMark1">Mark all</button></div>
+        <div class="col-6 col-md-3 col-lg-2 p-1"><button class="btn btn-main w-100" id="btnMark3">Mark expired</button></div>
+        <div class="col-6 col-md-3 col-lg-2 p-1"><button class="btn btn-main w-100" id="btnMark2">Mark absent</button></div>
+        <div class="col-6 col-md-3 col-lg-2 p-1"><button class="btn btn-main w-100" id="btnMark0">Clear</button></div>
     </div>
     <div class="row justify-content-around m-1">
         <div class="col-6 col-md-3 col-lg-2 p-1"><button class="btn btn-main w-100">To basket</button></div>
@@ -37,139 +29,23 @@
 }
 @Html.Partial("_DatePicker")
 @Html.Partial("_AmountPicker")
+@Scripts.Render("~/MvcGrid")
 @section scripts{
+    @Scripts.Render("~/js/datetimePicker")
+    @Scripts.Render("~/js/amountPicker")
+    @Scripts.Render("~/js/storageView")
     <script>
         var cellId;
+        var MVCGrid;
+
+        $(function () {
+            MVCGrid = new MvcGrid(document.querySelector('.mvc-grid'));
+            $(function () {
+                StorageViewJs.initialize();
+                DatetimePickerJs.initialize({url: '@Url.Action("DateUpdate", "Storage")?cell='});
+                AmountPickerJs.initialize({ deleteUrl: '@Url.Action("Remove", "Storage")?cellId=', setUrl: '@Url.Action("SetAmount", "Storage")?cell='});
+            });
+        });
         
-        function showDatePicker(product, productName) {
-            cellId = product;
-            var name = $("#name_" + cellId).text();
-            $('#DateModalLabel').text("Choose expiration date for " + name);
-        }
-
-        function showAmountPicker(product, productName) {
-            cellId = product;
-            var name = $("#name_" + cellId).text();
-            $('#AmountModalLabel').text("Choose amount of " + name);
-        }
-
-        $("#Month").change(function() {
-            UpdateDaysinMonth();
-        });
-
-        $("#Year").change(function() {
-            UpdateDaysinMonth();
-        });
-
-        $("#Day").change(function() {
-            UpdateDaysinMonth();
-        });
-
-        function UpdateDaysinMonth() {
-            var month = $("#Month").val();
-            var max = 31;
-            if (month == 4 || month == 6 || month == 9 || month == 11) max = 30;
-            if (month == 2) {
-                if ($("#Year").val() % 4 == 0) max = 29;
-                else max = 28;
-            }
-
-            $("#Day").attr({
-                "max": max
-            });
-            if ($("#Day").val() > max) $("#Day").val(max);
-        }
-
-        function DateUpdate() {
-            var value = $("#Day").val();
-            var month = $("#Month").val();
-            var year = $("#Year").val();
-            var newDate = value + "/" + month + "/" + year;
-            var url = '@Url.Action("DateUpdate", "Storage")?cell=' + cellId + '&dateStr=' + newDate;
-            $.post(url,
-                function (data) {
-                    document.getElementById(cellId).innerHTML = data;
-                });
-        }
-
-        function changeProductAmount(amount) {
-            var url = '@Url.Action("SetAmount", "Storage")?cell=' + cellId + '&amount=' + amount;
-            $.post(url,
-                function (data) {
-                        document.getElementById(cellId).innerHTML = data;
-                });
-        }
-
-        function removeProduct() {
-            var name = $("#name_" + cellId).text();
-            if (confirm(name + " cell will be completely removed")) {
-                var url = '@Url.Action("Remove", "Storage")?cellId=' + cellId;
-                $.post(url,
-                    function () {
-                            document.getElementById(cellId).outerHTML = "";
-                    });
-            }
-        }
-
-        function inputChange(id, value) {
-            id = "#" + id;
-            var max = $(id).attr('max');
-            var min = $(id).attr('min');
-            var val = $(id).val();
-            var newVal = Number(val) + value;
-            if (newVal > max) newVal = max;
-            else if (newVal < min) newVal = min;
-            $(id).val(newVal);
-            UpdateDaysinMonth();
-        }
-
-        function setTodayDate() {
-            var date = new Date();
-            $("#Month").val(date.getMonth() + 1);
-            $("#Day").val(date.getDate());
-            $("#Year").val(date.getFullYear());
-        }
-
-        $(function() {
-            UpdateDaysinMonth();
-            $("#Month").attr({
-                "max": 12,
-                "min": 1
-            });
-            $("#Day").attr({
-                "min": 1
-            });
-            $("#Year").attr({
-                "min": (new Date()).getFullYear()
-            });
-            setTodayDate();
-        });
-
-        function mark(id) {
-            var e = $("#name_" + id);
-            if (e.hasClass("font-weight-bold"))
-                e.removeClass("font-weight-bold");
-            else e.addClass("font-weight-bold");
-        }
-
-        function markGroup(type) {
-            var table = document.getElementById('table');
-            for (var i = 0; i < table.rows.length; i += 1) {
-                var row = table.rows[i];
-                var id = row.id;
-                if (id > 0) {
-                    var name = $("#name_" + id);
-                    var marked = name.hasClass("font-weight-bold");
-                    if (type === 0 && marked) {
-                        name.removeClass("font-weight-bold");
-                    } else if (!marked) {
-                        if (type === 1 ||
-                            type === 2 && $("#amount_" + id).hasClass("text-secondary") ||
-                            type === 3 && $("#safety_" + id).hasClass("text-danger"))
-                            name.addClass("font-weight-bold");
-                    }
-                }
-            }
-        }
     </script>
 }

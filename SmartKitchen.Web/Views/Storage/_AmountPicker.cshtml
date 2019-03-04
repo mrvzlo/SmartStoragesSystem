@@ -5,11 +5,11 @@
             <div class="modal-header text-center d-block h5" id="AmountModalLabel"></div>
             <div class="modal-body pt-0">
                 <div class="row justify-content-center">
-                    <button data-dismiss="modal" class="btn btn-success col-md-3 col-6 m-2" onclick="changeProductAmount(@Convert.ToInt32(Amount.Plenty));" >Plenty</button>
-                    <button data-dismiss="modal" class="btn btn-warning col-md-3 col-6 m-2" onclick="changeProductAmount(@Convert.ToInt32(@Amount.Lack));" >Lack</button>
-                    <button data-dismiss="modal" class="btn btn-secondary col-md-3 col-6 m-2" onclick="changeProductAmount(@Convert.ToInt32(@Amount.None));" >None</button>
-                    <button data-dismiss="modal" class="btn btn-danger col-md-3 col-6 m-2" onclick="removeProduct();">Remove</button>
-                    <button data-dismiss="modal" class="btn btn-secondary col-md-3 col-6 m-2">Close</button>
+                    <button data-dismiss="modal" class="btn btn-success col-md-3 col-5 m-2" onclick="AmountPickerJs.changeProductAmount(@((int)Amount.Plenty));" >Plenty</button>
+                    <button data-dismiss="modal" class="btn btn-warning col-md-3 col-5 m-2" onclick="AmountPickerJs.changeProductAmount(@((int)Amount.Lack));" >Lack</button>
+                    <button data-dismiss="modal" class="btn btn-secondary col-md-3 col-5 m-2" onclick="AmountPickerJs.changeProductAmount(@((int)Amount.None));" >None</button>
+                    <button data-dismiss="modal" class="btn btn-danger col-md-3 col-5 m-2" id="btnAmountRemove">Remove</button>
+                    <button data-dismiss="modal" class="btn btn-secondary col-md-3 col-5 m-2">Close</button>
                 </div>
             </div>
         </div>

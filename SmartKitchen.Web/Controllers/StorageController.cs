@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using SmartKitchen.Domain.CreationModels;
+using SmartKitchen.Domain.Enums;
 using SmartKitchen.Domain.IServices;
 using SmartKitchen.Web.Helpers;
 
@@ -105,10 +106,9 @@ namespace SmartKitchen.Web.Controllers
         #region Cell
 
         [HttpPost]
-        public ActionResult SetAmount(int cell, int amount)
+        public void SetAmount(int cell, Amount amount)
         {
-            var description = _cellService.UpdateCellAmount(cell, amount, CurrentUser());
-            return PartialView("_Description", description);
+            _cellService.UpdateCellAmount(cell, amount, CurrentUser());
         }
 
         [HttpPost]
@@ -120,7 +120,7 @@ namespace SmartKitchen.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult DateUpdate(int cell, string dateStr)
+        public void DateUpdate(int cell, string dateStr)
         {
             DateTime? newDate;
             try
@@ -132,14 +132,13 @@ namespace SmartKitchen.Web.Controllers
                 newDate = null;
             }
 
-            var description = _cellService.UpdateCellBestBefore(cell, newDate, CurrentUser());
-            return PartialView("_Description", description);
+            _cellService.UpdateCellBestBefore(cell, newDate, CurrentUser());
         }
 
-        public ActionResult ShowAllCells(int storage)
+        public PartialViewResult ShowAllCells(int storage)
         {
-            var list = _cellService.GetCellsOfStorage(storage, CurrentUser());
-            return PartialView("_ShowAllCells", list);
+            var query = _cellService.GetCellsOfStorage(storage, CurrentUser());
+            return PartialView("_ShowAllCells", query);
         }
 
         #endregion

@@ -46,6 +46,22 @@ namespace SmartKitchen.Web
                 "~/Scripts/pages/storage-create.js"
             ));
 
+            bundles.Add(new ScriptBundle("~/js/storageIndex").Include(
+                "~/Scripts/pages/storage-index.js"
+            ));
+
+            bundles.Add(new ScriptBundle("~/js/storageView").Include(
+                "~/Scripts/pages/storage-view.js"
+            ));
+
+            bundles.Add(new ScriptBundle("~/js/amountPicker").Include(
+                "~/Scripts/pages/amount-picker.js"
+            ));
+
+            bundles.Add(new ScriptBundle("~/js/datetimePicker").Include(
+                "~/Scripts/pages/datetime-picker.js"
+            ));
+
             #endregion
 
         }

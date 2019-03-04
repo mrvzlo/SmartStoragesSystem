@@ -12,7 +12,8 @@ namespace SmartKitchen.DomainService.Profiles
             CreateMap<BasketProductCreationModel, CellCreationModel>();
             CreateMap<Cell, CellDisplayModel>()
                 .ForMember(dest => dest.ProductName, opts => { opts.MapFrom(from => from.Product.Name); })
-                .ForMember(dest => dest.CategoryName, opts => { opts.MapFrom(from => from.Product.Category.Name); });
+                .ForMember(dest => dest.CategoryName, opts => { opts.MapFrom(from => from.Product.Category.Name); })
+                .ForMember(dest => dest.SafetyStatus, opt => opt.Ignore());
         }
     }
 }

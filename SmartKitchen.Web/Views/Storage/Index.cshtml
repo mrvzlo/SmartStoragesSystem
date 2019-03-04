@@ -12,25 +12,25 @@
                 <div class="col h4 m-0">
                     @item.Name
                 </div>
-                <img class="rowicon" src="~/Content/images/remove.svg" onclick="remove('@item.Name', @item.Id)"/>
+                <img class="rowicon" src="~/Content/images/remove.svg" onclick="StorageIndexJs.remove('@item.Name', @item.Id)"/>
             </div>
         </a>
     }
     <a class="col-12 col-lg-6 text-decoration-none text-light" href="@Url.Action("Create", "Storage")">
         <div class="storage bg-main row justify-content-between">
-            <img class="navicon" src="~/Content/images/add.png"/>
-            <div class="col h4 m-0">Add new storage</div>
+            <img class="navicon" src="~/Content/images/add.png" alt="Add"/>
+            <div class="col h4 m-0">New storage</div>
         </div>
     </a>
 </div>
 @section scripts
 {
+    @Scripts.Render("~/js/storageIndex")
     <script>
-        function remove(name, id) {
-            event.preventDefault();
-            if (confirm("Storage "+name + " will be removed")) {
-                window.location = '@Url.Action("Delete", "Storage")/'+id;
-            }
-        }
+        $(function () {
+            StorageIndexJs.initialize({
+                removeUrl: '@Url.Action("Delete", "Storage")/'
+            });
+        });
     </script>
 }

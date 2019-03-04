@@ -1,4 +1,5 @@
-﻿using SmartKitchen.Domain.CreationModels;
+﻿using AutoMapper.QueryableExtensions;
+using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Enums;
@@ -6,7 +7,6 @@ using SmartKitchen.Domain.IRepositories;
 using SmartKitchen.Domain.IServices;
 using SmartKitchen.Domain.Responses;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace SmartKitchen.DomainService.Services
@@ -63,7 +63,7 @@ namespace SmartKitchen.DomainService.Services
             response.AddedGroupId = cell.StorageId;
             return response;
         }
-        
+
         public CellDisplayModel GetCellDisplayModelById(int id, string email)
         {
             var cell = _cellRepository.GetCellById(id);
@@ -71,14 +71,14 @@ namespace SmartKitchen.DomainService.Services
             return GetCellDisplayModel(cell);
         }
 
-        public CellDisplayModel UpdateCellAmount(int id, int value, string email)
+        public CellDisplayModel UpdateCellAmount(int id, Amount value, string email)
         {
             var cell = _cellRepository.GetCellById(id);
             if (cell == null || cell.Storage.Person.Email != email) return null;
-            if (value > (int)Amount.Plenty) value = (int)Amount.Plenty;
-            else if (value < (int)Amount.None) value = (int)Amount.None;
+            if (value > Amount.Plenty) value = Amount.Plenty;
+            else if (value < Amount.None) value = Amount.None;
             cell.Amount = value;
-            if (cell.Amount == (int) Amount.None) cell.BestBefore = null;
+            if (cell.Amount == (int)Amount.None) cell.BestBefore = null;
             _cellRepository.AddOrUpdateCell(cell);
             return GetCellDisplayModel(cell);
         }
@@ -105,34 +105,18 @@ namespace SmartKitchen.DomainService.Services
             return response;
         }
 
-        public List<CellDisplayModel> GetCellsOfStorage(int storageId, string email)
+        public IQueryable<CellDisplayModel> GetCellsOfStorage(int storageId, string email)
         {
             var storage = _storageRepository.GetStorageById(storageId);
             if (storage == null || storage.Person.Email != email) return null;
-            var list = Mapper.Map<List<CellDisplayModel>>(storage.Cells.ToList());
-            foreach (var item in list)
-                item.SafetyStatus = GetSafetyStatusByDatetime(item.BestBefore);
-            return list;
+            var query = _cellRepository.GetCellsForStorage(storageId).ProjectTo<CellDisplayModel>(MapperConfig);
+            return query;
         }
 
         private Cell GetCellByProductAndStorage(int product, int storage) =>
             _cellRepository.GetCellByProductAndStorage(product, storage);
 
-        private CellDisplayModel GetCellDisplayModel(Cell cell)
-        {
-            var result = Mapper.Map<CellDisplayModel>(cell);
-            result.SafetyStatus = GetSafetyStatusByDatetime(result.BestBefore);
-            return result;
-        }
-
-        private Safety GetSafetyStatusByDatetime(DateTime? bestBefore)
-        {
-            if (bestBefore == null) return Safety.Unknown;
-            var days = (int)Math.Floor((bestBefore.Value.Date - DateTime.UtcNow.Date).TotalDays);
-            return days > 1 ? Safety.IsSafe
-                : days > 0 ? Safety.ExpiresTomorrow
-                : days == 0 ? Safety.ExpiresToday
-                : Safety.Expired;
-        }
+        private CellDisplayModel GetCellDisplayModel(Cell cell) => 
+            Mapper.Map<CellDisplayModel>(cell);
     }
 }
