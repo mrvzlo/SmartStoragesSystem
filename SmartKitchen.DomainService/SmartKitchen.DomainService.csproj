@@ -77,7 +77,6 @@
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\CellService.cs" />
     <Compile Include="Services\HomeService.cs" />
-    <Compile Include="Services\NotificationService.cs" />
     <Compile Include="Services\PersonService.cs" />
     <Compile Include="Profiles\StorageProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

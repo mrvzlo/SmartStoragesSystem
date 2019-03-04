@@ -89,7 +89,6 @@
     <Compile Include="IServices\ICategoryService.cs" />
     <Compile Include="IServices\ICellService.cs" />
     <Compile Include="IServices\IHomeService.cs" />
-    <Compile Include="IServices\INotificationService.cs" />
     <Compile Include="IServices\IProductService.cs" />
     <Compile Include="IServices\IStorageService.cs" />
     <Compile Include="IServices\IPersonService.cs" />

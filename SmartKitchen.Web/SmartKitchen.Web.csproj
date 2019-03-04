@@ -315,7 +315,7 @@
     <Content Include="Content\MvcGrid\Fonts\GridGlyphs.woff" />
     <Content Include="Content\tables.scss" />
     <Content Include="Content\forms.scss" />
-    <None Include="Properties\PublishProfiles\SmartKitchen-dev-as - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\SmartKitchen deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
