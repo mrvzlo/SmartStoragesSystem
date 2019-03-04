@@ -7,8 +7,8 @@
         <div class="row justify-content-center">
             @foreach (var item in Model)
             {
-                <div class="col-lg-3 col-4 px-1">
-                    <div class="storage-small row justify-content-around px-2 py-1" style="background-color: #@item.Background" onclick='StorageCreateTypeJs.updateForm(@item.Id,"@item.Name","@item.Background");'>
+                <div class="col-lg-2 col-md-3 col-4 px-1">
+                    <div class="storage-small pointer row justify-content-around px-2 py-1" style="background-color: #@item.Background" onclick='StorageCreateTypeJs.updateForm(@item.Id,"@item.Name","@item.Background");'>
                         @{ var filename = item.Id + ".png";}
                         <img class="rowicon" src="~/Content/images/@filename" />
                         @Html.Hidden("name_" + item.Id, item.Name)
@@ -16,7 +16,7 @@
                     </div>
                 </div>
             }
-            <div class="col-lg-3 col-4 px-1">
+            <div class="col-lg-2 col-md-3 col-4 px-1">
                 <div class="storage-small row py-1" onclick="StorageCreateTypeJs.updateForm(0,'','FFFFFF');"><div class="col text-center">Clear</div></div>
             </div>
         </div>

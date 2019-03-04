@@ -55,15 +55,16 @@ namespace SmartKitchen.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(StorageCreationModel storage)
         {
-            var response = _storageService.AddStorage(storage, CurrentUser());
-            if (!response.Successful())
+            if (ModelState.IsValid)
             {
+                var response = _storageService.AddStorage(storage, CurrentUser());
+                if (response.Successful()) return Redirect(Url.Action("View", "Storage", new {id = response.AddedId}));
                 AddModelStateErrors(response);
-                ViewBag.Selected = storage.TypeId;
-                var query = _storageTypeService.GetAllStorageTypes();
-                return View(query.ToList());
             }
-            return Redirect(Url.Action("View","Storage",new{id = response.AddedId}));
+
+            ViewBag.Selected = storage.TypeId;
+            var query = _storageTypeService.GetAllStorageTypes();
+            return View(query.ToList());
         }
 
         #endregion

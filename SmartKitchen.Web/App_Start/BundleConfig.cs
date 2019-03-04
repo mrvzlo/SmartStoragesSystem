@@ -42,6 +42,10 @@ namespace SmartKitchen.Web
                 "~/Scripts/pages/storage-create-type.js"
             ));
 
+            bundles.Add(new ScriptBundle("~/js/storageCreate").Include(
+                "~/Scripts/pages/storage-create.js"
+            ));
+
             #endregion
 
         }
