@@ -71,8 +71,9 @@ namespace SmartKitchen.DomainService.Services
             return GetCellDisplayModel(cell);
         }
 
-        public CellDisplayModel UpdateCellAmount(int id, Amount value, string email)
+        public ServiceResponse UpdateCellAmount(int id, Amount value, string email)
         {
+            var response = new ServiceResponse();
             var cell = _cellRepository.GetCellById(id);
             if (cell == null || cell.Storage.Person.Email != email) return null;
             if (value > Amount.Plenty) value = Amount.Plenty;
@@ -80,16 +81,19 @@ namespace SmartKitchen.DomainService.Services
             cell.Amount = value;
             if (cell.Amount == (int)Amount.None) cell.BestBefore = null;
             _cellRepository.AddOrUpdateCell(cell);
-            return GetCellDisplayModel(cell);
+            if (cell.Amount != value) response.AddError(GeneralError.AnErrorOccured);
+            return response;
         }
 
-        public CellDisplayModel UpdateCellBestBefore(int id, DateTime? value, string email)
+        public ServiceResponse UpdateCellBestBefore(int id, DateTime? value, string email)
         {
+            var response = new ServiceResponse();
             var cell = _cellRepository.GetCellById(id);
             if (cell == null || cell.Storage.Person.Email != email) return null;
             cell.BestBefore = value;
             _cellRepository.AddOrUpdateCell(cell);
-            return GetCellDisplayModel(cell);
+            if (cell.BestBefore != value) response.AddError(GeneralError.AnErrorOccured);
+            return response;
         }
 
         public ServiceResponse DeleteCellById(int id, string email)

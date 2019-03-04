@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using SmartKitchen.Domain.Enitities;
+﻿using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.IRepositories;
+using System.Collections.Generic;
 using System.Linq;
 using Z.EntityFramework.Plus;
 
@@ -11,7 +10,7 @@ namespace SmartKitchen.Infrastructure.Repositories
     {
         private readonly AppDbContext _dbContext;
 
-        public CellRepository(AppDbContext dbContext) => 
+        public CellRepository(AppDbContext dbContext) =>
             _dbContext = dbContext;
 
         public IQueryable<Cell> GetCellsForStorage(int storageId) =>
@@ -28,7 +27,7 @@ namespace SmartKitchen.Infrastructure.Repositories
 
         public void DeleteCell(Cell cell) =>
             _dbContext.Delete(cell);
-        
+
         public void DeleteCellsRange(ICollection<Cell> cells) =>
             _dbContext.Cells.RemoveRange(cells);
     }

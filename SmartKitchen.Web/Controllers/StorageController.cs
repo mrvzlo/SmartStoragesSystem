@@ -73,7 +73,7 @@ namespace SmartKitchen.Web.Controllers
         #region Types CD
 
         [Authorize(Roles = "Admin")]
-        public ActionResult CreateType(string s)
+        public ActionResult CreateType()
         {
             var query = _storageTypeService.GetAllStorageTypes();
             return View(query.ToList());

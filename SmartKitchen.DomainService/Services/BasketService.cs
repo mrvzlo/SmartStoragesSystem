@@ -2,13 +2,12 @@
 using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Enitities;
+using SmartKitchen.Domain.Enums;
 using SmartKitchen.Domain.IRepositories;
 using SmartKitchen.Domain.IServices;
 using SmartKitchen.Domain.Responses;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using SmartKitchen.Domain.Enums;
 
 namespace SmartKitchen.DomainService.Services
 {
@@ -34,11 +33,11 @@ namespace SmartKitchen.DomainService.Services
             var basket = _basketRepository.GetBasketById(id);
             return basket == null || basket.Person.Email != email ? null : Mapper.Map<BasketWithProductsDisplayModel>(basket);
         }
-        
+
         public IQueryable<BasketDisplayModel> GetBasketsByOwnerEmail(string email)
         {
             var person = _personRepository.GetPersonByEmail(email);
-            return person.Baskets.AsQueryable().ProjectTo<BasketDisplayModel>(MapperConfig).OrderByDescending(x=>x.CreationDate);
+            return person.Baskets.AsQueryable().ProjectTo<BasketDisplayModel>(MapperConfig).OrderByDescending(x => x.CreationDate);
         }
 
         public ItemCreationResponse AddBasket(NameCreationModel model, string email)

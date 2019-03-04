@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using SmartKitchen.Domain.Enitities;
+﻿using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.IRepositories;
+using System.Collections.Generic;
 
 namespace SmartKitchen.Infrastructure.Repositories
 {

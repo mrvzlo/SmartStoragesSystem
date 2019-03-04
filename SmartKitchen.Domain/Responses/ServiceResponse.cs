@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SmartKitchen.Domain.Enums;
 
 namespace SmartKitchen.Domain.Responses
 {
@@ -12,7 +11,7 @@ namespace SmartKitchen.Domain.Responses
         public ServiceResponse() => Errors = new List<ModelStateError>();
 
         public bool Successful() => !Errors.Any();
-        
+
         public void AddError(Enum error, string key = "") => Errors.Add(new ModelStateError(key, error));
     }
 }

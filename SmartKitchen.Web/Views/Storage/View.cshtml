@@ -35,11 +35,7 @@
     @Scripts.Render("~/js/amountPicker")
     @Scripts.Render("~/js/storageView")
     <script>
-        var cellId;
-        var MVCGrid;
-
         $(function () {
-            MVCGrid = new MvcGrid(document.querySelector('.mvc-grid'));
             $(function () {
                 StorageViewJs.initialize();
                 DatetimePickerJs.initialize({url: '@Url.Action("DateUpdate", "Storage")?cell='});

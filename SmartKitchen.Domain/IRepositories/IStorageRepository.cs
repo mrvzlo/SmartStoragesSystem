@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using SmartKitchen.Domain.Enitities;
+﻿using SmartKitchen.Domain.Enitities;
 
 namespace SmartKitchen.Domain.IRepositories
 {

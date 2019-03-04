@@ -1,5 +1,4 @@
-﻿using SmartKitchen.Domain.Enitities;
-using SmartKitchen.Enums;
+﻿using SmartKitchen.Domain.Enums;
 
 namespace SmartKitchen.Domain.Responses
 {

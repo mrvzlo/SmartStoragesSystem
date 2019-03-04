@@ -8,6 +8,7 @@ var StorageViewJs = (function () {
         var defaults = {
             removeUrl: null
         };
+        new MvcGrid(document.querySelector('.mvc-grid')).reload();
         settings = $.extend(true, defaults, options);
         $(document).on("click", "#btnMark0", function () { markGroup(0) });
         $(document).on("click", "#btnMark1", function () { markGroup(1) });

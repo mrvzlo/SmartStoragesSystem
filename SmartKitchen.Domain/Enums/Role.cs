@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace SmartKitchen.Enums
+namespace SmartKitchen.Domain.Enums
 {
 	public enum Role
 	{

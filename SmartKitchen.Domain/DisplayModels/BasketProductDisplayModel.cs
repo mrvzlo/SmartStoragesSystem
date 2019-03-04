@@ -1,6 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using SmartKitchen.Domain.Enitities;
 
 namespace SmartKitchen.Domain.DisplayModels
 {

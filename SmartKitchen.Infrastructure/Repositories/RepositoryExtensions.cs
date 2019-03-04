@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartKitchen.Infrastructure.Repositories
 {
@@ -34,7 +31,7 @@ namespace SmartKitchen.Infrastructure.Repositories
             dbContext.SaveChanges();
         }
 
-        private static bool IsAttached<TEntity>(this DbContext dbContext, TEntity entity) where TEntity : class => 
+        private static bool IsAttached<TEntity>(this DbContext dbContext, TEntity entity) where TEntity : class =>
             dbContext.Set<TEntity>().Local.Any(e => e == entity);
 
         public static void Delete<TEntity>(this DbContext dbContext, TEntity entity) where TEntity : class

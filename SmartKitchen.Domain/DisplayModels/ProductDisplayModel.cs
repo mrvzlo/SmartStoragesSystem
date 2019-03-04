@@ -1,8 +1,6 @@
-﻿using SmartKitchen.Domain.Enitities;
-
-namespace SmartKitchen.Domain.DisplayModels
+﻿namespace SmartKitchen.Domain.DisplayModels
 {
-	public class ProductDisplayModel
+    public class ProductDisplayModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

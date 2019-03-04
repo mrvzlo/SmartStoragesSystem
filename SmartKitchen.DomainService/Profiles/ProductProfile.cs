@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Enitities;
-using System.Linq;
 
 namespace SmartKitchen.DomainService.Profiles
 {

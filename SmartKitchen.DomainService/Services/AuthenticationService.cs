@@ -22,10 +22,8 @@ namespace SmartKitchen.DomainService.Services
             _storageTypeRepository = storageTypeRepository;
         }
 
-        public Person GetPersonByEmail(string email)
-        {
-            return _personRepository.GetPersonByEmail(email);
-        }
+        public Person GetPersonByEmail(string email) => 
+            _personRepository.GetPersonByEmail(email);
 
         public AuthenticationResponse SignIn(SignInModel model)
         {
@@ -65,7 +63,7 @@ namespace SmartKitchen.DomainService.Services
             return response;
         }
 
-        public void CreateInitialStorage(int personId)
+        private void CreateInitialStorage(int personId)
         {
             var firstType = _storageTypeRepository.GetAllStorageTypes().First();
             var initialStorage = new Storage

@@ -1,13 +1,12 @@
 ﻿using AutoMapper.QueryableExtensions;
+using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Enums;
 using SmartKitchen.Domain.IRepositories;
 using SmartKitchen.Domain.IServices;
 using SmartKitchen.Domain.Responses;
-using System.Collections.Generic;
 using System.Linq;
-using SmartKitchen.Domain.CreationModels;
 
 namespace SmartKitchen.DomainService.Services
 {
@@ -35,7 +34,7 @@ namespace SmartKitchen.DomainService.Services
             var exists = _categoryRepository.GetCategoryByName(model.Name) != null;
             if (exists)
             {
-                response.AddError(GeneralError.NameIsAlreadyTaken,nameof(model.Name));
+                response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
                 return response;
             }
             _categoryRepository.AddCategory(new Category

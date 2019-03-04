@@ -1,14 +1,14 @@
-﻿using System;
+﻿using SmartKitchen.Domain.CreationModels;
+using SmartKitchen.Domain.Enums;
+using SmartKitchen.Domain.IServices;
+using SmartKitchen.Web.Helpers;
+using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using SmartKitchen.Domain.CreationModels;
-using SmartKitchen.Domain.IServices;
-using SmartKitchen.Enums;
-using SmartKitchen.Web.Helpers;
 
 namespace SmartKitchen.Web.Controllers
 {
@@ -21,7 +21,7 @@ namespace SmartKitchen.Web.Controllers
             _authenticationService = authenticationService;
         }
 
-        public ActionResult Index(bool login = true)
+        public ActionResult Index()
         {
             if (User.Identity.IsAuthenticated)
                 return Redirect(Url.Action("Index", "Home"));
@@ -48,12 +48,12 @@ namespace SmartKitchen.Web.Controllers
                 if (response.Successful())
                 {
                     CreateTicket(response.Email, response.Role);
-                    return Json(new {success = true, url = Url.Action("Index", "Storage")});
+                    return Json(new { success = true, url = Url.Action("Index", "Storage") });
                 }
                 AddModelStateErrors(response);
 
             }
-            return Json(new { success = false, formHTML = this.RenderPartialViewToString("_SignIn",model) });
+            return Json(new { success = false, formHTML = this.RenderPartialViewToString("_SignIn", model) });
         }
 
         [HttpPost]

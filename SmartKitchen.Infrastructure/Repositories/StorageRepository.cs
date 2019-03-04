@@ -1,8 +1,7 @@
-﻿using System;
-using SmartKitchen.Domain.Enitities;
-using System.Collections.Generic;
-using System.Linq;
+﻿using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.IRepositories;
+using System;
+using System.Linq;
 using Z.EntityFramework.Plus;
 
 namespace SmartKitchen.Infrastructure.Repositories
@@ -17,7 +16,7 @@ namespace SmartKitchen.Infrastructure.Repositories
         public void AddStorage(Storage storage) =>
             _dbContext.InsertOrUpdate(storage);
 
-        public Storage GetStorageById(int id) => 
+        public Storage GetStorageById(int id) =>
             _dbContext.Storages.Find(id);
 
         public void DeleteStorage(Storage storage) =>

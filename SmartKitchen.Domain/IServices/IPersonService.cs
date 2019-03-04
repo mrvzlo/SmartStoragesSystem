@@ -1,5 +1,4 @@
 ﻿using SmartKitchen.Domain.Enitities;
-using SmartKitchen.Domain.Responses;
 
 namespace SmartKitchen.Domain.IServices
 {

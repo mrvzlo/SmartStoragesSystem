@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartKitchen.Domain.Responses
 {
     public class ModelStateError
     {
-        public string Key;
-        public Enum ErrorEnum;
+        public string Key { get; set; }
+        public Enum ErrorEnum { get; set; }
 
         public ModelStateError(string key, Enum errorEnum)
         {
