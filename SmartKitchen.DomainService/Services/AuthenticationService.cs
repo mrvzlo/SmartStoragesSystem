@@ -1,4 +1,5 @@
-﻿using SmartKitchen.Domain.CreationModels;
+﻿using System;
+using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Enums;
 using SmartKitchen.Domain.IRepositories;
@@ -53,7 +54,8 @@ namespace SmartKitchen.DomainService.Services
             {
                 Name = model.Username,
                 Password = Crypto.HashPassword(model.Password),
-                Email = model.Email
+                Email = model.Email,
+                Token = Guid.NewGuid()
             };
             _personRepository.Register(person);
 
