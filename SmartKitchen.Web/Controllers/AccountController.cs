@@ -57,9 +57,11 @@ namespace SmartKitchen.Web.Controllers
                 if (response.Successful())
                 {
                     CreateTicket(response.Email, response.Role);
+                    Log.Info("Successful login attempt for " + model.Email);
                     return Json(new { success = true, url = Url.Action("Index", "Storage") });
                 }
                 AddModelStateErrors(response);
+                Log.Info("Unsuccessful login attempt for " + model.Email);
 
             }
             return Json(new { success = false, formHTML = this.RenderPartialViewToString("_SignIn", model) });
@@ -75,6 +77,7 @@ namespace SmartKitchen.Web.Controllers
                 if (response.Successful())
                 {
                     CreateTicket(response.Email, response.Role);
+                    Log.Info("Successful registration for " + model.Email);
                     return Json(new { success = true, url = Url.Action("About", "Home") });
                 }
 

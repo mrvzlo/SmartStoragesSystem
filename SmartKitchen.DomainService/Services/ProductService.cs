@@ -55,20 +55,24 @@ namespace SmartKitchen.DomainService.Services
         public IQueryable<ProductDisplayModel> GetAllProductDisplays() =>
             _productRepository.GetAllProducts().ProjectTo<ProductDisplayModel>(MapperConfig);
 
-        public void UpdateProductList(List<ProductDisplayModel> list)
+        public int UpdateProductList(List<ProductDisplayModel> list)
         {
-            if (list == null) return;
+            int count = 0;
+            if (list == null) return count;
             foreach (var item in list)
             {
                 var product = _productRepository.GetProductById(item.Id);
                 if (product == null) continue;
                 if (product.Name == item.Name && product.CategoryId == item.CategoryId) continue;
+                count++;
                 if (!_productRepository.ExistsAnotherWithEqualName(item.Name, item.Id))
                     product.Name = item.Name;
                 if (_categoryRepository.ExistsWithId(item.CategoryId))
                     product.CategoryId = item.CategoryId;
                     _productRepository.UpdateProduct(product);
             }
+
+            return count;
         }
     }
 }

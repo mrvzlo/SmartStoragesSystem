@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Web.Mvc;
-using SmartKitchen.Domain.CreationModels;
+﻿using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.IServices;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace SmartKitchen.Web.Controllers
 {
@@ -28,9 +28,10 @@ namespace SmartKitchen.Web.Controllers
         public PartialViewResult ProductGrid()
         {
             var query = _productService.GetAllProductDisplays();
-            ViewBag.SelectList = _categoryService.GetAllCategoryDisplays().Select(x=>new SelectListItem
+            ViewBag.SelectList = _categoryService.GetAllCategoryDisplays().Select(x => new SelectListItem
             {
-                Value = x.Id.ToString(), Text = x.Name
+                Value = x.Id.ToString(),
+                Text = x.Name
             }).ToList();
             return PartialView("_ProductGrid", query);
         }
@@ -40,6 +41,7 @@ namespace SmartKitchen.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                Log.Warn(CurrentUser() + " added product " + model.Name);
                 var response = _productService.AddProduct(model);
                 if (!response.Successful())
                     TempData["error"] = GetErrorsToString(response);
@@ -51,9 +53,13 @@ namespace SmartKitchen.Web.Controllers
         public RedirectResult SaveChanges(List<ProductDisplayModel> list)
         {
             if (ModelState.IsValid)
-                _productService.UpdateProductList(list);
+            {
+                int updates = _productService.UpdateProductList(list);
+                Log.Warn(CurrentUser() + " updated " + updates + " rows");
+            }
+
             return Redirect(Url.Action("Index"));
         }
-        
+
     }
 }

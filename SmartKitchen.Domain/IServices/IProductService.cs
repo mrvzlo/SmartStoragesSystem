@@ -13,6 +13,6 @@ namespace SmartKitchen.Domain.IServices
         Product GetProductByName(string name);
         IQueryable<ProductDisplayModel> GetAllProductDisplays();
         ItemCreationResponse AddProduct(NameCreationModel model);
-        void UpdateProductList(List<ProductDisplayModel> list);
+        int UpdateProductList(List<ProductDisplayModel> list);
     }
 }

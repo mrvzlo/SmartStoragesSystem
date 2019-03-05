@@ -11,6 +11,7 @@ namespace SmartKitchen.Web.Controllers
 {
     public class BaseController : Controller
     {
+        protected readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         protected void AddModelStateErrors(ServiceResponse response)
         {
             if (response.Successful()) return;

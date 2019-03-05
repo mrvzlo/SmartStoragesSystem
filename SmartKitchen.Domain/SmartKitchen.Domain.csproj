@@ -99,6 +99,5 @@
     <Compile Include="Responses\ModelStateError.cs" />
     <Compile Include="Responses\ServiceResponse.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
