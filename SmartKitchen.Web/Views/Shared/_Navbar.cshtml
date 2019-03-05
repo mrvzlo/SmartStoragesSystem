@@ -3,7 +3,7 @@
         <nav class="navbar py-1 font-weight-bold navbar-expand justify-content-md-around navbar-dark">
             <div class="collapse navbar-collapse justify-content-center" id="nav">
                 @{ var authed = Request.IsAuthenticated;}
-                
+
                 <ul class="navbar-nav flex-fill w-100 flex-nowrap justify-content-start d-none d-md-flex">
                     <li class="nav-item">
                         <a href="@Url.Action("Index", "Home")" class="nav-link text-light">
@@ -24,7 +24,7 @@
                 <ul class="navbar-nav flex-fill w-100 flex-nowrap justify-content-md-end justify-content-around">
                     <li class="d-md-none nav-item">
                         <a href="@Url.Action("Index", "Home")" class="nav-link text-light">
-                            <img class="navicon" src="@Url.Content("~/Content/images/home.svg")"/>
+                            <img class="navicon" src="@Url.Content("~/Content/images/home.svg")" />
                         </a>
                     </li>
                     <li class="d-md-none nav-item">
@@ -49,10 +49,23 @@
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link text-light" id="dmb" data-toggle="dropdown">
-                                    <div class="d-md-inline d-none d-md-inline">Admin</div>
-                                    <img class="d-md-none navicon" src="@Url.Content("~/Content/images/admin.png")" />
+                                    <div class="d-md-inline d-none d-md-inline">Options</div>
+                                    <img class="d-md-none navicon" src="@Url.Content("~/Content/images/options.png")" />
                                 </a>
-                                @Html.Partial("_Admin")
+                                <div class="dropdown-menu" aria-labelledby="dmb">
+                                    <a href="@Url.Action("Token", "Account")" class="dropdown-item">Account</a>
+                                    @Html.Partial("_Admin")
+                                </div>
+
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a href="@Url.Action("Token", "Account")" class="nav-link text-light">
+                                    <div class="d-md-inline d-none">Account</div>
+                                    <img class="d-md-none navicon" src="@Url.Content("~/Content/images/options.png")" />
+                                </a>
                             </li>
                         }
                         using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "d-none" }))

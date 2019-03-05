@@ -15,10 +15,12 @@ namespace SmartKitchen.Web.Controllers
     public class AccountController : BaseController
     {
         private readonly IAuthenticationService _authenticationService;
+        private readonly IPersonService _personService;
 
-        public AccountController(IAuthenticationService authenticationService)
+        public AccountController(IAuthenticationService authenticationService, IPersonService personService)
         {
             _authenticationService = authenticationService;
+            _personService = personService;
         }
 
         public ActionResult Index()
@@ -26,6 +28,13 @@ namespace SmartKitchen.Web.Controllers
             if (User.Identity.IsAuthenticated)
                 return Redirect(Url.Action("Index", "Home"));
             return View();
+        }
+
+        [Authorize]
+        public ActionResult Token()
+        {
+            var token = _personService.GetPersonByEmail(CurrentUser()).Token;
+            return View(token);
         }
 
         public PartialViewResult SignIn()

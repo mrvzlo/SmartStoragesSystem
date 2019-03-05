@@ -198,7 +198,7 @@
     <Content Include="Content\images\8.png" />
     <Content Include="Content\images\9.png" />
     <Content Include="Content\images\add.png" />
-    <Content Include="Content\images\admin.png" />
+    <Content Include="Content\images\options.png" />
     <Content Include="Content\images\basket.png" />
     <Content Include="Content\images\guide.png" />
     <Content Include="Content\images\home.svg" />
@@ -339,6 +339,7 @@
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Views\Account\_SignUp.cshtml" />
+    <Content Include="Views\Account\Token.cshtml" />
     <None Include="Views\Account\_SignIn.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -383,9 +384,7 @@
     <Content Include="Views\Product\_ProductGrid.cshtml" />
     <Content Include="Views\Category\_CategoryGrid.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
