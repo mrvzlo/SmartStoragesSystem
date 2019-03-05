@@ -12,7 +12,7 @@ namespace SmartKitchen.Infrastructure.Repositories
         public PersonRepository(AppDbContext dbContext) => 
             _dbContext = dbContext;
 
-        public void Register(Person person) => 
+        public void RegisterOrUpdate(Person person) => 
             _dbContext.InsertOrUpdate(person);
 
         public Person GetPersonByEmail(string email) =>
@@ -20,6 +20,9 @@ namespace SmartKitchen.Infrastructure.Repositories
 
         public Person GetPersonByName(string name) =>
             _dbContext.People.FirstOrDefault(x => x.Name.Equals(name.Trim(), StringComparison.OrdinalIgnoreCase));
+
+        public Person GetPersonByToken(Guid token) =>
+            _dbContext.People.FirstOrDefault(x => x.Token == token);
 
         public Person GetPersonById(int id) =>
             _dbContext.People.Find(id);

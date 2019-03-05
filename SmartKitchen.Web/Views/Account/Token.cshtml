@@ -4,7 +4,24 @@
 }
 <h4 class="text-center">Your token</h4>
 <div class="row justify-content-center">
-    <input class="col-md-6" readonly="readonly" value="@Model"/>
-    <div class="col-12"></div>
+    <input id="token" class="col-md-6" readonly="readonly" value="@Model"/>
+    <div class="col-1 btn btn-info" id="copy">Copy</div>
 </div>
-<button class="btn btn-main float-right">Generate new token</button>
+<button id="updToken" class="btn btn-main float-right">Generate new token</button>
+@section scripts{
+    <script>
+        $(function () {
+            $(document).on("click", "#updToken", function() {
+                var url = '@Url.Action("ResetToken","Account")';
+                $.post(url,
+                    function (data) {
+                        document.getElementById("token").value = data;
+                    });
+            });
+            $(document).on("click", "#copy", function () {
+                document.getElementById("token").select();
+                document.execCommand("copy");
+            });
+        });
+    </script>
+}

@@ -7,16 +7,18 @@ namespace SmartKitchen.Web
 		// For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
 		public static void RegisterBundles(BundleCollection bundles)
         {
+            bundles.Add(new StyleBundle("~/css").Include(
+                "~/Content/MvcGrid/mvc-grid.css", 
+                "~/Content/My.css"
+            ));
+
             bundles.Add(new ScriptBundle("~/core").Include(
                     "~/Scripts/jquery-{version}.js", 
                     "~/Scripts/jquery.validate*",
                     "~/Scripts/bootstrap.js",
                     "~/Scripts/pages/form-helper.js"
             ));
-
-            bundles.Add(new StyleBundle("~/css").Include(
-                "~/Content/My.css"));
-
+            
             bundles.Add(new ScriptBundle("~/MvcGrid").Include(
                 "~/Scripts/MvcGrid/mvc-grid.js"));
 

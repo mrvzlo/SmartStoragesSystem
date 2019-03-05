@@ -192,14 +192,12 @@
   <ItemGroup>
     <Content Include="Content\ColorPicker.jpg" />
     <Content Include="Content\images\1.png" />
-    <Content Include="Content\images\12.png" />
     <Content Include="Content\images\16.png" />
     <Content Include="Content\images\2.png" />
     <Content Include="Content\images\3.png" />
     <Content Include="Content\images\4.png" />
     <Content Include="Content\images\5.png" />
     <Content Include="Content\images\8.png" />
-    <Content Include="Content\images\9.png" />
     <Content Include="Content\images\add.png" />
     <Content Include="Content\images\options.png" />
     <Content Include="Content\images\basket.png" />
@@ -321,7 +319,7 @@
     <Content Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Properties\PublishProfiles\SmartKitchen deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\SmartStorages - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -346,7 +344,7 @@
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Views\Account\_SignUp.cshtml" />
     <Content Include="Views\Account\Token.cshtml" />
-    <None Include="Views\Account\_SignIn.cshtml" />
+    <Content Include="Views\Account\_SignIn.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

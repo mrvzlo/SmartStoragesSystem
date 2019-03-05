@@ -1,4 +1,5 @@
-﻿using SmartKitchen.Domain.Enitities;
+﻿using System;
+using SmartKitchen.Domain.Enitities;
 
 namespace SmartKitchen.Domain.IRepositories
 {
@@ -7,6 +8,7 @@ namespace SmartKitchen.Domain.IRepositories
         Person GetPersonByEmail(string email);
         Person GetPersonByName(string name);
         Person GetPersonById(int id);
-        void Register(Person person);
+        void RegisterOrUpdate(Person person);
+        Person GetPersonByToken(Guid token);
     }
 }

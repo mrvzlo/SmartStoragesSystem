@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using NonFactors.Mvc.Grid;
 
 namespace SmartKitchen.Web.Controllers
 {
@@ -35,6 +36,14 @@ namespace SmartKitchen.Web.Controllers
         {
             var token = _personService.GetPersonByEmail(CurrentUser()).Token;
             return View(token);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public string ResetToken()
+        {
+            _personService.UpdateToken(CurrentUser());
+            return _personService.GetPersonByEmail(CurrentUser()).Token.ToString();
         }
 
         public PartialViewResult SignIn()

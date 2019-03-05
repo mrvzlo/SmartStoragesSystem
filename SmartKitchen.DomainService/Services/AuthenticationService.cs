@@ -57,7 +57,7 @@ namespace SmartKitchen.DomainService.Services
                 Email = model.Email,
                 Token = Guid.NewGuid()
             };
-            _personRepository.Register(person);
+            _personRepository.RegisterOrUpdate(person);
 
             CreateInitialStorage(person.Id);
             response.Email = person.Email;

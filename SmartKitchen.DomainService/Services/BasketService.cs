@@ -22,17 +22,11 @@ namespace SmartKitchen.DomainService.Services
             _personRepository = personRepository;
         }
 
-        public BasketDisplayModel GetBasketById(int id, string email)
-        {
-            var basket = _basketRepository.GetBasketById(id);
-            return basket == null || basket.Person.Email != email ? null : Mapper.Map<BasketDisplayModel>(basket);
-        }
+        public BasketDisplayModel GetBasketById(int id, string email) => 
+            _basketRepository.GetBaskets().Where(x => x.Id == id && x.Person.Email == email).ProjectTo<BasketDisplayModel>(MapperConfig).SingleOrDefault();
 
-        public BasketWithProductsDisplayModel GetBasketWithProductsById(int id, string email)
-        {
-            var basket = _basketRepository.GetBasketById(id);
-            return basket == null || basket.Person.Email != email ? null : Mapper.Map<BasketWithProductsDisplayModel>(basket);
-        }
+        public BasketWithProductsDisplayModel GetBasketWithProductsById(int id, string email) =>
+            _basketRepository.GetBaskets().Where(x => x.Id == id && x.Person.Email == email).ProjectTo<BasketWithProductsDisplayModel>(MapperConfig).SingleOrDefault();
 
         public IQueryable<BasketDisplayModel> GetBasketsByOwnerEmail(string email)
         {

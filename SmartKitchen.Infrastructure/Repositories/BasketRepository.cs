@@ -1,4 +1,5 @@
-﻿using SmartKitchen.Domain.Enitities;
+﻿using System.Linq;
+using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.IRepositories;
 
 namespace SmartKitchen.Infrastructure.Repositories
@@ -12,6 +13,9 @@ namespace SmartKitchen.Infrastructure.Repositories
 
         public Basket GetBasketById(int id) =>
             _dbContext.Baskets.Find(id);
+
+        public IQueryable<Basket> GetBaskets() =>
+            _dbContext.Baskets;
 
         public void AddOrUpdateBasket(Basket basket) =>
             _dbContext.InsertOrUpdate(basket);
