@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using NonFactors.Mvc.Grid;
+using SmartKitchen.Domain.Extensions;
 
 namespace SmartKitchen.Web.Controllers
 {
@@ -99,16 +100,12 @@ namespace SmartKitchen.Web.Controllers
         private void CreateTicket(string email, Role role)
         {
             var ticket = new FormsAuthenticationTicket(
-                version: 1,
-                name: email,
-                issueDate: DateTime.Now,
-                expiration: DateTime.Now.AddDays(14),
-                isPersistent: false,
-                userData: role.GetType()
-                    .GetMember(role.ToString())
-                    .FirstOrDefault()?
-                    .GetCustomAttribute<DescriptionAttribute>()?
-                    .Description
+                1,
+                email,
+                DateTime.Now,
+                DateTime.Now.AddDays(14),
+                false,
+                role.GetDescription()
             );
             var encryptedTicket = FormsAuthentication.Encrypt(ticket);
             var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);

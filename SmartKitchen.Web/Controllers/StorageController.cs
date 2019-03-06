@@ -106,7 +106,7 @@ namespace SmartKitchen.Web.Controllers
         #region Cell
 
         [HttpPost]
-        public void SetAmount(int cell, Amount amount)
+        public void SetAmount(int cell, decimal amount)
         {
             _cellService.UpdateCellAmount(cell, amount, CurrentUser());
         }

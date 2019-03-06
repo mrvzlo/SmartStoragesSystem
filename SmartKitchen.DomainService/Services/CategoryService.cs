@@ -20,10 +20,7 @@ namespace SmartKitchen.DomainService.Services
             _categoryRepository = categoryRepository;
             _productRepository = productRepository;
         }
-
-        public CategoryDisplay GetCategoryDisplayById(int id) =>
-            Mapper.Map<CategoryDisplay>(_categoryRepository.GetCategoryById(id));
-
+        
         public IQueryable<CategoryDisplay> GetAllCategoryDisplays() =>
             _categoryRepository.GetAllCategories().ProjectTo<CategoryDisplay>(MapperConfig);
 

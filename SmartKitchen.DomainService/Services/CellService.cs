@@ -71,15 +71,14 @@ namespace SmartKitchen.DomainService.Services
             return GetCellDisplayModel(cell);
         }
 
-        public ServiceResponse UpdateCellAmount(int id, Amount value, string email)
+        public ServiceResponse UpdateCellAmount(int id, decimal value, string email)
         {
             var response = new ServiceResponse();
             var cell = _cellRepository.GetCellById(id);
             if (cell == null || cell.Storage.Person.Email != email) return null;
-            if (value > Amount.Plenty) value = Amount.Plenty;
-            else if (value < Amount.None) value = Amount.None;
+            if (value < 0) value = 0;
             cell.Amount = value;
-            if (cell.Amount == (int)Amount.None) cell.BestBefore = null;
+            if (cell.Amount == 0) cell.BestBefore = null;
             _cellRepository.AddOrUpdateCell(cell);
             if (cell.Amount != value) response.AddError(GeneralError.AnErrorOccured);
             return response;
