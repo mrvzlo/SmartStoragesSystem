@@ -56,8 +56,8 @@
     <Reference Include="BundleTransformer.Core, Version=1.10.0.0, Culture=neutral, PublicKeyToken=973c344c93aac60d, processorArchitecture=MSIL">
       <HintPath>..\packages\BundleTransformer.Core.1.10.0\lib\net40\BundleTransformer.Core.dll</HintPath>
     </Reference>
-    <Reference Include="BundleTransformer.SassAndScss, Version=1.10.0.0, Culture=neutral, PublicKeyToken=973c344c93aac60d, processorArchitecture=MSIL">
-      <HintPath>..\packages\BundleTransformer.SassAndScss.1.10.0\lib\net40\BundleTransformer.SassAndScss.dll</HintPath>
+    <Reference Include="BundleTransformer.SassAndScss, Version=1.10.4.0, Culture=neutral, PublicKeyToken=973c344c93aac60d, processorArchitecture=MSIL">
+      <HintPath>..\packages\BundleTransformer.SassAndScss.1.10.4\lib\net40\BundleTransformer.SassAndScss.dll</HintPath>
     </Reference>
     <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net47\CommonServiceLocator.dll</HintPath>
@@ -71,8 +71,8 @@
     <Reference Include="JetBrains.Annotations, Version=2018.3.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\packages\JetBrains.Annotations.2018.3.0\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
-    <Reference Include="LibSassHost, Version=1.2.2.0, Culture=neutral, PublicKeyToken=3e24e88796a38e46, processorArchitecture=MSIL">
-      <HintPath>..\packages\LibSassHost.1.2.2\lib\net471\LibSassHost.dll</HintPath>
+    <Reference Include="LibSassHost, Version=1.2.3.0, Culture=neutral, PublicKeyToken=3e24e88796a38e46, processorArchitecture=MSIL">
+      <HintPath>..\packages\LibSassHost.1.2.3\lib\net471\LibSassHost.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
@@ -93,6 +93,9 @@
       <HintPath>..\packages\StructureMap.4.7.0\lib\net45\StructureMap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -197,8 +200,11 @@
     <Content Include="Content\images\3.png" />
     <Content Include="Content\images\4.png" />
     <Content Include="Content\images\5.png" />
+    <Content Include="Content\images\6.png" />
+    <Content Include="Content\images\7.png" />
     <Content Include="Content\images\8.png" />
     <Content Include="Content\images\add.png" />
+    <Content Include="Content\images\copy.png" />
     <Content Include="Content\images\options.png" />
     <Content Include="Content\images\basket.png" />
     <Content Include="Content\images\guide.png" />
@@ -209,13 +215,13 @@
     <Content Include="Content\images\minus.png" />
     <Content Include="Content\images\remove.svg" />
     <Content Include="Content\images\storages.svg" />
+    <Content Include="Content\main.css">
+      <DependentUpon>main.scss</DependentUpon>
+    </Content>
+    <None Include="Content\main.min.css">
+      <DependentUpon>main.css</DependentUpon>
+    </None>
     <Content Include="Content\MvcGrid\mvc-grid.css" />
-    <Content Include="Content\My.css">
-      <DependentUpon>My.scss</DependentUpon>
-    </Content>
-    <Content Include="Content\My.min.css">
-      <DependentUpon>My.css</DependentUpon>
-    </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -308,14 +314,14 @@
     <Content Include="Content\bootstrap\bootstrap.scss" />
     <Content Include="Content\bootstrap\bootstrap-reboot.scss" />
     <Content Include="Content\bootstrap\bootstrap-grid.scss" />
-    <Content Include="Content\My.scss" />
+    <None Include="Content\main.scss" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
     <Content Include="Content\MvcGrid\Fonts\GridGlyphs.woff" />
-    <Content Include="Content\tables.scss" />
-    <Content Include="Content\forms.scss" />
+    <None Include="Content\tables.scss" />
+    <None Include="Content\forms.scss" />
     <Content Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

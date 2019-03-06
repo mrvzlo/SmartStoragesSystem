@@ -9,7 +9,7 @@ namespace SmartKitchen.Web
         {
             bundles.Add(new StyleBundle("~/css").Include(
                 "~/Content/MvcGrid/mvc-grid.css", 
-                "~/Content/My.css"
+                "~/Content/main.css"
             ));
 
             bundles.Add(new ScriptBundle("~/core").Include(

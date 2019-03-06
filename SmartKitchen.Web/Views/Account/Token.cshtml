@@ -2,12 +2,14 @@
 @{
     ViewBag.Title = "My token";
 }
-<h4 class="text-center">Your token</h4>
-<div class="row justify-content-center">
-    <input id="token" class="col-md-6" readonly="readonly" value="@Model"/>
-    <div class="col-1 btn btn-info" id="copy">Copy</div>
+<h5 class="text-center">This token can be used to connect your account with smart devices</h5>
+<div class="row justify-content-center flex-nowrap">
+    <input id="token" class="col-md-6 col-10" readonly="readonly" value="@Model" />
+    <img class="rowicon" id="copy" src="~/Content/images/copy.png" />
 </div>
-<button id="updToken" class="btn btn-main float-right">Generate new token</button>
+<div class="row justify-content-center my-2">
+    <button id="updToken" class="btn btn-main">Generate new token</button>
+</div>
 @section scripts{
     <script>
         $(function () {

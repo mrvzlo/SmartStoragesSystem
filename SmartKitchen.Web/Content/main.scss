@@ -3,8 +3,8 @@ $warning: #cc7a00;
 $theme-colors: ( "main": $main );
 $border-radius: 1rem !default;
 @import 'bootstrap/bootstrap.scss';
-@import 'tables.scss';
 @import 'forms.scss';
+@import 'tables.scss';
 
 body {
     padding: 0;
