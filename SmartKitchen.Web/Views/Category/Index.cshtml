@@ -1,5 +1,5 @@
 ﻿@using SmartKitchen.Domain.CreationModels
-@model List<SmartKitchen.Domain.DisplayModels.CategoryDisplay>
+@model List<int>
 @{
     ViewBag.Title = "Categories";
 }
@@ -18,7 +18,7 @@
                 <div class="row justify-content-center mx-3 text-center">
                     @foreach (var i in Model)
                     {
-                        <div id="modal_@i.Id" class="col-md-3 col-5 btn btn-main m-1" data-dismiss="modal" onclick="CategoryIndexJs.removeConfirm(@i.Id);"></div>
+                        <div id="modal_@i" class="col-md-3 col-5 btn btn-main m-1" data-dismiss="modal" onclick="CategoryIndexJs.removeConfirm(@i);"></div>
                     }
                     <div class="col-12"></div>
                     <button data-dismiss="modal" class="btn btn-secondary col-md-4 col-6 m-1">Close</button>
@@ -36,7 +36,7 @@
     $(function () {
         CategoryIndexJs.initialize({
             removeUrl: '@Url.Action("Remove", "Category")?fromId=',
-            list: [@string.Join(", ", Model.Select(x => x.Id))]
+            list: [@string.Join(", ", Model)]
         });
     });
 </script>

@@ -14,8 +14,8 @@
 
 @helper DeleteHelper(CategoryDisplay x)
 {
-    if (x.Id != 1)
+    if (!x.Primal)
     {
-        <img class="rowicon" src="~/Content/images/remove.svg" onclick="CategoryIndexJs.remove(@x.Id)" data-toggle="modal" data-target="#CategoryModal"/>
+        <img class="rowicon" src="~/Content/images/remove.svg" onclick="CategoryIndexJs.remove(@x.Id)" data-toggle="modal" data-target="#CategoryModal" />
     }
 }

@@ -39,9 +39,11 @@ namespace SmartKitchen.DomainService.Services
                 response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
                 return response;
             }
+
+            var primarCategory = _categoryRepository.GetCategoryByName("").Id;
             var product = new Product
             {
-                CategoryId = 1,
+                CategoryId = primarCategory,
                 Name = TitledString(model.Name)
             };
             _productRepository.AddProduct(product);

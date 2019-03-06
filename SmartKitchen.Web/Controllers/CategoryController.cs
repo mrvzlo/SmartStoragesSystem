@@ -22,7 +22,7 @@ namespace SmartKitchen.Web.Controllers
         public ActionResult Index()
         {
             if (TempData.ContainsKey("error")) ModelState.AddModelError("Name", TempData["error"].ToString());
-            var query = _categoryService.GetAllCategoryDisplays();
+            var query = _categoryService.GetAllCategoryDisplays().Select(x=>x.Id);
             return View(query.ToList());
         }
 

@@ -9,7 +9,7 @@ namespace SmartKitchen.DomainService.Profiles
         public ProductProfile()
         {
             CreateMap<Product, ProductDisplayModel>()
-                .ForMember(dest => dest.CategoryName, opts => { opts.MapFrom(from => from.Category.Name); })
+                .ForMember(dest => dest.CategoryName, opts => { opts.MapFrom(from => from.Category.Name == "" ? "Unknown" : from.Category.Name); })
                 .ForMember(dest => dest.Usages, opts => { opts.MapFrom(from => from.Cells.Count); });
 
         }
