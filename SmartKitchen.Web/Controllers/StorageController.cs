@@ -82,16 +82,32 @@ namespace SmartKitchen.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public ActionResult CreateType(StorageTypeCreationModel model)
+        public JsonResult CreateType(StorageTypeCreationModel model)
         {
-            if (!ModelState.IsValid) return Redirect(Url.Action("CreateType"));
-            var file = System.Web.HttpContext.Current.Request.Files[0];
+            ViewBag.Selected = model;
+            if (System.Web.HttpContext.Current.Request.Files.Count > 0)
+            {
+                var file = System.Web.HttpContext.Current.Request.Files[0];
+                if (FileHelper.IconIsNotValid(file))
+                    ModelState.AddModelError("Icon", "Select a PNG image smaller than 1MB");
+            }
+
+            if (!ModelState.IsValid)
+                return Json(new { success = false, formHTML = this.RenderPartialViewToString("_CreateTypeForm", model) });
             var response = _storageTypeService.AddOrUpdateStorageType(model);
-            if (FileHelper.IconIsNotValid(file)) ModelState.AddModelError("Icon", "Select a PNG image smaller than 1MB");
-            if (file.ContentLength > 0) FileHelper.SaveImage(file, Server.MapPath("~/Content/images/" + response.AddedId+ ".png"));
-            if (response.Successful() && ModelState.IsValid) return Redirect(Url.Action("CreateType"));
-            var query = _storageTypeService.GetAllStorageTypes();
-            return View(query.ToList());
+
+            if (System.Web.HttpContext.Current.Request.Files.Count > 0)
+            {
+                var file = System.Web.HttpContext.Current.Request.Files[0];
+                if (file.ContentLength > 0)
+                    file.SaveAs(Server.MapPath("~/Content/images/" + response.AddedId + ".png"));
+            }
+
+
+            if (response.Successful() && ModelState.IsValid)
+                return Json(new { success = true, url = Url.Action("CreateType", "Storage" )});
+            AddModelStateErrors(response);
+            return Json(new { success = false, formHTML = this.RenderPartialViewToString("_CreateTypeForm", model) });
         }
 
         [HttpPost]

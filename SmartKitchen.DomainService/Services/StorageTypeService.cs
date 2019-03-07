@@ -39,22 +39,23 @@ namespace SmartKitchen.DomainService.Services
         {
             var response = new ItemCreationResponse();
             model.Name = model.Name.Trim();
+            if (!_storageTypeRepository.NameIsUnique(model.Name, model.Id))
+            {
+                response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
+                return response;
+            }
+
             var oldType = _storageTypeRepository.GetStorageTypeById(model.Id);
             if (oldType != null)
             {
+                response.AddedId = oldType.Id;
+                if (oldType.Name == model.Name && oldType.Background == model.Background) return response;
                 oldType.Name = model.Name;
                 oldType.Background = model.Background;
                 _storageTypeRepository.AddOrUpdateStorageType(oldType);
-                response.AddedId = oldType.Id;
             }
             else
             {
-                if (_storageTypeRepository.ExistsWithName(model.Name))
-                {
-                    response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
-                    return response;
-                }
-
                 var newType = new StorageType
                 {
                     Background = model.Background,

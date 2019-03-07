@@ -20,14 +20,11 @@ namespace SmartKitchen.Infrastructure.Repositories
 
         public void DeleteStorageTypeById(int id) =>
             _dbContext.Delete(_dbContext.StorageTypes.Find(id));
-
-        public StorageType GetStorageTypeByName(string name) =>
-            _dbContext.StorageTypes.FirstOrDefault(x => x.Name.Equals(name.Trim(), StringComparison.OrdinalIgnoreCase));
-
+        
         public void AddOrUpdateStorageType(StorageType storageType) =>
             _dbContext.InsertOrUpdate(storageType);
 
-        public bool ExistsWithName(string name) =>
-            _dbContext.StorageTypes.Any(x => x.Name.Equals(name.Trim(), StringComparison.OrdinalIgnoreCase));
+        public bool NameIsUnique(string name, int id) =>
+            !_dbContext.StorageTypes.Any(x => x.Id != id && x.Name.Equals(name.Trim(), StringComparison.OrdinalIgnoreCase));
     }
 }

@@ -329,6 +329,9 @@
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
+    <Content Include="Scripts\jquery.form.js" />
+    <Content Include="Scripts\jquery.form.min.js" />
+    <Content Include="Scripts\jquery.form.min.js.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -393,6 +396,7 @@
     <Content Include="Views\Shared\MvcGrid\_Grid.cshtml" />
     <Content Include="Views\Product\_ProductGrid.cshtml" />
     <Content Include="Views\Category\_CategoryGrid.cshtml" />
+    <Content Include="Views\Storage\_CreateTypeForm.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

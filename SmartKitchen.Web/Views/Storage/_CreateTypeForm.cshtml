@@ -1,0 +1,40 @@
+﻿@using SmartKitchen.Domain.CreationModels
+@model StorageTypeCreationModel
+@using (Html.BeginForm("CreateType", "Storage", FormMethod.Post, 
+    new { @class = "storage justify-content-center mx-0", enctype = "multipart/form-data", id = "storage" }))
+{
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.Id)
+    <div class="row justify-content-center py-2">
+        <div class="col-md-2 text-md-center">Name</div>
+        <div class="col-md-10">@Html.EditorFor(x => x.Name)</div>
+        <div class="error col-12">@Html.ValidationMessageFor(x => x.Name)</div>
+    </div>
+    <div class="row justify-content-center py-2">
+        <div class="col-md-2 text-md-center">Icon</div>
+        <div class="col-md-10">
+            <div class="row m-0 p-0">
+                @Html.TextBox("Icon", "", new { type = "file", id = "upload", @class = "d-none" })
+                <span id="uploadBtn" class="btn-main btn py-0 col-lg-4 col-5 text-nowrap font-weight-normal">Pick image</span>
+                @Html.TextBox("UploadStatus", "", new { @readonly = "readonly", @class = "col-7 col-lg-8" })
+            </div>
+        </div>
+        <div class="error col-12">@Html.ValidationMessage("Icon", new { id = "IconError" })</div>
+    </div>
+    <div class="row justify-content-center py-2">
+        <div class="col-md-2 text-md-center">Color</div>
+        <div class="col-md-10">@Html.TextBoxFor(x => x.Background, new { @readonly = "readonly" })</div>
+        <div class="error col-12">@Html.ValidationMessageFor(x => x.Background)</div>
+    </div>
+    <div class="row justify-content-center py-2">
+        <div class="text-center col-6"><input type="submit" id="submit" value="Create" class="btn btn-main" /></div>
+    </div>
+}
+@if (ViewBag.Selected != null)
+{
+    var m = (StorageTypeCreationModel)ViewBag.Selected;
+    <script>
+        StorageCreateTypeJs.updateForm(@m.Id,"@m.Name","@m.Background")
+    </script>
+}

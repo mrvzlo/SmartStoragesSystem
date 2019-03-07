@@ -13,8 +13,9 @@ namespace SmartKitchen.Web
             ));
 
             bundles.Add(new ScriptBundle("~/core").Include(
-                    "~/Scripts/jquery-{version}.js", 
+                    "~/Scripts/jquery-{version}.js",
                     "~/Scripts/jquery.validate*",
+                    "~/Scripts/jquery.form.js",
                     "~/Scripts/bootstrap.js",
                     "~/Scripts/pages/form-helper.js"
             ));
