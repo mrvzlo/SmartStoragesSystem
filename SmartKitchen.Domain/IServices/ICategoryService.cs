@@ -8,7 +8,7 @@ namespace SmartKitchen.Domain.IServices
     public interface ICategoryService
     {
         IQueryable<CategoryDisplay> GetAllCategoryDisplays();
-        ServiceResponse AddCategoryWithName(NameCreationModel model);
+        ServiceResponse AddCategory(NameCreationModel model);
         bool ReplaceCategory(int fromId, int toId);
     }
 }

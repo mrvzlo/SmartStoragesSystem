@@ -24,7 +24,7 @@ namespace SmartKitchen.DomainService.Services
         public IQueryable<CategoryDisplay> GetAllCategoryDisplays() =>
             _categoryRepository.GetAllCategories().ProjectTo<CategoryDisplay>(MapperConfig);
 
-        public ServiceResponse AddCategoryWithName(NameCreationModel model)
+        public ServiceResponse AddCategory(NameCreationModel model)
         {
             var response = new ServiceResponse();
             model.Name = model.Name.Trim();

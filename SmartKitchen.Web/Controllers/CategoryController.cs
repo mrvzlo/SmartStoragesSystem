@@ -29,7 +29,7 @@ namespace SmartKitchen.Web.Controllers
         [HttpPost]
         public ActionResult Create(NameCreationModel model)
         {
-            var response = _categoryService.AddCategoryWithName(model);
+            var response = _categoryService.AddCategory(model);
             if (!response.Successful()) TempData["error"] = GetErrorsToString(response);
             return Redirect(Url.Action("Index"));
         }

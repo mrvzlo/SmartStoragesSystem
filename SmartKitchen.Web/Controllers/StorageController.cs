@@ -114,7 +114,7 @@ namespace SmartKitchen.Web.Controllers
         [Authorize(Roles = "Admin")]
         public bool RemoveType(int fromId, int toId)
         {
-            return _storageTypeService.ReplaceType(fromId, toId);
+            return _storageTypeService.ReplaceStorageType(fromId, toId);
         }
 
         #endregion

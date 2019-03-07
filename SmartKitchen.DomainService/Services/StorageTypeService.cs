@@ -25,11 +25,11 @@ namespace SmartKitchen.DomainService.Services
         public bool ExistsWithId(int id) =>
             _storageTypeRepository.GetStorageTypeById(id) != null;
 
-        public bool ReplaceType(int fromId, int toId)
+        public bool ReplaceStorageType(int fromId, int toId)
         {
             var fromType = _storageTypeRepository.GetStorageTypeById(fromId);
             var toType = _storageTypeRepository.GetStorageTypeById(toId);
-            if (fromType == null || toType == null || fromId == 1 || fromId == toId) return false;
+            if (fromType == null || toType == null || fromId == toId) return false;
             _storageRepository.ReplaceType(fromId, toId);
             _storageTypeRepository.DeleteStorageTypeById(fromId);
             return true;

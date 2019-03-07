@@ -23,6 +23,7 @@ namespace SmartKitchen.DomainService.Services
         public void UpdateToken(string email)
         {
             var person = _personRepository.GetPersonByEmail(email);
+            if (person == null) return;
             person.Token = Guid.NewGuid();
             _personRepository.RegisterOrUpdate(person);
         }

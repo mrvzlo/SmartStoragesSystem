@@ -9,7 +9,7 @@ namespace SmartKitchen.Domain.IServices
     {
         IQueryable<StorageType> GetAllStorageTypes();
         bool ExistsWithId(int id);
-        bool ReplaceType(int fromId, int toId);
+        bool ReplaceStorageType(int fromId, int toId);
         ItemCreationResponse AddOrUpdateStorageType(StorageTypeCreationModel model);
     }
 }
