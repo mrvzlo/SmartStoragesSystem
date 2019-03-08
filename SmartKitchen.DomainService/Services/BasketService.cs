@@ -59,7 +59,8 @@ namespace SmartKitchen.DomainService.Services
         public BasketDisplayModel LockBasket(int id, string email)
         {
             var basket = _basketRepository.GetBasketById(id);
-            if (basket == null || basket.Person.Email != email) return null;
+            var personId = _personRepository.GetPersonByEmail(email).Id;
+            if (basket == null || basket.PersonId != personId) return null;
             basket.Closed = true;
             _basketRepository.AddOrUpdateBasket(basket);
             return Mapper.Map<BasketDisplayModel>(basket);
@@ -68,7 +69,8 @@ namespace SmartKitchen.DomainService.Services
         public bool DeleteBasket(int id, string email)
         {
             var basket = _basketRepository.GetBasketById(id);
-            if (basket == null || basket.Person.Email != email) return false;
+            var personId = _personRepository.GetPersonByEmail(email).Id;
+            if (basket == null || basket.PersonId != personId) return false;
             _basketRepository.DeleteBasket(basket);
             return true;
         }

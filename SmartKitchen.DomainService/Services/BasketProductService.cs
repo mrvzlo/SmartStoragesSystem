@@ -14,14 +14,16 @@ namespace SmartKitchen.DomainService.Services
         private readonly IStorageRepository _storageRepository;
         private readonly IBasketRepository _basketRepository;
         private readonly IBasketProductRepository _basketProductRepository;
+        private readonly IPersonRepository _personRepository;
 
         public BasketProductService(IBasketRepository basketRepository, IBasketProductRepository basketProductRepository,
-            IStorageRepository storageRepository, ICellService cellService)
+            IStorageRepository storageRepository, ICellService cellService, IPersonRepository personRepository)
         {
             _cellService = cellService;
             _basketRepository = basketRepository;
             _storageRepository = storageRepository;
             _basketProductRepository = basketProductRepository;
+            _personRepository = personRepository;
         }
 
         public ItemCreationResponse AddBasketProduct(BasketProductCreationModel model, string email)
@@ -29,13 +31,14 @@ namespace SmartKitchen.DomainService.Services
             var response = new ItemCreationResponse();
             var basket = _basketRepository.GetBasketById(model.Basket);
             var storage = _storageRepository.GetStorageById(model.Storage);
+            int personId = _personRepository.GetPersonByEmail(email).Id;
             if (basket == null || storage == null)
             {
                 response.AddError(GeneralError.ItemNotFound);
                 return response;
             }
 
-            if (basket.Person.Email != email || storage.Person.Email != email)
+            if (basket.PersonId != personId || storage.PersonId != personId)
             {
                 response.AddError(GeneralError.AccessDenied);
                 return response;
@@ -58,7 +61,8 @@ namespace SmartKitchen.DomainService.Services
         {
             var basketProduct = _basketProductRepository.GetBasketProductById(id);
             var basket = _basketRepository.GetBasketById(basketProduct.BasketId);
-            if (basket == null || basket.Person.Email != email) return null;
+            int personId = _personRepository.GetPersonByEmail(email).Id;
+            if (basket == null || basket.PersonId == personId) return null;
             return Mapper.Map<BasketProductDisplayModel>(basketProduct);
         }
     }

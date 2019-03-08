@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartKitchen.DomainService"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartKitchen.Infrastructure", "SmartKitchen.Infrastructure\SmartKitchen.Infrastructure.csproj", "{675CEE24-AE85-4BBC-8E60-5658BE24E223}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartKitchen.DomainService.Test", "SmartKitchen.DomainService.Test\SmartKitchen.DomainService.Test.csproj", "{DFD89378-1095-4938-B888-0F8BB89E9E7B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +54,10 @@ Global
 		{675CEE24-AE85-4BBC-8E60-5658BE24E223}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{675CEE24-AE85-4BBC-8E60-5658BE24E223}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{675CEE24-AE85-4BBC-8E60-5658BE24E223}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFD89378-1095-4938-B888-0F8BB89E9E7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFD89378-1095-4938-B888-0F8BB89E9E7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFD89378-1095-4938-B888-0F8BB89E9E7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFD89378-1095-4938-B888-0F8BB89E9E7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
