@@ -32,9 +32,11 @@ namespace SmartKitchen.DomainService.Services
             return Mapper.Map<List<StorageDescription>>(person.Storages);
         }
 
-        public void DeleteStorageById(int id)
+        public void DeleteStorageById(int id, string email)
         {
+            var person = _personService.GetPersonByEmail(email).Id;
             var storage = _storageRepository.GetStorageById(id);
+            if (storage.PersonId != person) return;
             _cellRepository.DeleteCellsRange(storage.Cells);
             _storageRepository.DeleteStorage(storage);
         }

@@ -33,7 +33,7 @@ namespace SmartKitchen.Web.Controllers
 
         public ActionResult Delete(int id)
         {
-            _storageService.DeleteStorageById(id);
+            _storageService.DeleteStorageById(id, CurrentUser());
             return Redirect(Url.Action("Index"));
         }
 
