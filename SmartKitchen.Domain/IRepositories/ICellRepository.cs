@@ -1,6 +1,7 @@
 ﻿using SmartKitchen.Domain.Enitities;
 using System.Collections.Generic;
 using System.Linq;
+using SmartKitchen.Domain.DisplayModels;
 
 namespace SmartKitchen.Domain.IRepositories
 {
@@ -12,5 +13,6 @@ namespace SmartKitchen.Domain.IRepositories
         Cell GetCellById(int id);
         void DeleteCell(Cell cell);
         void DeleteCellsRange(ICollection<Cell> cells);
+        CellAmountChange CellChanges(int id);
     }
 }

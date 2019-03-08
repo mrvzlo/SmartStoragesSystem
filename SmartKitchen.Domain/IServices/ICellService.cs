@@ -14,6 +14,7 @@ namespace SmartKitchen.Domain.IServices
         ItemCreationResponse AddCell(CellCreationModel model, string email);
         CellDisplayModel GetCellDisplayModelById(int id, string email);
         ServiceResponse DeleteCellById(int id, string email);
+        CellAmountChange GetCellAmountDif(int id);
         IQueryable<CellDisplayModel> GetCellsOfStorage(int storageId, string email);
         ServiceResponse UpdateCellBestBefore(int id, DateTime? value, string email);
         ServiceResponse UpdateCellAmount(int id, decimal value, string email);

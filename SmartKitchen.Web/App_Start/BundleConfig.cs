@@ -15,11 +15,15 @@ namespace SmartKitchen.Web
             bundles.Add(new ScriptBundle("~/core").Include(
                     "~/Scripts/jquery-{version}.js",
                     "~/Scripts/jquery.validate*",
-                    "~/Scripts/jquery.form.js",
-                    "~/Scripts/bootstrap.js",
-                    "~/Scripts/pages/form-helper.js"
+                    "~/Scripts/jquery.unobtrusive-ajax.js",
+                    "~/Scripts/bootstrap.js"
             ));
-            
+
+            bundles.Add(new ScriptBundle("~/forms").Include(
+                "~/Scripts/jquery.form.js",
+                "~/Scripts/pages/form-helper.js"
+            ));
+
             bundles.Add(new ScriptBundle("~/MvcGrid").Include(
                 "~/Scripts/MvcGrid/mvc-grid.js"));
 

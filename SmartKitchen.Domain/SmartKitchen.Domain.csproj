@@ -52,6 +52,7 @@
     <Compile Include="DisplayModels\BasketProductDisplayModel.cs" />
     <Compile Include="DisplayModels\BasketWithProductsDisplayModel.cs" />
     <Compile Include="DisplayModels\CategoryDisplay.cs" />
+    <Compile Include="DisplayModels\CellAmountChange.cs" />
     <Compile Include="DisplayModels\CellDisplayModel.cs" />
     <Compile Include="DisplayModels\HelpModel.cs" />
     <Compile Include="CreationModels\SignInModel.cs" />

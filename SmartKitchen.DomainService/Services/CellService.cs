@@ -116,10 +116,14 @@ namespace SmartKitchen.DomainService.Services
             return query;
         }
 
+        public CellAmountChange GetCellAmountDif(int id) =>
+            _cellRepository.CellChanges(id);
+
         private Cell GetCellByProductAndStorage(int product, int storage) =>
             _cellRepository.GetCellByProductAndStorage(product, storage);
 
         private CellDisplayModel GetCellDisplayModel(Cell cell) => 
             Mapper.Map<CellDisplayModel>(cell);
+
     }
 }

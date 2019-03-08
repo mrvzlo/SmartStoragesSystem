@@ -1,7 +1,9 @@
 ﻿using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.IRepositories;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
+using SmartKitchen.Domain.DisplayModels;
 using Z.EntityFramework.Plus;
 
 namespace SmartKitchen.Infrastructure.Repositories
@@ -30,5 +32,8 @@ namespace SmartKitchen.Infrastructure.Repositories
 
         public void DeleteCellsRange(ICollection<Cell> cells) =>
             _dbContext.Cells.RemoveRange(cells);
+
+        public CellAmountChange CellChanges(int id) =>
+            _dbContext.Database.SqlQuery<CellAmountChange>("GetAmountLoses @cell", new SqlParameter("@cell", id)).FirstOrDefault();
     }
 }
