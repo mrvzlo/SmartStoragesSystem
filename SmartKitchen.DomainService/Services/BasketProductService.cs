@@ -62,7 +62,7 @@ namespace SmartKitchen.DomainService.Services
             var basketProduct = _basketProductRepository.GetBasketProductById(id);
             var basket = _basketRepository.GetBasketById(basketProduct.BasketId);
             int personId = _personRepository.GetPersonByEmail(email).Id;
-            if (basket == null || basket.PersonId == personId) return null;
+            if (basket == null || basket.PersonId != personId) return null;
             return Mapper.Map<BasketProductDisplayModel>(basketProduct);
         }
     }

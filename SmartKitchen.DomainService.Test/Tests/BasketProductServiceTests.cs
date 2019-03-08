@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoFixture;
+using AutoFixture.NUnit3;
 using Moq;
 using NUnit.Framework;
 using SmartKitchen.Domain.CreationModels;
+using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Enums;
 using SmartKitchen.Domain.IRepositories;
@@ -115,6 +117,31 @@ namespace SmartKitchen.DomainService.Test.Tests
 
             var result = actual.Successful();
             Assert.IsTrue(result);
+        }
+
+        [Test, CustomAutoData]
+        public void GetBasketProductDisplayModelById_Map_BasketProductDisplayModel(IFixture fixture, BasketProduct basketProduct, Person person, Basket basket)
+        {
+            var personRepMock = fixture.Freeze<Mock<IPersonRepository>>();
+            var basketProductRepMock = fixture.Freeze<Mock<IBasketProductRepository>>();
+            var basketRepMock = fixture.Freeze<Mock<IBasketRepository>>();
+            basketProduct.BasketId = basket.Id;
+            basket.PersonId = person.Id;
+            personRepMock.Setup(x => x.GetPersonByEmail(It.IsAny<string>())).Returns(person);
+            basketRepMock.Setup(x => x.GetBasketById(It.IsAny<int>())).Returns(basket);
+            basketProductRepMock.Setup(x => x.GetBasketProductById(It.IsAny<int>())).Returns(basketProduct);
+
+            var sut = fixture.Create<BasketProductService>();
+            var actual = sut.GetBasketProductDisplayModelById(basketProduct.Id, person.Email);
+
+            Assert.NotNull(actual);
+            Assert.That(actual, Has.Property(nameof(BasketProductDisplayModel.Id)).EqualTo(basketProduct.Id));
+            Assert.That(actual, Has.Property(nameof(BasketProductDisplayModel.Amount)).EqualTo(basketProduct.Amount));
+            Assert.That(actual, Has.Property(nameof(BasketProductDisplayModel.BestBefore)).EqualTo(basketProduct.BestBefore));
+            Assert.That(actual, Has.Property(nameof(BasketProductDisplayModel.Bought)).EqualTo(basketProduct.Bought));
+            Assert.That(actual, Has.Property(nameof(BasketProductDisplayModel.CellId)).EqualTo(basketProduct.CellId));
+            Assert.That(actual, Has.Property(nameof(BasketProductDisplayModel.StorageName)).EqualTo(basketProduct.Cell.Storage.Name));
+            Assert.That(actual, Has.Property(nameof(BasketProductDisplayModel.ProductName)).EqualTo(basketProduct.Cell.Product.Name));
         }
     }
 }
