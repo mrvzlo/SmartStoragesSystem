@@ -52,7 +52,6 @@
     <Compile Include="DisplayModels\BasketProductDisplayModel.cs" />
     <Compile Include="DisplayModels\BasketWithProductsDisplayModel.cs" />
     <Compile Include="DisplayModels\CategoryDisplay.cs" />
-    <Compile Include="DisplayModels\CellAmountChange.cs" />
     <Compile Include="DisplayModels\CellDisplayModel.cs" />
     <Compile Include="DisplayModels\HelpModel.cs" />
     <Compile Include="CreationModels\SignInModel.cs" />
@@ -64,6 +63,7 @@
     <Compile Include="Enitities\BasketProduct.cs" />
     <Compile Include="Enitities\Category.cs" />
     <Compile Include="Enitities\Cell.cs" />
+    <Compile Include="Enitities\CellChange.cs" />
     <Compile Include="Enitities\Person.cs" />
     <Compile Include="Enitities\Product.cs" />
     <Compile Include="Enitities\Storage.cs" />

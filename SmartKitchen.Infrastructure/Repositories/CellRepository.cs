@@ -3,6 +3,7 @@ using SmartKitchen.Domain.IRepositories;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using SmartKitchen.Domain.DisplayModels;
 using Z.EntityFramework.Plus;
 
@@ -30,10 +31,10 @@ namespace SmartKitchen.Infrastructure.Repositories
         public void DeleteCell(Cell cell) =>
             _dbContext.Delete(cell);
 
-        public void DeleteCellsRange(ICollection<Cell> cells) =>
-            _dbContext.Cells.RemoveRange(cells);
+        public void DeleteCellAmountChanges(ICollection<CellChange> cellChanges) =>
+            _dbContext.CellChanges.RemoveRange(cellChanges);
 
-        public CellAmountChange CellChanges(int id) =>
-            _dbContext.Database.SqlQuery<CellAmountChange>("GetAmountLoses @cell", new SqlParameter("@cell", id)).FirstOrDefault();
+        public void AddCellAmountChange(CellChange change) =>
+            _dbContext.InsertOrUpdate(change);
     }
 }

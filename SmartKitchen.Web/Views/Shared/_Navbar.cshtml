@@ -11,12 +11,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="@(authed ? Url.Action("Index", "Storage") : "")" class="nav-link text-light">
+                        <a href="@Url.Action("Index", "Storage")" class="nav-link text-light">
                             <div class="d-md-inline d-none">Storages</div>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="@(authed ? Url.Action("Index", "Basket" ) : "")" class="nav-link text-light">
+                        <a href="@Url.Action("Index", "Basket" )" class="nav-link text-light">
                             <div class="d-md-inline d-none">Baskets</div>
                         </a>
                     </li>

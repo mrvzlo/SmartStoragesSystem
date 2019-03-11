@@ -15,29 +15,32 @@ namespace SmartKitchen.DomainService.Services
     {
         private readonly IStorageRepository _storageRepository;
         private readonly IStorageTypeService _storageTypeService;
-        private readonly IPersonService _personService;
+        private readonly IPersonRepository _personRepository;
         private readonly ICellRepository _cellRepository;
+        private readonly ICellService _cellService;
 
-        public StorageService(IStorageRepository storageRepository, IPersonService personService, IStorageTypeService storageTypeService, ICellRepository cellRepository)
+        public StorageService(IStorageRepository storageRepository, IPersonRepository personRepository, IStorageTypeService storageTypeService, 
+            ICellRepository cellRepository, ICellService cellService)
         {
             _storageRepository = storageRepository;
-            _personService = personService;
+            _personRepository = personRepository;
             _storageTypeService = storageTypeService;
             _cellRepository = cellRepository;
+            _cellService = cellService;
         }
 
         public List<StorageDescription> GetStoragesWithDescriptionByOwnerEmail(string email)
         {
-            var person = _personService.GetPersonByEmail(email);
+            var person = _personRepository.GetPersonByEmail(email);
             return Mapper.Map<List<StorageDescription>>(person.Storages);
         }
 
         public void DeleteStorageById(int id, string email)
         {
-            var person = _personService.GetPersonByEmail(email).Id;
+            var person = _personRepository.GetPersonByEmail(email).Id;
             var storage = _storageRepository.GetStorageById(id);
             if (storage.PersonId != person) return;
-            _cellRepository.DeleteCellsRange(storage.Cells);
+            foreach (var c in storage.Cells) _cellService.DeleteCell(c);
             _storageRepository.DeleteStorage(storage);
         }
 
@@ -51,7 +54,7 @@ namespace SmartKitchen.DomainService.Services
         {
             var response = new ItemCreationResponse();
             model.Name = model.Name.Trim();
-            var person = _personService.GetPersonByEmail(email);
+            var person = _personRepository.GetPersonByEmail(email);
             var exists = person.Storages.Any(x => x.Name.Equals(model.Name, StringComparison.OrdinalIgnoreCase));
             if (exists) response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
             if (!_storageTypeService.ExistsWithId(model.TypeId)) response.AddError(GeneralError.ItemNotFound, nameof(model.TypeId));

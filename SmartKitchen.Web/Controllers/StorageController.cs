@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
@@ -15,12 +16,14 @@ namespace SmartKitchen.Web.Controllers
         private readonly IStorageService _storageService;
         private readonly IStorageTypeService _storageTypeService;
         private readonly ICellService _cellService;
+        private readonly IBasketService _basketService;
 
-        public StorageController(IStorageService storageService, ICellService cellService, IStorageTypeService storageTypeService)
+        public StorageController(IStorageService storageService, ICellService cellService, IStorageTypeService storageTypeService, IBasketService basketService)
         {
             _storageService = storageService;
             _cellService = cellService;
             _storageTypeService = storageTypeService;
+            _basketService = basketService;
         }
 
         #region CRD
@@ -43,6 +46,13 @@ namespace SmartKitchen.Web.Controllers
             if (description == null) return Redirect(Url.Action("Index"));
             if (TempData.ContainsKey("error"))
                 ModelState.AddModelError("Name", TempData["error"].ToString());
+            var selectList = _basketService.GetBasketsByOwnerEmail(CurrentUser()).Where(x=>!x.Closed).Select(x => new SelectListItem
+            {
+                Value = x.Id.ToString(),
+                Text = x.Name
+            }).ToList();
+            selectList.Add(new SelectListItem{Value = "0", Text = "New"});
+            ViewBag.SelectList = selectList;
             return View(description);
         }
 
@@ -121,6 +131,12 @@ namespace SmartKitchen.Web.Controllers
 
         #region Cell
 
+        /*[HttpPost]
+        public JsonResult MoveCellsToBasket(List<int> cells)
+        {
+
+        }*/
+
         [HttpPost]
         public void SetAmount(int cell, decimal amount)
         {
@@ -130,7 +146,7 @@ namespace SmartKitchen.Web.Controllers
         [HttpPost]
         public bool Remove(int cellId)
         {
-            var response = _cellService.DeleteCellById(cellId, CurrentUser());
+            var response = _cellService.DeleteCellByIdAndEmail(cellId, CurrentUser());
             if (response.Successful()) FileHelper.RemoveImage(Server.MapPath("~/Content/images/" + cellId + ".png"));
             return response.Successful();
         }

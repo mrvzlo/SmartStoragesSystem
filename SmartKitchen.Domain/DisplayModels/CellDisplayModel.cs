@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Enums;
 
 namespace SmartKitchen.Domain.DisplayModels
@@ -9,7 +12,19 @@ namespace SmartKitchen.Domain.DisplayModels
         public string ProductName { get; set; }
         public string CategoryName { get; set; }
         public DateTime? BestBefore { get; set; }
-        public Amount Amount { get; set; }
+
+        public decimal Amount => CellChanges.OrderByDescending(x => x.UpdateDate).FirstOrDefault()?.Amount ?? 0;
+
+        public ICollection<CellChange> CellChanges { get; set; }
+
+        public Amount AmountStatus { get {
+            if (AmountDecreasePerHour == 0) return Enums.Amount.Plenty;
+            var hoursRemain = Amount / AmountDecreasePerHour;
+            if (hoursRemain == 0) return Enums.Amount.None;
+            if (hoursRemain < 48) return Enums.Amount.Lack;
+            return Enums.Amount.Plenty;
+        }}
+
         public Safety SafetyStatus { get {
                 if (BestBefore == null) return Safety.Unknown;
                 var days = (int)Math.Floor((BestBefore.Value.Date - DateTime.UtcNow.Date).TotalDays);
@@ -20,5 +35,20 @@ namespace SmartKitchen.Domain.DisplayModels
             }}
 
 
-    }
+        public decimal AmountDecreasePerHour{ get {
+                decimal decrease = 0, hours = 0;
+                int count = 0;
+                var changeslist = CellChanges.OrderByDescending(x => x.UpdateDate);
+                foreach (var newest in changeslist)
+                {
+                    var oldest = changeslist.FirstOrDefault(x => x.UpdateDate < newest.UpdateDate);
+                    if (oldest == null || oldest.Amount <= newest.Amount) continue;
+                    count++;
+                    decrease += newest.Amount - oldest.Amount;
+                    hours += (decimal)(newest.UpdateDate - oldest.UpdateDate).TotalHours;
+                    if (count == 3) break;
+                }
+                return hours == 0 ? 0 : Math.Round(Math.Abs(decrease/hours),2);
+            }
+        }}
 }

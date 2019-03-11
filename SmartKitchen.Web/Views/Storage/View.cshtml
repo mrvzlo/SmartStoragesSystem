@@ -2,6 +2,7 @@
 @model SmartKitchen.Domain.DisplayModels.StorageDescription
 @{
     ViewBag.Title = "Storage " + Model.Name;
+    var selectList = (List<SelectListItem>)ViewBag.SelectList;
 }
 <div class="h4 text-center">@Model.Name</div>
 @Html.Partial("_AddProduct", new CellCreationModel { Storage = Model.Id })
@@ -23,8 +24,9 @@
         <div class="col-6 col-md-3 col-lg-2 p-1"><button class="btn btn-main w-100" id="btnMark2">Mark absent</button></div>
         <div class="col-6 col-md-3 col-lg-2 p-1"><button class="btn btn-main w-100" id="btnMark0">Clear</button></div>
     </div>
-    <div class="row justify-content-around m-1">
-        <div class="col-6 col-md-3 col-lg-2 p-1"><button class="btn btn-main w-100">To basket</button></div>
+    <div class="row justify-content-center m-1">
+        @Html.DropDownList("basket", new SelectList(selectList, "Value", "Text"), new{@class="input col-6 col-md-4"})
+        <div class="col-6 col-md-3 col-lg-2"><button class="btn btn-main w-100">To basket</button></div>
     </div>
 }
 @Html.Partial("_DatePicker")

@@ -15,15 +15,18 @@ namespace SmartKitchen.DomainService.Services
     {
         private readonly ICellRepository _cellRepository;
         private readonly IProductService _productService;
+        private readonly IPersonRepository _personRepository;
         private readonly IStorageRepository _storageRepository;
         private readonly IBasketProductRepository _basketProductRepository;
 
-        public CellService(ICellRepository cellRepository, IProductService productService, IStorageRepository storageRepository, IBasketProductRepository basketProductRepository)
+        public CellService(ICellRepository cellRepository, IProductService productService, IStorageRepository storageRepository, 
+            IBasketProductRepository basketProductRepository, IPersonRepository personRepository)
         {
             _cellRepository = cellRepository;
             _productService = productService;
             _storageRepository = storageRepository;
             _basketProductRepository = basketProductRepository;
+            _personRepository = personRepository;
         }
 
         public Cell GetOrAddAndGet(CellCreationModel model, string email)
@@ -67,20 +70,31 @@ namespace SmartKitchen.DomainService.Services
         public CellDisplayModel GetCellDisplayModelById(int id, string email)
         {
             var cell = _cellRepository.GetCellById(id);
-            if (cell.Storage.Person.Email != email) return null;
-            return GetCellDisplayModel(cell);
+            var storageOwner = _storageRepository.GetStorageById(cell.StorageId).PersonId;
+            var personId = _personRepository.GetPersonByEmail(email).Id;
+            return storageOwner != personId ? null : Mapper.Map<CellDisplayModel>(cell);
         }
 
         public ServiceResponse UpdateCellAmount(int id, decimal value, string email)
         {
             var response = new ServiceResponse();
             var cell = _cellRepository.GetCellById(id);
-            if (cell == null || cell.Storage.Person.Email != email) return null;
+            if (cell == null)
+            {
+                response.AddError(GeneralError.ItemNotFound);
+                return response;
+            }
+            var storageOwner = _storageRepository.GetStorageById(cell.StorageId).PersonId;
+            var personId = _personRepository.GetPersonByEmail(email).Id;
+            if (storageOwner != personId)
+            {
+                response.AddError(GeneralError.AccessDenied);
+                return response;
+            }
             if (value < 0) value = 0;
-            cell.Amount = value;
-            if (cell.Amount == 0) cell.BestBefore = null;
+            if (value == 0) cell.BestBefore = null;
             _cellRepository.AddOrUpdateCell(cell);
-            if (cell.Amount != value) response.AddError(GeneralError.AnErrorOccured);
+            _cellRepository.AddCellAmountChange(new CellChange{Amount = value, CellId = cell.Id, UpdateDate = DateTime.UtcNow});
             return response;
         }
 
@@ -88,42 +102,50 @@ namespace SmartKitchen.DomainService.Services
         {
             var response = new ServiceResponse();
             var cell = _cellRepository.GetCellById(id);
-            if (cell == null || cell.Storage.Person.Email != email) return null;
+            if (cell == null)
+            {
+                response.AddError(GeneralError.ItemNotFound);
+                return response;
+            }
+            var storageOwner = _storageRepository.GetStorageById(cell.StorageId).PersonId;
+            var personId = _personRepository.GetPersonByEmail(email).Id;
+            if (storageOwner != personId)
+            {
+                response.AddError(GeneralError.AccessDenied);
+                return response;
+            }
             cell.BestBefore = value;
             _cellRepository.AddOrUpdateCell(cell);
             if (cell.BestBefore != value) response.AddError(GeneralError.AnErrorOccured);
             return response;
         }
 
-        public ServiceResponse DeleteCellById(int id, string email)
+        public ServiceResponse DeleteCellByIdAndEmail(int id, string email)
         {
             var response = new ServiceResponse();
             var cell = _cellRepository.GetCellById(id);
             if (cell == null || cell.Storage.Person.Email != email) response.AddError(GeneralError.ItemNotFound);
-            else
-            {
-                _basketProductRepository.DeleteBasketProductRange(cell.BasketProducts);
-                _cellRepository.DeleteCell(cell);
-            }
+            else DeleteCell(cell);
             return response;
+        }
+
+        public void DeleteCell(Cell cell)
+        {
+            _basketProductRepository.DeleteBasketProductRange(cell.BasketProducts);
+            _cellRepository.DeleteCellAmountChanges(cell.CellChanges);
+            _cellRepository.DeleteCell(cell);
         }
 
         public IQueryable<CellDisplayModel> GetCellsOfStorage(int storageId, string email)
         {
             var storage = _storageRepository.GetStorageById(storageId);
-            if (storage == null || storage.Person.Email != email) return null;
+            var personId = _personRepository.GetPersonByEmail(email).Id;
+            if (storage == null || storage.PersonId != personId) return null;
             var query = _cellRepository.GetCellsForStorage(storageId).ProjectTo<CellDisplayModel>(MapperConfig);
             return query;
         }
 
-        public CellAmountChange GetCellAmountDif(int id) =>
-            _cellRepository.CellChanges(id);
-
         private Cell GetCellByProductAndStorage(int product, int storage) =>
             _cellRepository.GetCellByProductAndStorage(product, storage);
-
-        private CellDisplayModel GetCellDisplayModel(Cell cell) => 
-            Mapper.Map<CellDisplayModel>(cell);
-
     }
 }
