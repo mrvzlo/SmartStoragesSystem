@@ -3,6 +3,7 @@ using System.Linq;
 using AutoFixture;
 using AutoFixture.AutoMoq;
 using AutoMapper;
+using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.DomainService.Profiles;
 
@@ -22,6 +23,9 @@ namespace SmartKitchen.DomainService.Test
             }).CreateMapper());
             fixture.Customize(new AutoConfiguredMoqCustomization());
             fixture.Register(() => fixture.CreateMany<Basket>(3).AsQueryable());
+            fixture.Register(() => fixture.CreateMany<Product>(3).AsQueryable());
+            fixture.Register(() => fixture.CreateMany<Category>(3).AsQueryable());
+            fixture.Register(() => fixture.CreateMany<ProductDisplayModel>(3).ToList());
             fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList().ForEach(b => fixture.Behaviors.Remove(b));
             fixture.Behaviors.Add(new OmitOnRecursionBehavior());
         }

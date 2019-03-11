@@ -1,6 +1,6 @@
 ﻿namespace SmartKitchen.Domain.DisplayModels
 {
-	public class CategoryDisplay
+	public class CategoryDisplayModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

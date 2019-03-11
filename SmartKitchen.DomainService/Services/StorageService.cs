@@ -16,16 +16,13 @@ namespace SmartKitchen.DomainService.Services
         private readonly IStorageRepository _storageRepository;
         private readonly IStorageTypeService _storageTypeService;
         private readonly IPersonRepository _personRepository;
-        private readonly ICellRepository _cellRepository;
         private readonly ICellService _cellService;
 
-        public StorageService(IStorageRepository storageRepository, IPersonRepository personRepository, IStorageTypeService storageTypeService, 
-            ICellRepository cellRepository, ICellService cellService)
+        public StorageService(IStorageRepository storageRepository, IPersonRepository personRepository, IStorageTypeService storageTypeService, ICellService cellService)
         {
             _storageRepository = storageRepository;
             _personRepository = personRepository;
             _storageTypeService = storageTypeService;
-            _cellRepository = cellRepository;
             _cellService = cellService;
         }
 

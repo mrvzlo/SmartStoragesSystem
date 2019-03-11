@@ -21,8 +21,8 @@ namespace SmartKitchen.DomainService.Services
             _productRepository = productRepository;
         }
 
-        public IQueryable<CategoryDisplay> GetAllCategoryDisplays() =>
-            _categoryRepository.GetAllCategories().ProjectTo<CategoryDisplay>(MapperConfig);
+        public IQueryable<CategoryDisplayModel> GetAllCategoryDisplays() =>
+            _categoryRepository.GetAllCategories().ProjectTo<CategoryDisplayModel>(MapperConfig);
 
         public ServiceResponse AddCategory(NameCreationModel model)
         {

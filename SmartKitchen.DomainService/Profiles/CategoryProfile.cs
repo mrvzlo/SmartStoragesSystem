@@ -8,7 +8,7 @@ namespace SmartKitchen.DomainService.Profiles
     {
         public CategoryProfile()
         {
-            CreateMap<Category, CategoryDisplay>()
+            CreateMap<Category, CategoryDisplayModel>()
                 .ForMember(dest => dest.ProductsCount, opts => { opts.MapFrom(from => from.Products.Count); })
                 .ForMember(dest => dest.Primal, opts =>{opts.MapFrom(from => from.Name == "" );})
                 .ForMember(dest => dest.Name, opts => opts.MapFrom(from => from.Name == "" ? "Unknown" : from.Name));
