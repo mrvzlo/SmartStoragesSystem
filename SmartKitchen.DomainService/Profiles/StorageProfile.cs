@@ -8,7 +8,7 @@ namespace SmartKitchen.DomainService.Profiles
     {
         public StorageProfile()
         {
-            CreateMap<Storage, StorageDescription>()
+            CreateMap<Storage, StorageDisplayModel>()
                 .ForMember(dest => dest.CellCount, opts => { opts.MapFrom(from => from.Cells.Count); });
 
             CreateMap<StorageType, StorageTypeDisplayModel>();

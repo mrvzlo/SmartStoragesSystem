@@ -26,10 +26,10 @@ namespace SmartKitchen.DomainService.Services
             _cellService = cellService;
         }
 
-        public List<StorageDescription> GetStoragesWithDescriptionByOwnerEmail(string email)
+        public List<StorageDisplayModel> GetStoragesWithDescriptionByOwnerEmail(string email)
         {
             var person = _personRepository.GetPersonByEmail(email);
-            return Mapper.Map<List<StorageDescription>>(person.Storages);
+            return Mapper.Map<List<StorageDisplayModel>>(person.Storages);
         }
 
         public void DeleteStorageById(int id, string email)
@@ -41,10 +41,10 @@ namespace SmartKitchen.DomainService.Services
             _storageRepository.DeleteStorage(storage);
         }
 
-        public StorageDescription GetStorageDescriptionById(int id, string email)
+        public StorageDisplayModel GetStorageDescriptionById(int id, string email)
         {
             var storage = _storageRepository.GetStorageById(id);
-            return storage == null || storage.Person.Email != email ? null : Mapper.Map<StorageDescription>(storage);
+            return storage == null || storage.Person.Email != email ? null : Mapper.Map<StorageDisplayModel>(storage);
         }
 
         public ItemCreationResponse AddStorage(StorageCreationModel model, string email)

@@ -1,5 +1,5 @@
 ﻿@using SmartKitchen.Domain.DisplayModels
-@model  IQueryable<SmartKitchen.Domain.DisplayModels.CategoryDisplay>
+@model  IQueryable<CategoryDisplayModel>
 
 @Html.Grid(Model).Build(c =>{
     c.Add(x => x.Name).RenderedAs(NameHelper).Titled("Category").Css("w-40 py-3");
@@ -7,12 +7,12 @@
     c.Add( x => string.Empty).RenderedAs(DeleteHelper).Css("w-20 pb-1");
 }).Sortable().Css("table-borderless table-hover m-0 table text-center")
 
-@helper NameHelper(CategoryDisplay x)
+@helper NameHelper(CategoryDisplayModel x)
 {
     <div id="name_@x.Id">@x.Name</div>
 }
 
-@helper DeleteHelper(CategoryDisplay x)
+@helper DeleteHelper(CategoryDisplayModel x)
 {
     if (!x.Primal)
     {

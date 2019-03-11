@@ -2,7 +2,7 @@
 
 namespace SmartKitchen.Domain.DisplayModels
 {
-    public class StorageDescription
+    public class StorageDisplayModel
     {
         [Key]
         public int Id { get; set; }
