@@ -1,5 +1,5 @@
 ﻿$main: #46307b;
-$warning: #cc7a00;
+$warning: #c70;
 $theme-colors: ( "main": $main );
 $border-radius: 1rem !default;
 $input-btn-padding-y: .25rem;
@@ -7,6 +7,20 @@ $input-btn-padding-x: .5rem;
 @import 'bootstrap/bootstrap.scss';
 @import 'forms.scss';
 @import 'tables.scss';
+
+.modal-footer {
+    > :not(:first-child) {
+        margin-left: 0;
+    }
+    > :not(:last-child) {
+        margin-right: 0;
+    }
+    margin:0;
+}
+
+.modal-header{
+    margin:0;
+}
 
 body {
     padding: 0;

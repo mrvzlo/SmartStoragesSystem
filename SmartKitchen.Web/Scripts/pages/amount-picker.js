@@ -13,9 +13,20 @@ var AmountPickerJs = (function () {
 
         settings = $.extend(true, defaults, options);
         $(document).on("click", "#btnAmountRemove", removeProduct);
+        $(document).on("click", "#btnAmountSave", changeProductAmount);
+        $(document).on("click", "#btnAmountPlus", function () { plusProductAmount(1)});
+        $(document).on("click", "#btnAmountMinus", function () { plusProductAmount(-1) });
     };
 
-    var changeProductAmount = function(amount) {
+    var plusProductAmount = function (i) {
+        var amount = $("#AmountValue");
+        if (Number(amount.val()) + i < amount.attr("min")) return;
+        var value = (Number(amount.val()) + i).toFixed(3);
+        amount.val(value);
+    }
+
+    var changeProductAmount = function () {
+        var amount = $("#AmountValue").val()*1000;
         var url = settings.setUrl + settings.cellId + "&amount=" + amount;
         $.post(url,
             function () {
@@ -34,10 +45,12 @@ var AmountPickerJs = (function () {
         }
     }
 
-    var showAmountPicker = function(product) {
+    var showAmountPicker = function(product, amount) {
         settings.cellId = product;
+        amount /= 1000;
         var name = $("#name_" + product).text();
-        $('#AmountModalLabel').text("Choose amount of " + name);
+        $('#AmountModalName').text("Choose amount of " + name + " in kg");
+        $("#AmountValue").val(amount);
     }
 
     return {

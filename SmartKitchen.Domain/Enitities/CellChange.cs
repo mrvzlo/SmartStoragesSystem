@@ -8,7 +8,7 @@ namespace SmartKitchen.Domain.Enitities
         [Key]
         public virtual int Id { get; set; }
         public virtual int CellId { get; set; }
-        public virtual decimal Amount { get; set; }
+        public virtual int Amount { get; set; }
         public virtual DateTime UpdateDate { get; set; }
 
         public virtual Cell Cell { get; set; }

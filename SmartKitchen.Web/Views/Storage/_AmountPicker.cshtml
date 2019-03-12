@@ -1,15 +1,27 @@
-﻿@using SmartKitchen.Domain.Enums
-<div class="modal fade" id="AmountModal" tabindex="-1" role="dialog" aria-labelledby="AmountModalLabel" aria-hidden="true">
+﻿<div class="modal fade" id="AmountModal" tabindex="-1" role="dialog" aria-labelledby="AmountModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content big-border">
-            <div class="modal-header text-center d-block h5" id="AmountModalLabel"></div>
-            <div class="modal-body pt-0">
-                <div class="row justify-content-center">
-                    <button data-dismiss="modal" class="btn btn-success col-md-3 col-5 m-2" onclick="AmountPickerJs.changeProductAmount(@((int)Amount.Plenty));" >Plenty</button>
-                    <button data-dismiss="modal" class="btn btn-warning col-md-3 col-5 m-2" onclick="AmountPickerJs.changeProductAmount(@((int)Amount.Lack));" >Lack</button>
-                    <button data-dismiss="modal" class="btn btn-secondary col-md-3 col-5 m-2" onclick="AmountPickerJs.changeProductAmount(@((int)Amount.None));" >None</button>
-                    <button data-dismiss="modal" class="btn btn-danger col-md-3 col-5 m-2" id="btnAmountRemove">Remove</button>
-                    <button data-dismiss="modal" class="btn btn-secondary col-md-3 col-5 m-2">Close</button>
+            <div class="modal-header text-center d-block h5" id="AmountModalName"></div>
+            <div class="modal-body">
+                <div class="row justify-content-center m-0">
+                    <div class="d-lg-none px-1" id="btnAmountPlus">
+                        <img class="rowicon" src="~/Content/images/add.png" />
+                    </div>
+                    @Html.TextBox("AmountValue", 0, new { @class = "col-6 text-center", type = "number", min = 0, step = 0.1 })
+                    <div class="d-lg-none px-1" id="btnAmountMinus">
+                        <img class="rowicon" src="~/Content/images/minus.png" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer row justify-content-center">
+                <div class="col-4 p-1">
+                    <button data-dismiss="modal" class="btn btn-success w-100" id="btnAmountSave">Save</button>
+                </div>
+                <div class="col-4 p-1">
+                    <button data-dismiss="modal" class="btn btn-danger w-100" id="btnAmountRemove">Remove</button>
+                </div>
+                <div class="col-4 p-1">
+                    <button data-dismiss="modal" class="btn btn-secondary w-100">Close</button>
                 </div>
             </div>
         </div>

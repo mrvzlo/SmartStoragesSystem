@@ -62,6 +62,7 @@ namespace SmartKitchen.DomainService.Services
                 BestBefore = null
             };
             _cellRepository.AddOrUpdateCell(cell);
+            _cellRepository.AddCellAmountChange(new CellChange { Amount = 0, CellId = cell.Id, UpdateDate = DateTime.UtcNow });
             response.AddedId = cell.Id;
             response.AddedGroupId = cell.StorageId;
             return response;
@@ -75,7 +76,7 @@ namespace SmartKitchen.DomainService.Services
             return storageOwner != personId ? null : Mapper.Map<CellDisplayModel>(cell);
         }
 
-        public ServiceResponse UpdateCellAmount(int id, decimal value, string email)
+        public ServiceResponse UpdateCellAmount(int id, int value, string email)
         {
             var response = new ServiceResponse();
             var cell = _cellRepository.GetCellById(id);
@@ -92,8 +93,12 @@ namespace SmartKitchen.DomainService.Services
                 return response;
             }
             if (value < 0) value = 0;
-            if (value == 0) cell.BestBefore = null;
-            _cellRepository.AddOrUpdateCell(cell);
+            if (value == 0)
+            {
+                cell.BestBefore = null;
+                _cellRepository.AddOrUpdateCell(cell);
+            }
+
             _cellRepository.AddCellAmountChange(new CellChange{Amount = value, CellId = cell.Id, UpdateDate = DateTime.UtcNow});
             return response;
         }

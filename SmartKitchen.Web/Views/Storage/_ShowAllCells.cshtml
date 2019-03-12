@@ -6,7 +6,7 @@
 @Html.Grid(Model).Build(c =>{
     c.Add(x => x.ProductName).RenderedAs(NameHelper).Titled("Name").Css("w-25");
     c.Add(x => x.CategoryName).Titled("Category").Css("w-25");
-    c.Add(x => x.SafetyStatus).RenderedAs(SafetyHelper).Titled("Safety").Css("w-25");
+    c.Add(x => x.BestBefore).RenderedAs(SafetyHelper).Titled("Safety").Css("w-25");
     c.Add(x => x.Amount).RenderedAs(AmountHelper).Titled("Amount").Css("w-25");
 }).Sortable().Css("table-borderless table-hover m-0 table text-center").RowAttributed(model => new { id = model.Id })
 
@@ -17,7 +17,7 @@
 
 @helper AmountHelper(CellDisplayModel item)
 {
-    <div onclick="AmountPickerJs.showAmountPicker(@item.Id)">
+    <div onclick="AmountPickerJs.showAmountPicker(@item.Id,@item.Amount)">
         <a id="amount_@item.Id" alt="@item.AmountStatus.GetStatus()" class="pointer font-weight-bold text-decoration-none @GetTextColor(item.AmountStatus.GetStatus())" data-toggle="modal" data-target="#AmountModal">
             @item.AmountStatus.GetDescription()
         </a>

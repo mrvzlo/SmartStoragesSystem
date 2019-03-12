@@ -2,6 +2,10 @@
     text-decoration: line-through;
 }
 
+td{
+    vertical-align: inherit !important;
+}
+
 .storage {
     margin: .5rem 0;
     padding: 1rem;

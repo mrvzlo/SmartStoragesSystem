@@ -5,7 +5,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content big-border">
             <div class="modal-header text-center d-block h5" id="DateModalLabel"></div>
-            <div class="modal-body pt-0">
+            <div class="modal-body">
                 @using (Html.BeginForm("DateUpdate", "Storage", FormMethod.Post))
                 {
                     <div class="row justify-content-around">
@@ -14,23 +14,28 @@
                             <div class="col-lg-4">
                                 <div class="row my-1 justify-content-between">
                                     <div class="text-lg-center col-4 col-lg-12">@i</div>
-                                    <div class="d-lg-none px-1" onclick="DatetimePickerJs.inputChange('@i',-1)" >
-                                        <img class="rowicon"src="~/Content/images/minus.png"/>
+                                    <div class="d-lg-none px-1" onclick="DatetimePickerJs.inputChange('@i',1)">
+                                        <img class="rowicon" src="~/Content/images/add.png" />
                                     </div>
                                     <input class="text-center col-5 col-lg-12" type="number" id="@i" name="@i" />
-                                    <div class="d-lg-none px-1" onclick="DatetimePickerJs.inputChange('@i', 1)">
-                                        <img class="rowicon" src="~/Content/images/add.png"/>
+                                    <div class="d-lg-none px-1" onclick="DatetimePickerJs.inputChange('@i', -1)">
+                                        <img class="rowicon" src="~/Content/images/minus.png" />
                                     </div>
                                 </div>
                             </div>
                         }
                     </div>
                 }
-                <hr />
-                <div class="row justify-content-around">
-                    <button type="button" class="btn btn-main col-3" data-dismiss="modal" id="btnDateSave">Save</button>
-                    <button type="button" class="btn btn-main col-3" id="btnDateReset">Reset</button>
-                    <button type="button" class="btn btn-secondary col-3" data-dismiss="modal">Close</button>
+            </div>
+            <div class="modal-footer row justify-content-around">
+                <div class="col-4 p-1">
+                    <button type="button" class="btn btn-main w-100" data-dismiss="modal" id="btnDateSave">Save</button>
+                </div>
+                <div class="col-4 p-1">
+                    <button type="button" class="btn btn-main w-100" id="btnDateReset">Reset</button>
+                </div>
+                <div class="col-4 p-1">
+                    <button type="button" class="btn btn-secondary w-100" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
