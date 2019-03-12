@@ -69,5 +69,6 @@
     <Build Include="dbo\Tables\Cells.sql" />
     <Build Include="dbo\Tables\Baskets.sql" />
     <Build Include="dbo\Tables\BasketProducts.sql" />
+    <Build Include="dbo\Tables\CellChanges.sql" />
   </ItemGroup>
 </Project>

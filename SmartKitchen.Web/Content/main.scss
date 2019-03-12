@@ -8,6 +8,11 @@ $input-btn-padding-x: .5rem;
 @import 'forms.scss';
 @import 'tables.scss';
 
+pre {
+    margin: 0;
+    background-color: lighten($info, 50%);
+}
+
 .modal-footer {
     > :not(:first-child) {
         margin-left: 0;

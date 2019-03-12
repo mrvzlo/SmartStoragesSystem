@@ -9,7 +9,7 @@ namespace SmartKitchen.Domain.DisplayModels
         public bool Bought { get; set; }
         public decimal Price { get; set; }
         public DateTime? BestBefore { get; set; }
-        public decimal Amount { get; set; }
+        public int Amount { get; set; }
         public string ProductName { get; set; }
         public string StorageName { get; set; }
     }

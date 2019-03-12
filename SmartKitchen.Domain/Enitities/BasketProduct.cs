@@ -12,7 +12,7 @@ namespace SmartKitchen.Domain.Enitities
         public virtual int BasketId { get; set; }
         public virtual decimal Price{ get; set; }
         public virtual DateTime? BestBefore { get; set; }
-        public virtual decimal Amount { get; set; }
+        public virtual int Amount { get; set; }
 
         public virtual Cell Cell { get; set; }
         public virtual Basket Basket{ get; set; }

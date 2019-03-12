@@ -7032,6 +7032,10 @@ td {
 .mvc-grid {
   padding: 0; }
 
+pre {
+  margin: 0;
+  background-color: #d4f5fa; }
+
 .modal-footer {
   margin: 0; }
   .modal-footer > :not(:first-child) {
