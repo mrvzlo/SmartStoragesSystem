@@ -14,7 +14,15 @@ var StorageViewJs = (function () {
         $(document).on("click", "#btnMark1", function () { markGroup(1) });
         $(document).on("click", "#btnMark2", function () { markGroup(2) });
         $(document).on("click", "#btnMark3", function () { markGroup(3) });
+        $(document).on("change", "#basket", basketNameInputUpd);
+        basketNameInputUpd();
     };
+
+    var basketNameInputUpd = function () {
+        var selected = $("#basket option:selected").val();
+        if (selected != 0) $("#basketBox").hide();
+        else $("#basketBox").show();
+    }
 
     var mark = function (id) {
         var e = $("#name_" + id);
@@ -25,7 +33,7 @@ var StorageViewJs = (function () {
 
     var markGroup = function (type) {
         var table = $(".table")[0];
-        for (var i = 0; i < table.rows.length; i += 1) {
+        for (var i = 1; i < table.rows.length; i++) {
             var row = table.rows[i];
             var id = row.id;
             if (id > 0) {
@@ -46,5 +54,5 @@ var StorageViewJs = (function () {
     return {
         initialize: initialize,
         mark: mark
-};
+    };
 })();

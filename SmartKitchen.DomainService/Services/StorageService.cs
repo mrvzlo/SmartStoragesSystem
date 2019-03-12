@@ -44,7 +44,8 @@ namespace SmartKitchen.DomainService.Services
         public StorageDisplayModel GetStorageDescriptionById(int id, string email)
         {
             var storage = _storageRepository.GetStorageById(id);
-            return storage == null || storage.Person.Email != email ? null : Mapper.Map<StorageDisplayModel>(storage);
+            var personId = _personRepository.GetPersonByEmail(email).Id;
+            return storage == null || storage.PersonId != personId ? null : Mapper.Map<StorageDisplayModel>(storage);
         }
 
         public ItemCreationResponse AddStorage(StorageCreationModel model, string email)

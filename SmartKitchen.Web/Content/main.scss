@@ -2,6 +2,8 @@
 $warning: #cc7a00;
 $theme-colors: ( "main": $main );
 $border-radius: 1rem !default;
+$input-btn-padding-y: .25rem;
+$input-btn-padding-x: .5rem;
 @import 'bootstrap/bootstrap.scss';
 @import 'forms.scss';
 @import 'tables.scss';

@@ -23,6 +23,7 @@ namespace SmartKitchen.DomainService.Test
             }).CreateMapper());
             fixture.Customize(new AutoConfiguredMoqCustomization());
             fixture.Register(() => fixture.CreateMany<Basket>(3).AsQueryable());
+            fixture.Register(() => fixture.CreateMany<Storage>(3).AsQueryable());
             fixture.Register(() => fixture.CreateMany<Product>(3).AsQueryable());
             fixture.Register(() => fixture.CreateMany<Category>(3).AsQueryable());
             fixture.Register(() => fixture.CreateMany<ProductDisplayModel>(3).ToList());

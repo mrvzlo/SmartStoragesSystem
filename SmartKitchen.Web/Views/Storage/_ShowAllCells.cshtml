@@ -8,17 +8,17 @@
     c.Add(x => x.CategoryName).Titled("Category").Css("w-25");
     c.Add(x => x.SafetyStatus).RenderedAs(SafetyHelper).Titled("Safety").Css("w-25");
     c.Add(x => x.Amount).RenderedAs(AmountHelper).Titled("Amount").Css("w-25");
-}).Sortable().Css("table-borderless table-hover m-0 table text-center")
+}).Sortable().Css("table-borderless table-hover m-0 table text-center").RowAttributed(model => new { id = model.Id })
 
 @helper NameHelper(CellDisplayModel item)
 {
-    <div id="name_@item.Id" onclick="StorageViewJs.mark(@item.Id)">@item.ProductName</div>
+    <div id="name_@item.Id" class="pointer" onclick="StorageViewJs.mark(@item.Id)">@item.ProductName</div>
 }
 
 @helper AmountHelper(CellDisplayModel item)
 {
     <div onclick="AmountPickerJs.showAmountPicker(@item.Id)">
-        <a id="amount_@item.Id" alt="@item.AmountStatus.GetStatus()" class="font-weight-bold text-decoration-none @GetTextColor(item.AmountStatus.GetStatus())" data-toggle="modal" data-target="#AmountModal">
+        <a id="amount_@item.Id" alt="@item.AmountStatus.GetStatus()" class="pointer font-weight-bold text-decoration-none @GetTextColor(item.AmountStatus.GetStatus())" data-toggle="modal" data-target="#AmountModal">
             @item.AmountStatus.GetDescription()
         </a>
     </div>
@@ -28,7 +28,7 @@
 {
     bool changeableDate = item.AmountStatus != Amount.None;
     <div @Html.Raw(changeableDate ? "onclick=\"DatetimePickerJs.showDatePicker('" + item.Id + "')\"" : "")>
-        <a id="safety_@item.Id" alt="@item.SafetyStatus.GetStatus()" class="font-weight-bold @GetTextColor(item.SafetyStatus.GetStatus())" @Html.Raw(changeableDate ? "data-toggle='modal' data-target='#DateModal'" : "")>
+        <a id="safety_@item.Id" alt="@item.SafetyStatus.GetStatus()" class="pointer font-weight-bold @GetTextColor(item.SafetyStatus.GetStatus())" @Html.Raw(changeableDate ? "data-toggle='modal' data-target='#DateModal'" : "")>
             @item.SafetyStatus.GetDescription()
         </a>
     </div>
