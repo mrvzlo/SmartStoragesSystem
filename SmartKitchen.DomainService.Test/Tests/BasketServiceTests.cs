@@ -18,36 +18,32 @@ namespace SmartKitchen.DomainService.Test.Tests
     public class BasketServiceTests
     {
         [Test, CustomAutoData]
-        public void AddBasket_validateBasketNameNotUnique(IFixture fixture, NameCreationModel model, string email)
+        public void AddBasket_validateBasketNameNotUnique(IFixture fixture, string name, Person person)
         {
-            var personRepMock = fixture.Freeze<Mock<IPersonRepository>>();
             var basketRepMock = fixture.Freeze<Mock<IBasketRepository>>();
 
-            personRepMock.Setup(x => x.GetPersonByEmail(It.IsAny<string>()))
-                .Returns(new Person { Baskets = new List<Basket> { new Basket { Name = model.Name } } });
+            person.Baskets = new List<Basket>{new Basket{Name = name}};
             basketRepMock.Setup(x => x.AddOrUpdateBasket(It.IsAny<Basket>()));
             
             var sut = fixture.Create<BasketService>();
-            var actual = sut.AddBasket(model, email);
+            var actual = sut.AddBasket(name, person);
 
             var error = actual.Errors.First();
             Assert.That(error, Has.Property(nameof(error.ErrorEnum)).EqualTo(GeneralError.NameIsAlreadyTaken));
         }
 
         [Test, CustomAutoData]
-        public void AddBasket_validateBasketNameUnique(IFixture fixture, NameCreationModel model, string email)
+        public void AddBasket_validateBasketNameUnique(IFixture fixture, string name, Person person)
         {
-            var personRepMock = fixture.Freeze<Mock<IPersonRepository>>();
             var basketRepMock = fixture.Freeze<Mock<IBasketRepository>>();
 
-            personRepMock.Setup(x => x.GetPersonByEmail(It.IsAny<string>()))
-                .Returns(new Person { Baskets = new List<Basket> { new Basket { Name = model.Name } } });
+            person.Baskets = new List<Basket> { new Basket { Name = name } };
             basketRepMock.Setup(x => x.AddOrUpdateBasket(It.IsAny<Basket>()));
 
-            model.Name = model.Name + "a";
+            name = name + "a";
 
             var sut = fixture.Create<BasketService>();
-            var actual = sut.AddBasket(model, email);
+            var actual = sut.AddBasket(name, person);
 
             var result = actual.Successful();
             Assert.IsTrue(result);

@@ -1,4 +1,5 @@
-﻿using SmartKitchen.Domain.CreationModels;
+﻿using System.Collections.Generic;
+using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Enums;
@@ -26,28 +27,49 @@ namespace SmartKitchen.DomainService.Services
             _personRepository = personRepository;
         }
 
-        public ItemCreationResponse AddBasketProduct(BasketProductCreationModel model, string email)
+        public ItemCreationResponse AddBasketProductByModel(BasketProductCreationModel model, string email)
         {
             var response = new ItemCreationResponse();
             var basket = _basketRepository.GetBasketById(model.Basket);
             var storage = _storageRepository.GetStorageById(model.Storage);
-            int personId = _personRepository.GetPersonByEmail(email).Id;
+            var person = _personRepository.GetPersonByEmail(email);
+            var cellId = _cellService.GetOrAddAndGet(Mapper.Map<CellCreationModel>(model), email).Id;
+            return AddBasketProduct(storage, basket, person, cellId);
+        }
+
+        public int AddBasketProductList(int basketId, int storageId, string email, List<int> cells)
+        {
+            int count = 0;
+            var basket = _basketRepository.GetBasketById(basketId);
+            var storage = _storageRepository.GetStorageById(storageId);
+            var person = _personRepository.GetPersonByEmail(email);
+            foreach (var c in cells)
+            {
+                var response = AddBasketProduct(storage, basket, person, c);
+                if (response.Successful()) count++;
+            }
+
+            return count;
+        }
+
+        public ItemCreationResponse AddBasketProduct(Storage storage, Basket basket, Person person, int cellId)
+        {
+            var response = new ItemCreationResponse();
             if (basket == null || storage == null)
             {
                 response.AddError(GeneralError.ItemNotFound);
                 return response;
             }
 
-            if (basket.PersonId != personId || storage.PersonId != personId)
+            if (basket.PersonId != person.Id || storage.PersonId != person.Id)
             {
                 response.AddError(GeneralError.AccessDenied);
                 return response;
             }
 
-            var cellId = _cellService.GetOrAddAndGet(Mapper.Map<CellCreationModel>(model), email).Id;
             var basketProduct = new BasketProduct
             {
-                BasketId = model.Basket,
+                BasketId = basket.Id,
                 CellId = cellId,
                 BestBefore = null
             };

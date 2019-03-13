@@ -31,7 +31,7 @@ namespace SmartKitchen.DomainService.Test.Tests
             storageRepMock.Setup(x => x.GetStorageById(It.IsAny<int>())).Returns((Storage)null);
 
             var sut = fixture.Create<BasketProductService>();
-            var actual = sut.AddBasketProduct(model, person.Email);
+            var actual = sut.AddBasketProductByModel(model, person.Email);
 
             var error = actual.Errors.First();
             Assert.That(error, Has.Property(nameof(error.ErrorEnum)).EqualTo(GeneralError.ItemNotFound));
@@ -50,7 +50,7 @@ namespace SmartKitchen.DomainService.Test.Tests
             storageRepMock.Setup(x => x.GetStorageById(It.IsAny<int>())).Returns(storage);
 
             var sut = fixture.Create<BasketProductService>();
-            var actual = sut.AddBasketProduct(model, person.Email);
+            var actual = sut.AddBasketProductByModel(model, person.Email);
 
             var error = actual.Errors.First();
             Assert.That(error, Has.Property(nameof(error.ErrorEnum)).EqualTo(GeneralError.ItemNotFound));
@@ -71,7 +71,7 @@ namespace SmartKitchen.DomainService.Test.Tests
             storageRepMock.Setup(x => x.GetStorageById(It.IsAny<int>())).Returns(storage);
 
             var sut = fixture.Create<BasketProductService>();
-            var actual = sut.AddBasketProduct(model, person.Email);
+            var actual = sut.AddBasketProductByModel(model, person.Email);
 
             var error = actual.Errors.First();
             Assert.That(error, Has.Property(nameof(error.ErrorEnum)).EqualTo(GeneralError.AccessDenied));
@@ -92,7 +92,7 @@ namespace SmartKitchen.DomainService.Test.Tests
             storageRepMock.Setup(x => x.GetStorageById(It.IsAny<int>())).Returns(storage);
 
             var sut = fixture.Create<BasketProductService>();
-            var actual = sut.AddBasketProduct(model, person.Email);
+            var actual = sut.AddBasketProductByModel(model, person.Email);
 
             var error = actual.Errors.First();
             Assert.That(error, Has.Property(nameof(error.ErrorEnum)).EqualTo(GeneralError.AccessDenied));
@@ -113,7 +113,7 @@ namespace SmartKitchen.DomainService.Test.Tests
             storageRepMock.Setup(x => x.GetStorageById(It.IsAny<int>())).Returns(storage);
 
             var sut = fixture.Create<BasketProductService>();
-            var actual = sut.AddBasketProduct(model, person.Email);
+            var actual = sut.AddBasketProductByModel(model, person.Email);
 
             var result = actual.Successful();
             Assert.IsTrue(result);

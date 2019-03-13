@@ -1,4 +1,6 @@
-﻿using SmartKitchen.Domain.CreationModels;
+﻿using System;
+using System.Collections.Generic;
+using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.IServices;
 using System.Linq;
 using System.Web.Mvc;
@@ -39,6 +41,27 @@ namespace SmartKitchen.Web.Controllers
             }
 
             return Redirect(Url.Action("View", new { id = response.AddedId }));
+        }
+
+        [HttpPost]
+        public JsonResult AddListToBasket(int basket, int storage, string name, List<int> cells)
+        {
+            var model = new NameCreationModel(name);
+            if (basket == 0)
+            {
+                if (!ModelState.IsValid) return Json(new { success = false, error = "Name is not valid"}); 
+                var response = _basketService.AddBasket(model, CurrentUser());
+                if (!response.Successful())
+                {
+                    AddModelStateErrors(response);
+                    return Json(new { success = false, error = "This name is already taken" }); 
+                }
+
+                basket = response.AddedId;
+            }
+
+            _basketProductService.AddBasketProductList(basket, storage, CurrentUser(), cells);
+            return Json(new { success = true, url = Url.Action("View","Basket", new {id = basket}) });
         }
 
         public ActionResult View(int id)
@@ -82,7 +105,7 @@ namespace SmartKitchen.Web.Controllers
         [HttpPost]
         public RedirectResult CreateProduct(BasketProductCreationModel model)
         {
-            var response = _basketProductService.AddBasketProduct(model, CurrentUser());
+            var response = _basketProductService.AddBasketProductByModel(model, CurrentUser());
             if (!response.Successful())
             {
                 AddModelStateErrors(response);

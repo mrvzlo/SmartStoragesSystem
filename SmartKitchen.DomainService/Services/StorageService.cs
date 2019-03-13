@@ -26,10 +26,10 @@ namespace SmartKitchen.DomainService.Services
             _cellService = cellService;
         }
 
-        public List<StorageDisplayModel> GetStoragesWithDescriptionByOwnerEmail(string email)
+        public IQueryable<StorageDisplayModel> GetStoragesWithDescriptionByOwnerEmail(string email)
         {
             var person = _personRepository.GetPersonByEmail(email);
-            return Mapper.Map<List<StorageDisplayModel>>(person.Storages);
+            return Mapper.Map<IQueryable<StorageDisplayModel>>(person.Storages);
         }
 
         public void DeleteStorageById(int id, string email)
@@ -69,14 +69,14 @@ namespace SmartKitchen.DomainService.Services
             return response;
         }
 
-        public bool UpdateStorageName(string name, int id, string email)
+        public bool UpdateStorageName(NameCreationModel model, int id, string email)
         {
-            name = name.Trim();
+            model.Name = model.Name.Trim();
             var storage = _storageRepository.GetStorageById(id);
             var personId = _personRepository.GetPersonByEmail(email).Id;
-            if (storage.PersonId != personId || name == storage.Name) return false;
-            if (_storageRepository.GetStorageByNameAndOwner(name, personId) != null) return false;
-            storage.Name = name;
+            if (storage.PersonId != personId || model.Name == storage.Name) return false;
+            if (_storageRepository.GetStorageByNameAndOwner(model.Name, personId) != null) return false;
+            storage.Name = model.Name;
             _storageRepository.AddOrUpdateStorage(storage);
             return true;
         }

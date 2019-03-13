@@ -18,6 +18,21 @@ var StorageViewJs = (function () {
         basketNameInputUpd();
     };
 
+    var arrayOfCell = function() {
+        var array = [];
+        var table = $(".table")[0];
+        for (var i = 1; i < table.rows.length; i++) {
+            var row = table.rows[i];
+            var id = row.id;
+            if (id > 0) {
+                var name = $("#name_" + id);
+                var marked = name.hasClass("font-weight-bold");
+                if (marked) array.push(id);
+            }
+        }
+        return array;
+    }
+
     var basketNameInputUpd = function () {
         var selected = $("#basket option:selected").val();
         if (selected != 0) $("#basketBox").hide();

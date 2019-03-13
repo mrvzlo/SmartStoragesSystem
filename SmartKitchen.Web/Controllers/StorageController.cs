@@ -79,8 +79,11 @@ namespace SmartKitchen.Web.Controllers
         }
 
         [HttpPost]
-        public bool UpdateName(string name, int id) => 
-            _storageService.UpdateStorageName(name, id, CurrentUser());
+        public bool UpdateName(string name, int id)
+        {
+            var model = new NameCreationModel(name);
+            return ModelState.IsValid && _storageService.UpdateStorageName(model, id, CurrentUser());
+        }
 
         #endregion
 
@@ -134,13 +137,7 @@ namespace SmartKitchen.Web.Controllers
         #endregion
 
         #region Cell
-
-        /*[HttpPost]
-        public JsonResult MoveCellsToBasket(List<int> cells)
-        {
-
-        }*/
-
+        
         [HttpPost]
         public void SetAmount(int cell, int amount)
         {
