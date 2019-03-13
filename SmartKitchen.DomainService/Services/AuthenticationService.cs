@@ -74,7 +74,7 @@ namespace SmartKitchen.DomainService.Services
                 PersonId = personId,
                 TypeId = firstType.Id
             };
-            _storageRepository.AddStorage(initialStorage);
+            _storageRepository.AddOrUpdateStorage(initialStorage);
         }
     }
 }

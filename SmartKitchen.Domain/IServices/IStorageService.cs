@@ -11,5 +11,6 @@ namespace SmartKitchen.Domain.IServices
         void DeleteStorageById(int id, string email);
         StorageDisplayModel GetStorageDescriptionById(int id, string email);
         ItemCreationResponse AddStorage(StorageCreationModel model, string email);
+        bool UpdateStorageName(string name, int id, string email);
     }
 }

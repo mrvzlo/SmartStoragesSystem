@@ -205,6 +205,7 @@
     <Content Include="Content\images\8.png" />
     <Content Include="Content\images\add.png" />
     <Content Include="Content\images\copy.png" />
+    <Content Include="Content\images\edit.png" />
     <Content Include="Content\images\options.png" />
     <Content Include="Content\images\basket.png" />
     <Content Include="Content\images\guide.png" />
@@ -396,6 +397,7 @@
     <Content Include="Views\Product\_ProductGrid.cshtml" />
     <Content Include="Views\Category\_CategoryGrid.cshtml" />
     <Content Include="Views\Storage\_CreateTypeForm.cshtml" />
+    <Content Include="Views\Storage\_UpdateStorageName.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

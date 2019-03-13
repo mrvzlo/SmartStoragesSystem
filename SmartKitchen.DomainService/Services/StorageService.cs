@@ -63,10 +63,22 @@ namespace SmartKitchen.DomainService.Services
                 PersonId = person.Id,
                 TypeId = model.TypeId
             };
-            _storageRepository.AddStorage(storage);
+            _storageRepository.AddOrUpdateStorage(storage);
             response.AddedId = storage.Id;
             response.AddedGroupId = storage.TypeId;
             return response;
+        }
+
+        public bool UpdateStorageName(string name, int id, string email)
+        {
+            name = name.Trim();
+            var storage = _storageRepository.GetStorageById(id);
+            var personId = _personRepository.GetPersonByEmail(email).Id;
+            if (storage.PersonId != personId || name == storage.Name) return false;
+            if (_storageRepository.GetStorageByNameAndOwner(name, personId) != null) return false;
+            storage.Name = name;
+            _storageRepository.AddOrUpdateStorage(storage);
+            return true;
         }
     }
 }

@@ -78,6 +78,10 @@ namespace SmartKitchen.Web.Controllers
             return View(query.ToList());
         }
 
+        [HttpPost]
+        public bool UpdateName(string name, int id) => 
+            _storageService.UpdateStorageName(name, id, CurrentUser());
+
         #endregion
 
         #region Types CD

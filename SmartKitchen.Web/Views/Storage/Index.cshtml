@@ -9,9 +9,10 @@
             <div class="storage row justify-content-between" style="background-color: #@item.Type.Background">
                 @{ var filename = item.Type.Id + ".png";}
                 <img class="rowicon" src="~/Content/images/@filename"/>
-                <div class="col h4 m-0">
+                <div class="col h4 m-0" id="name_@item.Id">
                     @item.Name
                 </div>
+                <img class="rowicon" src="~/Content/images/edit.png" onclick="StorageIndexJs.showModal(@item.Id)" data-toggle="modal" data-target="#StorageNameModal"/>
                 <img class="rowicon" src="~/Content/images/remove.svg" onclick="StorageIndexJs.remove('@item.Name', @item.Id)"/>
             </div>
         </a>
@@ -23,13 +24,15 @@
         </div>
     </a>
 </div>
+@Html.Partial("_UpdateStorageName")
 @section scripts
 {
     @Scripts.Render("~/js/storageIndex")
     <script>
         $(function () {
             StorageIndexJs.initialize({
-                removeUrl: '@Url.Action("Delete", "Storage")/'
+                removeUrl: '@Url.Action("Delete", "Storage")/',
+                updateUrl: '@Url.Action("UpdateName","Storage")/'
             });
         });
     </script>

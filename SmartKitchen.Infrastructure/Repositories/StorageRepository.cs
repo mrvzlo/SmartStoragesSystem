@@ -13,7 +13,7 @@ namespace SmartKitchen.Infrastructure.Repositories
         public StorageRepository(AppDbContext dbContext) =>
             _dbContext = dbContext;
 
-        public void AddStorage(Storage storage) =>
+        public void AddOrUpdateStorage(Storage storage) =>
             _dbContext.InsertOrUpdate(storage);
 
         public Storage GetStorageById(int id) =>
@@ -23,7 +23,7 @@ namespace SmartKitchen.Infrastructure.Repositories
             _dbContext.Delete(storage);
 
         public Storage GetStorageByNameAndOwner(string name, int owner) =>
-            _dbContext.Storages.FirstOrDefault(x => x.PersonId == owner && x.Name.Equals(name.Trim(), StringComparison.OrdinalIgnoreCase));
+            _dbContext.Storages.FirstOrDefault(x => x.PersonId == owner && x.Name.Equals(name));
 
         public void ReplaceType(int fromId, int toId) =>
             _dbContext.Storages.Where(x => x.TypeId == fromId).Update(x => new Storage { TypeId = toId });
