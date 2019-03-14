@@ -41,6 +41,10 @@ namespace SmartKitchen.Web
                 "~/Scripts/pages/basket-index.js"
             ));
 
+            bundles.Add(new ScriptBundle("~/js/basketView").Include(
+                "~/Scripts/pages/basket-view.js"
+            ));
+
             bundles.Add(new ScriptBundle("~/js/categoryIndex").Include(
                 "~/Scripts/pages/category-index.js"
             ));

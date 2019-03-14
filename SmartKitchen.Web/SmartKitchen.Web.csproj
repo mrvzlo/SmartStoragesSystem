@@ -337,6 +337,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\MvcGrid\mvc-grid.js" />
     <Content Include="Scripts\pages\account-index.js" />
+    <Content Include="Scripts\pages\basket-view.js" />
     <Content Include="Scripts\pages\datetime-picker.js" />
     <Content Include="Scripts\pages\category-index.js" />
     <Content Include="Scripts\pages\form-helper.js" />
@@ -376,8 +377,8 @@
     <Content Include="Views\Storage\CreateType.cshtml" />
     <Content Include="Views\Storage\View.cshtml" />
     <Content Include="Views\Storage\_AddProduct.cshtml" />
-    <Content Include="Views\Storage\_DatePicker.cshtml" />
-    <Content Include="Views\Storage\_AmountPicker.cshtml" />
+    <Content Include="Views\Shared\_DatePicker.cshtml" />
+    <Content Include="Views\Shared\_AmountPicker.cshtml" />
     <Content Include="Views\Shared\_Admin.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />
     <Content Include="Views\Basket\Index.cshtml" />
@@ -391,7 +392,7 @@
     <Content Include="Views\Error\Forbidden.cshtml" />
     <Content Include="Views\Basket\_Description.cshtml" />
     <Content Include="Views\Storage\_ShowAllCells.cshtml" />
-    <Content Include="Views\Basket\_ProductDescription.cshtml" />
+    <Content Include="Views\Basket\_ProductGrid.cshtml" />
     <Content Include="Views\Shared\MvcGrid\_Pager.cshtml" />
     <Content Include="Views\Shared\MvcGrid\_Grid.cshtml" />
     <Content Include="Views\Product\_ProductGrid.cshtml" />

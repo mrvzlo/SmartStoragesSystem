@@ -5,7 +5,7 @@
 }
 @Html.Partial("_AddNew", new NameCreationModel())
 <div class="row justify-content-center m-0">
-    <div class="storage-new mb-2 col-lg-7 p-0">
+    <div class="bg-main-light mb-2 col-lg-7 p-0">
         @Html.AjaxGrid(Url.Action("CategoryGrid", Model))
     </div>
 </div>

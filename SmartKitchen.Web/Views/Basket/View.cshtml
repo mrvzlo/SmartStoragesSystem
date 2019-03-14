@@ -5,27 +5,33 @@
 <div class="h4 text-center">@Model.Name</div>
 @if (Request.IsAuthenticated)
 {
-    Html.RenderAction("CreateProduct", new {basket = Model.Id});
+    Html.RenderAction("CreateProduct", new { basket = Model.Id });
 }
-<div class="text-center table-responsive m-0 big-border">
+<div class="text-center table-responsive m-0 bg-main-light">
     @if (Model.BasketProducts.Count == 0)
-    {
-        <div class="alert m-0 h3">This basket is empty now</div>
-    }
+    {<div class="alert m-0 h3">This basket is empty now</div>}
     else
-    {
-        <table class="w-100 table table-hover p-0 m-0" id="table">
-            <tr>
-                <th style="width: 25%" onclick="order(1)">Name</th>
-                <th style="width: 25%" onclick="order(2)">Safety</th>
-                <th style="width: 25%" onclick="order(3)">Amount</th>
-                <th style="width: 25%" onclick="order(4)">Price</th>
-            </tr>
-            @foreach (var i in Model.BasketProducts)
-            {
-                Html.RenderAction("Description",new {id=i.Id});
-            }
-        </table>
-    }
+    {@Html.AjaxGrid(Url.Action("BasketProductGrid", new { id = Model.Id }))}
 </div>
-<button class="btn btn-success float-right m-2 @(Model.BasketProducts.Any() ? "" : "disabled")">Finish and close</button>
+<button class="btn btn-success float-right m-2 px-3 @(Model.BasketProducts.Any() ? "" : "disabled")">Finish and close</button>
+@Html.Partial("_AmountPicker")
+@Html.Partial("_DatePicker")
+@Scripts.Render("~/MvcGrid")
+@section scripts{
+    @Scripts.Render("~/js/datetimePicker")
+    @Scripts.Render("~/js/amountPicker")
+    @Scripts.Render("~/js/basketView")
+    <script>
+        $(function () {
+            $(function () {
+                BasketViewJs.initialize({updUrl: '@Url.Action("MarkProductBought", "Basket")'});
+                DatetimePickerJs.initialize({url: '@Url.Action("DateUpdate", "Basket")'});
+                AmountPickerJs.initialize({
+                    deleteUrl: '@Url.Action("RemoveBasketProduct", "Basket")?id=',
+                    setUrl: '@Url.Action("SetAmount", "Basket")?id='
+                });
+            });
+        });
+
+    </script>
+}

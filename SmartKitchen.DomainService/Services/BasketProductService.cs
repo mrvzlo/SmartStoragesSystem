@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using AutoMapper.QueryableExtensions;
 using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Enitities;
@@ -53,23 +56,14 @@ namespace SmartKitchen.DomainService.Services
 
         public ItemCreationResponse AddBasketProduct(Storage storage, Basket basket, Person person, int cellId)
         {
-            var response = new ItemCreationResponse();
-            if (basket == null || storage == null)
-            {
-                response.AddError(GeneralError.ItemNotFound);
-                return response;
-            }
-            if (basket.PersonId != person.Id || storage.PersonId != person.Id)
-            {
-                response.AddError(GeneralError.AccessDenied);
-                return response;
-            }
+            var response = (ItemCreationResponse)BasketBelongsToPerson(basket, person);
+            if (!response.Successful()) return response;
+            response = (ItemCreationResponse)StorageBelongsToPerson(storage, person);
+            if (!response.Successful()) return response;
+
             var basketProduct = _basketProductRepository.GetBasketProductByBasketAndCell(basket.Id, cellId);
             if (basketProduct != null)
-            {
-                response.AddError(GeneralError.NameIsAlreadyTaken);
-                return response;
-            }
+                return (ItemCreationResponse)response.AddError(GeneralError.NameIsAlreadyTaken);
 
             basketProduct = new BasketProduct
             {
@@ -77,19 +71,87 @@ namespace SmartKitchen.DomainService.Services
                 CellId = cellId,
                 BestBefore = null
             };
-            _basketProductRepository.AddBasketProduct(basketProduct);
+            _basketProductRepository.AddOrUpdateBasketProduct(basketProduct);
             response.AddedGroupId = basketProduct.BasketId;
             response.AddedId = basketProduct.Id;
             return response;
         }
 
-        public BasketProductDisplayModel GetBasketProductDisplayModelById(int id, string email)
+        public IQueryable<BasketProductDisplayModel> GetBasketProductDisplayModelByBasket(int basketId, string email)
         {
-            var basketProduct = _basketProductRepository.GetBasketProductById(id);
-            var basket = _basketRepository.GetBasketById(basketProduct.BasketId);
-            int personId = _personRepository.GetPersonByEmail(email).Id;
-            if (basket == null || basket.PersonId != personId) return null;
-            return Mapper.Map<BasketProductDisplayModel>(basketProduct);
+            var basket = _basketRepository.GetBasketById(basketId);
+            var person = _personRepository.GetPersonByEmail(email);
+            return BasketBelongsToPerson(basket, person).Successful() 
+                ? basket.BasketProducts.AsQueryable().ProjectTo<BasketProductDisplayModel>(MapperConfig) 
+                : null;
+        }
+
+        public ServiceResponse MarkProductBought(int id, string email)
+        {
+            var product = _basketProductRepository.GetBasketProductById(id);
+            var basket = _basketRepository.GetBasketById(product.BasketId);
+            var person = _personRepository.GetPersonByEmail(email);
+            var response = ProductBelongsToPerson(product, person, basket);
+            if (!response.Successful()) return response;
+
+            product.Bought = !product.Bought;
+            _basketProductRepository.AddOrUpdateBasketProduct(product);
+            return response;
+        }
+
+        public ServiceResponse UpdateProductAmount(int id, int value, string email)
+        {
+            var product = _basketProductRepository.GetBasketProductById(id);
+            var basket = _basketRepository.GetBasketById(product.BasketId);
+            var person = _personRepository.GetPersonByEmail(email);
+            var response = ProductBelongsToPerson(product, person, basket);
+            if (!response.Successful()) return response;
+
+            if (value < 0) value = 0;
+            if (value == 0)
+            {
+                product.BestBefore = null;
+                _basketProductRepository.AddOrUpdateBasketProduct(product);
+            }
+            return response;
+        }
+
+        public ServiceResponse UpdateProductBestBefore(int id, DateTime? value, string email)
+        {
+            var product = _basketProductRepository.GetBasketProductById(id);
+            var basket = _basketRepository.GetBasketById(product.BasketId);
+            var person = _personRepository.GetPersonByEmail(email);
+            var response = ProductBelongsToPerson(product, person, basket);
+            if (!response.Successful()) return response;
+
+            product.BestBefore = value;
+            _basketProductRepository.AddOrUpdateBasketProduct(product);
+            return response;
+        }
+
+        public ServiceResponse UpdateProductPrice(int id, int value, string email)
+        {
+            var product = _basketProductRepository.GetBasketProductById(id);
+            var basket = _basketRepository.GetBasketById(product.BasketId);
+            var person = _personRepository.GetPersonByEmail(email);
+            var response = ProductBelongsToPerson(product, person, basket);
+            if (!response.Successful()) return response;
+
+            product.Amount = value;
+            _basketProductRepository.AddOrUpdateBasketProduct(product);
+            return response;
+        }
+
+        public ServiceResponse DeleteBasketProductByIdAndEmail(int id, string email)
+        {
+            var product = _basketProductRepository.GetBasketProductById(id);
+            var basket = _basketRepository.GetBasketById(product.BasketId);
+            var person = _personRepository.GetPersonByEmail(email);
+            var response = ProductBelongsToPerson(product, person, basket);
+            if (!response.Successful()) return response;
+
+            _basketProductRepository.DeleteBasketProduct(product);
+            return response;
         }
     }
 }

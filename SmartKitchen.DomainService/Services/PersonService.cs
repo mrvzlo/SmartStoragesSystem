@@ -1,7 +1,7 @@
-﻿using System;
-using SmartKitchen.Domain.Enitities;
+﻿using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.IRepositories;
 using SmartKitchen.Domain.IServices;
+using System;
 
 namespace SmartKitchen.DomainService.Services
 {

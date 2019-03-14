@@ -4,7 +4,7 @@
 }
 @Html.Partial("_AddNew", new NameCreationModel())
 <div class="row justify-content-center m-0">
-    @using (Html.BeginForm("SaveChanges", "Product", FormMethod.Post, new { id = "f", @class = "storage-new mb-2 col-lg-7 p-0" }))
+    @using (Html.BeginForm("SaveChanges", "Product", FormMethod.Post, new { id = "f", @class = "bg-main-light mb-2 col-lg-7 p-0" }))
     {
         @Html.AjaxGrid(Url.Action("ProductGrid"))
     }

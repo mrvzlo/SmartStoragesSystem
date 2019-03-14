@@ -35,15 +35,12 @@ namespace SmartKitchen.DomainService.Services
             var response = new ItemCreationResponse();
             model.Name = model.Name.Trim();
             if (GetProductByName(model.Name) != null)
-            {
-                response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
-                return response;
-            }
+                return (ItemCreationResponse) response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
 
-            var primarCategory = _categoryRepository.GetCategoryByName("").Id;
+            var primalCategory = _categoryRepository.GetCategoryByName("").Id;
             var product = new Product
             {
-                CategoryId = primarCategory,
+                CategoryId = primalCategory,
                 Name = TitledString(model.Name)
             };
             _productRepository.AddProduct(product);

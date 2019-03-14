@@ -12,7 +12,7 @@ namespace SmartKitchen.Infrastructure.Repositories
         public BasketProductRepository(AppDbContext dbContext) =>
             _dbContext = dbContext;
 
-        public void AddBasketProduct(BasketProduct basketProduct) =>
+        public void AddOrUpdateBasketProduct(BasketProduct basketProduct) =>
             _dbContext.InsertOrUpdate(basketProduct);
 
         public BasketProduct GetBasketProductById(int id) =>
@@ -23,5 +23,8 @@ namespace SmartKitchen.Infrastructure.Repositories
 
         public BasketProduct GetBasketProductByBasketAndCell(int basket, int cell) =>
             _dbContext.BasketProducts.SingleOrDefault(x => x.BasketId == basket && x.CellId == cell);
+
+        public void DeleteBasketProduct(BasketProduct basketProduct) =>
+            _dbContext.BasketProducts.Remove(basketProduct);
     }
 }

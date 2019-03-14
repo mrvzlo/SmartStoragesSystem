@@ -6,7 +6,7 @@ var AmountPickerJs = (function () {
     var initialize = function (options) {
 
         var defaults = {
-            cellId: null,
+            productId: null,
             deleteUrl: null,
             setUrl: null
         };
@@ -27,7 +27,7 @@ var AmountPickerJs = (function () {
 
     var changeProductAmount = function () {
         var amount = $("#AmountValue").val()*1000;
-        var url = settings.setUrl + settings.cellId + "&amount=" + amount;
+        var url = settings.setUrl + settings.productId + "&amount=" + amount;
         $.post(url,
             function () {
                 new MvcGrid(document.querySelector(".mvc-grid")).reload();
@@ -35,9 +35,9 @@ var AmountPickerJs = (function () {
     }
 
     var removeProduct = function() {
-        var name = $("#name_" + settings.cellId).text();
-        if (confirm(name + " cell will be completely removed")) {
-            var url = settings.deleteUrl + settings.cellId;
+        var name = $("#name_" + settings.productId).text();
+        if (confirm(name + " will be completely removed")) {
+            var url = settings.deleteUrl + settings.productId;
             $.post(url,
                 function () {
                     new MvcGrid(document.querySelector(".mvc-grid")).reload();
@@ -46,7 +46,7 @@ var AmountPickerJs = (function () {
     }
 
     var showAmountPicker = function(product, amount) {
-        settings.cellId = product;
+        settings.productId = product;
         amount /= 1000;
         var name = $("#name_" + product).text();
         $('#AmountModalName').text("Choose amount of " + name + " in kg");

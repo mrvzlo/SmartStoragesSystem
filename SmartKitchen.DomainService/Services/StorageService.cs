@@ -35,18 +35,18 @@ namespace SmartKitchen.DomainService.Services
 
         public void DeleteStorageById(int id, string email)
         {
-            var person = _personRepository.GetPersonByEmail(email).Id;
+            var person = _personRepository.GetPersonByEmail(email);
             var storage = _storageRepository.GetStorageById(id);
-            if (storage.PersonId != person) return;
+            if (!StorageBelongsToPerson(storage,person).Successful()) return;
             foreach (var c in storage.Cells) _cellService.DeleteCell(c);
             _storageRepository.DeleteStorage(storage);
         }
 
         public StorageDisplayModel GetStorageDescriptionById(int id, string email)
         {
+            var person = _personRepository.GetPersonByEmail(email);
             var storage = _storageRepository.GetStorageById(id);
-            var personId = _personRepository.GetPersonByEmail(email).Id;
-            return storage == null || storage.PersonId != personId ? null : Mapper.Map<StorageDisplayModel>(storage);
+            return StorageBelongsToPerson(storage, person).Successful() ? Mapper.Map<StorageDisplayModel>(storage) : null;
         }
 
         public ItemCreationResponse AddStorage(StorageCreationModel model, string email)
@@ -55,9 +55,10 @@ namespace SmartKitchen.DomainService.Services
             model.Name = model.Name.Trim();
             var person = _personRepository.GetPersonByEmail(email);
             var exists = person.Storages.Any(x => x.Name.Equals(model.Name, StringComparison.OrdinalIgnoreCase));
-            if (exists) response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
-            if (!_storageTypeService.ExistsWithId(model.TypeId)) response.AddError(GeneralError.ItemNotFound, nameof(model.TypeId));
-            if (!response.Successful()) return response;
+            if (exists)
+                return (ItemCreationResponse)response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
+            if (!_storageTypeService.ExistsWithId(model.TypeId))
+                return (ItemCreationResponse)response.AddError(GeneralError.ItemNotFound, nameof(model.TypeId));
             var storage = new Storage
             {
                 Name = model.Name,
@@ -74,9 +75,9 @@ namespace SmartKitchen.DomainService.Services
         {
             model.Name = model.Name.Trim();
             var storage = _storageRepository.GetStorageById(id);
-            var personId = _personRepository.GetPersonByEmail(email).Id;
-            if (storage.PersonId != personId || model.Name == storage.Name) return false;
-            if (_storageRepository.GetStorageByNameAndOwner(model.Name, personId) != null) return false;
+            var person = _personRepository.GetPersonByEmail(email);
+            if (!StorageBelongsToPerson(storage, person).Successful()) return false;
+            if (_storageRepository.GetStorageByNameAndOwner(model.Name, person.Id) != null) return false;
             storage.Name = model.Name;
             _storageRepository.AddOrUpdateStorage(storage);
             return true;

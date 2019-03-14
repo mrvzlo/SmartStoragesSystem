@@ -12,6 +12,10 @@ namespace SmartKitchen.Domain.Responses
 
         public bool Successful() => !Errors.Any();
 
-        public void AddError(Enum error, string key = "") => Errors.Add(new ModelStateError(key, error));
+        public ServiceResponse AddError(Enum error, string key = "")
+        {
+            Errors.Add(new ModelStateError(key, error));
+            return this;
+        }
     }
 }

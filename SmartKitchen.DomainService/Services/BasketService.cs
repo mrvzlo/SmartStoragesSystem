@@ -43,10 +43,7 @@ namespace SmartKitchen.DomainService.Services
             var person = _personRepository.GetPersonByEmail(email);
             var exists = person.Baskets.Any(x => x.Name.Equals(model.Name, StringComparison.OrdinalIgnoreCase));
             if (exists)
-            {
-                response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
-                return response;
-            }
+                return (ItemCreationResponse)response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
             var basket = new Basket
             {
                 CreationDate = DateTime.Now,
@@ -61,8 +58,10 @@ namespace SmartKitchen.DomainService.Services
         public BasketDisplayModel LockBasket(int id, string email)
         {
             var basket = _basketRepository.GetBasketById(id);
-            var personId = _personRepository.GetPersonByEmail(email).Id;
-            if (basket == null || basket.PersonId != personId) return null;
+            var person = _personRepository.GetPersonByEmail(email);
+            var response = BasketBelongsToPerson(basket, person);
+            if (!response.Successful()) return null;
+
             basket.Closed = true;
             _basketRepository.AddOrUpdateBasket(basket);
             return Mapper.Map<BasketDisplayModel>(basket);
@@ -71,8 +70,10 @@ namespace SmartKitchen.DomainService.Services
         public bool DeleteBasket(int id, string email)
         {
             var basket = _basketRepository.GetBasketById(id);
-            var personId = _personRepository.GetPersonByEmail(email).Id;
-            if (basket == null || basket.PersonId != personId) return false;
+            var person = _personRepository.GetPersonByEmail(email);
+            var response = BasketBelongsToPerson(basket, person);
+            if (!response.Successful()) return false;
+
             _basketProductRepository.DeleteBasketProductRange(basket.BasketProducts);
             _basketRepository.DeleteBasket(basket);
             return true;

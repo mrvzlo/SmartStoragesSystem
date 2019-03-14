@@ -1,8 +1,9 @@
-﻿.bought {
-    text-decoration: line-through;
+﻿.bought:before {
+    content: "✔";
 }
 
-td{
+td {
+    border-top: solid 1px #102 !important;
     vertical-align: inherit !important;
 }
 
@@ -16,16 +17,20 @@ td{
     font-size: 1.4rem;
 }
 
-.storage-new {
-    background-color: lighten($main, 60%);
-}
-
 .w-40 {
     width: 40% !important;
 }
 
+.w-30 {
+    width: 30% !important;
+}
+
 .w-20 {
     width: 20% !important;
+}
+
+.w-10 {
+    width: 10% !important;
 }
 
 .mvc-grid-pager button {
@@ -74,6 +79,6 @@ td{
     color: darken($main, 20%);
 }
 
-.mvc-grid{
+.mvc-grid {
     padding: 0;
 }

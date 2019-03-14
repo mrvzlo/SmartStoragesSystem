@@ -40,10 +40,7 @@ namespace SmartKitchen.DomainService.Services
             var response = new ItemCreationResponse();
             model.Name = model.Name.Trim();
             if (!_storageTypeRepository.NameIsUnique(model.Name, model.Id))
-            {
-                response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
-                return response;
-            }
+                return (ItemCreationResponse) response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
 
             var oldType = _storageTypeRepository.GetStorageTypeById(model.Id);
             if (oldType != null)

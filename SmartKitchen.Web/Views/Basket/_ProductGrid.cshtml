@@ -1,0 +1,20 @@
+﻿@using SmartKitchen.Domain.DisplayModels
+@model IQueryable<BasketProductDisplayModel>
+
+@Html.Grid(Model).Build(c =>{
+    c.Add(x => x.ProductName).RenderedAs(NameHelper).Titled("Name").Css("w-30");
+    c.Add(x => x.BestBefore).Titled("Safety").Css("w-20");
+    c.Add(x => x.Amount).Titled("Amount").Css("w-20");
+    c.Add(x => x.Price).Titled("Price").Css("w-20");
+    c.Add(x => x.Id).RenderedAs(RemoveHelper).Css("w-10");
+}).Sortable().Css("table-borderless w-100 table p-0 m-0 table-hover").RowAttributed(model => new { id = model.Id })
+
+@helper NameHelper(BasketProductDisplayModel item)
+{
+    <div id="name_@item.Id" class="@(item.Bought ? "bought" : "") pointer" onclick="BasketViewJs.markBought(@item.Id)">@item.ProductName</div>
+}
+
+@helper RemoveHelper(BasketProductDisplayModel item)
+{
+    <img class="rowicon" onclick="AmountPickerJs.remove(@item.Id)" src="~/Content/images/remove.svg"/>
+}

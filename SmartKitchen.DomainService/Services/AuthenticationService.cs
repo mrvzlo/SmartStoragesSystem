@@ -1,10 +1,10 @@
-﻿using System;
-using SmartKitchen.Domain.CreationModels;
+﻿using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Enums;
 using SmartKitchen.Domain.IRepositories;
 using SmartKitchen.Domain.IServices;
 using SmartKitchen.Domain.Responses;
+using System;
 using System.Linq;
 using System.Web.Helpers;
 
@@ -23,7 +23,7 @@ namespace SmartKitchen.DomainService.Services
             _storageTypeRepository = storageTypeRepository;
         }
 
-        public Person GetPersonByEmail(string email) => 
+        public Person GetPersonByEmail(string email) =>
             _personRepository.GetPersonByEmail(email);
 
         public AuthenticationResponse SignIn(SignInModel model)
@@ -32,12 +32,9 @@ namespace SmartKitchen.DomainService.Services
             var person = GetPersonByEmail(model.Email);
 
             if (person == null || !Crypto.VerifyHashedPassword(person.Password, model.Password))
-                response.AddError(AuthenticationError.EmailOrPasswordIsIncorrect);
-            else
-            {
-                response.Email = person.Email;
-                response.Role = person.Role;
-            }
+                return (AuthenticationResponse)response.AddError(AuthenticationError.EmailOrPasswordIsIncorrect);
+            response.Email = person.Email;
+            response.Role = person.Role;
             return response;
         }
         public AuthenticationResponse SignUp(SignUpModel model)
@@ -46,10 +43,9 @@ namespace SmartKitchen.DomainService.Services
             var personByEmail = _personRepository.GetPersonByName(model.Username);
             var personByName = GetPersonByEmail(model.Email);
             if (personByEmail != null)
-                response.Errors.Add(new ModelStateError(nameof(model.Email), AuthenticationError.ThisEmailIsTaken));
+                return (AuthenticationResponse)response.AddError(AuthenticationError.ThisEmailIsTaken, nameof(model.Email));
             if (personByName != null)
-                response.Errors.Add(new ModelStateError(nameof(model.Username), AuthenticationError.ThisNameIsTaken));
-            if (response.Errors.Any()) return response;
+                return (AuthenticationResponse)response.AddError(AuthenticationError.ThisEmailIsTaken, nameof(model.Username));
             var person = new Person
             {
                 Name = model.Username,

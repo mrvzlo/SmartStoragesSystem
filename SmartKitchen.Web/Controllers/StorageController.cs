@@ -131,7 +131,9 @@ namespace SmartKitchen.Web.Controllers
         [Authorize(Roles = "Admin")]
         public bool RemoveType(int fromId, int toId)
         {
-            return _storageTypeService.ReplaceStorageType(fromId, toId);
+            var result = _storageTypeService.ReplaceStorageType(fromId, toId);
+            if (result) FileHelper.RemoveImage(Server.MapPath("~/Content/images/" + fromId + ".png"));
+            return result;
         }
 
         #endregion
@@ -139,18 +141,12 @@ namespace SmartKitchen.Web.Controllers
         #region Cell
         
         [HttpPost]
-        public void SetAmount(int cell, int amount)
-        {
+        public void SetAmount(int cell, int amount) => 
             _cellService.UpdateCellAmount(cell, amount, CurrentUser());
-        }
 
         [HttpPost]
-        public bool Remove(int cellId)
-        {
-            var response = _cellService.DeleteCellByIdAndEmail(cellId, CurrentUser());
-            if (response.Successful()) FileHelper.RemoveImage(Server.MapPath("~/Content/images/" + cellId + ".png"));
-            return response.Successful();
-        }
+        public bool Remove(int cellId) =>
+            _cellService.DeleteCellByIdAndEmail(cellId, CurrentUser()).Successful();
 
         [HttpPost]
         public void DateUpdate(int cell, string dateStr)

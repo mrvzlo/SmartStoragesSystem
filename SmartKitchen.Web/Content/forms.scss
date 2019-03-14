@@ -8,7 +8,7 @@ label{
     margin: 0;
 }
 
-.big-border, input, .input, .storage, .storage-small, .storage-new, .card, .mvc-grid-pager button {
+.big-border, input, .input, .storage, .storage-small, .bg-main-light, .card, .mvc-grid-pager button {
     border: solid 2px darken($main, 20%);
     border-radius: $border-radius;
 }

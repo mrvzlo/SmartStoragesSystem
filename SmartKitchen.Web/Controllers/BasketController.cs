@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.IServices;
 using System.Linq;
@@ -114,11 +115,38 @@ namespace SmartKitchen.Web.Controllers
             return Redirect(Url.Action("View", new { id = response.AddedGroupId }));
         }
 
-        public ActionResult Description(int id)
+        public PartialViewResult BasketProductGrid(int id)
         {
-            var basketProduct = _basketProductService.GetBasketProductDisplayModelById(id, CurrentUser());
-            if (basketProduct == null) return Redirect(Url.Action("Index"));
-            return PartialView("_ProductDescription", basketProduct);
+            var basketProductList = _basketProductService.GetBasketProductDisplayModelByBasket(id, CurrentUser());
+            return PartialView("_ProductGrid", basketProductList);
+        }
+
+        [HttpPost]
+        public bool MarkProductBought(int id) => 
+            _basketProductService.MarkProductBought(id, CurrentUser()).Successful();
+
+        [HttpPost]
+        public bool RemoveBasketProduct(int id) =>
+            _basketProductService.DeleteBasketProductByIdAndEmail(id, CurrentUser()).Successful();
+
+        [HttpPost]
+        public void SetAmount(int id, int amount) =>
+            _basketProductService.UpdateProductAmount(id, amount, CurrentUser());
+        
+        [HttpPost]
+        public void DateUpdate(int id, string dateStr)
+        {
+            DateTime? newDate;
+            try
+            {
+                newDate = DateTime.ParseExact(dateStr, "d/M/yyyy", CultureInfo.InvariantCulture);
+            }
+            catch (Exception e)
+            {
+                newDate = null;
+            }
+
+            _basketProductService.UpdateProductBestBefore(id, newDate, CurrentUser());
         }
         #endregion
     }

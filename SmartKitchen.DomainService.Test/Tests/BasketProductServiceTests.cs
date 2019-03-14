@@ -132,7 +132,7 @@ namespace SmartKitchen.DomainService.Test.Tests
             basketProductRepMock.Setup(x => x.GetBasketProductById(It.IsAny<int>())).Returns(basketProduct);
 
             var sut = fixture.Create<BasketProductService>();
-            var actual = sut.GetBasketProductDisplayModelById(basketProduct.Id, person.Email);
+            var actual = sut.GetBasketProductDisplayModelByBasket(basketProduct.Id, person.Email);
 
             Assert.NotNull(actual);
             Assert.That(actual, Has.Property(nameof(BasketProductDisplayModel.Id)).EqualTo(basketProduct.Id));

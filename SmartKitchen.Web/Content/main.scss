@@ -9,6 +9,11 @@ $input-btn-padding-x: .5rem;
 @import 'forms.scss';
 @import 'tables.scss';
 
+
+.bg-main-light {
+    background-color: lighten($main, 57%);
+}
+
 pre {
     margin: 0;
     background-color: lighten($info, 50%);

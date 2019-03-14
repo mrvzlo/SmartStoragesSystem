@@ -5,9 +5,10 @@ namespace SmartKitchen.Domain.IRepositories
 {
     public interface IBasketProductRepository
     {
-        void AddBasketProduct(BasketProduct basketProduct);
+        void AddOrUpdateBasketProduct(BasketProduct basketProduct);
         BasketProduct GetBasketProductById(int id);
         void DeleteBasketProductRange(ICollection<BasketProduct> query);
         BasketProduct GetBasketProductByBasketAndCell(int basket, int cell);
+        void DeleteBasketProduct(BasketProduct basketProduct);
     }
 }
