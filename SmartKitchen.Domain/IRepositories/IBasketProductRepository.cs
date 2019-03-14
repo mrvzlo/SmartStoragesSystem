@@ -8,5 +8,6 @@ namespace SmartKitchen.Domain.IRepositories
         void AddBasketProduct(BasketProduct basketProduct);
         BasketProduct GetBasketProductById(int id);
         void DeleteBasketProductRange(ICollection<BasketProduct> query);
+        BasketProduct GetBasketProductByBasketAndCell(int basket, int cell);
     }
 }

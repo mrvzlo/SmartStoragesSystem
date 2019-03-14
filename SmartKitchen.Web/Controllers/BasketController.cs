@@ -46,9 +46,9 @@ namespace SmartKitchen.Web.Controllers
         [HttpPost]
         public JsonResult AddListToBasket(int basket, int storage, string name, List<int> cells)
         {
-            var model = new NameCreationModel(name);
             if (basket == 0)
             {
+                var model = new NameCreationModel(name);
                 if (!ModelState.IsValid) return Json(new { success = false, error = "Name is not valid"}); 
                 var response = _basketService.AddBasket(model, CurrentUser());
                 if (!response.Successful())

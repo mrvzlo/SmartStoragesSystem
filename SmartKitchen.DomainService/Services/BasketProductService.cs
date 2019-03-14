@@ -29,7 +29,6 @@ namespace SmartKitchen.DomainService.Services
 
         public ItemCreationResponse AddBasketProductByModel(BasketProductCreationModel model, string email)
         {
-            var response = new ItemCreationResponse();
             var basket = _basketRepository.GetBasketById(model.Basket);
             var storage = _storageRepository.GetStorageById(model.Storage);
             var person = _personRepository.GetPersonByEmail(email);
@@ -60,14 +59,19 @@ namespace SmartKitchen.DomainService.Services
                 response.AddError(GeneralError.ItemNotFound);
                 return response;
             }
-
             if (basket.PersonId != person.Id || storage.PersonId != person.Id)
             {
                 response.AddError(GeneralError.AccessDenied);
                 return response;
             }
+            var basketProduct = _basketProductRepository.GetBasketProductByBasketAndCell(basket.Id, cellId);
+            if (basketProduct != null)
+            {
+                response.AddError(GeneralError.NameIsAlreadyTaken);
+                return response;
+            }
 
-            var basketProduct = new BasketProduct
+            basketProduct = new BasketProduct
             {
                 BasketId = basket.Id,
                 CellId = cellId,

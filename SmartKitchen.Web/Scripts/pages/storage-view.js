@@ -6,17 +6,35 @@ var StorageViewJs = (function () {
     var initialize = function (options) {
 
         var defaults = {
-            removeUrl: null
+            sendUrl: null,
+            storageId: 0
         };
-        new MvcGrid(document.querySelector('.mvc-grid')).reload();
+        new MvcGrid(document.querySelector(".mvc-grid")).reload();
         settings = $.extend(true, defaults, options);
         $(document).on("click", "#btnMark0", function () { markGroup(0) });
         $(document).on("click", "#btnMark1", function () { markGroup(1) });
         $(document).on("click", "#btnMark2", function () { markGroup(2) });
         $(document).on("click", "#btnMark3", function () { markGroup(3) });
         $(document).on("change", "#basket", basketNameInputUpd);
+        $(document).on("click", "#sendToBasket", sendToBasket);
         basketNameInputUpd();
     };
+
+    var sendToBasket = function () {
+        $.post({
+            url: settings.sendUrl,
+            data: {
+                storage: settings.storageId,
+                basket: $("#basket").val(),
+                name: $("#basketName").val(),
+                cells: arrayOfCell()
+            },
+            success: function(data) {
+                if (data.success) window.location = data.url;
+                else $("#toBasketError").text(data.error);
+            }
+        });
+    }
 
     var arrayOfCell = function() {
         var array = [];

@@ -15,11 +15,13 @@ namespace SmartKitchen.DomainService.Services
     {
         private readonly IPersonRepository _personRepository;
         private readonly IBasketRepository _basketRepository;
+        private readonly IBasketProductRepository _basketProductRepository;
 
-        public BasketService(IBasketRepository basketRepository, IPersonRepository personRepository)
+        public BasketService(IBasketRepository basketRepository, IPersonRepository personRepository, IBasketProductRepository basketProductRepository)
         {
             _basketRepository = basketRepository;
             _personRepository = personRepository;
+            _basketProductRepository = basketProductRepository;
         }
 
         public BasketDisplayModel GetBasketById(int id, string email) => 
@@ -71,6 +73,7 @@ namespace SmartKitchen.DomainService.Services
             var basket = _basketRepository.GetBasketById(id);
             var personId = _personRepository.GetPersonByEmail(email).Id;
             if (basket == null || basket.PersonId != personId) return false;
+            _basketProductRepository.DeleteBasketProductRange(basket.BasketProducts);
             _basketRepository.DeleteBasket(basket);
             return true;
         }

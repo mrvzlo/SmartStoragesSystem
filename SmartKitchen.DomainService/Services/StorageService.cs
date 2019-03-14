@@ -8,6 +8,7 @@ using SmartKitchen.Domain.IServices;
 using SmartKitchen.Domain.Responses;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper.QueryableExtensions;
 
 namespace SmartKitchen.DomainService.Services
 {
@@ -29,7 +30,7 @@ namespace SmartKitchen.DomainService.Services
         public IQueryable<StorageDisplayModel> GetStoragesWithDescriptionByOwnerEmail(string email)
         {
             var person = _personRepository.GetPersonByEmail(email);
-            return Mapper.Map<IQueryable<StorageDisplayModel>>(person.Storages);
+            return person.Storages.AsQueryable().ProjectTo<StorageDisplayModel>(MapperConfig);
         }
 
         public void DeleteStorageById(int id, string email)
