@@ -42,8 +42,7 @@ namespace SmartKitchen.DomainService.Services
             var response = new ItemCreationResponse();
             var person = _personRepository.GetPersonByEmail(email);
             var exists = person.Baskets.Any(x => x.Name.Equals(model.Name, StringComparison.OrdinalIgnoreCase));
-            if (exists)
-                return (ItemCreationResponse)response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
+            if (exists) return response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
             var basket = new Basket
             {
                 CreationDate = DateTime.Now,

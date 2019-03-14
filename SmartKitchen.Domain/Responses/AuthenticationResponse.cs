@@ -6,5 +6,13 @@ namespace SmartKitchen.Domain.Responses
     {
         public string Email;
         public Role Role;
+
+        public AuthenticationResponse() { }
+
+        public AuthenticationResponse(ServiceResponse response)
+        {
+            Role = Role.Simple;
+            Email = "";
+        }
     }
 }

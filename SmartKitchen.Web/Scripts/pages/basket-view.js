@@ -22,8 +22,7 @@ var BasketViewJs = (function () {
 
     return {
         initialize: initialize,
-        markBought: markBought,
-        remove: remove
+        markBought: markBought
     };
 
 })();

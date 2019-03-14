@@ -44,9 +44,10 @@ namespace SmartKitchen.DomainService.Services
 
         public ItemCreationResponse AddCell(CellCreationModel model, string email)
         {
+            var response = new ItemCreationResponse();
             var storage = _storageRepository.GetStorageById(model.Storage);
             var person = _personRepository.GetPersonByEmail(email);
-            var response = (ItemCreationResponse)StorageBelongsToPerson(storage, person);
+            response = (ItemCreationResponse) StorageBelongsToPerson(storage, person);
             if (!response.Successful()) return response;
 
             var productId = _productService.GetOrAddAndGet(model.Product).Id;

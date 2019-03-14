@@ -12,7 +12,7 @@ var BasketIndexJs = (function () {
 
     var lock = function(id, name) {
         event.stopPropagation();
-        if (confirm(name + " will be locked")) {
+        if (confirm(name + " will be locked but products will not be send to storages")) {
             var url = settings.lockUrl + id;
             $.post(url,
                 function (data) {

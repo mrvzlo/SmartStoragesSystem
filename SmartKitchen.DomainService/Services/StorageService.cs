@@ -56,9 +56,9 @@ namespace SmartKitchen.DomainService.Services
             var person = _personRepository.GetPersonByEmail(email);
             var exists = person.Storages.Any(x => x.Name.Equals(model.Name, StringComparison.OrdinalIgnoreCase));
             if (exists)
-                return (ItemCreationResponse)response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
+                return response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
             if (!_storageTypeService.ExistsWithId(model.TypeId))
-                return (ItemCreationResponse)response.AddError(GeneralError.ItemNotFound, nameof(model.TypeId));
+                return response.AddError(GeneralError.ItemNotFound, nameof(model.TypeId));
             var storage = new Storage
             {
                 Name = model.Name,

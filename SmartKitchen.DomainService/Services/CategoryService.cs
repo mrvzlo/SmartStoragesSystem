@@ -29,11 +29,7 @@ namespace SmartKitchen.DomainService.Services
             var response = new ServiceResponse();
             model.Name = model.Name.Trim();
             var exists = _categoryRepository.GetCategoryByName(model.Name) != null;
-            if (exists)
-            {
-                response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
-                return response;
-            }
+            if (exists) return response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
             _categoryRepository.AddCategory(new Category
             {
                 Name = TitledString(model.Name)

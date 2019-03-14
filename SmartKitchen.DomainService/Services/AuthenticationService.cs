@@ -32,7 +32,7 @@ namespace SmartKitchen.DomainService.Services
             var person = GetPersonByEmail(model.Email);
 
             if (person == null || !Crypto.VerifyHashedPassword(person.Password, model.Password))
-                return (AuthenticationResponse)response.AddError(AuthenticationError.EmailOrPasswordIsIncorrect);
+                return new AuthenticationResponse(response.AddError(AuthenticationError.EmailOrPasswordIsIncorrect));
             response.Email = person.Email;
             response.Role = person.Role;
             return response;
@@ -43,9 +43,9 @@ namespace SmartKitchen.DomainService.Services
             var personByEmail = _personRepository.GetPersonByName(model.Username);
             var personByName = GetPersonByEmail(model.Email);
             if (personByEmail != null)
-                return (AuthenticationResponse)response.AddError(AuthenticationError.ThisEmailIsTaken, nameof(model.Email));
+                return new AuthenticationResponse(response.AddError(AuthenticationError.ThisEmailIsTaken, nameof(model.Email)));
             if (personByName != null)
-                return (AuthenticationResponse)response.AddError(AuthenticationError.ThisEmailIsTaken, nameof(model.Username));
+                return new AuthenticationResponse(response.AddError(AuthenticationError.ThisEmailIsTaken, nameof(model.Username)));
             var person = new Person
             {
                 Name = model.Username,

@@ -25,6 +25,6 @@ namespace SmartKitchen.Infrastructure.Repositories
             _dbContext.BasketProducts.SingleOrDefault(x => x.BasketId == basket && x.CellId == cell);
 
         public void DeleteBasketProduct(BasketProduct basketProduct) =>
-            _dbContext.BasketProducts.Remove(basketProduct);
+            _dbContext.Delete(basketProduct);
     }
 }

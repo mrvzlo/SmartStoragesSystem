@@ -56,14 +56,14 @@ namespace SmartKitchen.DomainService.Services
 
         public ItemCreationResponse AddBasketProduct(Storage storage, Basket basket, Person person, int cellId)
         {
-            var response = (ItemCreationResponse)BasketBelongsToPerson(basket, person);
+            var response = new ItemCreationResponse(BasketBelongsToPerson(basket, person));
             if (!response.Successful()) return response;
-            response = (ItemCreationResponse)StorageBelongsToPerson(storage, person);
+            response = new ItemCreationResponse(StorageBelongsToPerson(storage, person));
             if (!response.Successful()) return response;
 
             var basketProduct = _basketProductRepository.GetBasketProductByBasketAndCell(basket.Id, cellId);
             if (basketProduct != null)
-                return (ItemCreationResponse)response.AddError(GeneralError.NameIsAlreadyTaken);
+                return response.AddError(GeneralError.NameIsAlreadyTaken);
 
             basketProduct = new BasketProduct
             {
