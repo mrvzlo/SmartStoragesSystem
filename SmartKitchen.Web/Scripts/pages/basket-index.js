@@ -16,10 +16,8 @@ var BasketIndexJs = (function () {
             var url = settings.lockUrl + id;
             $.post(url,
                 function (data) {
-                    document.getElementById(id).outerHTML = "";
-                    var a = document.createElement('a');
-                    document.getElementById("tab2").appendChild(a);
-                    a.outerHTML = data;
+                    $("#" + id).remove();
+                    $("#tab2").prepend(data);
                 });
         }
     }
