@@ -1,0 +1,25 @@
+﻿@using SmartKitchen.Domain.DisplayModels
+@model IQueryable<SmartKitchen.Domain.DisplayModels.ProductDisplayModel>
+@{ var i = 0;}
+@Html.Grid(Model).Build(c =>{
+    c.Add(x => x.Name).RenderedAs( x => NameHelper(x,i)).Titled("Product").Css("w-40");
+    c.Add(x => x.CategoryName).RenderedAs(x => CategoryHelper(x,i++)).Titled("Category").Css("w-40");
+    c.Add(x => x.Usages).Titled("Usages").Css("w-20");
+}).Sortable().Pageable(x => {
+    x.RowsPerPage = 15;
+    x.PagesToDisplay = 3;
+}).Css("table-borderless table-hover m-0 table text-center")
+
+@helper NameHelper(ProductDisplayModel item, int i)
+{
+    @Html.Hidden($"list[{i}].Id", item.Id)
+    <div id='0_@i' onclick='ProductIndexJs.toggle(@i, 1)'>@item.Name</div>
+    @Html.TextBox($"list[{i}].Name", item.Name, new { @class = "text-center", style = "display: none;", id = "1_" + i })
+}
+
+@helper CategoryHelper(ProductDisplayModel item, int i)
+{
+    <div id='2_@i' onclick='ProductIndexJs.toggle(@i, 3)'>@item.CategoryName</div>
+    @Html.DropDownList($"list[{i}].CategoryId", new SelectList(ViewBag.SelectList, "Value", "Text", item.CategoryId), 
+        new { @class = "input", style = "display: none;", id = "3_" + i })
+}

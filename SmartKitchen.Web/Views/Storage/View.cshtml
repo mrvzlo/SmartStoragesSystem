@@ -1,0 +1,51 @@
+﻿@using SmartKitchen.Domain.CreationModels
+@model SmartKitchen.Domain.DisplayModels.StorageDisplayModel
+@{
+    ViewBag.Title = "Storage " + Model.Name;
+    var selectList = (List<SelectListItem>)ViewBag.SelectList;
+}
+<div class="h4 text-center">@Model.Name</div>
+@Html.Partial("_AddProduct", new CellCreationModel { Storage = Model.Id })
+<div class="text-center table-responsive m-0 big-border" style="background-color: #@Model.Type.Background">
+    @if (Model.CellCount == 0)
+    {
+        <div class="alert m-0 h3">This storage is empty now</div>
+    }
+    else
+    {
+        @Html.AjaxGrid(Url.Action("ShowAllCells", new { storage = Model.Id }))
+    }
+</div>
+@if (Model.CellCount > 0)
+{
+    <div class="row justify-content-around m-1">
+        <div class="col-6 col-md-3 col-lg-2 p-1"><button class="btn btn-main w-100" id="btnMark1">Mark all</button></div>
+        <div class="col-6 col-md-3 col-lg-2 p-1"><button class="btn btn-main w-100" id="btnMark3">Mark expired</button></div>
+        <div class="col-6 col-md-3 col-lg-2 p-1"><button class="btn btn-main w-100" id="btnMark2">Mark absent</button></div>
+        <div class="col-6 col-md-3 col-lg-2 p-1"><button class="btn btn-main w-100" id="btnMark0">Clear</button></div>
+    </div>
+    <div class="row justify-content-center m-1">
+        <div class="col-6 col-md-4 p-1">@Html.DropDownList("basket", new SelectList(selectList, "Value", "Text"), new {@class = "input py-1"})</div>
+        <div class="col-6 col-md-3 col-lg-2 p-1"><button id="sendToBasket" class="btn btn-main w-100">To basket</button></div>
+        <div id="basketBox" class="col-md-4 col-8 order-md-first p-1">@Html.TextBox("basketName", "", new {@class = "py-1", placeholder = "New basket"})</div>
+        <div id="toBasketError" class="error col-12"></div>
+    </div>
+}
+@Html.Partial("_DatePicker")
+@Html.Partial("_AmountPicker")
+@Scripts.Render("~/MvcGrid")
+@section scripts{
+    @Scripts.Render("~/js/datetimePicker")
+    @Scripts.Render("~/js/amountPicker")
+    @Scripts.Render("~/js/storageView")
+    <script>
+        $(function () {
+            $(function () {
+                StorageViewJs.initialize({sendUrl: '@Url.Action("AddListToBasket","Basket")', storageId: @Model.Id });
+                DatetimePickerJs.initialize({url: '@Url.Action("DateUpdate", "Storage")?cell='});
+                AmountPickerJs.initialize({ deleteUrl: '@Url.Action("Remove", "Storage")?cellId=', setUrl: '@Url.Action("SetAmount", "Storage")?cell='});
+            });
+        });
+        
+    </script>
+}

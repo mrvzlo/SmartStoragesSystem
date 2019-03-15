@@ -1,0 +1,13 @@
+﻿@model SmartKitchen.Domain.DisplayModels.BasketDisplayModel
+<tr id="@Model.Id" class="flex-nowrap pointer"
+    onclick="window.location = '@Url.Action("View","Basket",new{id = Model.Id})';">
+    <td class="w-25">@Model.Name</td>
+    <td class="w-20">@Model.BoughtProducts/@Model.Products<span class="d-md-inline d-none"> bought</span></td>
+    <td class="w-20">@Model.FullPrice €</td>
+    <td class="w-20">@Model.CreationDate.ToString("dd.MM.yy")</td>
+    <td class="w-10">
+        <img src="@Html.Raw( Model.Closed ? "../Content/images/remove.svg" : "../Content/images/lock.svg")"
+             onclick="@Html.Raw( !Model.Closed ? "BasketIndexJs.lock("+Model.Id+", '"+Model.Name+"')" : "BasketIndexJs.remove("+Model.Id+", '"+Model.Name+"')")"
+             class="rowicon" />
+    </td>
+</tr>

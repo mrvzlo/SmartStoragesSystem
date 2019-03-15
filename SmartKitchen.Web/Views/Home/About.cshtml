@@ -1,0 +1,48 @@
+﻿@model SmartKitchen.Domain.DisplayModels.HelpModel
+@{
+    ViewBag.Title = "Quick guide";
+}
+<div class="h4">Guide</div>
+<div class="text-justify my-2">
+    After <a href="@Url.Action("Index","Account",new{Login = false})">registration</a>
+    you can create your storages @Html.ActionLink("here", "Create", "Storage") using <b>@Model.StorageTypesCount</b> different templates.
+    Each storage allows you to manage a big amount of different products. Each product has specific amount and expiration date which you can set manually by clicking on the value.
+    The system will inform you if any product <span class="text-danger font-weight-bold">become unsafe</span> or <span class="text-warning font-weight-bold">will become soon</span>.
+    Also system will predict amount decreases according to previous usages.
+</div>
+<div class="text-justify my-2">
+    After adding some cells for your storage you can <span class="font-weight-bold">mark</span> them by clicking on product's name or special buttons. Marked products can be send to your basket which can be seen
+    @Html.ActionLink("here", "Index", "Basket"). After completing shopping list you can choose amount, price or expiration date for any basket product
+    and mark them as <span class="bought font-weight-bold">bought</span>.
+    When you have done click on the button <span class="text-success font-weight-bold">finish</span> and marked products will be virtually send to appropriate storage or storages.
+</div>
+<div class="text-justify my-2">
+    On @Html.ActionLink("this", "Token", "Account") page you can receive personal token to connect smart devices to your account.
+    This will allow system to collect data about amount changes automatically. External device should send HTTP or HTTPS request on the server using one of these templates:
+</div>
+<ul>
+    <li class="my-2">
+        <div>Adding product to storage</div>
+        <code>https://@Request.Url.Authority/Cell/Create/?token=[Token]&storage=[Storage]&name=[Name]</code><br />
+        For example
+        <code>https://@Request.Url.Authority/Cell/Create/?token=abcdefgh-abcd-abcd-abcd-abcdefghijkl&storage=1&name=Bread</code>
+    </li>
+    <li class="my-2">
+        <div>Update product amount</div>
+        <code>https://@Request.Url.Authority/Cell/SetAmount/?token=[Token]&cell=[Cell Id]&amount=[Amount]</code><br />
+        For example
+        <code>https://@Request.Url.Authority/Cell/SetAmount/?token=abcdefgh-abcd-abcd-abcd-abcdefghijkl&cell=1&amount=500</code>
+    </li>
+    <li class="my-2">
+        <div>Update product expiration date</div>
+        <code>https://@Request.Url.Authority/Cell/DateUpdate/?token=[Token]&cell=[Cell Id]&dateStr=[Day]/[Month]/[Year]</code><br />
+        For example
+        <code>https://@Request.Url.Authority/Cell/DateUpdate/?token=abcdefgh-abcd-abcd-abcd-abcdefghijkl&cell=1&name=31/1/2001</code>
+    </li>
+    <li class="my-2">
+        <div>Remove product</div>
+        <code>https://@Request.Url.Authority/Cell/Remove/?token=[Token]&cell=[Cell Id]</code><br />
+        For example
+        <code>https://@Request.Url.Authority/Cell/Remove/?token=abcdefgh-abcd-abcd-abcd-abcdefghijkl&cell=1</code>
+    </li>
+</ul>

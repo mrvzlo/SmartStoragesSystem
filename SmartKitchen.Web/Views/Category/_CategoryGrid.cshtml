@@ -1,0 +1,21 @@
+﻿@using SmartKitchen.Domain.DisplayModels
+@model  IQueryable<CategoryDisplayModel>
+
+@Html.Grid(Model).Build(c =>{
+    c.Add(x => x.Name).RenderedAs(NameHelper).Titled("Category").Css("w-40 py-3");
+    c.Add(x => x.ProductsCount).Titled("Products").Css("w-40 py-3");
+    c.Add( x => string.Empty).RenderedAs(DeleteHelper).Css("w-20 pb-1");
+}).Sortable().Css("table-borderless table-hover m-0 table text-center")
+
+@helper NameHelper(CategoryDisplayModel x)
+{
+    <div id="name_@x.Id">@x.Name</div>
+}
+
+@helper DeleteHelper(CategoryDisplayModel x)
+{
+    if (!x.Primal)
+    {
+        <img class="rowicon" src="~/Content/images/remove.svg" onclick="CategoryIndexJs.remove(@x.Id)" data-toggle="modal" data-target="#CategoryModal" />
+    }
+}

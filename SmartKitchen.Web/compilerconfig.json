@@ -1,0 +1,14 @@
+﻿[
+  {
+    "outputFile": "Content/My.css",
+    "inputFile": "Content/My.scss"
+  },
+  {
+    "outputFile": "Content/main.css",
+    "inputFile": "Content/main.scss"
+  },
+  {
+    "outputFile": "Scripts/pages/form-helper.es5.js",
+    "inputFile": "Scripts/pages/form-helper.js"
+  }
+]

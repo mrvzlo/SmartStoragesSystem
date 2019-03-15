@@ -1,0 +1,83 @@
+﻿.bought:before {
+    content: "✔";
+}
+
+td {
+    border-top: solid 1px #102 !important;
+    vertical-align: inherit !important;
+}
+
+.storage {
+    margin: .5rem 0;
+    padding: 1rem;
+}
+
+.storage-small {
+    margin: 0.2rem;
+    font-size: 1.4rem;
+}
+
+.w-40 {
+    width: 40% !important;
+}
+
+.w-30 {
+    width: 30% !important;
+}
+
+.w-20 {
+    width: 20% !important;
+}
+
+.w-10 {
+    width: 10% !important;
+}
+
+.mvc-grid-pager button {
+    margin: 0.25rem 0;
+    color: darken($main, 20%);
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.mvc-grid th {
+    background-color: transparent;
+}
+
+.mvc-grid-pager button {
+    background-color: white;
+    box-sizing: content-box;
+    line-height: 1.5rem;
+    padding: 0 0.25em;
+    cursor: pointer;
+    margin: 0.5em 0;
+    min-width: 1.5rem;
+}
+
+.mvc-grid-pager button:focus,
+.mvc-grid-pager button:hover {
+    background-color: lighten($main,50%);
+    color: darken($main, 20%);
+}
+
+.mvc-grid-pager .active,
+.mvc-grid-pager .active:focus,
+.mvc-grid-pager .active:hover {
+    color: darken($main, 20%);
+    background-color: lighten($main,50%);
+    border-color: darken($main, 20%);
+}
+
+.mvc-grid-pager .disabled,
+.mvc-grid-pager .disabled:focus,
+.mvc-grid-pager .disabled:hover {
+    background-color: white;
+    cursor: pointer;
+    color: darken($main, 20%);
+}
+
+.mvc-grid {
+    padding: 0;
+}

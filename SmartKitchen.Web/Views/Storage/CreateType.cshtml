@@ -1,0 +1,63 @@
+﻿@using SmartKitchen.Domain.CreationModels
+@model List<SmartKitchen.Domain.Enitities.StorageType>
+@{
+    ViewBag.Title = "Storage types";
+}
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+        <div class="row justify-content-center">
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-2 col-md-3 col-4 px-1">
+                    <div class="storage-small pointer row justify-content-around px-2 py-1" style="background-color: #@item.Background" onclick='StorageCreateTypeJs.updateForm(@item.Id,"@item.Name","@item.Background");'>
+                        @{ var filename = item.Id + ".png";}
+                        <img class="rowicon" src="~/Content/images/@filename" />
+                        @Html.Hidden("name_" + item.Id, item.Name)
+                        <img class="rowicon" src="~/Content/images/remove.svg" onclick="StorageCreateTypeJs.remove(@item.Id)" />
+                    </div>
+                </div>
+            }
+            <div class="col-lg-2 col-md-3 col-4 px-1">
+                <div class="storage-small row py-1" onclick="StorageCreateTypeJs.updateForm(0,'','FFFFFF');"><div class="col text-center">Clear</div></div>
+            </div>
+        </div>
+        <div id="formContainer">@{ Html.RenderPartial("_CreateTypeForm", new StorageTypeCreationModel());}</div>
+        <div id="pickerDiv" class="row justify-content-center" style="display: none;">
+            <div class="storage col-lg-6 col-12 mt-0">
+                <canvas id="picker" class="w-100"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="StorageTypeModal" tabindex="-1" role="dialog" aria-labelledby="StorageTypeModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content big-border">
+            <div class="modal-header text-center d-block h5" id="StorageTypeLabel"></div>
+            <div class="modal-body pt-0">
+                <div class="row justify-content-center mx-3 text-center">
+                    @foreach (var i in Model)
+                    {
+                        <div id="modal_@i.Id" class="col-md-3 col-5 btn btn-main m-1" data-dismiss="modal" onclick="StorageCreateTypeJs.removeConfirm(@i.Id);"></div>
+                    }
+                    <div class="col-12"></div>
+                    <button data-dismiss="modal" class="btn btn-secondary col-md-4 col-6 m-1">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    @Scripts.Render("~/forms")
+    @Scripts.Render("~/js/storageCreateType")
+    <script>
+    $(function () {
+        StorageCreateTypeJs.initialize({
+            removeUrl: '@Url.Action("RemoveType", "Storage")?fromId=',
+            list: [@string.Join(", ", Model.Select(x => x.Id))]
+        });
+        FormHelperJs.bindForm("#storage", "#formContainer");
+    });
+    </script>
+}

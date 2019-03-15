@@ -1,0 +1,30 @@
+﻿@model SmartKitchen.Domain.CreationModels.SignUpModel
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { id = "formSignUp", @class = "storage" }))
+{
+    @Html.AntiForgeryToken()
+    <h4 class="text-center mb-3">New user</h4>
+    <div class="row my-2 justify-content-around">
+        <div class="error col-12">@Html.ValidationSummary(true)</div>
+    </div>
+    <div class="row my-2 justify-content-around">
+        <div class="col-md-2 text-center">@Html.LabelFor(x => x.Email)</div>
+        <div class="col-md-9">@Html.EditorFor(x => x.Email)</div>
+        <div class="error col-12">@Html.ValidationMessageFor(x => x.Email)</div>
+    </div>
+    <div class="row my-2 justify-content-around">
+        <div class="col-md-2 text-center">@Html.LabelFor(x => x.Username)</div>
+        <div class="col-md-9">@Html.EditorFor(x => x.Username)</div>
+        <div class="error col-12">@Html.ValidationMessageFor(x => x.Username)</div>
+    </div>
+    <div class="row my-2 justify-content-around">
+        <div class="col-md-2 text-center">@Html.LabelFor(x => x.Password)</div>
+        <div class="col-md-9">@Html.PasswordFor(x => x.Password)</div>
+        <div class="error col-12">@Html.ValidationMessageFor(x => x.Password)</div>
+    </div>
+    <div class="row my-2 justify-content-around">
+        <div class="col-md-2 text-center">@Html.LabelFor(x => x.Confirm)</div>
+        <div class="col-md-9">@Html.PasswordFor(x => x.Confirm)</div>
+        <div class="error col-12">@Html.ValidationMessageFor(x => x.Confirm)</div>
+    </div>
+    <div class="row justify-content-center"><button type="submit" class="col-md-3 col-6 btn btn-main py-2 mt-3">Sign up</button></div>
+}

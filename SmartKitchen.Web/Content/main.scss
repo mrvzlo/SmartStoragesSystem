@@ -1,0 +1,99 @@
+﻿$main: #548;
+$warning: #c70;
+$dark: #222;
+$theme-colors: ( "main": $main );
+$border-radius: 1rem !default;
+$input-btn-padding-y: .25rem;
+$input-btn-padding-x: .5rem;
+@import 'bootstrap/bootstrap.scss';
+@import 'forms.scss';
+@import 'tables.scss';
+
+
+.bg-main-light {
+    background-color: lighten($main, 57%);
+}
+
+pre {
+    margin: 0;
+    background-color: lighten($info, 50%);
+}
+
+.modal-footer {
+    > :not(:first-child) {
+        margin-left: 0;
+    }
+    > :not(:last-child) {
+        margin-right: 0;
+    }
+    margin:0;
+}
+
+.modal-header{
+    margin:0;
+}
+
+body {
+    padding: 0;
+}
+
+.nav-link {
+    padding: 0.2rem;
+    font-size: large;
+}
+
+//icons
+.navicon {
+    height: 2rem;
+    filter: brightness(0) invert(1);
+}
+
+.rowicon {
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+}
+//icons
+//navbar
+.mobile {
+    display: none;
+}
+
+li .active, li .active:hover{
+    border-bottom: solid 5px $main;
+}
+
+.gap {
+    margin-bottom: 4rem;
+}
+
+.grid-header-title a {
+    text-decoration-line: none;
+    color: #000000;
+}
+
+@media screen and (max-width: #{map-get($grid-breakpoints, sm)}) {
+    th, td {
+        font-size: 0.8rem;
+    }
+
+    td .rowicon {
+        height: 1.6rem;
+        width: 1.6rem;
+    }
+}
+
+@media screen and (min-width: #{map-get($grid-breakpoints, lg)}) {
+    .w-lg-50 {
+        width: 50% !important;
+    }
+}
+//navbar
+
+#tog1:after, #tog2:after {
+    content: " ⯅";
+}
+
+#tog1.collapsed:after, #tog2.collapsed:after {
+    content: " ⯆";
+}

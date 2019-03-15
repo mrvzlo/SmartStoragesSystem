@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Authorization";
+}
+
+<div class="row justify-content-center mt-3">
+    <div class="col-md-8 col-12">
+
+        <ul class="nav row justify-content-center text-center font-weight-bold">
+            <li class="nav-item mx-1">
+                <a class="nav-link text-dark px-md-5 px-3 active" id="signIn" href="#_SignIn" data-toggle="tab">Sign in</a>
+            </li>
+            <li class="nav-item mx-1">
+                <a class="nav-link text-dark px-md-5 px-3" id="signUp" href="#_SignUp" data-toggle="tab">Sign up</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="_SignIn" class="tab-pane show active" role="tabpanel">@{Html.RenderAction("SignIn");}</div>
+            <div id="_SignUp" class="tab-pane" role="tabpanel">@{Html.RenderAction("SignUp");}</div>
+        </div>
+
+    </div>
+</div>
+@section scripts{
+    @Scripts.Render("~/forms")
+    @Scripts.Render("~/js/accountIndex")
+    <script>$(function () { AccountIndexJs.initialize(); });</script>
+}
