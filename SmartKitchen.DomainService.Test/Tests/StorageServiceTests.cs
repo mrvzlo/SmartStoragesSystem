@@ -48,7 +48,7 @@ namespace SmartKitchen.DomainService.Test.Tests
         }
 
         [Test, CustomAutoData]
-        public void GetStorageById_Map_StorageDisplayModel(IFixture fixture, [Frozen] Storage storage, Person person)
+        public void GetStorageDescriptionById_Map_StorageDisplayModel(IFixture fixture, [Frozen] Storage storage, Person person)
         {
             person.Id = storage.PersonId;
             var storageRepMock = fixture.Freeze<Mock<IStorageRepository>>();
@@ -57,29 +57,7 @@ namespace SmartKitchen.DomainService.Test.Tests
             personRepMock.Setup(x => x.GetPersonByEmail(person.Email)).Returns(person);
             
             var sut = fixture.Create<StorageService>();
-            var actual = sut.GetStorageDescriptionById(storage.Id, person.Email);
-
-            Assert.NotNull(actual);
-            var type = actual.Type;
-            Assert.That(actual, Has.Property(nameof(StorageDisplayModel.Id)).EqualTo(storage.Id));
-            Assert.That(actual, Has.Property(nameof(StorageDisplayModel.Name)).EqualTo(storage.Name));
-            Assert.That(actual, Has.Property(nameof(StorageDisplayModel.CellCount)).EqualTo(storage.Cells.Count));
-            Assert.That(type, Has.Property(nameof(StorageTypeDisplayModel.Id)).EqualTo(storage.Type.Id));
-            Assert.That(type, Has.Property(nameof(StorageTypeDisplayModel.Name)).EqualTo(storage.Type.Name));
-            Assert.That(type, Has.Property(nameof(StorageTypeDisplayModel.Background)).EqualTo(storage.Type.Background));
-        }
-
-        [Test, CustomAutoData]
-        public void GetStoragesWithDescriptionByOwnerEmail_Map_StorageDisplayModel(IFixture fixture, [Frozen] Storage storage, Person person)
-        {
-            person.Id = storage.PersonId;
-            person.Storages = new List<Storage> {storage};
-            storage.TypeId = storage.Type.Id;
-            var personRepMock = fixture.Freeze<Mock<IPersonRepository>>();
-            personRepMock.Setup(x => x.GetPersonByEmail(person.Email)).Returns(person);
-
-            var sut = fixture.Create<StorageService>();
-            var actual = sut.GetStoragesWithDescriptionByOwnerEmail(person.Email).FirstOrDefault();
+            var actual = sut.GetStorageById(storage.Id, person.Email);
 
             Assert.NotNull(actual);
             var type = actual.Type;

@@ -27,7 +27,7 @@ namespace SmartKitchen.DomainService.Services
             _cellService = cellService;
         }
 
-        public IQueryable<StorageDisplayModel> GetStoragesWithDescriptionByOwnerEmail(string email)
+        public IQueryable<StorageDisplayModel> GetStoragesByOwnerEmail(string email)
         {
             var person = _personRepository.GetPersonByEmail(email);
             return person.Storages.AsQueryable().ProjectTo<StorageDisplayModel>(MapperConfig);
@@ -42,7 +42,7 @@ namespace SmartKitchen.DomainService.Services
             _storageRepository.DeleteStorage(storage);
         }
 
-        public StorageDisplayModel GetStorageDescriptionById(int id, string email)
+        public StorageDisplayModel GetStorageById(int id, string email)
         {
             var person = _personRepository.GetPersonByEmail(email);
             var storage = _storageRepository.GetStorageById(id);

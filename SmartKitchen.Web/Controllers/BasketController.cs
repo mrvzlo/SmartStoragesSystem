@@ -101,7 +101,7 @@ namespace SmartKitchen.Web.Controllers
             {
                 Basket = basket
             };
-            ViewBag.SelectList = _storageService.GetStoragesWithDescriptionByOwnerEmail(CurrentUser()).Select(x => new SelectListItem
+            ViewBag.SelectList = _storageService.GetStoragesByOwnerEmail(CurrentUser()).Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
                 Text = x.Name

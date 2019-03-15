@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using AutoFixture;
+﻿using AutoFixture;
 using AutoFixture.NUnit3;
+using Moq;
 using NUnit.Framework;
+using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Enitities;
-using SmartKitchen.DomainService.Services;
-using System.Linq;
-using Moq;
-using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.Enums;
 using SmartKitchen.Domain.IRepositories;
+using SmartKitchen.DomainService.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SmartKitchen.DomainService.Test.Tests
 {
@@ -41,7 +41,7 @@ namespace SmartKitchen.DomainService.Test.Tests
             var productRepMock = fixture.Freeze<Mock<IProductRepository>>();
             product.Name = model.Name;
             productRepMock.Setup(x => x.GetProductByName(It.IsAny<string>())).Returns(product);
-            
+
             var sut = fixture.Create<CategoryService>();
             var actual = sut.AddCategory(model);
 
@@ -74,24 +74,17 @@ namespace SmartKitchen.DomainService.Test.Tests
             Random rand = new Random();
             foreach (var i in newList)
             {
-                productRepMock.Setup(x => x.GetProductById(i.Id)).Returns(new Product{CategoryId = i.CategoryId, Id = i.Id, Name = i.Name});
-                if (rand.Next(2) == 0)
-                {
-                    i.CategoryId++;
-                    count++;
-                }
-
-                if (rand.Next(2) == 0)
-                {
-                    i.Name += "a";
-                    count++;
-                }
+                productRepMock.Setup(x => x.GetProductById(i.Id)).Returns(new Product { CategoryId = i.CategoryId, Id = i.Id, Name = i.Name });
+                int r = rand.Next(3);
+                if (r == 1) i.CategoryId++;
+                if (r == 2) i.Name += "a";
+                if (r > 0) count++;
             }
 
             var sut = fixture.Create<ProductService>();
             var actual = sut.UpdateProductList(newList);
 
-            Assert.AreEqual(count,actual);
+            Assert.AreEqual(count, actual);
         }
     }
 }
