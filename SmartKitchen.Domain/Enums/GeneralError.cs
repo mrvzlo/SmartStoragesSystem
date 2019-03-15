@@ -11,6 +11,10 @@ namespace SmartKitchen.Domain.Enums
         [Description("Access denied")]
         AccessDenied = 3,
         [Description("Item not found")]
-        ItemNotFound = 3
+        ItemNotFound = 4,
+        [Description("Basket is closed")]
+        BasketIsClose = 5,
+        [Description("Product is not bought")]
+        ProductIsNotBought = 6,
     }
 }

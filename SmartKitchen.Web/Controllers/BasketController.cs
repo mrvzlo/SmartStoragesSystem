@@ -67,7 +67,7 @@ namespace SmartKitchen.Web.Controllers
 
         public ActionResult View(int id)
         {
-            var basket = _basketService.GetBasketWithProductsById(id, CurrentUser());
+            var basket = _basketService.GetBasketById(id, CurrentUser());
             if (basket == null) return Redirect(Url.Action("Index"));
             return View(basket);
         }
@@ -84,6 +84,13 @@ namespace SmartKitchen.Web.Controllers
         public bool Remove(int id)
         {
             return _basketService.DeleteBasket(id, CurrentUser());
+        }
+
+        [HttpPost]
+        public ActionResult FinishAndClose(int id)
+        {
+            _basketService.FinishAndCloseBasket(id, CurrentUser());
+            return Redirect(Url.Action("Index", new {id}));
         }
         #endregion
 
@@ -108,10 +115,7 @@ namespace SmartKitchen.Web.Controllers
         {
             var response = _basketProductService.AddBasketProductByModel(model, CurrentUser());
             if (!response.Successful())
-            {
                 AddModelStateErrors(response);
-                return Redirect(Url.Action("Index"));
-            }
             return Redirect(Url.Action("View", new { id = response.AddedGroupId }));
         }
 

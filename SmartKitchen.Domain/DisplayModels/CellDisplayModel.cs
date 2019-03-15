@@ -28,7 +28,7 @@ namespace SmartKitchen.Domain.DisplayModels
 
         public Safety SafetyStatus { get {
                 if (BestBefore == null) return Safety.Unknown;
-                var days = (int)Math.Floor((BestBefore.Value.Date - DateTime.UtcNow.Date).TotalDays);
+                var days = (int)Math.Floor((BestBefore.Value.Date - DateTime.Now.Date).TotalDays);
                 return days > 1 ? Safety.IsSafe
                     : days > 0 ? Safety.ExpiresTomorrow
                     : days == 0 ? Safety.ExpiresToday

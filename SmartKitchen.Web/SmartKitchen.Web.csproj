@@ -214,6 +214,7 @@
     <Content Include="Content\images\login.png" />
     <Content Include="Content\images\logout.png" />
     <Content Include="Content\images\minus.png" />
+    <Content Include="Content\images\refrigerator.png" />
     <Content Include="Content\images\remove.svg" />
     <Content Include="Content\images\storages.svg" />
     <Content Include="Content\main.css">

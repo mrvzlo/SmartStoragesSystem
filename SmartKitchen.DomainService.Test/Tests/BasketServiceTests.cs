@@ -69,23 +69,5 @@ namespace SmartKitchen.DomainService.Test.Tests
             Assert.That(actual, Has.Property(nameof(BasketDisplayModel.CreationDate)).EqualTo(basket.CreationDate));
             Assert.That(actual, Has.Property(nameof(BasketDisplayModel.BoughtProducts)).EqualTo(basket.BasketProducts.Count(x => x.Bought)));
         }
-
-        [Test, CustomAutoData]
-        public void GetBasketById_Map_BasketWithProductsDisplayModel(IFixture fixture, [Frozen] IQueryable<Basket> baskets)
-        {
-            var basket = baskets.First();
-            var basketRepMock = fixture.Freeze<Mock<IBasketRepository>>();
-            basketRepMock.Setup(x => x.GetBaskets()).Returns(baskets);
-
-            var sut = fixture.Create<BasketService>();
-            var actual = sut.GetBasketWithProductsById(basket.Id, basket.Person.Email);
-
-            Assert.NotNull(actual);
-            Assert.That(actual, Has.Property(nameof(BasketWithProductsDisplayModel.Id)).EqualTo(basket.Id));
-            Assert.That(actual, Has.Property(nameof(BasketWithProductsDisplayModel.Name)).EqualTo(basket.Name));
-            Assert.That(actual, Has.Property(nameof(BasketWithProductsDisplayModel.Closed)).EqualTo(basket.Closed));
-            Assert.That(actual, Has.Property(nameof(BasketWithProductsDisplayModel.BasketProducts)).EqualTo(basket.BasketProducts.ToList()));
-            Assert.That(actual, Has.Property(nameof(BasketWithProductsDisplayModel.CreationDate)).EqualTo(basket.CreationDate));
-        }
     }
 }

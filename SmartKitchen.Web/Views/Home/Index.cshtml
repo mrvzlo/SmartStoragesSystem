@@ -1,11 +1,29 @@
 ﻿@{
-	ViewBag.Title = "Home Page";
+    ViewBag.Title = "Home Page";
 }
-<div class="float-right">
-    @Html.ActionLink("Get started", "Index", "Storage", null, new { @class = "btn btn-main" })
+<div class="row justify-content-between m-0">
+    <div class="h4 col p-0">Smart storages</div>
+    <div class="col-5 p-0">
+        @Html.ActionLink("Get started", "Index", "Storage", null, new
+        {
+            @class = "btn btn-main big-border float-right d-md-none"
+        })
+        @Html.ActionLink("Get started", "Index", "Storage", null, new
+        {
+            @class = "btn btn-main big-border float-right btn-lg d-none d-md-block"
+        })
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8 text-justify col-12">
+        Smart storages is a system which helps to manage supplies in the house. All of them can be sorted to specific storages where system will analyze its' safety and amount.
+        If any product will expire or become unsafe it can bes added to basket to ease the shopping process not to forget any important purchase. <br />    
+    </div>
+    <div class="col-12">
+        <img class="w-20" src="../Content/images/refrigerator.png"/>
+    </div>
 </div>
 
-<div class="h4">Smart storages</div>
 <div>
-    Description
+    More information you can read in @Html.ActionLink("guide", "About", "Home").
 </div>

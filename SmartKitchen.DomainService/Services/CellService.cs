@@ -19,7 +19,7 @@ namespace SmartKitchen.DomainService.Services
         private readonly IStorageRepository _storageRepository;
         private readonly IBasketProductRepository _basketProductRepository;
 
-        public CellService(ICellRepository cellRepository, IProductService productService, IStorageRepository storageRepository, 
+        public CellService(ICellRepository cellRepository, IProductService productService, IStorageRepository storageRepository,
             IBasketProductRepository basketProductRepository, IPersonRepository personRepository)
         {
             _cellRepository = cellRepository;
@@ -38,16 +38,16 @@ namespace SmartKitchen.DomainService.Services
             var productId = _productService.GetOrAddAndGet(model.Product).Id;
             var cell = GetCellByProductAndStorage(productId, model.Storage);
             if (cell != null) return cell;
-            var creation = AddCell(model, email);
+            var creation = AddOrUpdateCell(model, email);
             return !creation.Successful() ? null : _cellRepository.GetCellById(creation.AddedId);
         }
 
-        public ItemCreationResponse AddCell(CellCreationModel model, string email)
+        public ItemCreationResponse AddOrUpdateCell(CellCreationModel model, string email)
         {
             var response = new ItemCreationResponse();
             var storage = _storageRepository.GetStorageById(model.Storage);
             var person = _personRepository.GetPersonByEmail(email);
-            response = (ItemCreationResponse) StorageBelongsToPerson(storage, person);
+            response = (ItemCreationResponse)StorageBelongsToPerson(storage, person);
             if (!response.Successful()) return response;
 
             var productId = _productService.GetOrAddAndGet(model.Product).Id;
@@ -83,7 +83,7 @@ namespace SmartKitchen.DomainService.Services
             var cell = _cellRepository.GetCellById(id);
             var storage = _storageRepository.GetStorageById(cell.StorageId);
             var person = _personRepository.GetPersonByEmail(email);
-            var response = CellBelongsToPerson(cell,person,storage);
+            var response = CellBelongsToPerson(cell, person, storage);
             if (!response.Successful()) return response;
 
             if (value < 0) value = 0;
@@ -93,7 +93,7 @@ namespace SmartKitchen.DomainService.Services
                 _cellRepository.AddOrUpdateCell(cell);
             }
 
-            _cellRepository.AddCellAmountChange(new CellChange{Amount = value, CellId = cell.Id, UpdateDate = DateTime.UtcNow});
+            _cellRepository.AddCellAmountChange(new CellChange { Amount = value, CellId = cell.Id, UpdateDate = DateTime.UtcNow });
             return response;
         }
 
@@ -140,5 +140,28 @@ namespace SmartKitchen.DomainService.Services
 
         private Cell GetCellByProductAndStorage(int product, int storage) =>
             _cellRepository.GetCellByProductAndStorage(product, storage);
+
+        public ItemCreationResponse MoveProductToStorage(BasketProduct basketProduct, Basket basket, Person person)
+        {
+            var response = new ItemCreationResponse();
+            if (!basketProduct.Bought) return response.AddError(GeneralError.ProductIsNotBought);
+            var cell = _cellRepository.GetCellById(basketProduct.CellId);
+            var storage = _storageRepository.GetStorageById(cell.StorageId);
+            response = new ItemCreationResponse(CellBelongsToPerson(cell, person, storage));
+            if (!response.Successful()) return response;
+            response = new ItemCreationResponse(ProductBelongsToPerson(basketProduct, person, basket));
+            if (!response.Successful()) return response;
+            var lastChange = cell.CellChanges.OrderByDescending(x => x.UpdateDate).First().Amount;
+            cell.BestBefore = basketProduct.BestBefore;
+            var cellChange = new CellChange
+            {
+                CellId = basketProduct.CellId,
+                Amount = lastChange + basketProduct.Amount,
+                UpdateDate = DateTime.Now,
+            };
+            _cellRepository.AddOrUpdateCell(cell);
+            _cellRepository.AddCellAmountChange(cellChange);
+            return response;
+        }
     }
 }

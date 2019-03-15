@@ -1,20 +1,20 @@
-﻿@model SmartKitchen.Domain.DisplayModels.BasketWithProductsDisplayModel
+﻿@model SmartKitchen.Domain.DisplayModels.BasketDisplayModel
 @{
     ViewBag.Title = "Basket " + Model.Name;
 }
-<div class="h4 text-center">@Model.Name</div>
+<div class="h4 text-center" id="basketName">@Model.Name</div>
 @if (Request.IsAuthenticated)
 {
     Html.RenderAction("CreateProduct", new { basket = Model.Id });
 }
 <div class="text-center table-responsive m-0 bg-main-light">
-    @if (Model.BasketProducts.Count == 0)
+    @if (Model.Products == 0)
     {<div class="alert m-0 h3">This basket is empty now</div>}
     else
     {@Html.AjaxGrid(Url.Action("BasketProductGrid", new { id = Model.Id }))}
 </div>
-@if (Model.BasketProducts.Count != 0)
-{<button class="btn btn-success float-right m-2 px-3 @(Model.BasketProducts.Any() ? "" : "disabled")">Finish and close</button>}
+@if (Model.Products != 0 && !Model.Closed)
+{<button id="btnFinish" class="btn btn-success float-right m-2 px-3 @(Model.Products != 0 ? "" : "disabled")">Finish and close</button>}
 @Html.Partial("_AmountPicker")
 @Html.Partial("_DatePicker")
 @Scripts.Render("~/MvcGrid")
@@ -25,7 +25,10 @@
     <script>
         $(function () {
             $(function () {
-                BasketViewJs.initialize({updUrl: '@Url.Action("MarkProductBought", "Basket")'});
+                BasketViewJs.initialize({
+                    updUrl: '@Url.Action("MarkProductBought", "Basket")',
+                    finishUrl: '@Url.Action("FinishAndClose","Basket")?id=@Model.Id'
+                });
                 DatetimePickerJs.initialize({url: '@Url.Action("DateUpdate", "Basket")?id='});
                 AmountPickerJs.initialize({
                     deleteUrl: '@Url.Action("RemoveBasketProduct", "Basket")?id=',

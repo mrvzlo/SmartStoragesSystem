@@ -6,8 +6,7 @@
 <div class="text-justify my-2">
     After <a href="@Url.Action("Index","Account",new{Login = false})">registration</a>
     you can create your storages @Html.ActionLink("here", "Create", "Storage") using <b>@Model.StorageTypesCount</b> different templates.
-    Each storage allows you to manage a big amount of different products.
-    Each product has specific amount and expiration date which you can set manually.
+    Each storage allows you to manage a big amount of different products. Each product has specific amount and expiration date which you can set manually by clicking on the value.
     The system will inform you if any product <span class="text-danger font-weight-bold">become unsafe</span> or <span class="text-warning font-weight-bold">will become soon</span>.
     Also system will predict amount decreases according to previous usages.
 </div>
