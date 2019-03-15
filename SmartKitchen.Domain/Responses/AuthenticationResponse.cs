@@ -13,6 +13,7 @@ namespace SmartKitchen.Domain.Responses
         {
             Role = Role.Simple;
             Email = "";
+            Errors = response.Errors;
         }
     }
 }

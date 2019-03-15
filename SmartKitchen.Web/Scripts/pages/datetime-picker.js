@@ -6,7 +6,7 @@ var DatetimePickerJs = (function () {
     var initialize = function (options) {
 
         var defaults = {
-            cellId: null,
+            productId: null,
             url :null
         };
         settings = $.extend(true, defaults, options);
@@ -36,7 +36,7 @@ var DatetimePickerJs = (function () {
         var month = $("#Month").val();
         var year = $("#Year").val();
         var newDate = value + "/" + month + "/" + year;
-        var url = settings.url + settings.cellId + '&dateStr=' + newDate;
+        var url = settings.url + settings.productId + '&dateStr=' + newDate;
         $.post(url,
             function () {
                 new MvcGrid(document.querySelector('.mvc-grid')).reload();
@@ -59,7 +59,7 @@ var DatetimePickerJs = (function () {
     }
 
     var showDatePicker = function(product) {
-        settings.cellId = product;
+        settings.productId = product;
         var name = $("#name_" + product).text();
         $("#DateModalLabel").text("Choose expiration date for " + name);
     }

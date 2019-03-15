@@ -13,7 +13,8 @@ namespace SmartKitchen.DomainService.Profiles
                 .ForMember(dest => dest.Products, opts => { opts.MapFrom(from => from.BasketProducts.Count); })
                 .ForMember(dest => dest.BoughtProducts, opts => { opts.MapFrom(from => from.BasketProducts.Count(x => x.Bought)); });
             CreateMap<Basket, BasketWithProductsDisplayModel>()
-                .ForMember(dest => dest.BasketProducts, opts => { opts.MapFrom(from => from.BasketProducts.ToList()); });
+                .ForMember(dest => dest.BasketProducts, opts => { opts.MapFrom(from => from.BasketProducts.ToList()); })
+                .ForMember(dest => dest.FullPrice, opts => {opts.MapFrom(from => from.BasketProducts.Sum(x=>x.Price));});
             CreateMap<BasketProduct, BasketProductDisplayModel>()
                 .ForMember(dest => dest.ProductName, opts => { opts.MapFrom(from => from.Cell.Product.Name); })
                 .ForMember(dest => dest.StorageName, opts => { opts.MapFrom(from => from.Cell.Storage.Name); });

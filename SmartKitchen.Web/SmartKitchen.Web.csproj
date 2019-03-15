@@ -399,6 +399,7 @@
     <Content Include="Views\Category\_CategoryGrid.cshtml" />
     <Content Include="Views\Storage\_CreateTypeForm.cshtml" />
     <Content Include="Views\Storage\_UpdateStorageName.cshtml" />
+    <Content Include="Views\Basket\_GridFooter.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

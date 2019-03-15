@@ -11,5 +11,6 @@ namespace SmartKitchen.Domain.DisplayModels
         public string Name { get; set; }
         public DateTime CreationDate { get; set; }
         public List<BasketProduct> BasketProducts { get; set; }
+        public decimal FullPrice { get; set; }
     }
 }

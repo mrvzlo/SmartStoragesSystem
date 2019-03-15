@@ -13,7 +13,8 @@
     else
     {@Html.AjaxGrid(Url.Action("BasketProductGrid", new { id = Model.Id }))}
 </div>
-<button class="btn btn-success float-right m-2 px-3 @(Model.BasketProducts.Any() ? "" : "disabled")">Finish and close</button>
+@if (Model.BasketProducts.Count != 0)
+{<button class="btn btn-success float-right m-2 px-3 @(Model.BasketProducts.Any() ? "" : "disabled")">Finish and close</button>}
 @Html.Partial("_AmountPicker")
 @Html.Partial("_DatePicker")
 @Scripts.Render("~/MvcGrid")
@@ -25,7 +26,7 @@
         $(function () {
             $(function () {
                 BasketViewJs.initialize({updUrl: '@Url.Action("MarkProductBought", "Basket")'});
-                DatetimePickerJs.initialize({url: '@Url.Action("DateUpdate", "Basket")'});
+                DatetimePickerJs.initialize({url: '@Url.Action("DateUpdate", "Basket")?id='});
                 AmountPickerJs.initialize({
                     deleteUrl: '@Url.Action("RemoveBasketProduct", "Basket")?id=',
                     setUrl: '@Url.Action("SetAmount", "Basket")?id='

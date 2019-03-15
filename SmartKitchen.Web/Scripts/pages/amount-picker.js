@@ -45,11 +45,6 @@ var AmountPickerJs = (function () {
         }
     }
 
-    var remove = function(id) {
-        settings.productId = id;
-        removeProduct();
-    }
-
     var showAmountPicker = function(product, amount) {
         settings.productId = product;
         amount /= 1000;
@@ -61,7 +56,6 @@ var AmountPickerJs = (function () {
     return {
         initialize: initialize,
         showAmountPicker: showAmountPicker,
-        changeProductAmount: changeProductAmount,
-        remove: remove
+        changeProductAmount: changeProductAmount
     };
 })();

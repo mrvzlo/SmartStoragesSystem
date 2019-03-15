@@ -1,20 +1,41 @@
 ﻿@using SmartKitchen.Domain.DisplayModels
+@using SmartKitchen.Domain.Enums
 @model IQueryable<BasketProductDisplayModel>
 
 @Html.Grid(Model).Build(c =>{
-    c.Add(x => x.ProductName).RenderedAs(NameHelper).Titled("Name").Css("w-30");
-    c.Add(x => x.BestBefore).Titled("Safety").Css("w-20");
-    c.Add(x => x.Amount).Titled("Amount").Css("w-20");
-    c.Add(x => x.Price).Titled("Price").Css("w-20");
-    c.Add(x => x.Id).RenderedAs(RemoveHelper).Css("w-10");
-}).Sortable().Css("table-borderless w-100 table p-0 m-0 table-hover").RowAttributed(model => new { id = model.Id })
+    c.Add(x => x.ProductName).RenderedAs(NameHelper).Titled("Name").Css("w-25");
+    c.Add(x => x.BestBefore).RenderedAs(SafetyHelper).Titled("Safety").Css("w-25");
+    c.Add(x => x.Amount).RenderedAs(AmountHelper).Titled("Amount").Css("w-25");
+    c.Add(x => x.Price).RenderedAs(PriceHelper).Titled("Price").Css("w-25");
+}).Sortable().Css("table-borderless w-100 table p-0 m-0 table-hover").RowAttributed(model => new { id = model.Id }).WithFooter("_GridFooter")
 
 @helper NameHelper(BasketProductDisplayModel item)
 {
     <div id="name_@item.Id" class="@(item.Bought ? "bought" : "") pointer" onclick="BasketViewJs.markBought(@item.Id)">@item.ProductName</div>
 }
 
-@helper RemoveHelper(BasketProductDisplayModel item)
+@helper AmountHelper(BasketProductDisplayModel item)
 {
-    <img class="rowicon" onclick="AmountPickerJs.remove(@item.Id)" src="~/Content/images/remove.svg"/>
+    <div onclick="AmountPickerJs.showAmountPicker(@item.Id,@item.Amount)">
+        <a id="amount_@item.Id" class="pointer" data-toggle="modal" data-target="#AmountModal">
+            @(item.Amount / 1000.0) kg
+        </a>
+    </div>
+}
+
+@helper SafetyHelper(BasketProductDisplayModel item)
+{
+    bool changeableDate = item.Amount != 0;
+    <div @Html.Raw(changeableDate ? "onclick=\"DatetimePickerJs.showDatePicker('" + item.Id + "')\"" : "")>
+        <a id="safety_@item.Id" @Html.Raw(changeableDate ? "class='pointer' data-toggle='modal' data-target='#DateModal'" : "")>
+            @(item.BestBefore != null ? item.BestBefore.Value.ToString("dd.MM.yy") : "Unknown")
+        </a>
+    </div>
+}
+
+@helper PriceHelper(BasketProductDisplayModel item)
+{
+    <div>
+        @item.Price €
+    </div>
 }

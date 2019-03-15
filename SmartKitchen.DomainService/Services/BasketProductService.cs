@@ -108,11 +108,9 @@ namespace SmartKitchen.DomainService.Services
             if (!response.Successful()) return response;
 
             if (value < 0) value = 0;
-            if (value == 0)
-            {
-                product.BestBefore = null;
-                _basketProductRepository.AddOrUpdateBasketProduct(product);
-            }
+            if (value == 0) product.BestBefore = null;
+            product.Amount = value;
+            _basketProductRepository.AddOrUpdateBasketProduct(product);
             return response;
         }
 
