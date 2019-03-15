@@ -136,7 +136,11 @@ namespace SmartKitchen.Web.Controllers
         [HttpPost]
         public void SetAmount(int id, int amount) =>
             _basketProductService.UpdateProductAmount(id, amount, CurrentUser());
-        
+
+        [HttpPost]
+        public void SetPrice(int id, decimal price) =>
+            _basketProductService.UpdateProductPrice(id, price, CurrentUser());
+
         [HttpPost]
         public void DateUpdate(int id, string dateStr)
         {

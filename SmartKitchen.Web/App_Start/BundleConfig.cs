@@ -69,6 +69,10 @@ namespace SmartKitchen.Web
                 "~/Scripts/pages/amount-picker.js"
             ));
 
+            bundles.Add(new ScriptBundle("~/js/pricePicker").Include(
+                "~/Scripts/pages/price-picker.js"
+            ));
+
             bundles.Add(new ScriptBundle("~/js/datetimePicker").Include(
                 "~/Scripts/pages/datetime-picker.js"
             ));

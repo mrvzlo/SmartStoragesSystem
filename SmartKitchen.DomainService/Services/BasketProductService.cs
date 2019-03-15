@@ -127,7 +127,7 @@ namespace SmartKitchen.DomainService.Services
             return response;
         }
 
-        public ServiceResponse UpdateProductPrice(int id, int value, string email)
+        public ServiceResponse UpdateProductPrice(int id, decimal value, string email)
         {
             var product = _basketProductRepository.GetBasketProductById(id);
             var basket = _basketRepository.GetBasketById(product.BasketId);
@@ -135,7 +135,7 @@ namespace SmartKitchen.DomainService.Services
             var response = ProductBelongsToPerson(product, person, basket);
             if (!response.Successful()) return response;
 
-            product.Amount = value;
+            product.Price = value;
             _basketProductRepository.AddOrUpdateBasketProduct(product);
             return response;
         }

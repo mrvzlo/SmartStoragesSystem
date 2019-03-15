@@ -61,7 +61,7 @@ var DatetimePickerJs = (function () {
     var showDatePicker = function(product) {
         settings.productId = product;
         var name = $("#name_" + product).text();
-        $("#DateModalLabel").text("Choose expiration date for " + name);
+        $("#DateModalLabel").text("Choose the expiration date for " + name);
     }
 
     var setTodayDate = function() {

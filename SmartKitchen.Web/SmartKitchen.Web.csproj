@@ -338,6 +338,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\MvcGrid\mvc-grid.js" />
     <Content Include="Scripts\pages\account-index.js" />
+    <Content Include="Scripts\pages\price-picker.js" />
     <Content Include="Scripts\pages\basket-view.js" />
     <Content Include="Scripts\pages\datetime-picker.js" />
     <Content Include="Scripts\pages\category-index.js" />
@@ -401,6 +402,7 @@
     <Content Include="Views\Storage\_CreateTypeForm.cshtml" />
     <Content Include="Views\Storage\_UpdateStorageName.cshtml" />
     <Content Include="Views\Basket\_GridFooter.cshtml" />
+    <Content Include="Views\Shared\_PricePicker.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

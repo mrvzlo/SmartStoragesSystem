@@ -35,7 +35,9 @@
 
 @helper PriceHelper(BasketProductDisplayModel item)
 {
-    <div>
-        @item.Price €
+    <div onclick="PricePickerJs.showPricePicker(@item.Id,@item.Price)">
+        <a id="price_@item.Id" class="pointer" data-toggle="modal" data-target="#PriceModal">
+            @item.Price €
+        </a>
     </div>
 }

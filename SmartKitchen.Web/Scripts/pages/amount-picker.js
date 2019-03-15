@@ -49,7 +49,7 @@ var AmountPickerJs = (function () {
         settings.productId = product;
         amount /= 1000;
         var name = $("#name_" + product).text();
-        $('#AmountModalName').text("Choose amount of " + name + " in kg");
+        $('#AmountModalName').text("Choose the amount of " + name + " in kg");
         $("#AmountValue").val(amount);
     }
 

@@ -16,11 +16,13 @@
 @if (Model.Products != 0 && !Model.Closed)
 {<button id="btnFinish" class="btn btn-success float-right m-2 px-3 @(Model.Products != 0 ? "" : "disabled")">Finish and close</button>}
 @Html.Partial("_AmountPicker")
+@Html.Partial("_PricePicker")
 @Html.Partial("_DatePicker")
 @Scripts.Render("~/MvcGrid")
 @section scripts{
     @Scripts.Render("~/js/datetimePicker")
     @Scripts.Render("~/js/amountPicker")
+    @Scripts.Render("~/js/pricePicker")
     @Scripts.Render("~/js/basketView")
     <script>
         $(function () {
@@ -33,6 +35,9 @@
                 AmountPickerJs.initialize({
                     deleteUrl: '@Url.Action("RemoveBasketProduct", "Basket")?id=',
                     setUrl: '@Url.Action("SetAmount", "Basket")?id='
+                });
+                PricePickerJs.initialize({
+                    setUrl: '@Url.Action("SetPrice", "Basket")?id='
                 });
             });
         });
