@@ -25,27 +25,28 @@
         <div class="col-6 col-md-3 col-lg-2 p-1"><button class="btn btn-main w-100" id="btnMark0">Clear</button></div>
     </div>
     <div class="row justify-content-center m-1">
-        <div class="col-6 col-md-4 p-1">@Html.DropDownList("basket", new SelectList(selectList, "Value", "Text"), new {@class = "input py-1"})</div>
+        <div class="col-6 col-md-4 p-1">@Html.DropDownList("basket", new SelectList(selectList, "Value", "Text"), new { @class = "input py-1" })</div>
         <div class="col-6 col-md-3 col-lg-2 p-1"><button id="sendToBasket" class="btn btn-main w-100">To basket</button></div>
-        <div id="basketBox" class="col-md-4 col-8 order-md-first p-1">@Html.TextBox("basketName", "", new {@class = "py-1", placeholder = "New basket"})</div>
+        <div id="basketBox" class="col-md-4 col-8 order-md-first p-1">@Html.TextBox("basketName", "", new { @class = "py-1", placeholder = "New basket" })</div>
         <div id="toBasketError" class="error col-12"></div>
     </div>
 }
 @Html.Partial("_DatePicker")
 @Html.Partial("_AmountPicker")
+@Html.Partial("_StatusPicker")
 @Scripts.Render("~/MvcGrid")
+@Scripts.Render("~/js/pickers")
+@Scripts.Render("~/js/StorageView")
 @section scripts{
-    @Scripts.Render("~/js/datetimePicker")
-    @Scripts.Render("~/js/amountPicker")
-    @Scripts.Render("~/js/storageView")
     <script>
         $(function () {
             $(function () {
+                StatusPickerJs.initialize({deleteUrl: '@Url.Action("Remove", "Storage")?cellId='});
                 StorageViewJs.initialize({sendUrl: '@Url.Action("AddListToBasket","Basket")', storageId: @Model.Id });
                 DatetimePickerJs.initialize({url: '@Url.Action("DateUpdate", "Storage")?cell='});
-                AmountPickerJs.initialize({ deleteUrl: '@Url.Action("Remove", "Storage")?cellId=', setUrl: '@Url.Action("SetAmount", "Storage")?cell='});
+                AmountPickerJs.initialize({ setUrl: '@Url.Action("SetAmount", "Storage")?cell='});
             });
         });
-        
+
     </script>
 }

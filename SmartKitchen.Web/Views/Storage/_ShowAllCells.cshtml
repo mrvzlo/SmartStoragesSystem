@@ -12,7 +12,9 @@
 
 @helper NameHelper(CellDisplayModel item)
 {
-    <div id="name_@item.Id" class="pointer" onclick="StorageViewJs.mark(@item.Id)">@item.ProductName</div>
+    <div onclick="StatusPickerJs.showStatusPicker(@item.Id,'Mark')">
+        <a id="name_@item.Id" class="pointer" data-toggle="modal" data-target="#StatusModal">@item.ProductName</a>
+    </div>
 }
 
 @helper AmountHelper(CellDisplayModel item)

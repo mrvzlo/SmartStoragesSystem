@@ -37,7 +37,7 @@ namespace SmartKitchen.Web.Controllers
         [HttpPost]
         public bool Remove(int fromId, int toId)
         {
-            return _categoryService.ReplaceCategory(fromId, toId);
+            return _categoryService.ReplaceCategory(fromId, toId).Successful();
         }
 
         public PartialViewResult CategoryGrid()

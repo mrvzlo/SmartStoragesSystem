@@ -11,7 +11,9 @@
 
 @helper NameHelper(BasketProductDisplayModel item)
 {
-    <div id="name_@item.Id" class="@(item.Bought ? "bought" : "") pointer" onclick="BasketViewJs.markBought(@item.Id)">@item.ProductName</div>
+    <div onclick="StatusPickerJs.showStatusPicker(@item.Id,'@(item.Bought ? "Not bought" : "Bought")')">
+        <a id="name_@item.Id" class="pointer @(item.Bought ? "bought" :"")" data-toggle="modal" data-target="#StatusModal">@item.ProductName</a>
+    </div>
 }
 
 @helper AmountHelper(BasketProductDisplayModel item)

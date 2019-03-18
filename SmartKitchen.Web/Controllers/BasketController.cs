@@ -126,8 +126,8 @@ namespace SmartKitchen.Web.Controllers
         }
 
         [HttpPost]
-        public bool MarkProductBought(int id) => 
-            _basketProductService.MarkProductBought(id, CurrentUser()).Successful();
+        public bool MarkProductBought(int id, bool status) => 
+            _basketProductService.MarkProductBought(id, status, CurrentUser()).Successful();
 
         [HttpPost]
         public bool RemoveBasketProduct(int id) =>

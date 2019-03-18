@@ -86,7 +86,7 @@ namespace SmartKitchen.DomainService.Services
                 : null;
         }
 
-        public ServiceResponse MarkProductBought(int id, string email)
+        public ServiceResponse MarkProductBought(int id, bool status, string email)
         {
             var product = _basketProductRepository.GetBasketProductById(id);
             var basket = _basketRepository.GetBasketById(product.BasketId);
@@ -94,7 +94,7 @@ namespace SmartKitchen.DomainService.Services
             var response = ProductBelongsToPerson(product, person, basket);
             if (!response.Successful()) return response;
 
-            product.Bought = !product.Bought;
+            product.Bought = status;
             _basketProductRepository.AddOrUpdateBasketProduct(product);
             return response;
         }

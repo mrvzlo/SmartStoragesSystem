@@ -17,6 +17,7 @@ var StorageViewJs = (function () {
         $(document).on("click", "#btnMark3", function () { markGroup(3) });
         $(document).on("change", "#basket", basketNameInputUpd);
         $(document).on("click", "#sendToBasket", sendToBasket);
+        $(document).on("click", "#btnMark", mark);
         basketNameInputUpd();
     };
 
@@ -57,7 +58,8 @@ var StorageViewJs = (function () {
         else $("#basketBox").show();
     }
 
-    var mark = function (id) {
+    var mark = function () {
+        var id = StatusPickerJs.getProductId();
         var e = $("#name_" + id);
         if (e.hasClass("font-weight-bold"))
             e.removeClass("font-weight-bold");

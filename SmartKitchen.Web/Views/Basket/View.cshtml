@@ -18,12 +18,11 @@
 @Html.Partial("_AmountPicker")
 @Html.Partial("_PricePicker")
 @Html.Partial("_DatePicker")
+@Html.Partial("_StatusPicker")
 @Scripts.Render("~/MvcGrid")
+@Scripts.Render("~/js/pickers")
+@Scripts.Render("~/js/BasketView")
 @section scripts{
-    @Scripts.Render("~/js/datetimePicker")
-    @Scripts.Render("~/js/amountPicker")
-    @Scripts.Render("~/js/pricePicker")
-    @Scripts.Render("~/js/basketView")
     <script>
         $(function () {
             $(function () {
@@ -32,13 +31,9 @@
                     finishUrl: '@Url.Action("FinishAndClose","Basket")?id=@Model.Id'
                 });
                 DatetimePickerJs.initialize({url: '@Url.Action("DateUpdate", "Basket")?id='});
-                AmountPickerJs.initialize({
-                    deleteUrl: '@Url.Action("RemoveBasketProduct", "Basket")?id=',
-                    setUrl: '@Url.Action("SetAmount", "Basket")?id='
-                });
-                PricePickerJs.initialize({
-                    setUrl: '@Url.Action("SetPrice", "Basket")?id='
-                });
+                AmountPickerJs.initialize({setUrl: '@Url.Action("SetAmount", "Basket")?id='});
+                StatusPickerJs.initialize({deleteUrl: '@Url.Action("RemoveBasketProduct", "Basket")?id='});
+                PricePickerJs.initialize({setUrl: '@Url.Action("SetPrice", "Basket")?id='});
             });
         });
 

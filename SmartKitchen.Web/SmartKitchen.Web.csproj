@@ -338,14 +338,15 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\MvcGrid\mvc-grid.js" />
     <Content Include="Scripts\pages\account-index.js" />
-    <Content Include="Scripts\pages\price-picker.js" />
+    <Content Include="Scripts\pages\pickers\status-picker.js" />
+    <Content Include="Scripts\pages\pickers\price-picker.js" />
     <Content Include="Scripts\pages\basket-view.js" />
-    <Content Include="Scripts\pages\datetime-picker.js" />
+    <Content Include="Scripts\pages\pickers\datetime-picker.js" />
     <Content Include="Scripts\pages\category-index.js" />
     <Content Include="Scripts\pages\form-helper.js" />
     <Content Include="Scripts\pages\basket-index.js" />
     <Content Include="Scripts\pages\product-index.js" />
-    <Content Include="Scripts\pages\amount-picker.js" />
+    <Content Include="Scripts\pages\pickers\amount-picker.js" />
     <Content Include="Scripts\pages\storage-view.js" />
     <Content Include="Scripts\pages\storage-index.js" />
     <Content Include="Scripts\pages\storage-create.js" />
@@ -403,6 +404,7 @@
     <Content Include="Views\Storage\_UpdateStorageName.cshtml" />
     <Content Include="Views\Basket\_GridFooter.cshtml" />
     <Content Include="Views\Shared\_PricePicker.cshtml" />
+    <Content Include="Views\Shared\_StatusPicker.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

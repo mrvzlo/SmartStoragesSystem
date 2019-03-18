@@ -11,12 +11,15 @@ var BasketViewJs = (function () {
         new MvcGrid(document.querySelector(".mvc-grid")).reload();
         settings = $.extend(true, defaults, options);
         $(document).on("click", "#btnFinish", finish);
+        $(document).on("click", "#btnMark", markBought);
     }
-
-    var markBought = function(id) {
+    
+    var markBought = function () {
+        var id = StatusPickerJs.getProductId();
+        var status = !$("#name_" + id).hasClass("bought");
         $.post({
-            url: settings.updUrl + "?id=" + id,
-            success: function() {
+            url: settings.updUrl + "?id=" + id+"&status="+status,
+            success: function () {
                 new MvcGrid(document.querySelector(".mvc-grid")).reload();
             }
         });
