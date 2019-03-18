@@ -34,7 +34,7 @@ namespace SmartKitchen.DomainService.Test.Tests
             var actual = sut.AddBasketProductByModel(model, person.Email);
 
             var error = actual.Errors.First();
-            Assert.That(error, Has.Property(nameof(error.ErrorEnum)).EqualTo(GeneralError.ItemNotFound));
+            Assert.That(error, Has.Property(nameof(error.ErrorEnum)).EqualTo(GeneralError.StorageWasNotFound));
         }
 
 
@@ -53,7 +53,7 @@ namespace SmartKitchen.DomainService.Test.Tests
             var actual = sut.AddBasketProductByModel(model, person.Email);
 
             var error = actual.Errors.First();
-            Assert.That(error, Has.Property(nameof(error.ErrorEnum)).EqualTo(GeneralError.ItemNotFound));
+            Assert.That(error, Has.Property(nameof(error.ErrorEnum)).EqualTo(GeneralError.BasketWasNotFound));
         }
 
         [Test, CustomAutoData]
@@ -74,7 +74,7 @@ namespace SmartKitchen.DomainService.Test.Tests
             var actual = sut.AddBasketProductByModel(model, person.Email);
 
             var error = actual.Errors.First();
-            Assert.That(error, Has.Property(nameof(error.ErrorEnum)).EqualTo(GeneralError.AccessDenied));
+            Assert.That(error, Has.Property(nameof(error.ErrorEnum)).EqualTo(GeneralError.AccessToBasketDenied));
         }
         
         [Test, CustomAutoData]
@@ -95,7 +95,7 @@ namespace SmartKitchen.DomainService.Test.Tests
             var actual = sut.AddBasketProductByModel(model, person.Email);
 
             var error = actual.Errors.First();
-            Assert.That(error, Has.Property(nameof(error.ErrorEnum)).EqualTo(GeneralError.AccessDenied));
+            Assert.That(error, Has.Property(nameof(error.ErrorEnum)).EqualTo(GeneralError.AccessToStorageDenied));
         }
 
         [Test, CustomAutoData]

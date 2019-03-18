@@ -58,7 +58,7 @@ namespace SmartKitchen.DomainService.Services
             if (exists)
                 return response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
             if (!_storageTypeService.ExistsWithId(model.TypeId))
-                return response.AddError(GeneralError.ItemNotFound, nameof(model.TypeId));
+                return response.AddError(GeneralError.StorageTypeWasNotFound, nameof(model.TypeId));
             var storage = new Storage
             {
                 Name = model.Name,
