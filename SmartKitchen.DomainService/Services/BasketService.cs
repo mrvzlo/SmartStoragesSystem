@@ -52,19 +52,7 @@ namespace SmartKitchen.DomainService.Services
             response.AddedId = basket.Id;
             return response;
         }
-
-        public BasketDisplayModel LockBasket(int id, string email)
-        {
-            var basket = _basketRepository.GetBasketById(id);
-            var person = _personRepository.GetPersonByEmail(email);
-            var response = BasketBelongsToPerson(basket, person);
-            if (!response.Successful()) return null;
-
-            basket.Closed = true;
-            _basketRepository.AddOrUpdateBasket(basket);
-            return Mapper.Map<BasketDisplayModel>(basket);
-        }
-
+        
         public bool DeleteBasket(int id, string email)
         {
             var basket = _basketRepository.GetBasketById(id);

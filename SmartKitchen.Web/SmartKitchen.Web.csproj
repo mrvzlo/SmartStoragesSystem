@@ -210,7 +210,6 @@
     <Content Include="Content\images\basket.png" />
     <Content Include="Content\images\guide.png" />
     <Content Include="Content\images\home.svg" />
-    <Content Include="Content\images\lock.svg" />
     <Content Include="Content\images\login.png" />
     <Content Include="Content\images\logout.png" />
     <Content Include="Content\images\minus.png" />
