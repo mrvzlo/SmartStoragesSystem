@@ -22,7 +22,6 @@ var BasketIndexJs = (function () {
     }
 
     return {
-        lock: lock,
         remove: remove,
         initialize: initialize
     };

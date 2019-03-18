@@ -7,8 +7,7 @@ var StatusPickerJs = (function () {
 
         var defaults = {
             productId: null,
-            deleteUrl: null,
-            setUrl: null
+            deleteUrl: null
         };
 
         settings = $.extend(true, defaults, options);

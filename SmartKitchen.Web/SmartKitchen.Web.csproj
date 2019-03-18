@@ -337,6 +337,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\MvcGrid\mvc-grid.js" />
     <Content Include="Scripts\pages\account-index.js" />
+    <Content Include="Scripts\pages\pickers\name-picker.js" />
     <Content Include="Scripts\pages\pickers\status-picker.js" />
     <Content Include="Scripts\pages\pickers\price-picker.js" />
     <Content Include="Scripts\pages\basket-view.js" />
@@ -400,7 +401,7 @@
     <Content Include="Views\Product\_ProductGrid.cshtml" />
     <Content Include="Views\Category\_CategoryGrid.cshtml" />
     <Content Include="Views\Storage\_CreateTypeForm.cshtml" />
-    <Content Include="Views\Storage\_UpdateStorageName.cshtml" />
+    <Content Include="Views\Shared\_NamePicker.cshtml" />
     <Content Include="Views\Basket\_GridFooter.cshtml" />
     <Content Include="Views\Shared\_PricePicker.cshtml" />
     <Content Include="Views\Shared\_StatusPicker.cshtml" />

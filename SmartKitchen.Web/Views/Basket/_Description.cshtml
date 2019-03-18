@@ -1,14 +1,14 @@
 ﻿@model SmartKitchen.Domain.DisplayModels.BasketDisplayModel
-<tr id="@Model.Id" class="flex-nowrap pointer"
-    onclick="window.location = '@Url.Action("View","Basket",new{id = Model.Id})';">
-    <td class="w-25">@Model.Name</td>
+<tr id="@Model.Id" class="flex-nowrap">
+    <td id="name_@Model.Id" class="w-25 pointer"
+        onclick="window.location = '@Url.Action("View","Basket",new{id = Model.Id})';">@Model.Name</td>
     <td class="w-20">@Model.BoughtProducts/@Model.Products<span class="d-md-inline d-none"> bought</span></td>
     <td class="w-20">@Model.FullPrice €</td>
     <td class="w-20">@Model.CreationDate.ToString("dd.MM.yy")</td>
-    @if (Model.Closed)
-    {
-        <td class="w-10">
-            <img src="../Content/images/remove.svg" onclick="BasketIndexJs.remove(@Model.Id,'@Model.Name')" class="rowicon" />
-        </td>
-    }
+    <td class="w-10">
+        @if (Model.Closed)
+        {<img src="../Content/images/remove.svg" onclick="BasketIndexJs.remove(@Model.Id,'@Model.Name')" class="rowicon" />}
+        else
+        {<img src="../Content/images/edit.png" onclick="NamePickerJs.showNamePicker(@Model.Id)" class="rowicon" data-toggle="modal" data-target="#NamePickerModal"/>}
+    </td>
 </tr>

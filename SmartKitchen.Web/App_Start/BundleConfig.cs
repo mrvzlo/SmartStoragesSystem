@@ -66,8 +66,9 @@ namespace SmartKitchen.Web
             ));
 
             bundles.Add(new ScriptBundle("~/js/pickers").Include(
-                "~/Scripts/pages/pickers/amount-picker.js",
+                "~/Scripts/pages/pickers/name-picker.js",
                 "~/Scripts/pages/pickers/price-picker.js",
+                "~/Scripts/pages/pickers/amount-picker.js",
                 "~/Scripts/pages/pickers/status-picker.js",
                 "~/Scripts/pages/pickers/datetime-picker.js"
             ));

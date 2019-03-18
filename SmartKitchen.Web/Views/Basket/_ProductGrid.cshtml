@@ -19,9 +19,7 @@
 @helper AmountHelper(BasketProductDisplayModel item)
 {
     <div onclick="AmountPickerJs.showAmountPicker(@item.Id,@item.Amount)">
-        <a id="amount_@item.Id" class="pointer" data-toggle="modal" data-target="#AmountModal">
-            @(item.Amount / 1000.0) kg
-        </a>
+        <a id="amount_@item.Id" class="pointer" data-toggle="modal" data-target="#AmountModal">@(item.Amount / 1000.0) kg</a>
     </div>
 }
 
@@ -29,17 +27,13 @@
 {
     bool changeableDate = item.Amount != 0;
     <div @Html.Raw(changeableDate ? "onclick=\"DatetimePickerJs.showDatePicker('" + item.Id + "')\"" : "")>
-        <a id="safety_@item.Id" @Html.Raw(changeableDate ? "class='pointer' data-toggle='modal' data-target='#DateModal'" : "")>
-            @(item.BestBefore != null ? item.BestBefore.Value.ToString("dd.MM.yy") : "Unknown")
-        </a>
+        <a id="safety_@item.Id" @Html.Raw(changeableDate ? "class='pointer' data-toggle='modal' data-target='#DateModal'" : "")>@(item.BestBefore != null ? item.BestBefore.Value.ToString("dd.MM.yy") : "Unknown")</a>
     </div>
 }
 
 @helper PriceHelper(BasketProductDisplayModel item)
 {
     <div onclick="PricePickerJs.showPricePicker(@item.Id,@item.Price)">
-        <a id="price_@item.Id" class="pointer" data-toggle="modal" data-target="#PriceModal">
-            @item.Price €
-        </a>
+        <a id="price_@item.Id" class="pointer" data-toggle="modal" data-target="#PriceModal">@item.Price €</a>
     </div>
 }

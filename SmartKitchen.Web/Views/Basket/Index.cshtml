@@ -15,13 +15,13 @@ else
         <div id="collapeTab1" class="collapse show">
             <table class="table table-hover mb-0">
                 <tbody>
-                @foreach (var b in Model)
-                {
-                    if (!b.Closed)
+                    @foreach (var b in Model)
                     {
-                        Html.RenderPartial("_Description", b);
+                        if (!b.Closed)
+                        {
+                            Html.RenderPartial("_Description", b);
+                        }
                     }
-                }
                 </tbody>
             </table>
         </div>
@@ -31,25 +31,26 @@ else
         <div id="collapeTab2" class="collapse">
             <table id="tab2" class="table table-hover mb-0">
                 <tbody>
-                @foreach (var b in Model)
-                {
-                    if (b.Closed)
+                    @foreach (var b in Model)
                     {
-                        Html.RenderPartial("_Description", b);
+                        if (b.Closed)
+                        {
+                            Html.RenderPartial("_Description", b);
+                        }
                     }
-                }
                 </tbody>
             </table>
         </div>
     </div>
 }
+@Html.Partial("_NamePicker")
 @section scripts
 {
     @Scripts.Render("~/js/basketIndex")
-    <script>$(function () {
-            BasketIndexJs.initialize({
-                lockUrl: '@Url.Action("Lock","Basket")/',
-                removeUrl: '@Url.Action("Remove","Basket")/'
-            });
+    @Scripts.Render("~/js/pickers")
+    <script>
+    $(function () {
+            BasketIndexJs.initialize({removeUrl: '@Url.Action("Remove","Basket")'});
+            NamePickerJs.initialize({updateUrl: '@Url.Action("UpdateName", "Basket")'});
         });</script>
 }

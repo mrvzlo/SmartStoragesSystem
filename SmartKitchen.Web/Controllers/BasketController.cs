@@ -73,17 +73,16 @@ namespace SmartKitchen.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Lock(int id)
-        {
-            var locked = _basketService.LockBasket(id, CurrentUser());
-            if (locked == null) return Redirect(Url.Action("Index"));
-            return PartialView("_Description", locked);
-        }
-
-        [HttpPost]
         public bool Remove(int id)
         {
             return _basketService.DeleteBasket(id, CurrentUser());
+        }
+
+        [HttpPost]
+        public bool UpdateName(string name, int id)
+        {
+            var model = new NameCreationModel(name);
+            return ModelState.IsValid && _basketService.UpdateBasketName(model, id, CurrentUser());
         }
 
         [HttpPost]
