@@ -1,11 +1,6 @@
-﻿using System.IO;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
-using System.Web.UI;
-using JetBrains.Annotations;
-using SmartKitchen.Domain.Extensions;
+﻿using SmartKitchen.Domain.Extensions;
 using SmartKitchen.Domain.Responses;
+using System.Web.Mvc;
 
 namespace SmartKitchen.Web.Controllers
 {
@@ -23,7 +18,7 @@ namespace SmartKitchen.Web.Controllers
         {
             var res = "";
             foreach (var e in response.Errors)
-                res += e.ErrorEnum.GetDescription()+"\n";
+                res += e.ErrorEnum.GetDescription() + "\n";
             return res;
         }
 

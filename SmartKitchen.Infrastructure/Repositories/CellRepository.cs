@@ -1,11 +1,7 @@
 ﻿using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.IRepositories;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using SmartKitchen.Domain.DisplayModels;
-using Z.EntityFramework.Plus;
 
 namespace SmartKitchen.Infrastructure.Repositories
 {

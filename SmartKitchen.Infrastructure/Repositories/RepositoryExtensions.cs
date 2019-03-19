@@ -9,7 +9,7 @@ namespace SmartKitchen.Infrastructure.Repositories
     {
         public static void InsertOrUpdate<TEntity>(this DbContext dbContext, TEntity entity) where TEntity : class
         {
-            // Do not change state if entity is already attached
+            // ReSharper disable once PossibleNullReferenceException
             if (!IsAttached(dbContext, entity))
             {
                 var objectContext = ((IObjectContextAdapter)dbContext).ObjectContext;

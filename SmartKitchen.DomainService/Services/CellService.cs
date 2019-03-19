@@ -44,7 +44,7 @@ namespace SmartKitchen.DomainService.Services
 
         public ItemCreationResponse AddOrUpdateCell(CellCreationModel model, string email)
         {
-            var response = new ItemCreationResponse();
+            ItemCreationResponse response;
             var storage = _storageRepository.GetStorageById(model.Storage);
             var person = _personRepository.GetPersonByEmail(email);
             response = (ItemCreationResponse)StorageBelongsToPerson(storage, person);

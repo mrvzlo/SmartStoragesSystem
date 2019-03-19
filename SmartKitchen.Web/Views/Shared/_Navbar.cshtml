@@ -2,7 +2,8 @@
     <div class="container p-0">
         <nav class="navbar py-1 font-weight-bold navbar-expand justify-content-md-around navbar-dark">
             <div class="collapse navbar-collapse justify-content-center" id="nav">
-                @{ var authed = Request.IsAuthenticated;}
+                @{ var authed = Request.IsAuthenticated; }
+                @* ReSharper disable Html.IdNotResolved *@
 
                 <ul class="navbar-nav flex-fill w-100 flex-nowrap justify-content-start d-none d-md-flex">
                     <li class="nav-item">

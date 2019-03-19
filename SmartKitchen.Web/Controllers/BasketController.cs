@@ -155,7 +155,7 @@ namespace SmartKitchen.Web.Controllers
             {
                 newDate = DateTime.ParseExact(dateStr, "d/M/yyyy", CultureInfo.InvariantCulture);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 newDate = null;
             }

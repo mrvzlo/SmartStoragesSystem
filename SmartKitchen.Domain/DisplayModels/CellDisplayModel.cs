@@ -1,4 +1,5 @@
-﻿using System;
+﻿// ReSharper disable PossibleMultipleEnumeration
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using SmartKitchen.Domain.Enitities;
@@ -39,10 +40,10 @@ namespace SmartKitchen.Domain.DisplayModels
         public decimal AmountDecreasePerHour{ get {
                 decimal decrease = 0, hours = 0;
                 int count = 0;
-                var changeslist = CellChanges.OrderByDescending(x => x.UpdateDate);
-                foreach (var newest in changeslist)
+                var cellChanges = CellChanges.OrderByDescending(x => x.UpdateDate);
+                foreach (var newest in cellChanges)
                 {
-                    var oldest = changeslist.FirstOrDefault(x => x.UpdateDate < newest.UpdateDate);
+                    var oldest = cellChanges.FirstOrDefault(x => x.UpdateDate < newest.UpdateDate);
                     if (oldest == null || oldest.Amount <= newest.Amount) continue;
                     count++;
                     decrease += newest.Amount - oldest.Amount;

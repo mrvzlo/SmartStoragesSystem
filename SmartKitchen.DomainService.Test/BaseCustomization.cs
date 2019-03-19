@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using AutoFixture;
 using AutoFixture.AutoMoq;
 using AutoMapper;
@@ -21,7 +20,7 @@ namespace SmartKitchen.DomainService.Test
                 cfg.AddProfile<ProductProfile>();
                 cfg.AddProfile<StorageProfile>();
             }).CreateMapper());
-            fixture.Customize(new AutoConfiguredMoqCustomization());
+            fixture.Customize(new AutoMoqCustomization{ConfigureMembers = true});
             fixture.Register(() => fixture.CreateMany<Basket>(3).AsQueryable());
             fixture.Register(() => fixture.CreateMany<Storage>(3).AsQueryable());
             fixture.Register(() => fixture.CreateMany<Product>(3).AsQueryable());

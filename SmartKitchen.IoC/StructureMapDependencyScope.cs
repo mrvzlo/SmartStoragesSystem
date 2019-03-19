@@ -97,7 +97,7 @@ namespace SmartKitchen.IoC
         {
             var container = (CurrentNestedContainer ?? Container);
 
-            var wh = container.WhatDoIHave();
+            container.WhatDoIHave();
             if (string.IsNullOrWhiteSpace(key))
                 return serviceType.IsAbstract || serviceType.IsInterface
                     ? container.TryGetInstance(serviceType)

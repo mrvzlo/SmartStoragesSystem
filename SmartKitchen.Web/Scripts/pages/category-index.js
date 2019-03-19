@@ -1,4 +1,5 @@
 ﻿// ReSharper disable VariableUsedInInnerScopeBeforeDeclared
+// ReSharper disable CoercedEqualsUsing
 var CategoryIndexJs = (function () {
 
     var settings = {};

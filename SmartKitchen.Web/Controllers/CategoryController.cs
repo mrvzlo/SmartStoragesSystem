@@ -1,11 +1,7 @@
-﻿using System.Linq;
-using System.Security.Policy;
-using System.Web.Mvc;
-using SmartKitchen.Domain.CreationModels;
-using SmartKitchen.Domain.DisplayModels;
-using SmartKitchen.Domain.Enums;
-using SmartKitchen.Domain.Extensions;
+﻿using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.IServices;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace SmartKitchen.Web.Controllers
 {
@@ -22,7 +18,7 @@ namespace SmartKitchen.Web.Controllers
         public ActionResult Index()
         {
             if (TempData.ContainsKey("error")) ModelState.AddModelError("Name", TempData["error"].ToString());
-            var query = _categoryService.GetAllCategoryDisplays().Select(x=>x.Id);
+            var query = _categoryService.GetAllCategoryDisplays().Select(x => x.Id);
             return View(query.ToList());
         }
 

@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿// ReSharper disable NotAccessedField.Local
+using AutoMapper;
 using StructureMap;
 using StructureMap.Graph;
 using StructureMap.Graph.Scanning;

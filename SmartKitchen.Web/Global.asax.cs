@@ -5,10 +5,11 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
+// ReSharper disable PossibleNullReferenceException
 
 namespace SmartKitchen.Web
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
         protected void Application_Start()
         {
@@ -18,7 +19,7 @@ namespace SmartKitchen.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
 
-        public void Application_AuthenticateRequest(Object src, EventArgs e)
+        public void Application_AuthenticateRequest(object src, EventArgs e)
         {
             if (HttpContext.Current.User == null) return;
             if (!HttpContext.Current.User.Identity.IsAuthenticated) return;

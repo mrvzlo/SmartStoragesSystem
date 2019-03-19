@@ -1,16 +1,16 @@
 ﻿using AutoFixture;
-using AutoFixture.AutoMoq;
 using AutoFixture.NUnit3;
 using Moq;
 using NUnit.Framework;
 using SmartKitchen.Domain.CreationModels;
+using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Enums;
 using SmartKitchen.Domain.IRepositories;
 using SmartKitchen.DomainService.Services;
 using System.Collections.Generic;
 using System.Linq;
-using SmartKitchen.Domain.DisplayModels;
+// ReSharper disable NUnit.MethodWithParametersAndTestAttribute
 
 namespace SmartKitchen.DomainService.Test.Tests
 {
@@ -21,10 +21,9 @@ namespace SmartKitchen.DomainService.Test.Tests
         public void AddStorage_validateStorageNameNotUnique(IFixture fixture, StorageCreationModel model, Person person)
         {
             var personRepMock = fixture.Freeze<Mock<IPersonRepository>>();
-            var storageRepMock = fixture.Freeze<Mock<IStorageRepository>>();
-            person.Storages.Add(new Storage{Name = model.Name});
+            person.Storages.Add(new Storage { Name = model.Name });
             personRepMock.Setup(x => x.GetPersonByEmail(It.IsAny<string>())).Returns(person);
-            
+
             var sut = fixture.Create<StorageService>();
             var actual = sut.AddStorage(model, person.Email);
 
@@ -36,7 +35,6 @@ namespace SmartKitchen.DomainService.Test.Tests
         public void AddStorage_validateStorageNameUnique(IFixture fixture, StorageCreationModel model, Person person)
         {
             var personRepMock = fixture.Freeze<Mock<IPersonRepository>>();
-            var storageRepMock = fixture.Freeze<Mock<IStorageRepository>>();
             person.Storages = new List<Storage>();
             personRepMock.Setup(x => x.GetPersonByEmail(It.IsAny<string>())).Returns(person);
 
@@ -55,7 +53,7 @@ namespace SmartKitchen.DomainService.Test.Tests
             var personRepMock = fixture.Freeze<Mock<IPersonRepository>>();
             storageRepMock.Setup(x => x.GetStorageById(storage.Id)).Returns(storage);
             personRepMock.Setup(x => x.GetPersonByEmail(person.Email)).Returns(person);
-            
+
             var sut = fixture.Create<StorageService>();
             var actual = sut.GetStorageById(storage.Id, person.Email);
 

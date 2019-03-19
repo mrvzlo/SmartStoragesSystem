@@ -1,4 +1,5 @@
 ﻿// ReSharper disable VariableUsedInInnerScopeBeforeDeclared
+// ReSharper disable CoercedEqualsUsing
 var StorageCreateTypeJs = (function () {
 
     var bCanPreview = true;
@@ -40,10 +41,10 @@ var StorageCreateTypeJs = (function () {
                 $('#Background').val(dColor.toString(16).substr(-6).toUpperCase());
             }
         });
-        $('#picker').click(function (e) { // click event handler
+        $('#picker').click(function () { // click event handler
             bCanPreview = !bCanPreview;
         });
-        $('#Background').click(function (e) { // preview click
+        $('#Background').click(function () { // preview click
             $('#pickerDiv').fadeToggle("fast", "linear");
             bCanPreview = true;
         });

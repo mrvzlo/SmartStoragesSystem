@@ -6,7 +6,6 @@ using SmartKitchen.Domain.Enums;
 using SmartKitchen.Domain.IRepositories;
 using SmartKitchen.Domain.IServices;
 using SmartKitchen.Domain.Responses;
-using System.Collections.Generic;
 using System.Linq;
 using AutoMapper.QueryableExtensions;
 

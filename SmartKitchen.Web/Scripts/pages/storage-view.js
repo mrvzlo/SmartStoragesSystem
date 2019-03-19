@@ -1,4 +1,5 @@
 ﻿// ReSharper disable VariableUsedInInnerScopeBeforeDeclared
+// ReSharper disable CoercedEqualsUsing
 var StorageViewJs = (function () {
 
     var settings = {};
