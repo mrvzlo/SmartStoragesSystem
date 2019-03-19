@@ -5,6 +5,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using SmartKitchen.Domain.Enums;
 
 namespace SmartKitchen.Web.Controllers
 {
@@ -51,6 +52,7 @@ namespace SmartKitchen.Web.Controllers
             }).ToList();
             selectList.Add(new SelectListItem { Value = "0", Text = "New" });
             ViewBag.SelectList = selectList;
+            ViewBag.Weight = CookieHelper.GetCookie(HttpContext, Cookie.Weight).Value;
             return View(description);
         }
 
@@ -164,6 +166,7 @@ namespace SmartKitchen.Web.Controllers
 
         public PartialViewResult ShowAllCells(int storage)
         {
+            ViewBag.Weight = CookieHelper.GetCookie(HttpContext, Cookie.Weight).Value;
             var query = _cellService.GetCellsOfStorage(storage, CurrentUser());
             return PartialView("_ShowAllCells", query);
         }

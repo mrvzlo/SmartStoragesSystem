@@ -8,7 +8,8 @@ var AmountPickerJs = (function () {
         var defaults = {
             productId: null,
             deleteUrl: null,
-            setUrl: null
+            setUrl: null,
+            measurement: null
         };
 
         settings = $.extend(true, defaults, options);
@@ -49,7 +50,7 @@ var AmountPickerJs = (function () {
         settings.productId = product;
         amount /= 1000;
         var name = $("#name_" + product).text();
-        $('#AmountModalName').text("Choose the amount of " + name + " in kg");
+        $('#AmountModalName').text("Choose the amount of " + name + " in " + settings.measurement);
         $("#AmountValue").val(amount);
     }
 

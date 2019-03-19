@@ -1,16 +1,14 @@
-﻿using SmartKitchen.Domain.CreationModels;
+﻿// ReSharper disable PossibleMultipleEnumeration
+using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.Enums;
+using SmartKitchen.Domain.Extensions;
 using SmartKitchen.Domain.IServices;
 using SmartKitchen.Web.Helpers;
 using System;
-using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using NonFactors.Mvc.Grid;
-using SmartKitchen.Domain.Extensions;
 
 namespace SmartKitchen.Web.Controllers
 {
@@ -33,10 +31,29 @@ namespace SmartKitchen.Web.Controllers
         }
 
         [Authorize]
-        public ActionResult Token()
+        public ActionResult Info()
         {
             var token = _personService.GetPersonByEmail(CurrentUser()).Token;
+            var currencies = EnumHelper.GetAllCurrencies();
+            var weights = EnumHelper.GetAllWeights();
+            var currency = CookieHelper.GetCookie(HttpContext, Cookie.Currency).Value;
+            var weight = CookieHelper.GetCookie(HttpContext, Cookie.Weight).Value;
+            ViewBag.Currency = (int)currencies.SingleOrDefault(x => x.GetDescription() == currency);
+            ViewBag.Weight = (int)weights.SingleOrDefault(x => x.GetDescription() == weight);
+            ViewBag.CurrencyList = currencies.Select(x => new SelectListItem { Value = ((int)x).ToString(), Text = x.ToString() });
+            ViewBag.WeightList = weights.Select(x => new SelectListItem { Value = ((int)x).ToString(), Text = x.ToString() });
             return View(token);
+        }
+
+        public RedirectResult UpdateCookies(int currency, int weight)
+        {
+            if (Enum.IsDefined(typeof(Currency), currency))
+                CookieHelper.UpdateCookie(HttpContext, Cookie.Currency, (Currency)currency);
+
+            if (Enum.IsDefined(typeof(Weight), weight))
+                CookieHelper.UpdateCookie(HttpContext, Cookie.Weight, (Weight)weight);
+
+            return Redirect(Url.Action("Info"));
         }
 
         [Authorize]
@@ -47,15 +64,11 @@ namespace SmartKitchen.Web.Controllers
             return _personService.GetPersonByEmail(CurrentUser()).Token.ToString();
         }
 
-        public PartialViewResult SignIn()
-        {
-            return PartialView("_SignIn", new SignInModel());
-        }
+        public PartialViewResult SignIn() =>
+            PartialView("_SignIn", new SignInModel());
 
-        public PartialViewResult SignUp()
-        {
-            return PartialView("_SignUp", new SignUpModel());
-        }
+        public PartialViewResult SignUp() =>
+            PartialView("_SignUp", new SignUpModel());
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -99,14 +112,7 @@ namespace SmartKitchen.Web.Controllers
 
         private void CreateTicket(string email, Role role)
         {
-            var ticket = new FormsAuthenticationTicket(
-                1,
-                email,
-                DateTime.Now,
-                DateTime.Now.AddDays(14),
-                false,
-                role.GetDescription()
-            );
+            var ticket = new FormsAuthenticationTicket(1, email, DateTime.Now, DateTime.Now.AddMonths(1), false, role.GetDescription());
             var encryptedTicket = FormsAuthentication.Encrypt(ticket);
             var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
             HttpContext.Response.Cookies.Add(cookie);

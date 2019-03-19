@@ -2,5 +2,5 @@
 <tr class="font-weight-bold">
     <td>Total</td>
     <td colspan="2"></td>
-    <td>@(Model.Rows.Sum(row => row.Model.Price)) €</td>
+    <td>@(Model.Rows.Sum(row => row.Model.Price)) @ViewBag.Currency</td>
 </tr>

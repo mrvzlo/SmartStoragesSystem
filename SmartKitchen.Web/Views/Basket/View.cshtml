@@ -31,9 +31,9 @@
                     finishUrl: '@Url.Action("FinishAndClose","Basket")?id=@Model.Id'
                 });
                 DatetimePickerJs.initialize({url: '@Url.Action("DateUpdate", "Basket")?id='});
-                AmountPickerJs.initialize({setUrl: '@Url.Action("SetAmount", "Basket")?id='});
+                AmountPickerJs.initialize({setUrl: '@Url.Action("SetAmount", "Basket")?id=', measurement: '@ViewBag.Weight'});
                 StatusPickerJs.initialize({deleteUrl: '@Url.Action("RemoveBasketProduct", "Basket")?id='});
-                PricePickerJs.initialize({setUrl: '@Url.Action("SetPrice", "Basket")?id='});
+                PricePickerJs.initialize({setUrl: '@Url.Action("SetPrice", "Basket")?id=', measurement: '@ViewBag.Currency'});
             });
         });
 

@@ -7,7 +7,8 @@ var PricePickerJs = (function () {
 
         var defaults = {
             productId: null,
-            setUrl: null
+            setUrl: null,
+            measurement: null
         };
 
         settings = $.extend(true, defaults, options);
@@ -35,7 +36,7 @@ var PricePickerJs = (function () {
     var showPricePicker = function(product, price) {
         settings.productId = product;
         var name = $("#name_" + product).text();
-        $('#PriceModalName').text("Choose the price for " + name);
+        $('#PriceModalName').text("Choose the price for " + name + " in " + settings.measurement);
         $("#PriceValue").val(price);
     }
 

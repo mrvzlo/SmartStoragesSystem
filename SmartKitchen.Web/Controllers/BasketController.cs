@@ -5,6 +5,8 @@ using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.IServices;
 using System.Linq;
 using System.Web.Mvc;
+using SmartKitchen.Domain.Enums;
+using SmartKitchen.Web.Helpers;
 
 namespace SmartKitchen.Web.Controllers
 {
@@ -27,6 +29,7 @@ namespace SmartKitchen.Web.Controllers
         {
             var query = _basketService.GetBasketsByOwnerEmail(CurrentUser());
             if (TempData.ContainsKey("error")) ModelState.AddModelError("Name", TempData["error"].ToString());
+            ViewBag.Currency = CookieHelper.GetCurrency(HttpContext);
             return View(query.ToList());
         }
 
@@ -67,6 +70,8 @@ namespace SmartKitchen.Web.Controllers
 
         public ActionResult View(int id)
         {
+            ViewBag.Currency = CookieHelper.GetCurrency(HttpContext);
+            ViewBag.Weight = CookieHelper.GetCookie(HttpContext, Cookie.Weight).Value;
             var basket = _basketService.GetBasketById(id, CurrentUser());
             if (basket == null) return Redirect(Url.Action("Index"));
             return View(basket);
@@ -121,6 +126,8 @@ namespace SmartKitchen.Web.Controllers
         public PartialViewResult BasketProductGrid(int id)
         {
             var basketProductList = _basketProductService.GetBasketProductDisplayModelByBasket(id, CurrentUser());
+            ViewBag.Currency = CookieHelper.GetCurrency(HttpContext);
+            ViewBag.Weight = CookieHelper.GetCookie(HttpContext, Cookie.Weight).Value;
             return PartialView("_ProductGrid", basketProductList);
         }
 

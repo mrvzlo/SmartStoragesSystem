@@ -121,7 +121,7 @@ namespace SmartKitchen.DomainService.Test.Tests
         }
 
         [Test, CustomAutoData]
-        public void GetBasketProductDisplayModelById_Map_BasketProductDisplayModel(IFixture fixture, Person person, Basket basket)
+        public void GetBasketProductDisplayModelByBasket_Map_BasketProductDisplayModel(IFixture fixture, Person person, Basket basket)
         {
             var personRepMock = fixture.Freeze<Mock<IPersonRepository>>();
             var basketProductRepMock = fixture.Freeze<Mock<IBasketProductRepository>>();

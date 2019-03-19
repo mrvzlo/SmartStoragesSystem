@@ -53,7 +53,7 @@
                                     <img class="d-md-none navicon" src="@Url.Content("~/Content/images/options.png")" />
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dmb">
-                                    <a href="@Url.Action("Token", "Account")" class="dropdown-item">Account</a>
+                                    <a href="@Url.Action("Info", "Account")" class="dropdown-item">Account</a>
                                     @Html.Partial("_Admin")
                                 </div>
 
@@ -62,7 +62,7 @@
                         else
                         {
                             <li class="nav-item">
-                                <a href="@Url.Action("Token", "Account")" class="nav-link text-light">
+                                <a href="@Url.Action("Info", "Account")" class="nav-link text-light">
                                     <div class="d-md-inline d-none">Account</div>
                                     <img class="d-md-none navicon" src="@Url.Content("~/Content/images/options.png")" />
                                 </a>

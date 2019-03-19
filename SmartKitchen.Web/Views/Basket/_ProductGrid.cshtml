@@ -1,5 +1,4 @@
 ﻿@using SmartKitchen.Domain.DisplayModels
-@using SmartKitchen.Domain.Enums
 @model IQueryable<BasketProductDisplayModel>
 
 @Html.Grid(Model).Build(c =>{
@@ -19,7 +18,7 @@
 @helper AmountHelper(BasketProductDisplayModel item)
 {
     <div onclick="AmountPickerJs.showAmountPicker(@item.Id,@item.Amount)">
-        <a id="amount_@item.Id" class="pointer" data-toggle="modal" data-target="#AmountModal">@(item.Amount / 1000.0) kg</a>
+        <a id="amount_@item.Id" class="pointer" data-toggle="modal" data-target="#AmountModal">@(item.Amount / 1000.0) @ViewBag.Weight</a>
     </div>
 }
 
@@ -34,6 +33,6 @@
 @helper PriceHelper(BasketProductDisplayModel item)
 {
     <div onclick="PricePickerJs.showPricePicker(@item.Id,@item.Price)">
-        <a id="price_@item.Id" class="pointer" data-toggle="modal" data-target="#PriceModal">@item.Price €</a>
+        <a id="price_@item.Id" class="pointer" data-toggle="modal" data-target="#PriceModal">@item.Price @ViewBag.Currency</a>
     </div>
 }

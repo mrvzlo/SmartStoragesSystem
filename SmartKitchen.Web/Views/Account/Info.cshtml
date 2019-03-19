@@ -1,6 +1,8 @@
 ﻿@model Guid
 @{
-    ViewBag.Title = "My token";
+    ViewBag.Title = "My account";
+    var currencyList = new SelectList(ViewBag.CurrencyList, "Value", "Text", ViewBag.Currency);
+    var weightList = new SelectList(ViewBag.WeightList, "Value", "Text", ViewBag.Weight);
 }
 <h5 class="text-center">This token can be used to connect your account to smart devices</h5>
 <div class="row justify-content-center flex-nowrap">
@@ -10,6 +12,24 @@
 <div class="row justify-content-center my-2">
     <button id="updToken" class="btn btn-main">Generate new token</button>
 </div>
+
+<div class="row justify-content-center">
+    @using (Html.BeginForm("UpdateCookies", "Account", FormMethod.Post, new { @class = "col-lg-6 col-8" }))
+    {
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center my-2">
+                @Html.Label("Currency")
+                @Html.DropDownList("currency", currencyList, new { @class = "input" })
+            </div>
+            <div class="col-md-6 text-center my-2">
+                @Html.Label("Weight measurement")
+                @Html.DropDownList("weight", weightList, new { @class = "input" })
+            </div>
+            <button type="submit" class="btn btn-main px-4">Save changes</button>
+        </div>
+    }
+</div>
+
 @section scripts{
     <script>
         $(function () {

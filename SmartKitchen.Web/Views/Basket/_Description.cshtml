@@ -3,7 +3,7 @@
     <td id="name_@Model.Id" class="w-25 pointer"
         onclick="window.location = '@Url.Action("View","Basket",new{id = Model.Id})';">@Model.Name</td>
     <td class="w-20">@Model.BoughtProducts/@Model.Products<span class="d-md-inline d-none"> bought</span></td>
-    <td class="w-20">@Model.FullPrice €</td>
+    <td class="w-20">@Model.FullPrice @ViewBag.Currency</td>
     <td class="w-20">@Model.CreationDate.ToString("dd.MM.yy")</td>
     <td class="w-10">
         @if (Model.Closed)

@@ -44,7 +44,7 @@
                 StatusPickerJs.initialize({deleteUrl: '@Url.Action("Remove", "Storage")?cellId='});
                 StorageViewJs.initialize({sendUrl: '@Url.Action("AddListToBasket","Basket")', storageId: @Model.Id });
                 DatetimePickerJs.initialize({url: '@Url.Action("DateUpdate", "Storage")?cell='});
-                AmountPickerJs.initialize({ setUrl: '@Url.Action("SetAmount", "Storage")?cell='});
+                AmountPickerJs.initialize({ setUrl: '@Url.Action("SetAmount", "Storage")?cell=', measurement: '@ViewBag.Weight'});
             });
         });
 

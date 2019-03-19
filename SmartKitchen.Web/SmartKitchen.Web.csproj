@@ -189,6 +189,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ControllerExtension.cs" />
+    <Compile Include="Helpers\CookieHelper.cs" />
+    <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -356,7 +358,7 @@
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Views\Account\_SignUp.cshtml" />
-    <Content Include="Views\Account\Token.cshtml" />
+    <Content Include="Views\Account\Info.cshtml" />
     <Content Include="Views\Account\_SignIn.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
