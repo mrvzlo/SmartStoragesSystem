@@ -16,6 +16,8 @@ $input-btn-padding-x: .5rem;
 
 .storage-footer {
     text-align: center;
+    padding-bottom: 2px;
+    padding-top: 1px;
     border-bottom: solid 2px darken($main, 20%);
     border-left: solid 2px darken($main, 20%);
     border-right: solid 2px darken($main, 20%);
@@ -107,9 +109,9 @@ li .active, li .active:hover {
 //navbar
 
 #tog1:after, #tog2:after {
-    content: " ⯅";
+    content: " ▲";
 }
 
 #tog1.collapsed:after, #tog2.collapsed:after {
-    content: " ⯆";
+    content: " ▼";
 }

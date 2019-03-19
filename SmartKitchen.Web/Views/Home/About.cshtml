@@ -1,7 +1,7 @@
 ﻿@model SmartKitchen.Domain.DisplayModels.HelpModel
 @{
     @* ReSharper disable PossibleNullReferenceException
-        ReSharper disable Asp.Entity 
+        ReSharper disable Asp.Entity
         ReSharper disable once MarkupTextTypo *@
     ViewBag.Title = "Quick guide";
 }
@@ -9,13 +9,18 @@
 <div class="text-justify my-2">
     After <a href="@Url.Action("Index","Account",new{Login = false})">registration</a>
     you can create your storages @Html.ActionLink("here", "Create", "Storage") using <b>@Model.StorageTypesCount</b> different templates.
-    Each storage allows you to manage a big amount of different products. Each product has specific amount and expiration date which you can set manually by clicking on the value.
+    All of them will be displayed on @Html.ActionLink("this", "Index", "Storage") page. Under each storage you can see till 3 numbers which show count of
+    <span class="text-info font-weight-bold">total</span> products, <span class="text-danger font-weight-bold">expired</span> or <span class="text-secondary font-weight-bold">absent</span>.
+</div>
+<div class="text-justify my-2">
+    Each storage allows you to manage a big amount of different products. Each product has specific amount and expiration date which you can set manually by clicking on values.
     The system will inform you if any product <span class="text-danger font-weight-bold">become unsafe</span> or <span class="text-warning font-weight-bold">will become soon</span>.
     Also system will predict amount decreases according to previous usages.
 </div>
 <div class="text-justify my-2">
-    After adding some cells for your storage you can <span class="font-weight-bold">mark</span> them by clicking on product's name or special buttons. Marked products can be send to your basket which can be seen
-    @Html.ActionLink("here", "Index", "Basket"). After completing shopping list you can choose amount, price or expiration date for any basket product
+    After adding some cells for your storage you can <span class="marked font-weight-bold">mark</span> them by clicking on product's name or special buttons. 
+    Marked products can be sent to your basket which can be seen @Html.ActionLink("here", "Index", "Basket"). 
+    After completing shopping list you can choose amount, price or expiration date for any basket product
     and mark them as <span class="bought font-weight-bold">bought</span>.
     When you have done click on the button <span class="text-success font-weight-bold">finish</span> and marked products will be virtually send to appropriate storage or storages.
 </div>

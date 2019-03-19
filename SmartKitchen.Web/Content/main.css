@@ -6968,8 +6968,8 @@ form div {
 .validation-summary-errors ul li {
   display: inline; }
 
-.bought:before {
-  content: "✔"; }
+.marked:before, .bought:before {
+  content: "✓"; }
 
 td {
   border-top: solid 1px #102 !important;
@@ -7042,6 +7042,8 @@ td {
 
 .storage-footer {
   text-align: center;
+  padding-bottom: 2px;
+  padding-top: 1px;
   border-bottom: solid 2px #2b2244;
   border-left: solid 2px #2b2244;
   border-right: solid 2px #2b2244;
@@ -7106,7 +7108,7 @@ li .active, li .active:hover {
     width: 50% !important; } }
 
 #tog1:after, #tog2:after {
-  content: " ⯅"; }
+  content: " ▲"; }
 
 #tog1.collapsed:after, #tog2.collapsed:after {
-  content: " ⯆"; }
+  content: " ▼"; }

@@ -46,7 +46,7 @@ var StorageViewJs = (function () {
             var id = row.id;
             if (id > 0) {
                 var name = $("#name_" + id);
-                var marked = name.hasClass("font-weight-bold");
+                var marked = name.hasClass("marked");
                 if (marked) array.push(id);
             }
         }
@@ -62,9 +62,9 @@ var StorageViewJs = (function () {
     var mark = function () {
         var id = StatusPickerJs.getProductId();
         var e = $("#name_" + id);
-        if (e.hasClass("font-weight-bold"))
-            e.removeClass("font-weight-bold");
-        else e.addClass("font-weight-bold");
+        if (e.hasClass("marked"))
+            e.removeClass("marked");
+        else e.addClass("marked");
     }
 
     var markGroup = function (type) {
@@ -74,14 +74,14 @@ var StorageViewJs = (function () {
             var id = row.id;
             if (id > 0) {
                 var name = $("#name_" + id);
-                var marked = name.hasClass("font-weight-bold");
+                var marked = name.hasClass("marked");
                 if (type === 0 && marked) {
-                    name.removeClass("font-weight-bold");
+                    name.removeClass("marked");
                 } else if (!marked) {
                     if (type === 1 ||
                         type === 2 && $("#amount_" + id).hasClass("text-secondary") ||
                         type === 3 && $("#safety_" + id).hasClass("text-danger"))
-                        name.addClass("font-weight-bold");
+                        name.addClass("marked");
                 }
             }
         }

@@ -1,5 +1,5 @@
-﻿.bought:before {
-    content: "✔";
+﻿.marked:before, .bought:before {
+    content: "✓";
 }
 
 td {
