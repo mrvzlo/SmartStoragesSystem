@@ -16,14 +16,15 @@ namespace SmartKitchen.Domain.DisplayModels
 
         public int Amount { get; set; }
 
+        public decimal HoursRemain => AmountDecreasePerHour == 0 ? -1 : Amount / AmountDecreasePerHour;
+
         public ICollection<CellChange> CellChanges { get; set; }
 
         public Amount AmountStatus { get {
             if (Amount == 0) return Enums.Amount.None;
             if (AmountDecreasePerHour == 0) return Enums.Amount.Plenty;
-            var hoursRemain = Amount / AmountDecreasePerHour;
-            if (hoursRemain == 0) return Enums.Amount.None;
-            if (hoursRemain < 48) return Enums.Amount.Lack;
+            if (HoursRemain == 0) return Enums.Amount.None;
+            if (HoursRemain < 48) return Enums.Amount.Lack;
             return Enums.Amount.Plenty;
         }}
 

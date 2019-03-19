@@ -19,7 +19,7 @@
 
 @helper AmountHelper(CellDisplayModel item)
 {
-    <div onclick="AmountPickerJs.showAmountPicker(@item.Id,@item.Amount)">
+    <div onclick="AmountPickerJs.showAmountPicker(@item.Id,@item.Amount,@item.HoursRemain)">
         <a id="amount_@item.Id" alt="@item.AmountStatus.GetStatus()" class="pointer font-weight-bold text-decoration-none @GetTextColor(item.AmountStatus.GetStatus())"
            data-toggle="modal" data-target="#AmountModal">@(item.Amount / 1000.0) @ViewBag.Weight</a>
     </div>

@@ -46,11 +46,16 @@ var AmountPickerJs = (function () {
         }
     }
 
-    var showAmountPicker = function(product, amount) {
+    var showAmountPicker = function(product, amount, hours) {
         settings.productId = product;
         amount /= 1000;
         var name = $("#name_" + product).text();
-        $('#AmountModalName').text("Choose the amount of " + name + " in " + settings.measurement);
+        if (hours !== undefined && amount !== 0) {
+            var days = (hours / 24).toFixed(0);
+            if (days < 0) $("#enoughFor").text(amount + " " + settings.measurement + " of " + name + " is enough for unknown time");
+            else $("#enoughFor").text(amount + " " + settings.measurement + " of " + name + " is enough for " + days + (days % 10 === 1 ? " day" : " days"));
+        }
+        $("#AmountModalName").text("Choose the amount of " + name + " in " + settings.measurement);
         $("#AmountValue").val(amount);
     }
 
