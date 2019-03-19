@@ -10,5 +10,7 @@ namespace SmartKitchen.Domain.DisplayModels
         public StorageTypeDisplayModel Type { get; set; }
         public int CellCount { get; set; }
 
+        public int Expired { get; set; }
+        public int Absent { get; set; }
     }
 }

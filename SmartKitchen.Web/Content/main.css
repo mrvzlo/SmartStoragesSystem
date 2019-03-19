@@ -7036,6 +7036,18 @@ td {
 .mvc-grid {
   padding: 0; }
 
+.title {
+  font-size: 1.25rem;
+  font-weight: 600; }
+
+.storage-footer {
+  text-align: center;
+  border-bottom: solid 2px #2b2244;
+  border-left: solid 2px #2b2244;
+  border-right: solid 2px #2b2244;
+  border-bottom-left-radius: 2rem;
+  border-bottom-right-radius: 2rem; }
+
 .bg-main-light {
   background-color: #f6f5fa; }
 

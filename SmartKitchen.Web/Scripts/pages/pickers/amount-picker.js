@@ -52,9 +52,9 @@ var AmountPickerJs = (function () {
         var name = $("#name_" + product).text();
         if (hours !== undefined && amount !== 0) {
             var days = (hours / 24).toFixed(0);
-            if (days < 0) $("#enoughFor").text(amount + " " + settings.measurement + " of " + name + " is enough for unknown time");
+            if (hours < 0) $("#enoughFor").text(amount + " " + settings.measurement + " of " + name + " is enough for unknown time");
             else $("#enoughFor").text(amount + " " + settings.measurement + " of " + name + " is enough for " + days + (days % 10 === 1 ? " day" : " days"));
-        }
+        } else { $("#enoughFor").text(""); }
         $("#AmountModalName").text("Choose the amount of " + name + " in " + settings.measurement);
         $("#AmountValue").val(amount);
     }
