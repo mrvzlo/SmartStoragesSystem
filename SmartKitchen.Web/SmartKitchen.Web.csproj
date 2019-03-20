@@ -381,8 +381,8 @@
     <Content Include="Views\Storage\CreateType.cshtml" />
     <Content Include="Views\Storage\View.cshtml" />
     <Content Include="Views\Storage\_AddProduct.cshtml" />
-    <Content Include="Views\Shared\_DatePicker.cshtml" />
-    <Content Include="Views\Shared\_AmountPicker.cshtml" />
+    <Content Include="Views\Shared\Pickers\_DatePicker.cshtml" />
+    <Content Include="Views\Shared\Pickers\_AmountPicker.cshtml" />
     <Content Include="Views\Shared\_Admin.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />
     <Content Include="Views\Basket\Index.cshtml" />
@@ -402,10 +402,10 @@
     <Content Include="Views\Product\_ProductGrid.cshtml" />
     <Content Include="Views\Category\_CategoryGrid.cshtml" />
     <Content Include="Views\Storage\_CreateTypeForm.cshtml" />
-    <Content Include="Views\Shared\_NamePicker.cshtml" />
+    <Content Include="Views\Shared\Pickers\_NamePicker.cshtml" />
     <Content Include="Views\Basket\_GridFooter.cshtml" />
-    <Content Include="Views\Shared\_PricePicker.cshtml" />
-    <Content Include="Views\Shared\_StatusPicker.cshtml" />
+    <Content Include="Views\Shared\Pickers\_PricePicker.cshtml" />
+    <Content Include="Views\Shared\Pickers\_StatusPicker.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
