@@ -1,13 +1,13 @@
 ﻿<div class="modal fade" id="AmountModal" tabindex="-1" role="dialog" aria-labelledby="AmountModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content big-border">
-            <div class="modal-header text-center d-block h5" id="AmountModalName"></div>
+            <div class="modal-header text-center d-block h6" id="AmountModalName"></div>
             <div class="modal-body">
                 <div class="row justify-content-center m-0">
+                    <div id="enoughFor" class="my-1 col-12 text-center"></div>
                     <div class="d-lg-none px-1" id="btnAmountPlus">
                         <img class="rowicon" src="~/Content/images/add.png" />
                     </div>
-                    <div id="enoughFor" class="my-1 col-12 text-center"></div>
                     @Html.TextBox("AmountValue", 0, new { @class = "col-6 text-center", type = "number", min = 0, step = 0.1 })
                     <div class="d-lg-none px-1" id="btnAmountMinus">
                         <img class="rowicon" src="~/Content/images/minus.png" />
