@@ -7,8 +7,8 @@
     <td class="w-20">@Model.CreationDate.ToString("dd.MM.yy")</td>
     <td class="w-10">
         @if (Model.Closed)
-        {<img src="../Content/images/remove.svg" onclick="BasketIndexJs.remove(@Model.Id,'@Model.Name')" class="rowicon" />}
+        {<img src="../Content/icons/remove.svg" onclick="BasketIndexJs.remove(@Model.Id,'@Model.Name')" class="rowicon" />}
         else
-        {<img src="../Content/images/edit.png" onclick="NamePickerJs.showNamePicker(@Model.Id)" class="rowicon" data-toggle="modal" data-target="#NamePickerModal"/>}
+        {<img src="../Content/icons/edit.png" onclick="NamePickerJs.showNamePicker(@Model.Id)" class="rowicon" data-toggle="modal" data-target="#NamePickerModal"/>}
     </td>
 </tr>

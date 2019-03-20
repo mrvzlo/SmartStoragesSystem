@@ -195,28 +195,31 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\images\1.png" />
-    <Content Include="Content\images\16.png" />
-    <Content Include="Content\images\2.png" />
-    <Content Include="Content\images\3.png" />
-    <Content Include="Content\images\4.png" />
-    <Content Include="Content\images\5.png" />
-    <Content Include="Content\images\6.png" />
-    <Content Include="Content\images\7.png" />
-    <Content Include="Content\images\8.png" />
-    <Content Include="Content\images\add.png" />
-    <Content Include="Content\images\copy.png" />
-    <Content Include="Content\images\edit.png" />
-    <Content Include="Content\images\options.png" />
-    <Content Include="Content\images\basket.png" />
-    <Content Include="Content\images\guide.png" />
-    <Content Include="Content\images\home.svg" />
-    <Content Include="Content\images\login.png" />
-    <Content Include="Content\images\logout.png" />
-    <Content Include="Content\images\minus.png" />
-    <Content Include="Content\images\refrigerator.png" />
-    <Content Include="Content\images\remove.svg" />
-    <Content Include="Content\images\storages.svg" />
+    <Content Include="Content\icons\1.png" />
+    <Content Include="Content\icons\16.png" />
+    <Content Include="Content\icons\2.png" />
+    <Content Include="Content\icons\3.png" />
+    <Content Include="Content\icons\4.png" />
+    <Content Include="Content\icons\5.png" />
+    <Content Include="Content\icons\6.png" />
+    <Content Include="Content\icons\7.png" />
+    <Content Include="Content\icons\8.png" />
+    <Content Include="Content\icons\add.png" />
+    <Content Include="Content\icons\copy.png" />
+    <Content Include="Content\icons\edit.png" />
+    <Content Include="Content\icons\arrow.png" />
+    <Content Include="Content\icons\options.png" />
+    <Content Include="Content\icons\basket.png" />
+    <Content Include="Content\icons\guide.png" />
+    <Content Include="Content\icons\home.svg" />
+    <Content Include="Content\icons\login.png" />
+    <Content Include="Content\icons\logout.png" />
+    <Content Include="Content\icons\minus.png" />
+    <Content Include="Content\icons\remove.svg" />
+    <Content Include="Content\icons\storages.svg" />
+    <Content Include="Content\images\basket.jpg" />
+    <Content Include="Content\images\refrigerator0.jpg" />
+    <Content Include="Content\images\refrigerator1.jpg" />
     <Content Include="Content\main.css">
       <DependentUpon>main.scss</DependentUpon>
     </Content>

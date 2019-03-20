@@ -11,10 +11,10 @@
                 var style = Html.Raw("style = 'background-color: #" + item.Type.Background + "'");
             }
             <div class="storage row justify-content-center mb-0" @style>
-                <img class="rowicon" src="../Content/images/@filename" />
+                <img class="rowicon" src="../Content/icons/@filename" />
                 <a class="col title text-decoration-none text-dark" id="name_@item.Id" href="@Url.Action("View", "Storage", new {id = item.Id})">@item.Name</a>
-                <img class="rowicon" src="~/Content/images/edit.png" onclick="NamePickerJs.showNamePicker(@item.Id)" data-toggle="modal" data-target="#NamePickerModal" />
-                <img class="rowicon" src="~/Content/images/remove.svg" onclick="StorageIndexJs.remove('@item.Name', @item.Id)" />
+                <img class="rowicon" src="~/Content/icons/edit.png" onclick="NamePickerJs.showNamePicker(@item.Id)" data-toggle="modal" data-target="#NamePickerModal" />
+                <img class="rowicon" src="~/Content/icons/remove.svg" onclick="StorageIndexJs.remove('@item.Name', @item.Id)" />
             </div>
             <div class="row justify-content-center mx-3">
                 <div class="col-4 h6 storage-footer alert-info">@item.CellCount<span class="d-none d-sm-inline"> total</span></div>
@@ -27,7 +27,7 @@
     }
     <a class="col-12 col-lg-6 text-decoration-none text-light" href="@Url.Action("Create", "Storage")">
         <div class="storage bg-main row justify-content-between">
-            <img class="navicon" src="~/Content/images/add.png" alt="Add" />
+            <img class="navicon" src="~/Content/icons/add.png" alt="Add" />
             <div class="col title">New storage</div>
         </div>
     </a>

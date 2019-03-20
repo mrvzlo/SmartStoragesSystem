@@ -117,7 +117,7 @@ namespace SmartKitchen.Web.Controllers
             {
                 var file = System.Web.HttpContext.Current.Request.Files[0];
                 if (file.ContentLength > 0)
-                    file.SaveAs(Server.MapPath("~/Content/images/" + response.AddedId + ".png"));
+                    file.SaveAs(Server.MapPath("~/Content/icons/" + response.AddedId + ".png"));
             }
 
 
@@ -132,7 +132,7 @@ namespace SmartKitchen.Web.Controllers
         public bool RemoveType(int fromId, int toId)
         {
             var result = _storageTypeService.ReplaceStorageType(fromId, toId);
-            if (result) FileHelper.RemoveImage(Server.MapPath("~/Content/images/" + fromId + ".png"));
+            if (result) FileHelper.RemoveImage(Server.MapPath("~/Content/icons/" + fromId + ".png"));
             return result;
         }
 

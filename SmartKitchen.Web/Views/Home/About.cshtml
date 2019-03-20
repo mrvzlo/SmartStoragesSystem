@@ -10,7 +10,7 @@
     After <a href="@Url.Action("Index","Account",new{Login = false})">registration</a>
     you can create your storages @Html.ActionLink("here", "Create", "Storage") using <b>@Model.StorageTypesCount</b> different templates.
     All of them will be displayed on @Html.ActionLink("this", "Index", "Storage") page. Under each storage you can see till 3 numbers which show count of
-    <span class="text-info font-weight-bold">total</span> products, <span class="text-danger font-weight-bold">expired</span> or <span class="text-secondary font-weight-bold">absent</span>.
+    <span class="text-info font-weight-bold">total</span> products, <span class="text-danger font-weight-bold">expired</span> and/or <span class="text-secondary font-weight-bold">absent</span>.
 </div>
 <div class="text-justify my-2">
     Each storage allows you to manage a big amount of different products. Each product has specific amount and expiration date which you can set manually by clicking on values.
