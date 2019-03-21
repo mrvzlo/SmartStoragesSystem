@@ -195,6 +195,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\icons\arrow-down.png" />
+    <Content Include="Content\icons\arrow-right.png" />
+    <Content Include="Content\images\basket.png" />
     <Content Include="Content\icons\1.png" />
     <Content Include="Content\icons\16.png" />
     <Content Include="Content\icons\2.png" />
@@ -207,7 +210,6 @@
     <Content Include="Content\icons\add.png" />
     <Content Include="Content\icons\copy.png" />
     <Content Include="Content\icons\edit.png" />
-    <Content Include="Content\icons\arrow.png" />
     <Content Include="Content\icons\options.png" />
     <Content Include="Content\icons\basket.png" />
     <Content Include="Content\icons\guide.png" />
@@ -217,9 +219,6 @@
     <Content Include="Content\icons\minus.png" />
     <Content Include="Content\icons\remove.svg" />
     <Content Include="Content\icons\storages.svg" />
-    <Content Include="Content\images\basket.jpg" />
-    <Content Include="Content\images\refrigerator0.jpg" />
-    <Content Include="Content\images\refrigerator1.jpg" />
     <Content Include="Content\main.css">
       <DependentUpon>main.scss</DependentUpon>
     </Content>
@@ -227,6 +226,8 @@
       <DependentUpon>main.css</DependentUpon>
     </None>
     <Content Include="Content\MvcGrid\mvc-grid.css" />
+    <Content Include="Content\images\refrigerator.png" />
+    <Content Include="Content\images\refrigerator0.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.bundle.js" />
