@@ -146,7 +146,7 @@ namespace SmartKitchen.Web.Controllers
 
         [HttpPost]
         public bool Remove(int cellId) =>
-            _cellService.DeleteCellByIdAndEmail(cellId, CurrentUser()).Successful();
+            _cellService.DeleteCellById(cellId, CurrentUser()).Successful();
 
         [HttpPost]
         public void DateUpdate(int cell, string dateStr)

@@ -33,7 +33,9 @@ namespace SmartKitchen.Web.Controllers
         [Authorize]
         public ActionResult Info()
         {
-            var token = _personService.GetPersonByEmail(CurrentUser()).Token;
+            var person = _personService.GetPersonByEmail(CurrentUser());
+            ViewBag.PersonId = person.Id;
+            ViewBag.PublicKey = person.PublicKey;
             var currencies = EnumHelper.GetAllCurrencies();
             var weights = EnumHelper.GetAllWeights();
             var currency = CookieHelper.GetCookie(HttpContext, Cookie.Currency).Value;
@@ -42,7 +44,7 @@ namespace SmartKitchen.Web.Controllers
             ViewBag.Weight = (int)weights.SingleOrDefault(x => x.GetDescription() == weight);
             ViewBag.CurrencyList = currencies.Select(x => new SelectListItem { Value = ((int)x).ToString(), Text = x.ToString() });
             ViewBag.WeightList = weights.Select(x => new SelectListItem { Value = ((int)x).ToString(), Text = x.ToString() });
-            return View(token);
+            return View();
         }
 
         public RedirectResult UpdateCookies(int currency, int weight)
@@ -58,10 +60,10 @@ namespace SmartKitchen.Web.Controllers
 
         [Authorize]
         [HttpPost]
-        public string ResetToken()
+        public string UpdateKeyPair()
         {
-            _personService.UpdateToken(CurrentUser());
-            return _personService.GetPersonByEmail(CurrentUser()).Token.ToString();
+            _personService.UpdateKeyPair(CurrentUser());
+            return _personService.GetPersonByEmail(CurrentUser()).PublicKey;
         }
 
         public PartialViewResult SignIn() =>

@@ -4,7 +4,6 @@ using SmartKitchen.Domain.Enums;
 using SmartKitchen.Domain.IRepositories;
 using SmartKitchen.Domain.IServices;
 using SmartKitchen.Domain.Responses;
-using System;
 using System.Linq;
 using System.Web.Helpers;
 
@@ -50,9 +49,11 @@ namespace SmartKitchen.DomainService.Services
             {
                 Name = model.Username,
                 Password = Crypto.HashPassword(model.Password),
-                Email = model.Email,
-                Token = Guid.NewGuid()
+                Email = model.Email
             };
+            EncryptService.GetKeys(out var publicKey, out var privateKey);
+            person.PublicKey = publicKey;
+            person.PrivateKey = privateKey;
             _personRepository.RegisterOrUpdate(person);
 
             CreateInitialStorage(person.Id);

@@ -58,6 +58,7 @@
     <Compile Include="DisplayModels\ProductDisplayModel.cs" />
     <Compile Include="DisplayModels\StorageDisplayModel.cs" />
     <Compile Include="DisplayModels\StorageTypeDisplayModel.cs" />
+    <Compile Include="DisplayModels\CryptRequest.cs" />
     <Compile Include="Enitities\Basket.cs" />
     <Compile Include="Enitities\BasketProduct.cs" />
     <Compile Include="Enitities\Category.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="IServices\IPersonService.cs" />
     <Compile Include="IServices\IStorageTypeService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Responses\JsonResponse.cs" />
     <Compile Include="Responses\ItemCreationReponse.cs" />
     <Compile Include="Responses\AuthenticationResponse.cs" />
     <Compile Include="Responses\ModelStateError.cs" />

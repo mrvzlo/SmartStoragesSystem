@@ -32,7 +32,12 @@ namespace SmartKitchen.Domain.Enums
         [Description("Category was not found")]
         CategoryWasNotFound = 13,
 
+        [Description("Cant Remove Primal Category")]
         CantRemovePrimalCategory = 14,
+        [Description("Cant Replace To Itself")]
         CantReplaceToItself = 15,
+
+        [Description("Unknown command")]
+        UnknownCommand = 16,
     }
 }

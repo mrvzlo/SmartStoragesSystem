@@ -1,5 +1,4 @@
-﻿using System;
-using SmartKitchen.Domain.Enums;
+﻿using SmartKitchen.Domain.Enums;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -13,7 +12,8 @@ namespace SmartKitchen.Domain.Enitities
         public virtual string Name { get; set; }
         public virtual string Email { get; set; }
         public virtual string Password { get; set; }
-        public virtual Guid Token { get; set; }
+        public virtual string PublicKey { get; set; }
+        public virtual string PrivateKey { get; set; }
 
         public virtual ICollection<Basket> Baskets { get; set; }
         public virtual ICollection<Storage> Storages { get; set; }

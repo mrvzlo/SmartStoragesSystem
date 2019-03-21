@@ -44,11 +44,16 @@ namespace SmartKitchen.DomainService.Services
 
         public ItemCreationResponse AddCell(CellCreationModel model, string email)
         {
-            ItemCreationResponse response;
-            var storage = _storageRepository.GetStorageById(model.Storage);
             var person = _personRepository.GetPersonByEmail(email);
-            response = (ItemCreationResponse)StorageBelongsToPerson(storage, person);
-            if (!response.Successful()) return response;
+            return AddCell(model, person);
+        }
+
+        public ItemCreationResponse AddCell(CellCreationModel model, Person person)
+        {
+            ItemCreationResponse response = new ItemCreationResponse();
+            var storage = _storageRepository.GetStorageById(model.Storage);
+            var check = StorageBelongsToPerson(storage, person);
+            if (!check.Successful()) return new ItemCreationResponse(check);
 
             var productId = _productService.GetOrAddAndGetProduct(model.Product).Id;
             if (_cellRepository.GetCellByProductAndStorage(productId, model.Storage) != null)
@@ -69,12 +74,17 @@ namespace SmartKitchen.DomainService.Services
             response.AddedGroupId = cell.StorageId;
             return response;
         }
-        
+
         public ServiceResponse UpdateCellAmount(int id, int value, string email)
+        {
+            var person = _personRepository.GetPersonByEmail(email);
+            return UpdateCellAmount(id, value, person);
+        }
+
+        public ServiceResponse UpdateCellAmount(int id, int value, Person person)
         {
             var cell = _cellRepository.GetCellById(id);
             var storage = _storageRepository.GetStorageById(cell.StorageId);
-            var person = _personRepository.GetPersonByEmail(email);
             var response = CellBelongsToPerson(cell, person, storage);
             if (!response.Successful()) return response;
 
@@ -91,9 +101,14 @@ namespace SmartKitchen.DomainService.Services
 
         public ServiceResponse UpdateCellBestBefore(int id, DateTime? value, string email)
         {
+            var person = _personRepository.GetPersonByEmail(email);
+            return UpdateCellBestBefore(id, value, person);
+        }
+
+        public ServiceResponse UpdateCellBestBefore(int id, DateTime? value, Person person)
+        {
             var cell = _cellRepository.GetCellById(id);
             var storage = _storageRepository.GetStorageById(cell.StorageId);
-            var person = _personRepository.GetPersonByEmail(email);
             var response = CellBelongsToPerson(cell, person, storage);
             if (!response.Successful()) return response;
 
@@ -102,11 +117,16 @@ namespace SmartKitchen.DomainService.Services
             return response;
         }
 
-        public ServiceResponse DeleteCellByIdAndEmail(int id, string email)
+        public ServiceResponse DeleteCellById(int id, string email)
+        {
+            var person = _personRepository.GetPersonByEmail(email);
+            return DeleteCellById(id, person);
+        }
+
+        public ServiceResponse DeleteCellById(int id, Person person)
         {
             var cell = _cellRepository.GetCellById(id);
             var storage = _storageRepository.GetStorageById(cell.StorageId);
-            var person = _personRepository.GetPersonByEmail(email);
             var response = CellBelongsToPerson(cell, person, storage);
             if (!response.Successful()) return response;
             DeleteCell(cell);
