@@ -9,14 +9,13 @@ namespace SmartKitchen.Domain.IServices
 {
     public interface ICellService
     {
-        Cell GetOrAddAndGet(CellCreationModel model, string email);
-        ItemCreationResponse AddOrUpdateCell(CellCreationModel model, string email);
-        CellDisplayModel GetCellDisplayModelById(int id, string email);
+        Cell GetOrAddAndGetCell(CellCreationModel model, string email);
+        ItemCreationResponse AddCell(CellCreationModel model, string email);
         ServiceResponse DeleteCellByIdAndEmail(int id, string email);
         void DeleteCell(Cell cell);
         IQueryable<CellDisplayModel> GetCellsOfStorage(int storageId, string email);
         ServiceResponse UpdateCellBestBefore(int id, DateTime? value, string email);
         ServiceResponse UpdateCellAmount(int id, int value, string email);
-        ItemCreationResponse MoveProductToStorage(BasketProduct basketProduct, Basket basket, Person person);
+        ItemCreationResponse MoveBasketProductToStorage(BasketProduct basketProduct, Basket basket, Person person);
     }
 }

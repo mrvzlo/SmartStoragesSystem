@@ -29,20 +29,20 @@ namespace SmartKitchen.DomainService.Services
             _personRepository = personRepository;
         }
 
-        public Cell GetOrAddAndGet(CellCreationModel model, string email)
+        public Cell GetOrAddAndGetCell(CellCreationModel model, string email)
         {
             var storage = _storageRepository.GetStorageById(model.Storage);
             var person = _personRepository.GetPersonByEmail(email);
             if (!StorageBelongsToPerson(storage, person).Successful()) return null;
 
-            var productId = _productService.GetOrAddAndGet(model.Product).Id;
-            var cell = GetCellByProductAndStorage(productId, model.Storage);
+            var productId = _productService.GetOrAddAndGetProduct(model.Product).Id;
+            var cell = _cellRepository.GetCellByProductAndStorage(productId, model.Storage);
             if (cell != null) return cell;
-            var creation = AddOrUpdateCell(model, email);
+            var creation = AddCell(model, email);
             return !creation.Successful() ? null : _cellRepository.GetCellById(creation.AddedId);
         }
 
-        public ItemCreationResponse AddOrUpdateCell(CellCreationModel model, string email)
+        public ItemCreationResponse AddCell(CellCreationModel model, string email)
         {
             ItemCreationResponse response;
             var storage = _storageRepository.GetStorageById(model.Storage);
@@ -50,8 +50,8 @@ namespace SmartKitchen.DomainService.Services
             response = (ItemCreationResponse)StorageBelongsToPerson(storage, person);
             if (!response.Successful()) return response;
 
-            var productId = _productService.GetOrAddAndGet(model.Product).Id;
-            if (GetCellByProductAndStorage(productId, model.Storage) != null)
+            var productId = _productService.GetOrAddAndGetProduct(model.Product).Id;
+            if (_cellRepository.GetCellByProductAndStorage(productId, model.Storage) != null)
             {
                 response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Product));
                 return response;
@@ -69,15 +69,7 @@ namespace SmartKitchen.DomainService.Services
             response.AddedGroupId = cell.StorageId;
             return response;
         }
-
-        public CellDisplayModel GetCellDisplayModelById(int id, string email)
-        {
-            var cell = _cellRepository.GetCellById(id);
-            var storage = _storageRepository.GetStorageById(cell.StorageId);
-            var person = _personRepository.GetPersonByEmail(email);
-            return CellBelongsToPerson(cell, person, storage).Successful() ? Mapper.Map<CellDisplayModel>(cell) : null;
-        }
-
+        
         public ServiceResponse UpdateCellAmount(int id, int value, string email)
         {
             var cell = _cellRepository.GetCellById(id);
@@ -137,11 +129,8 @@ namespace SmartKitchen.DomainService.Services
             var query = _cellRepository.GetCellsForStorage(storageId).ProjectTo<CellDisplayModel>(MapperConfig);
             return query;
         }
-
-        private Cell GetCellByProductAndStorage(int product, int storage) =>
-            _cellRepository.GetCellByProductAndStorage(product, storage);
-
-        public ItemCreationResponse MoveProductToStorage(BasketProduct basketProduct, Basket basket, Person person)
+        
+        public ItemCreationResponse MoveBasketProductToStorage(BasketProduct basketProduct, Basket basket, Person person)
         {
             var response = new ItemCreationResponse();
             if (!basketProduct.Bought) return response.AddError(GeneralError.ProductIsNotBought);

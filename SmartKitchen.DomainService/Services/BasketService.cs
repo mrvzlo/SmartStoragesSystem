@@ -87,7 +87,7 @@ namespace SmartKitchen.DomainService.Services
             var products = basket.BasketProducts;
             foreach (var product in products)
             {
-                var response = _cellService.MoveProductToStorage(product, basket, person);
+                var response = _cellService.MoveBasketProductToStorage(product, basket, person);
                 if (response.Successful()) count++;
             }
 

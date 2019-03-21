@@ -9,7 +9,7 @@ namespace SmartKitchen.Domain.IServices
 {
     public interface IProductService
     {
-        Product GetOrAddAndGet(string name);
+        Product GetOrAddAndGetProduct(string name);
         Product GetProductByName(string name);
         IQueryable<ProductDisplayModel> GetAllProductDisplays();
         ItemCreationResponse AddProduct(NameCreationModel model);

@@ -35,7 +35,7 @@ namespace SmartKitchen.DomainService.Services
             var basket = _basketRepository.GetBasketById(model.Basket);
             var storage = _storageRepository.GetStorageById(model.Storage);
             var person = _personRepository.GetPersonByEmail(email);
-            var cellId = _cellService.GetOrAddAndGet(Mapper.Map<CellCreationModel>(model), email).Id;
+            var cellId = _cellService.GetOrAddAndGetCell(Mapper.Map<CellCreationModel>(model), email).Id;
             return AddBasketProduct(storage, basket, person, cellId);
         }
 

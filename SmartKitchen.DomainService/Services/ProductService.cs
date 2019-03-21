@@ -22,7 +22,7 @@ namespace SmartKitchen.DomainService.Services
             _categoryRepository = categoryRepository;
         }
 
-        public Product GetOrAddAndGet(string name)
+        public Product GetOrAddAndGetProduct(string name)
         {
             var product = GetProductByName(name);
             if (product != null) return product;
