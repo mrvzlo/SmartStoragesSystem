@@ -24,6 +24,8 @@ namespace SmartKitchen.DomainService.Test
             fixture.Register(() => fixture.CreateMany<Basket>(3).AsQueryable());
             fixture.Register(() => fixture.CreateMany<Storage>(3).AsQueryable());
             fixture.Register(() => fixture.CreateMany<Product>(3).AsQueryable());
+            fixture.Register(() => fixture.CreateMany<Cell>(3).AsQueryable());
+            fixture.Register(() => fixture.CreateMany<CellChange>(3).AsQueryable());
             fixture.Register(() => fixture.CreateMany<Category>(3).AsQueryable());
             fixture.Register(() => fixture.CreateMany<ProductDisplayModel>(3).ToList());
             fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList().ForEach(b => fixture.Behaviors.Remove(b));

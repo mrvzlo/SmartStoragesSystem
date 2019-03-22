@@ -11,6 +11,8 @@ using SmartKitchen.DomainService.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SmartKitchen.Domain.IServices;
+
 // ReSharper disable NUnit.MethodWithParametersAndTestAttribute
 
 namespace SmartKitchen.DomainService.Test.Tests
@@ -86,6 +88,33 @@ namespace SmartKitchen.DomainService.Test.Tests
             var actual = sut.UpdateProductList(newList);
 
             Assert.AreEqual(count, actual);
+        }
+
+
+        [Test, CustomAutoData]
+        public void GetOrAddAndGetProduct_ShouldGet(IFixture fixture, Product product)
+        {
+            var productRepMock = fixture.Freeze<Mock<IProductService>>();
+            productRepMock.Setup(x => x.GetProductByName(It.IsAny<string>())).Returns(product);
+
+            var sut = fixture.Create<ProductService>();
+            var actual = sut.GetOrAddAndGetProduct(product.Name);
+
+            productRepMock.Verify(x => x.AddProduct(new NameCreationModel(It.IsAny<string>())), Times.Never());
+            Assert.NotNull(actual);
+        }
+
+        [Test, CustomAutoData]
+        public void GetOrAddAndGetProduct_ShouldAdd(IFixture fixture, Person person, Storage storage, Product product, Cell cell)
+        {
+            var productRepMock = fixture.Freeze<Mock<IProductService>>();
+            productRepMock.Setup(x => x.GetProductByName(It.IsAny<string>())).Returns((Product)null);
+
+            var sut = fixture.Create<ProductService>();
+            var actual = sut.GetOrAddAndGetProduct(product.Name);
+
+            productRepMock.Verify(x => x.AddProduct(new NameCreationModel(It.IsAny<string>())), Times.Never());
+            Assert.NotNull(actual);
         }
     }
 }

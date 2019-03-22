@@ -1,17 +1,18 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Description" content="Smart Storages System by Vladimir Andrejev">
     <title>@ViewBag.Title</title>
     @Styles.Render("~/css")
 </head>
 <body class="p-0">
     @Html.Partial("_Navbar")
-    <div class="container">
+    <main class="container">
         <div class="gap"></div>
         @RenderBody()
-    </div>
+    </main>
     @Scripts.Render("~/core")
     @RenderSection("scripts", false)
 </body>

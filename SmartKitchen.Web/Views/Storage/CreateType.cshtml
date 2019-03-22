@@ -22,8 +22,8 @@
             </div>
         </div>
         <div id="formContainer">@{ Html.RenderPartial("_CreateTypeForm", new StorageTypeCreationModel());}</div>
-        <div class="row justify-content-center m-0">
-            <div class="storage-footer col-lg-6 col-12 mt-0">
+        <div class="row justify-content-center my-0 mx-3">
+            <div class="storage-footer col-lg-8 col-12 mt-0">
                 <div class="text-center">Red</div>
                 <input oninput="StorageCreateTypeJs.changeRed(this.value)" 
                        onchange="StorageCreateTypeJs.changeRed(this.value)" type="range" value="255" min="160" max="255" class="p-0" id="rangeRed">

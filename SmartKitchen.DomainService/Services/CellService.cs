@@ -50,7 +50,7 @@ namespace SmartKitchen.DomainService.Services
 
         public ItemCreationResponse AddCell(CellCreationModel model, Person person)
         {
-            ItemCreationResponse response = new ItemCreationResponse();
+            var response = new ItemCreationResponse();
             var storage = _storageRepository.GetStorageById(model.Storage);
             var check = StorageBelongsToPerson(storage, person);
             if (!check.Successful()) return new ItemCreationResponse(check);
@@ -145,9 +145,7 @@ namespace SmartKitchen.DomainService.Services
             var storage = _storageRepository.GetStorageById(storageId);
             var person = _personRepository.GetPersonByEmail(email);
             var response = StorageBelongsToPerson(storage, person);
-            if (!response.Successful()) return null;
-            var query = _cellRepository.GetCellsForStorage(storageId).ProjectTo<CellDisplayModel>(MapperConfig);
-            return query;
+            return !response.Successful() ? null : _cellRepository.GetCellsForStorage(storageId).ProjectTo<CellDisplayModel>(MapperConfig);
         }
         
         public ItemCreationResponse MoveBasketProductToStorage(BasketProduct basketProduct, Basket basket, Person person)

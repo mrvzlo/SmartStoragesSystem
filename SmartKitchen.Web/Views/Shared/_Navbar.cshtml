@@ -69,11 +69,9 @@
                                 </a>
                             </li>
                         }
-                        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "d-none" }))
-                        {
-                            @Html.AntiForgeryToken()
-                        }
                         <li class="nav-item">
+                            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "d-none" }))
+                            {@Html.AntiForgeryToken()}
                             <a class="nav-link text-light" href="javascript:document.getElementById('logoutForm').submit()">
                                 <div class="d-md-inline d-none">Log out</div>
                                 <img class="d-md-none navicon" src="@Url.Content("~/Content/icons/logout.png")" />
