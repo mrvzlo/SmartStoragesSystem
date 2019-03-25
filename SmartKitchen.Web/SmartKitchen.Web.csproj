@@ -199,7 +199,6 @@
     <Content Include="Content\icons\arrow-right.png" />
     <Content Include="Content\images\basket.png" />
     <Content Include="Content\icons\1.png" />
-    <Content Include="Content\icons\16.png" />
     <Content Include="Content\icons\2.png" />
     <Content Include="Content\icons\3.png" />
     <Content Include="Content\icons\4.png" />
@@ -331,7 +330,8 @@
     <Content Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Properties\PublishProfiles\SmartStorages - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\avess - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
