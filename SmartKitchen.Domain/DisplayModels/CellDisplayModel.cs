@@ -1,4 +1,5 @@
 ﻿// ReSharper disable PossibleMultipleEnumeration
+// ReSharper disable MemberCanBePrivate.Global
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,25 +21,35 @@ namespace SmartKitchen.Domain.DisplayModels
 
         public ICollection<CellChange> CellChanges { get; set; }
 
-        public Amount AmountStatus { get {
-            if (Amount == 0) return Enums.Amount.None;
-            if (AmountDecreasePerHour == 0) return Enums.Amount.Plenty;
-            if (HoursRemain == 0) return Enums.Amount.None;
-            if (HoursRemain < 48) return Enums.Amount.Lack;
-            return Enums.Amount.Plenty;
-        }}
+        public Amount AmountStatus
+        {
+            get
+            {
+                if (Amount == 0) return Enums.Amount.None;
+                if (AmountDecreasePerHour == 0) return Enums.Amount.Plenty;
+                if (HoursRemain == 0) return Enums.Amount.None;
+                return HoursRemain < 48 ? Enums.Amount.Lack : Enums.Amount.Plenty;
+            }
+        }
 
-        public Safety SafetyStatus { get {
+        public Safety SafetyStatus
+        {
+            get
+            {
                 if (BestBefore == null) return Safety.Unknown;
                 var days = (int)Math.Floor((BestBefore.Value.Date - DateTime.Now.Date).TotalDays);
                 return days > 1 ? Safety.IsSafe
                     : days > 0 ? Safety.ExpiresTomorrow
                     : days == 0 ? Safety.ExpiresToday
                     : Safety.Expired;
-            }}
+            }
+        }
 
 
-        public decimal AmountDecreasePerHour{ get {
+        public decimal AmountDecreasePerHour
+        {
+            get
+            {
                 decimal decrease = 0, hours = 0;
                 int count = 0;
                 var cellChanges = CellChanges.OrderByDescending(x => x.UpdateDate);
@@ -51,7 +62,8 @@ namespace SmartKitchen.Domain.DisplayModels
                     hours += (decimal)(newest.UpdateDate - oldest.UpdateDate).TotalHours;
                     if (count == 3) break;
                 }
-                return hours == 0 ? 0 : Math.Round(Math.Abs(decrease/hours),2);
+                return hours == 0 ? 0 : Math.Round(Math.Abs(decrease / hours), 2);
             }
-        }}
+        }
+    }
 }
