@@ -7053,9 +7053,11 @@ td {
 .bg-main-light {
   background-color: #f6f5fa; }
 
-pre {
+code {
   margin: 0;
-  background-color: #d4f5fa; }
+  color: #117a8b;
+  font-weight: bold;
+  display: inline; }
 
 .modal-footer {
   margin: 0; }

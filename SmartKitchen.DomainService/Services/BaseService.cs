@@ -26,11 +26,8 @@ namespace SmartKitchen.DomainService.Services
         protected static string TitledString(string src) =>
             src.Length < 1 ? "" : src[0].ToString().ToUpper() + (src.Length < 2 ? "" : src.Substring(1).ToLower());
 
-        protected ServiceResponse ProductBelongsToPerson(BasketProduct basketProduct, Person person, Basket basket)
-        {
-            if (person == null) return new ServiceResponse().AddError(GeneralError.PersonWasNotFound);
-            return basketProduct == null ? new ServiceResponse().AddError(GeneralError.BasketProductWasNotFound) : BasketBelongsToPerson(basket, person);
-        }
+        protected ServiceResponse BasketProductBelongsToPerson(BasketProduct basketProduct, Person person, Basket basket) => 
+            basketProduct == null ? new ServiceResponse().AddError(GeneralError.BasketProductWasNotFound) : BasketBelongsToPerson(basket, person);
 
         protected ServiceResponse BasketBelongsToPerson(Basket basket, Person person)
         {
@@ -39,11 +36,8 @@ namespace SmartKitchen.DomainService.Services
             return basket.PersonId != person.Id ? new ServiceResponse().AddError(GeneralError.AccessToBasketDenied) : new ServiceResponse();
         }
 
-        protected ServiceResponse CellBelongsToPerson(Cell cell, Person person, Storage storage)
-        {
-            if (person == null) return new ServiceResponse().AddError(GeneralError.PersonWasNotFound);
-            return cell == null ? new ServiceResponse().AddError(GeneralError.CellWasNotFound) : StorageBelongsToPerson(storage, person);
-        }
+        protected ServiceResponse CellBelongsToPerson(Cell cell, Person person, Storage storage) => 
+            cell == null ? new ServiceResponse().AddError(GeneralError.CellWasNotFound) : StorageBelongsToPerson(storage, person);
 
         protected ServiceResponse StorageBelongsToPerson(Storage storage, Person person)
         {

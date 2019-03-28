@@ -141,6 +141,18 @@ namespace SmartKitchen.Web.Controllers
         #region Cell
 
         [HttpPost]
+        public ActionResult CreateCell(CellCreationModel model)
+        {
+            var response = _cellService.AddCell(model, CurrentUser());
+            if (response.Successful())
+            {
+                AddModelStateErrors(response);
+                TempData["error"] = "This name is already taken";
+            }
+            return Redirect(Url.Action("View", new { id = response.AddedGroupId }));
+        }
+
+        [HttpPost]
         public void SetAmount(int cell, int amount) =>
             _cellService.UpdateCellAmount(cell, amount, CurrentUser());
 

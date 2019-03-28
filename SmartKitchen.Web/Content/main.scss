@@ -29,9 +29,11 @@ $input-btn-padding-x: .5rem;
     background-color: lighten($main, 57%);
 }
 
-pre {
+code {
     margin: 0;
-    background-color: lighten($info, 50%);
+    color: darken($info, 10%);
+    font-weight: bold;
+    display: inline;
 }
 
 .modal-footer {

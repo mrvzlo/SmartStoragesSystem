@@ -91,7 +91,7 @@ namespace SmartKitchen.DomainService.Services
             var product = _basketProductRepository.GetBasketProductById(id);
             var basket = _basketRepository.GetBasketById(product.BasketId);
             var person = _personRepository.GetPersonByEmail(email);
-            var response = ProductBelongsToPerson(product, person, basket);
+            var response = BasketProductBelongsToPerson(product, person, basket);
             if (!response.Successful()) return response;
 
             product.Bought = status;
@@ -104,7 +104,7 @@ namespace SmartKitchen.DomainService.Services
             var product = _basketProductRepository.GetBasketProductById(id);
             var basket = _basketRepository.GetBasketById(product.BasketId);
             var person = _personRepository.GetPersonByEmail(email);
-            var response = ProductBelongsToPerson(product, person, basket);
+            var response = BasketProductBelongsToPerson(product, person, basket);
             if (!response.Successful()) return response;
 
             if (value < 0) value = 0;
@@ -119,7 +119,7 @@ namespace SmartKitchen.DomainService.Services
             var product = _basketProductRepository.GetBasketProductById(id);
             var basket = _basketRepository.GetBasketById(product.BasketId);
             var person = _personRepository.GetPersonByEmail(email);
-            var response = ProductBelongsToPerson(product, person, basket);
+            var response = BasketProductBelongsToPerson(product, person, basket);
             if (!response.Successful()) return response;
 
             product.BestBefore = value;
@@ -132,7 +132,7 @@ namespace SmartKitchen.DomainService.Services
             var product = _basketProductRepository.GetBasketProductById(id);
             var basket = _basketRepository.GetBasketById(product.BasketId);
             var person = _personRepository.GetPersonByEmail(email);
-            var response = ProductBelongsToPerson(product, person, basket);
+            var response = BasketProductBelongsToPerson(product, person, basket);
             if (!response.Successful()) return response;
 
             product.Price = value;
@@ -145,7 +145,7 @@ namespace SmartKitchen.DomainService.Services
             var product = _basketProductRepository.GetBasketProductById(id);
             var basket = _basketRepository.GetBasketById(product.BasketId);
             var person = _personRepository.GetPersonByEmail(email);
-            var response = ProductBelongsToPerson(product, person, basket);
+            var response = BasketProductBelongsToPerson(product, person, basket);
             if (!response.Successful()) return response;
 
             _basketProductRepository.DeleteBasketProduct(product);

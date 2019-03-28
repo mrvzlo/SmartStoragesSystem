@@ -156,8 +156,6 @@ namespace SmartKitchen.DomainService.Services
             var storage = _storageRepository.GetStorageById(cell.StorageId);
             response = new ItemCreationResponse(CellBelongsToPerson(cell, person, storage));
             if (!response.Successful()) return response;
-            response = new ItemCreationResponse(ProductBelongsToPerson(basketProduct, person, basket));
-            if (!response.Successful()) return response;
             var lastChange = cell.CellChanges.OrderByDescending(x => x.UpdateDate).First().Amount;
             cell.BestBefore = basketProduct.BestBefore;
             var cellChange = new CellChange
