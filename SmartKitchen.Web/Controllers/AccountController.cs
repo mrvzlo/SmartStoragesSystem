@@ -1,5 +1,5 @@
 ﻿// ReSharper disable PossibleMultipleEnumeration
-// ReSharper disable InconsistentNaming
+// ReSharper disable PossibleNullReferenceException
 // ReSharper disable InvertIf
 using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.Enums;
@@ -25,14 +25,14 @@ namespace SmartKitchen.Web.Controllers
             _personService = personService;
         }
 
-        public ActionResult Index(string ReturnUrl = null)
+        public ActionResult Index(string returnUrl = null)
         {
             if (User.Identity.IsAuthenticated)
                 return Redirect(Url.Action("Index", "Home"));
-            ViewBag.ReturnUrl = ReturnUrl;
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
-
+        #region
         [Authorize]
         public ActionResult Info()
         {
@@ -69,12 +69,12 @@ namespace SmartKitchen.Web.Controllers
             return _personService.GetPersonByEmail(CurrentUser()).PublicKey;
         }
 
-        public PartialViewResult SignIn(string ReturnUrl = null) =>
-            PartialView("_SignIn", new SignInModel{ReturnUrl = ReturnUrl});
+        public PartialViewResult SignIn(string returnUrl = null) =>
+            PartialView("_SignIn", new SignInModel { ReturnUrl = returnUrl });
 
         public PartialViewResult SignUp() =>
             PartialView("_SignUp", new SignUpModel());
-
+        #endregion
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult SignIn(SignInModel model)
@@ -87,8 +87,8 @@ namespace SmartKitchen.Web.Controllers
                     CreateTicket(response.Email, response.Role);
                     Log.Info("Successful login attempt for " + model.Email);
                     var url = Url.Action("Index", "Storage");
-                    // ReSharper disable once PossibleNullReferenceException
-                    if (model.ReturnUrl != null) url = "http://" + Request.Url.Authority + model.ReturnUrl;
+                    if (model.ReturnUrl != null && Url.IsLocalUrl(model.ReturnUrl)) url = "http://" + Request.Url.Authority + model.ReturnUrl;
+                    else if (model.ReturnUrl != null) Log.Warn("Tried redirect to external " + model.ReturnUrl);
                     return Json(new { success = true, url });
                 }
                 AddModelStateErrors(response);
