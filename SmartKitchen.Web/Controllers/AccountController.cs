@@ -1,4 +1,6 @@
 ﻿// ReSharper disable PossibleMultipleEnumeration
+// ReSharper disable InconsistentNaming
+// ReSharper disable InvertIf
 using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.Enums;
 using SmartKitchen.Domain.Extensions;
@@ -23,10 +25,11 @@ namespace SmartKitchen.Web.Controllers
             _personService = personService;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(string ReturnUrl = null)
         {
             if (User.Identity.IsAuthenticated)
                 return Redirect(Url.Action("Index", "Home"));
+            ViewBag.ReturnUrl = ReturnUrl;
             return View();
         }
 
@@ -66,8 +69,8 @@ namespace SmartKitchen.Web.Controllers
             return _personService.GetPersonByEmail(CurrentUser()).PublicKey;
         }
 
-        public PartialViewResult SignIn() =>
-            PartialView("_SignIn", new SignInModel());
+        public PartialViewResult SignIn(string ReturnUrl = null) =>
+            PartialView("_SignIn", new SignInModel{ReturnUrl = ReturnUrl});
 
         public PartialViewResult SignUp() =>
             PartialView("_SignUp", new SignUpModel());
@@ -83,7 +86,10 @@ namespace SmartKitchen.Web.Controllers
                 {
                     CreateTicket(response.Email, response.Role);
                     Log.Info("Successful login attempt for " + model.Email);
-                    return Json(new { success = true, url = Url.Action("Index", "Storage") });
+                    var url = Url.Action("Index", "Storage");
+                    // ReSharper disable once PossibleNullReferenceException
+                    if (model.ReturnUrl != null) url = "http://" + Request.Url.Authority + model.ReturnUrl;
+                    return Json(new { success = true, url });
                 }
                 AddModelStateErrors(response);
                 Log.Info("Unsuccessful login attempt for " + model.Email);

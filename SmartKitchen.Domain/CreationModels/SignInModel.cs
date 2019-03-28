@@ -15,6 +15,7 @@ namespace SmartKitchen.Domain.CreationModels
         [Display(Description = "Password")]
         [StringLength(128)]
         public string Password{ get; set; }
-	}
+        public string ReturnUrl { get; set; }
+    }
 
 }
