@@ -37,7 +37,7 @@ namespace SmartKitchen.DomainService.Services
             var person = _personRepository.GetPersonByEmail(email);
             var storage = _storageRepository.GetStorageById(id);
             if (!StorageBelongsToPerson(storage,person).Successful()) return;
-            foreach (var c in storage.Cells) _cellService.DeleteCell(c);
+            foreach (var c in storage.Cells.ToList()) _cellService.DeleteCell(c);
             _storageRepository.DeleteStorage(storage);
         }
 
