@@ -14,8 +14,7 @@ var BasketViewJs = (function () {
         $(document).on("click", "#btnMark", markBought);
     }
     
-    var markBought = function () {
-        var id = StatusPickerJs.getProductId();
+    var markBought = function (id) {
         var status = !$("#name_" + id).hasClass("bought");
         $.post({
             url: settings.updUrl + "?id=" + id+"&status="+status,
@@ -35,9 +34,20 @@ var BasketViewJs = (function () {
         }
     }
 
+    var removeProduct = function (id, name) {
+	    if (confirm(name + " will be completely removed")) {
+		    var url = settings.deleteUrl + id;
+		    $.post(url,
+			    function () {
+				    new MvcGrid(document.querySelector(".mvc-grid")).reload();
+			    });
+	    }
+    }
+
     return {
-        initialize: initialize,
-        markBought: markBought
-    };
+	    initialize: initialize,
+	    markBought: markBought,
+        removeProduct: removeProduct
+};
 
 })();

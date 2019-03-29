@@ -30,7 +30,6 @@
 }
 @Html.Partial("Pickers/_DatePicker")
 @Html.Partial("Pickers/_AmountPicker")
-@Html.Partial("Pickers/_StatusPicker")
 @Scripts.Render("~/MvcGrid")
 @Scripts.Render("~/js/search")
 @Scripts.Render("~/js/pickers")
@@ -39,8 +38,10 @@
     <script>
         $(function () {
             $(function () {
-                StatusPickerJs.initialize({deleteUrl: '@Url.Action("Remove", "Storage")?cellId='});
-                StorageViewJs.initialize({sendUrl: '@Url.Action("AddListToBasket","Basket")', storageId: @Model.Id });
+                StorageViewJs.initialize({
+                    sendUrl: '@Url.Action("AddListToBasket","Basket")', storageId: @Model.Id,
+                    deleteUrl: '@Url.Action("Remove", "Storage")?cellId='
+                });
                 DatetimePickerJs.initialize({url: '@Url.Action("DateUpdate", "Storage")?cell='});
                 AmountPickerJs.initialize({ setUrl: '@Url.Action("SetAmount", "Storage")?cell=', measurement: '@ViewBag.Weight'});
                 SearchProductJs.initialize({searchUrl: '@Url.Action("GetProductsByNameStart", "Product")', inputId: '#Product' });

@@ -8,7 +8,8 @@ var StorageViewJs = (function () {
 
         var defaults = {
             sendUrl: null,
-            storageId: 0
+            storageId: 0,
+            deleteUrl: null
         };
         new MvcGrid(document.querySelector(".mvc-grid")).reload();
         settings = $.extend(true, defaults, options);
@@ -59,8 +60,7 @@ var StorageViewJs = (function () {
         else $("#basketBox").show();
     }
 
-    var mark = function () {
-        var id = StatusPickerJs.getProductId();
+    var mark = function (id) {
         var e = $("#name_" + id);
         if (e.hasClass("marked"))
             e.removeClass("marked");
@@ -87,8 +87,19 @@ var StorageViewJs = (function () {
         }
     }
 
+    var removeProduct = function (id, name) {
+	    if (confirm(name + " will be completely removed")) {
+		    var url = settings.deleteUrl + id;
+		    $.post(url,
+			    function () {
+				    new MvcGrid(document.querySelector(".mvc-grid")).reload();
+			    });
+	    }
+    }
+
     return {
         initialize: initialize,
+        removeProduct: removeProduct,
         mark: mark
     };
 })();

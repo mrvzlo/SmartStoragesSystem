@@ -1,16 +1,18 @@
 ﻿@using SmartKitchen.Domain.DisplayModels
 @model IQueryable<BasketProductDisplayModel>
 
-@Html.Grid(Model).Build(c =>{
+@Html.Grid(Model).Build(c =>
+{
     c.Add(x => x.ProductName).RenderedAs(NameHelper).Titled("Name").Css("w-25");
     c.Add(x => x.BestBefore).RenderedAs(SafetyHelper).Titled("Safety").Css("w-25");
-    c.Add(x => x.Amount).RenderedAs(AmountHelper).Titled("Amount").Css("w-25");
-    c.Add(x => x.Price).RenderedAs(PriceHelper).Titled("Price").Css("w-25");
+    c.Add(x => x.Amount).RenderedAs(AmountHelper).Titled("Amount").Css("w-20");
+    c.Add(x => x.Price).RenderedAs(PriceHelper).Titled("Price").Css("w-20");
+    c.Add(x => x.Id).RenderedAs(DeleteHelper).Titled("").Css("w-10");
 }).Sortable().Css("table-borderless w-100 table p-0 m-0 table-hover").RowAttributed(model => new { id = model.Id }).WithFooter("_GridFooter")
 
 @helper NameHelper(BasketProductDisplayModel item)
 {
-    <div onclick="StatusPickerJs.showStatusPicker(@item.Id,'@(item.Bought ? "Not bought" : "Bought")')">
+    <div onclick="BasketViewJs.markBought(@item.Id)">
         <a id="name_@item.Id" class="pointer @(item.Bought ? "bought" :"")" data-toggle="modal" data-target="#StatusModal">@item.ProductName</a>
     </div>
 }
@@ -34,5 +36,12 @@
 {
     <div onclick="PricePickerJs.showPricePicker(@item.Id,@item.Price)">
         <a id="price_@item.Id" class="pointer" data-toggle="modal" data-target="#PriceModal">@item.Price @ViewBag.Currency</a>
+    </div>
+}
+
+@helper DeleteHelper(BasketProductDisplayModel item)
+{
+    <div onclick="BasketViewJs.removeProduct(@item.Id,'@item.ProductName')">
+        <a alt="delete" class="pointer font-weight-bold text-decoration-none text-danger">X</a>
     </div>
 }
