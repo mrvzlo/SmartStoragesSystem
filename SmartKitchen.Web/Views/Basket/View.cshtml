@@ -16,6 +16,7 @@
 </div>
 @if (Model.Products != 0 && !Model.Closed)
 {<button id="btnFinish" class="btn btn-success float-right m-2 px-3 @(Model.Products != 0 ? "" : "disabled")">Finish and close</button>}
+else {<button id="btnReopen" class="btn btn-success float-right m-2 px-3 @(Model.Products != 0 ? "" : "disabled")">Reopen</button>}
 @Html.Partial("Pickers/_AmountPicker")
 @Html.Partial("Pickers/_PricePicker")
 @Html.Partial("Pickers/_DatePicker")
@@ -30,6 +31,7 @@
                 BasketViewJs.initialize({
                     updUrl: '@Url.Action("MarkProductBought", "Basket")',
                     finishUrl: '@Url.Action("FinishAndClose","Basket")?id=@Model.Id',
+                    reopenUrl: '@Url.Action("Reopen","Basket")?id=@Model.Id',
                     deleteUrl: '@Url.Action("RemoveBasketProduct", "Basket")?id='
                 });
                 DatetimePickerJs.initialize({url: '@Url.Action("DateUpdate", "Basket")?id='});

@@ -96,6 +96,13 @@ namespace SmartKitchen.Web.Controllers
             _basketService.FinishAndCloseBasket(id, CurrentUser());
             return Redirect(Url.Action("Index", new {id}));
         }
+
+        [HttpPost]
+        public ActionResult Reopen(int id)
+        {
+            _basketService.ReopenBasket(id, CurrentUser());
+            return Redirect(Url.Action("Index", new { id }));
+        }
         #endregion
 
         #region BasketProduct

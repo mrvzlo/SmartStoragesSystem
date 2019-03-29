@@ -2,6 +2,7 @@
 using SmartKitchen.Domain.IRepositories;
 using System.Collections.Generic;
 using System.Linq;
+using Z.EntityFramework.Plus;
 
 namespace SmartKitchen.Infrastructure.Repositories
 {
@@ -26,5 +27,9 @@ namespace SmartKitchen.Infrastructure.Repositories
 
         public void DeleteBasketProduct(BasketProduct basketProduct) =>
             _dbContext.Delete(basketProduct);
+
+        public void UnmarkBasketProducts(int basketId) =>
+            _dbContext.BasketProducts.Where(x => x.BasketId == basketId)
+                .Update(x => new BasketProduct {Bought = false});
     }
 }

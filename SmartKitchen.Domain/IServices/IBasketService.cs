@@ -13,5 +13,6 @@ namespace SmartKitchen.Domain.IServices
         bool UpdateBasketName(NameCreationModel name, int id, string email);
         bool DeleteBasket(int id, string email);
         int FinishAndCloseBasket(int id, string email);
+        bool ReopenBasket(int id, string email);
     }
 }

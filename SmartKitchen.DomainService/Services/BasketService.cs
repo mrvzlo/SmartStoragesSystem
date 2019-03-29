@@ -90,5 +90,17 @@ namespace SmartKitchen.DomainService.Services
             _basketRepository.AddOrUpdateBasket(basket);
             return count;
         }
+
+        public bool ReopenBasket(int id, string email)
+        {
+            var basket = _basketRepository.GetBasketById(id);
+            var person = _personRepository.GetPersonByEmail(email);
+            if (!BasketBelongsToPerson(basket, person).Successful()) return false;
+            if (!basket.Closed) return true;
+            basket.Closed = false;
+            _basketRepository.AddOrUpdateBasket(basket);
+            _basketProductRepository.UnmarkBasketProducts(id);
+            return !basket.Closed;
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace SmartKitchen.Domain.IRepositories
         void DeleteBasketProductRange(ICollection<BasketProduct> query);
         BasketProduct GetBasketProductByBasketAndCell(int basket, int cell);
         void DeleteBasketProduct(BasketProduct basketProduct);
+        void UnmarkBasketProducts(int basketId);
     }
 }
