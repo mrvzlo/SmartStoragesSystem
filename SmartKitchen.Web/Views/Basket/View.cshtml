@@ -9,9 +9,10 @@
 }
 <div class="text-center table-responsive m-0 bg-main-light">
     @if (Model.Products == 0)
-    {<div class="alert m-0 h3">This basket is empty now</div>}
-    else
-    {@Html.AjaxGrid(Url.Action("BasketProductGrid", new { id = Model.Id }))}
+    {
+        <div class="alert m-0 h3">This basket is empty now</div>
+    }
+    @Html.AjaxGrid(Url.Action("BasketProductGrid", new { id = Model.Id }))
 </div>
 @if (Model.Products != 0 && !Model.Closed)
 {<button id="btnFinish" class="btn btn-success float-right m-2 px-3 @(Model.Products != 0 ? "" : "disabled")">Finish and close</button>}
@@ -21,6 +22,7 @@
 @Html.Partial("Pickers/_StatusPicker")
 @Scripts.Render("~/MvcGrid")
 @Scripts.Render("~/js/pickers")
+@Scripts.Render("~/js/search")
 @Scripts.Render("~/js/BasketView")
 @section scripts{
     <script>
@@ -34,6 +36,7 @@
                 AmountPickerJs.initialize({setUrl: '@Url.Action("SetAmount", "Basket")?id=', measurement: '@ViewBag.Weight'});
                 StatusPickerJs.initialize({deleteUrl: '@Url.Action("RemoveBasketProduct", "Basket")?id='});
                 PricePickerJs.initialize({setUrl: '@Url.Action("SetPrice", "Basket")?id=', measurement: '@ViewBag.Currency'});
+                SearchProductJs.initialize({searchUrl: '@Url.Action("GetProductsByNameStart","Product")', inputId: '#Product' });
             });
         });
 

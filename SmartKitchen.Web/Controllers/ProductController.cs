@@ -7,7 +7,6 @@ using System.Web.Mvc;
 
 namespace SmartKitchen.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class ProductController : BaseController
     {
         private readonly IProductService _productService;
@@ -19,12 +18,14 @@ namespace SmartKitchen.Web.Controllers
             _categoryService = categoryService;
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             if (TempData.ContainsKey("error")) ModelState.AddModelError("Name", TempData["error"].ToString());
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         public PartialViewResult ProductGrid()
         {
             var query = _productService.GetAllProductDisplays();
@@ -37,6 +38,7 @@ namespace SmartKitchen.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public RedirectResult Add(NameCreationModel model)
         {
             if (ModelState.IsValid)
@@ -50,6 +52,7 @@ namespace SmartKitchen.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public RedirectResult SaveChanges(List<ProductDisplayModel> list)
         {
             if (ModelState.IsValid)
@@ -61,5 +64,11 @@ namespace SmartKitchen.Web.Controllers
             return Redirect(Url.Action("Index"));
         }
 
+        [HttpPost]
+        public JsonResult GetProductsByNameStart(string name)
+        {
+            var names = _productService.GetProductNamesByStart(name);
+            return Json(new { list = names.ToList() });
+        }
     }
 }

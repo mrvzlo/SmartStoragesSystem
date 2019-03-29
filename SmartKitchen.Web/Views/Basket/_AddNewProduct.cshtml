@@ -4,7 +4,8 @@
         @using (Html.BeginForm("CreateProduct", "Basket", FormMethod.Post, new { @class = "row justify-content-center" }))
         {
             @Html.HiddenFor(x => x.Basket)
-            @Html.TextBoxFor(x => x.Product, new { @class = "col-5", placeholder = "New product" })
+            @Html.TextBoxFor(x => x.Product, new { @class = "col-5", placeholder = "New product", list = "products" })
+            <datalist id="products"></datalist>
             @Html.DropDownListFor(x=>x.Storage, new SelectList(ViewBag.SelectList, "Value", "Text"), new {@class = "input col-sm-5 col-4" })
             <input type="submit" value="Add" class="btn btn-main col-sm-2 col-3" />
             @Html.ValidationMessageFor(x=>x.Product, "", new { @class = "col-12 error" })

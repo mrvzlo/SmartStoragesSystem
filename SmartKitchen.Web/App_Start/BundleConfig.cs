@@ -29,6 +29,10 @@ namespace SmartKitchen.Web
 
             #region Pages
 
+            bundles.Add(new ScriptBundle("~/js/search").Include(
+                "~/Scripts/pages/search-product.js"
+            ));
+
             bundles.Add(new ScriptBundle("~/js/accountIndex").Include(
                 "~/Scripts/pages/account-index.js"
             ));

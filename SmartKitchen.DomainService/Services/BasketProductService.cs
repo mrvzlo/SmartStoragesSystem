@@ -45,6 +45,7 @@ namespace SmartKitchen.DomainService.Services
             var basket = _basketRepository.GetBasketById(basketId);
             var storage = _storageRepository.GetStorageById(storageId);
             var person = _personRepository.GetPersonByEmail(email);
+            if (cells == null) return count;
             foreach (var c in cells)
             {
                 var response = AddBasketProduct(storage, basket, person, c);

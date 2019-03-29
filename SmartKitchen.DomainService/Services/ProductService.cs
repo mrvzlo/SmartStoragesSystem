@@ -1,4 +1,5 @@
-﻿using AutoMapper.QueryableExtensions;
+﻿using System;
+using AutoMapper.QueryableExtensions;
 using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Enitities;
@@ -21,6 +22,9 @@ namespace SmartKitchen.DomainService.Services
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
         }
+
+        public IQueryable<string> GetProductNamesByStart(string start) =>
+            _productRepository.GetAllProducts().Where(x => x.Name.ToLower().Contains(start.ToLower())).Select(x => x.Name);
 
         public Product GetOrAddAndGetProduct(string name)
         {
@@ -68,7 +72,7 @@ namespace SmartKitchen.DomainService.Services
                     product.Name = item.Name;
                 if (_categoryRepository.ExistsWithId(item.CategoryId))
                     product.CategoryId = item.CategoryId;
-                    _productRepository.UpdateProduct(product);
+                _productRepository.UpdateProduct(product);
             }
 
             return count;

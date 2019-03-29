@@ -14,5 +14,6 @@ namespace SmartKitchen.Domain.IServices
         IQueryable<ProductDisplayModel> GetAllProductDisplays();
         ItemCreationResponse AddProduct(NameCreationModel model);
         int UpdateProductList(List<ProductDisplayModel> list);
+        IQueryable<string> GetProductNamesByStart(string start);
     }
 }

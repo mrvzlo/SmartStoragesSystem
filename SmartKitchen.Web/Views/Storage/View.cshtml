@@ -11,10 +11,7 @@
     {
         <div class="alert m-0 h3">This storage is empty now</div>
     }
-    else
-    {
         @Html.AjaxGrid(Url.Action("ShowAllCells", new { storage = Model.Id }))
-    }
 </div>
 @if (Model.CellCount > 0)
 {
@@ -35,6 +32,7 @@
 @Html.Partial("Pickers/_AmountPicker")
 @Html.Partial("Pickers/_StatusPicker")
 @Scripts.Render("~/MvcGrid")
+@Scripts.Render("~/js/search")
 @Scripts.Render("~/js/pickers")
 @Scripts.Render("~/js/StorageView")
 @section scripts{
@@ -45,6 +43,7 @@
                 StorageViewJs.initialize({sendUrl: '@Url.Action("AddListToBasket","Basket")', storageId: @Model.Id });
                 DatetimePickerJs.initialize({url: '@Url.Action("DateUpdate", "Storage")?cell='});
                 AmountPickerJs.initialize({ setUrl: '@Url.Action("SetAmount", "Storage")?cell=', measurement: '@ViewBag.Weight'});
+                SearchProductJs.initialize({searchUrl: '@Url.Action("GetProductsByNameStart", "Product")', inputId: '#Product' });
             });
         });
 
