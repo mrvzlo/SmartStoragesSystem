@@ -5,10 +5,10 @@ namespace SmartKitchen.Domain.CreationModels
 	public class SignInModel
 	{
         [Required]
-        [DataType(DataType.EmailAddress)]
-        [Display(Description = "Email")]
+        [DataType(DataType.Text)]
+        [Display(Description = "Username")]
         [StringLength(128)]
-		public string Email{ get; set; }
+		public string Username{ get; set; }
 
         [Required]
         [DataType(DataType.Password)]

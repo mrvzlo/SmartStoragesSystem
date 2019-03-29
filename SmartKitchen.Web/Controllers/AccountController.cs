@@ -97,14 +97,14 @@ namespace SmartKitchen.Web.Controllers
                 if (response.Successful())
                 {
                     CreateTicket(response.Email, response.Role);
-                    Log.Info("Successful login attempt for " + model.Email);
+                    Log.Info("Successful login attempt for " + model.Username);
                     var url = Url.Action("Index", "Storage");
                     if (model.ReturnUrl != null && Url.IsLocalUrl(model.ReturnUrl)) url = "http://" + Request.Url.Authority + model.ReturnUrl;
                     else if (model.ReturnUrl != null) Log.Warn("Tried redirect to external " + model.ReturnUrl);
                     return Json(new { success = true, url });
                 }
                 AddModelStateErrors(response);
-                Log.Info("Unsuccessful login attempt for " + model.Email);
+                Log.Info("Unsuccessful login attempt for " + model.Username);
 
             }
             return Json(new { success = false, formHTML = this.RenderPartialViewToString("_SignIn", model) });

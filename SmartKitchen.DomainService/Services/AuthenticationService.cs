@@ -22,13 +22,10 @@ namespace SmartKitchen.DomainService.Services
             _storageTypeRepository = storageTypeRepository;
         }
 
-        public Person GetPersonByEmail(string email) =>
-            _personRepository.GetPersonByEmail(email);
-
         public AuthenticationResponse SignIn(SignInModel model)
         {
             var response = new AuthenticationResponse();
-            var person = GetPersonByEmail(model.Email);
+            var person = _personRepository.GetPersonByName(model.Username);
 
             if (person == null || !Crypto.VerifyHashedPassword(person.Password, model.Password))
                 return new AuthenticationResponse(response.AddError(AuthenticationError.EmailOrPasswordIsIncorrect));
@@ -40,7 +37,7 @@ namespace SmartKitchen.DomainService.Services
         {
             var response = new AuthenticationResponse();
             var personByEmail = _personRepository.GetPersonByName(model.Username);
-            var personByName = GetPersonByEmail(model.Email);
+            var personByName = _personRepository.GetPersonByEmail(model.Email);
             if (personByEmail != null)
                 return new AuthenticationResponse(response.AddError(AuthenticationError.ThisEmailIsTaken, nameof(model.Email)));
             if (personByName != null)
