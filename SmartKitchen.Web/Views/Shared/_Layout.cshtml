@@ -10,9 +10,10 @@
 </head>
 <body class="p-0">
     @Html.Partial("_Navbar")
-    <main class="container">
-        @RenderBody()
-    </main>
+<main class="container">
+    <div id="heading">@ViewBag.Heading</div>
+    @RenderBody()
+</main>
     @Scripts.Render("~/core")
     @RenderSection("scripts", false)
 </body>

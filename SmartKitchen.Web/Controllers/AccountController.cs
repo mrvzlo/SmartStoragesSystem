@@ -32,17 +32,17 @@ namespace SmartKitchen.Web.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
-        #region
+
         [Authorize]
-        public ActionResult Key()
+        public PartialViewResult Key()
         {
             var person = _personService.GetPersonByEmail(CurrentUser());
             ViewBag.PersonId = person.Id;
             ViewBag.PublicKey = person.PublicKey;
-            return View();
+            return PartialView("_Key");
         }
 
-        public ActionResult Preferences()
+        public PartialViewResult Preferences()
         {
             var currencies = EnumHelper.GetAllCurrencies();
             var weights = EnumHelper.GetAllWeights();
@@ -52,7 +52,7 @@ namespace SmartKitchen.Web.Controllers
             ViewBag.Weight = (int)weights.SingleOrDefault(x => x.GetDescription() == weight);
             ViewBag.CurrencyList = currencies.Select(x => new SelectListItem { Value = ((int)x).ToString(), Text = x.ToString() });
             ViewBag.WeightList = weights.Select(x => new SelectListItem { Value = ((int)x).ToString(), Text = x.ToString() });
-            return View();
+            return PartialView("_Preferences");
         }
 
         public RedirectResult UpdatePreferences(int currency, int weight)
@@ -63,7 +63,7 @@ namespace SmartKitchen.Web.Controllers
             if (Enum.IsDefined(typeof(Weight), weight))
                 CookieHelper.UpdateCookie(HttpContext, Cookie.Weight, (Weight)weight);
 
-            return Redirect(Url.Action("Preferences"));
+            return Redirect(Url.Action("Settings", new { tab = 1 }));
         }
 
         [Authorize]
@@ -73,13 +73,20 @@ namespace SmartKitchen.Web.Controllers
             _personService.UpdateKeyPair(CurrentUser());
             return _personService.GetPersonByEmail(CurrentUser()).PublicKey;
         }
+        public ActionResult Settings(int tab = 0)
+        {
+            ViewBag.Active = tab;
+            return View();
+        }
 
         public PartialViewResult SignIn(string returnUrl = null) =>
             PartialView("_SignIn", new SignInModel { ReturnUrl = returnUrl });
 
         public PartialViewResult SignUp() =>
             PartialView("_SignUp", new SignUpModel());
-        #endregion
+
+        public PartialViewResult ChangePassword() => PartialView("_ChangePassword");
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult SignIn(SignInModel model)

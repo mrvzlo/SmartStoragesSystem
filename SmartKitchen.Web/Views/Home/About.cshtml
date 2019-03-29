@@ -1,12 +1,9 @@
 ﻿@model SmartKitchen.Domain.DisplayModels.HelpModel
 @{
-    @* ReSharper disable PossibleNullReferenceException
-        ReSharper disable Asp.Entity
-        ReSharper disable once MarkupTextTypo *@
-    ViewBag.Title = "Quick guide";
+    ViewBag.Title = "Guide";
+    ViewBag.Heading = "Guide";
     var url = "https://" + Request.Url.Authority + "/";
 }
-<div class="h4">Guide</div>
 <div class="text-justify my-2">
     After <a href="@Url.Action("Index","Account",new{Login = false})">registration</a>
     you can create your storages @Html.ActionLink("here", "Create", "Storage") using <b>@Model.StorageTypesCount</b> different templates.

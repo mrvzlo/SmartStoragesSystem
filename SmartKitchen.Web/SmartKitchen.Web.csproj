@@ -362,7 +362,7 @@
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Views\Account\_SignUp.cshtml" />
-    <Content Include="Views\Account\Key.cshtml" />
+    <Content Include="Views\Account\_Key.cshtml" />
     <Content Include="Views\Account\_SignIn.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -411,9 +411,9 @@
     <Content Include="Views\Basket\_GridFooter.cshtml" />
     <Content Include="Views\Shared\Pickers\_PricePicker.cshtml" />
     <Content Include="Views\Shared\Pickers\_StatusPicker.cshtml" />
-    <Content Include="Views\Account\Preferences.cshtml" />
-    <Content Include="Views\Account\ChangePassword.cshtml" />
-    <Content Include="Views\Account\_AccountMenu.cshtml" />
+    <Content Include="Views\Account\_Preferences.cshtml" />
+    <Content Include="Views\Account\_ChangePassword.cshtml" />
+    <Content Include="Views\Account\Settings.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

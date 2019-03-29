@@ -1,8 +1,8 @@
 ﻿@model SmartKitchen.Domain.DisplayModels.BasketDisplayModel
 @{
     ViewBag.Title = "Basket " + Model.Name;
+    ViewBag.Heading = Model.Name;
 }
-<div class="h4 text-center" id="basketName">@Model.Name</div>
 @if (Request.IsAuthenticated)
 {
     Html.RenderAction("CreateProduct", new { basket = Model.Id });

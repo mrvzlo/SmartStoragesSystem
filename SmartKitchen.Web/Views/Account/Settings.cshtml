@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "My account";
+    var active = ViewBag.Active;
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10 col-12">
+        <ul class="nav row justify-content-center text-center font-weight-bold">
+            <li class="nav-item col-sm-4 col-6 text-center p-1">
+                <a class="nav-link text-main @(active==1 ? "active" : "")" href="#prefs" data-toggle="tab">Preferences</a>
+            </li>
+            <li class="nav-item col-sm-4 col-6 text-center p-1">
+                <a class="nav-link text-main @(active==2 ? "active" : "")" href="#pubkey" data-toggle="tab">Public key</a>
+            </li>
+            <li class="nav-item col-sm-4 col-10 text-center p-1">
+                <a class="nav-link text-main @(active==3 ? "active" : "")" href="#pass" data-toggle="tab">Change password</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="prefs" class="tab-pane @(active==1 ? "active" : "")" role="tabpanel">
+                @{ Html.RenderAction("Preferences"); }
+            </div>
+            <div id="pubkey" class="tab-pane @(active==2 ? "active" : "")" role="tabpanel">
+                @{ Html.RenderAction("Key"); }
+            </div>
+            <div id="pass" class="tab-pane @(active==3 ? "active" : "")" role="tabpanel">
+                @{ Html.RenderAction("ChangePassword"); }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(function () {
+            $(document).on("click", "#updToken", function() {
+                var url = '@Url.Action("UpdateKeyPair","Account")';
+                $.post(url,
+                    function (data) {
+                        $("#publicKey").text(data);
+                    });
+            });
+            $(document).on("click", "#copyPublic", function () {
+                var $temp = $("<input>");
+                $("body").append($temp);
+                $temp.val($("#publicKey").text()).select();
+                document.execCommand("copy");
+                $temp.remove();
+            });
+        });
+    </script>
+}

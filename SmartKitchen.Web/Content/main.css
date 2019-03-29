@@ -7040,6 +7040,12 @@ td {
   font-size: 1.25rem;
   font-weight: 600; }
 
+#heading {
+  font-size: 1.5rem;
+  text-align: center;
+  margin: 0.5rem 0;
+  font-weight: 500; }
+
 .storage-footer {
   text-align: center;
   padding-bottom: 2px;
