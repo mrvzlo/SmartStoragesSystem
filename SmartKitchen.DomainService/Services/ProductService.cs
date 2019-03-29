@@ -22,7 +22,10 @@ namespace SmartKitchen.DomainService.Services
             _categoryRepository = categoryRepository;
         }
 
-        public Product GetOrAddAndGet(string name)
+        public IQueryable<string> GetProductNamesByStart(string start) =>
+            _productRepository.GetAllProducts().Where(x => x.Name.ToLower().Contains(start.ToLower())).Select(x => x.Name);
+
+        public Product GetOrAddAndGetProduct(string name)
         {
             var product = GetProductByName(name);
             if (product != null) return product;
@@ -68,7 +71,7 @@ namespace SmartKitchen.DomainService.Services
                     product.Name = item.Name;
                 if (_categoryRepository.ExistsWithId(item.CategoryId))
                     product.CategoryId = item.CategoryId;
-                    _productRepository.UpdateProduct(product);
+                _productRepository.UpdateProduct(product);
             }
 
             return count;

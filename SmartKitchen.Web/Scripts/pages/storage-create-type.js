@@ -1,8 +1,7 @@
 ﻿// ReSharper disable VariableUsedInInnerScopeBeforeDeclared
+// ReSharper disable CoercedEqualsUsing
 var StorageCreateTypeJs = (function () {
 
-    var bCanPreview = true;
-    var canvas = document.getElementById('picker');
     var settings = {};
 
     var initialize = function (options) {
@@ -10,48 +9,37 @@ var StorageCreateTypeJs = (function () {
         var defaults = {
             list: [],
             storageId: null,
-            removeUrl: null
+            removeUrl: null,
+            red: 255,
+            green: 255,
+            blue: 255
         };
         settings = $.extend(true, defaults, options);
         $(document).on("click", "#uploadBtn", function () { $("#upload").click(); });
         $(document).on("change", "#upload", uploadUpd);
-        $(document).on("click", "body", updateColor);
-
-        var ctx = canvas.getContext('2d');
-        ctx.fillStyle = "#000";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        var image = new Image();
-        image.onload = function () {
-            ctx.drawImage(image, 0, 0, image.width, canvas.height);
-        }
-        image.src = "../Content/ColorPicker.jpg";
-        $('#picker').mousemove(function (e) {
-            if (bCanPreview) {
-                var canvasOffset = $(canvas).offset();
-                var canvasX = Math.floor(e.pageX - canvasOffset.left);
-                var canvasY = Math.floor(e.pageY - canvasOffset.top);
-                canvasX *= 300 / $("#picker").width();
-                canvasY *= 150 / $("#picker").height();
-                var imageData = ctx.getImageData(canvasX, canvasY, 1, 1);
-                var pixel = imageData.data;
-                var pixelColor = "rgb(" + pixel[0] + ", " + pixel[1] + ", " + pixel[2] + ")";
-                $('.preview').css('backgroundColor', pixelColor);
-                var dColor = pixel[2] + 256 * pixel[1] + 65536 * pixel[0];
-                $('#Background').val(dColor.toString(16).substr(-6).toUpperCase());
-            }
-        });
-        $('#picker').click(function (e) { // click event handler
-            bCanPreview = !bCanPreview;
-        });
-        $('#Background').click(function (e) { // preview click
-            $('#pickerDiv').fadeToggle("fast", "linear");
-            bCanPreview = true;
-        });
     };
 
-    var updateColor = function() {
-        $("#storage").css("background-color", "#" + $("#Background").val());
-    };
+    var changeColor = function () {
+        var pixelColor = "rgb(" + settings.red + ", " + settings.green + ", " + settings.blue + ")";
+        $("#storage").css("backgroundColor", pixelColor);
+        var dColor = Number(settings.red).toString(16).toUpperCase() + Number(settings.green).toString(16).toUpperCase() + Number(settings.blue).toString(16).toUpperCase();
+        $("#Background").val(dColor);
+    }
+
+    var changeRed = function (val) {
+        settings.red = val;
+        changeColor();
+    }
+
+    var changeGreen = function (val) {
+        settings.green = val;
+        changeColor();
+    }
+
+    var changeBlue = function (val) {
+        settings.blue = val;
+        changeColor();
+    }
 
     var updateForm = function (id, name, color) {
         if (id !== 0) $("#submit").val("Update");
@@ -63,8 +51,16 @@ var StorageCreateTypeJs = (function () {
         }
         $("#Name").val(name);
         $("#Id").val(id);
-        $("#Background").val(color);
-        updateColor();
+        var red = parseInt(color.substring(0, 2), 16);
+        var green = parseInt(color.substring(2, 4), 16);
+        var blue = parseInt(color.substring(4, 6), 16);
+        settings.red = red;
+        settings.green = green;
+        settings.blue = blue;
+        $("#rangeRed").val(red);
+        $("#rangeGreen").val(green);
+        $("#rangeBlue").val(blue);
+        changeColor();
     };
 
     var uploadUpd = function () {
@@ -111,6 +107,9 @@ var StorageCreateTypeJs = (function () {
         initialize: initialize,
         updateForm: updateForm,
         remove: remove,
-        removeConfirm: removeConfirm
+        removeConfirm: removeConfirm,
+        changeRed: changeRed,
+        changeGreen: changeGreen,
+        changeBlue: changeBlue
     };
 })();

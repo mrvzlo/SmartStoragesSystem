@@ -24,11 +24,6 @@ namespace SmartKitchen.Web.Helpers
             }
         }
 
-        public static void SaveImage(HttpPostedFile fileIcon, string path)
-        {
-            fileIcon?.SaveAs(path);
-        }
-
         public static bool RemoveImage(string path)
         {
             try
@@ -36,7 +31,7 @@ namespace SmartKitchen.Web.Helpers
                 System.IO.File.Delete(path);
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }

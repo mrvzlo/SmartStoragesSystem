@@ -1,16 +1,16 @@
 ﻿using AutoFixture;
-using AutoFixture.AutoMoq;
 using AutoFixture.NUnit3;
 using Moq;
 using NUnit.Framework;
 using SmartKitchen.Domain.CreationModels;
+using SmartKitchen.Domain.DisplayModels;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Enums;
 using SmartKitchen.Domain.IRepositories;
 using SmartKitchen.DomainService.Services;
 using System.Collections.Generic;
 using System.Linq;
-using SmartKitchen.Domain.DisplayModels;
+// ReSharper disable NUnit.MethodWithParametersAndTestAttribute
 
 namespace SmartKitchen.DomainService.Test.Tests
 {
@@ -22,10 +22,10 @@ namespace SmartKitchen.DomainService.Test.Tests
         {
             var basketRepMock = fixture.Freeze<Mock<IBasketRepository>>();
             var personRepMock = fixture.Freeze<Mock<IPersonRepository>>();
-            person.Baskets = new List<Basket>{new Basket{Name = name.Name}};
+            person.Baskets = new List<Basket> { new Basket { Name = name.Name } };
             basketRepMock.Setup(x => x.AddOrUpdateBasket(It.IsAny<Basket>()));
             personRepMock.Setup(x => x.GetPersonByEmail(person.Email)).Returns(person);
-            
+
             var sut = fixture.Create<BasketService>();
             var actual = sut.AddBasket(name, person.Email);
 

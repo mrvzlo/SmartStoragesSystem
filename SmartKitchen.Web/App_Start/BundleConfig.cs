@@ -29,6 +29,14 @@ namespace SmartKitchen.Web
 
             #region Pages
 
+            bundles.Add(new ScriptBundle("~/js/search").Include(
+                "~/Scripts/pages/search-product.js"
+            ));
+
+            bundles.Add(new ScriptBundle("~/js/accountSettings").Include(
+                "~/Scripts/pages/account-settings.js"
+            ));
+
             bundles.Add(new ScriptBundle("~/js/accountIndex").Include(
                 "~/Scripts/pages/account-index.js"
             ));
@@ -65,16 +73,11 @@ namespace SmartKitchen.Web
                 "~/Scripts/pages/storage-view.js"
             ));
 
-            bundles.Add(new ScriptBundle("~/js/amountPicker").Include(
-                "~/Scripts/pages/amount-picker.js"
-            ));
-
-            bundles.Add(new ScriptBundle("~/js/pricePicker").Include(
-                "~/Scripts/pages/price-picker.js"
-            ));
-
-            bundles.Add(new ScriptBundle("~/js/datetimePicker").Include(
-                "~/Scripts/pages/datetime-picker.js"
+            bundles.Add(new ScriptBundle("~/js/pickers").Include(
+                "~/Scripts/pages/pickers/name-picker.js",
+                "~/Scripts/pages/pickers/price-picker.js",
+                "~/Scripts/pages/pickers/amount-picker.js",
+                "~/Scripts/pages/pickers/datetime-picker.js"
             ));
 
             #endregion

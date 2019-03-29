@@ -9,9 +9,9 @@
     </div>
 
     <div class="row my-2 justify-content-around">
-        <div class="col-md-2 text-center">@Html.LabelFor(x => x.Email)</div>
-        <div class="col-md-9">@Html.EditorFor(x => x.Email)</div>
-        <div class="error col-12">@Html.ValidationMessageFor(x => x.Email)</div>
+        <div class="col-md-2 text-center">@Html.LabelFor(x => x.Username)</div>
+        <div class="col-md-9">@Html.EditorFor(x => x.Username)</div>
+        <div class="error col-12">@Html.ValidationMessageFor(x => x.Username)</div>
 
     </div>
     <div class="row my-2 justify-content-around">
@@ -19,6 +19,6 @@
         <div class="col-md-9">@Html.PasswordFor(x => x.Password)</div>
         <div class="error col-12">@Html.ValidationMessageFor(x => x.Password)</div>
     </div>
-
+    @Html.HiddenFor(x=>x.ReturnUrl)
     <div class="row justify-content-center"><button type="submit" class="col-md-3 col-6 btn btn-main py-2 mt-3">Sign in</button></div>
 }

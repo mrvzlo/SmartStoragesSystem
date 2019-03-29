@@ -3,24 +3,28 @@
 @using SmartKitchen.Domain.Extensions
 @model IQueryable<CellDisplayModel>
 
-@Html.Grid(Model).Build(c =>{
-    c.Add(x => x.ProductName).RenderedAs(NameHelper).Titled("Name").Css("w-25");
-    c.Add(x => x.CategoryName).Titled("Category").Css("w-25");
-    c.Add(x => x.BestBefore).RenderedAs(SafetyHelper).Titled("Safety").Css("w-25");
-    c.Add(x => x.Amount).RenderedAs(AmountHelper).Titled("Amount").Css("w-25");
+@Html.Grid(Model).Build(c =>
+{
+    c.Add(x => x.Id).Titled("Id").Css("w-10");
+    c.Add(x => x.ProductName).RenderedAs(NameHelper).Titled("Name").Css("w-20");
+    c.Add(x => x.CategoryName).Titled("Category").Css("w-20");
+    c.Add(x => x.BestBefore).RenderedAs(SafetyHelper).Titled("Safety").Css("w-20");
+    c.Add(x => x.Amount).RenderedAs(AmountHelper).Titled("Amount").Css("w-20");
+    c.Add(x => x.Id).RenderedAs(DeleteHelper).Titled("").Css("w-10");
 }).Sortable().Css("table-borderless table-hover m-0 table text-center").RowAttributed(model => new { id = model.Id })
 
 @helper NameHelper(CellDisplayModel item)
 {
-    <div id="name_@item.Id" class="pointer" onclick="StorageViewJs.mark(@item.Id)">@item.ProductName</div>
+    <div onclick="StorageViewJs.mark(@item.Id)">
+        <a id="name_@item.Id" class="pointer" data-toggle="modal" data-target="#StatusModal">@item.ProductName</a>
+    </div>
 }
 
 @helper AmountHelper(CellDisplayModel item)
 {
-    <div onclick="AmountPickerJs.showAmountPicker(@item.Id,@item.Amount)">
-        <a id="amount_@item.Id" alt="@item.AmountStatus.GetStatus()" class="pointer font-weight-bold text-decoration-none @GetTextColor(item.AmountStatus.GetStatus())" data-toggle="modal" data-target="#AmountModal">
-            @(item.Amount / 1000.0) kg
-        </a>
+    <div onclick="AmountPickerJs.showAmountPicker(@item.Id,@item.Amount,@item.HoursRemain)">
+        <a id="amount_@item.Id" alt="@item.AmountStatus.GetStatus()" class="pointer font-weight-bold text-decoration-none @GetTextColor(item.AmountStatus.GetStatus())"
+           data-toggle="modal" data-target="#AmountModal">@(item.Amount / 1000.0) @ViewBag.Weight</a>
     </div>
 }
 
@@ -28,9 +32,15 @@
 {
     bool changeableDate = item.AmountStatus != Amount.None;
     <div @Html.Raw(changeableDate ? "onclick=\"DatetimePickerJs.showDatePicker('" + item.Id + "')\"" : "")>
-        <a id="safety_@item.Id" alt="@item.SafetyStatus.GetStatus()" class="pointer font-weight-bold @GetTextColor(item.SafetyStatus.GetStatus())" @Html.Raw(changeableDate ? "data-toggle='modal' data-target='#DateModal'" : "")>
-            @(item.BestBefore != null ? item.BestBefore.Value.ToString("dd.MM.yy") : "Unknown")
-        </a>
+        <a id="safety_@item.Id" alt="@item.SafetyStatus.GetStatus()" class="pointer font-weight-bold @GetTextColor(item.SafetyStatus.GetStatus())"
+           @Html.Raw(changeableDate ? "data-toggle='modal' data-target='#DateModal'" : "")>@(item.BestBefore != null ? item.BestBefore.Value.ToString("dd.MM.yy") : "Unknown")</a>
+    </div>
+}
+
+@helper DeleteHelper(CellDisplayModel item)
+{
+    <div onclick="StorageViewJs.removeProduct(@item.Id,'@item.ProductName')">
+        <img src="~/Content/icons/remove.svg" class="dangerIcon pointer"/>
     </div>
 }
 

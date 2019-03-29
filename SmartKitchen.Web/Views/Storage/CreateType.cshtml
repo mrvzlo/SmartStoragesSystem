@@ -11,9 +11,9 @@
                 <div class="col-lg-2 col-md-3 col-4 px-1">
                     <div class="storage-small pointer row justify-content-around px-2 py-1" style="background-color: #@item.Background" onclick='StorageCreateTypeJs.updateForm(@item.Id,"@item.Name","@item.Background");'>
                         @{ var filename = item.Id + ".png";}
-                        <img class="rowicon" src="~/Content/images/@filename" />
+                        <img class="rowicon" src="~/Content/icons/@filename" />
                         @Html.Hidden("name_" + item.Id, item.Name)
-                        <img class="rowicon" src="~/Content/images/remove.svg" onclick="StorageCreateTypeJs.remove(@item.Id)" />
+                        <img class="rowicon" src="~/Content/icons/remove.svg" onclick="StorageCreateTypeJs.remove(@item.Id)" />
                     </div>
                 </div>
             }
@@ -22,9 +22,17 @@
             </div>
         </div>
         <div id="formContainer">@{ Html.RenderPartial("_CreateTypeForm", new StorageTypeCreationModel());}</div>
-        <div id="pickerDiv" class="row justify-content-center" style="display: none;">
-            <div class="storage col-lg-6 col-12 mt-0">
-                <canvas id="picker" class="w-100"></canvas>
+        <div class="row justify-content-center my-0 mx-3">
+            <div class="storage-footer col-lg-8 col-12 mt-0">
+                <div class="text-center">Red</div>
+                <input oninput="StorageCreateTypeJs.changeRed(this.value)" 
+                       onchange="StorageCreateTypeJs.changeRed(this.value)" type="range" value="255" min="160" max="255" class="p-0" id="rangeRed">
+                <div class="text-center">Green</div>
+                <input oninput="StorageCreateTypeJs.changeGreen(this.value)" 
+                       onchange="StorageCreateTypeJs.changeGreen(this.value)" type="range" value="255" min="160" max="255" class="p-0" id="rangeGreen">
+                <div class="text-center">Blue</div>
+                <input oninput="StorageCreateTypeJs.changeBlue(this.value)" 
+                       onchange="StorageCreateTypeJs.changeBlue(this.value)" type="range" value="255" min="160" max="255" class="p-0" id="rangeBlue">
             </div>
         </div>
     </div>

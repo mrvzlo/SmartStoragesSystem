@@ -1,8 +1,9 @@
-﻿<div class="container-fluid bg-main p-0 fixed-top">
+﻿<div class="container-fluid bg-main p-0 sticky-top">
     <div class="container p-0">
         <nav class="navbar py-1 font-weight-bold navbar-expand justify-content-md-around navbar-dark">
             <div class="collapse navbar-collapse justify-content-center" id="nav">
-                @{ var authed = Request.IsAuthenticated;}
+                @{ var authed = Request.IsAuthenticated; }
+                @* ReSharper disable Html.IdNotResolved *@
 
                 <ul class="navbar-nav flex-fill w-100 flex-nowrap justify-content-start d-none d-md-flex">
                     <li class="nav-item">
@@ -24,23 +25,23 @@
                 <ul class="navbar-nav flex-fill w-100 flex-nowrap justify-content-md-end justify-content-around">
                     <li class="d-md-none nav-item">
                         <a href="@Url.Action("Index", "Home")" class="nav-link text-light">
-                            <img class="navicon" src="@Url.Content("~/Content/images/home.svg")" />
+                            <img class="navicon" src="@Url.Content("~/Content/icons/home.svg")" />
                         </a>
                     </li>
                     <li class="d-md-none nav-item">
                         <a href="@(authed ? Url.Action("Index", "Storage") : "")" class="nav-link text-light">
-                            <img class="navicon" src="@Url.Content("~/Content/images/storages.svg")" />
+                            <img class="navicon" src="@Url.Content("~/Content/icons/storages.svg")" />
                         </a>
                     </li>
                     <li class="d-md-none nav-item">
                         <a href="@(authed ? Url.Action("Index", "Basket" ) : "")" class="nav-link text-light">
-                            <img class="navicon" src="@Url.Content("~/Content/images/basket.png")" />
+                            <img class="navicon" src="@Url.Content("~/Content/icons/basket.png")" />
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="@Url.Action("About", "Home")" class="nav-link text-light">
                             <div class="d-md-inline d-none">Guide</div>
-                            <img class="d-md-none navicon" src="@Url.Content("~/Content/images/guide.png")" />
+                            <img class="d-md-none navicon" src="@Url.Content("~/Content/icons/guide.png")" />
                         </a>
                     </li>
                     @if (authed)
@@ -50,10 +51,10 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link text-light" id="dmb" data-toggle="dropdown">
                                     <div class="d-md-inline d-none d-md-inline">Options</div>
-                                    <img class="d-md-none navicon" src="@Url.Content("~/Content/images/options.png")" />
+                                    <img class="d-md-none navicon" src="@Url.Content("~/Content/icons/options.png")" />
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dmb">
-                                    <a href="@Url.Action("Token", "Account")" class="dropdown-item">Account</a>
+                                    <a href="@Url.Action("Settings", "Account")" class="dropdown-item">Account</a>
                                     @Html.Partial("_Admin")
                                 </div>
 
@@ -62,20 +63,18 @@
                         else
                         {
                             <li class="nav-item">
-                                <a href="@Url.Action("Token", "Account")" class="nav-link text-light">
+                                <a href="@Url.Action("Settings", "Account")" class="nav-link text-light">
                                     <div class="d-md-inline d-none">Account</div>
-                                    <img class="d-md-none navicon" src="@Url.Content("~/Content/images/options.png")" />
+                                    <img class="d-md-none navicon" src="@Url.Content("~/Content/icons/options.png")" />
                                 </a>
                             </li>
                         }
-                        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "d-none" }))
-                        {
-                            @Html.AntiForgeryToken()
-                        }
                         <li class="nav-item">
+                            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "d-none" }))
+                            {@Html.AntiForgeryToken()}
                             <a class="nav-link text-light" href="javascript:document.getElementById('logoutForm').submit()">
                                 <div class="d-md-inline d-none">Log out</div>
-                                <img class="d-md-none navicon" src="@Url.Content("~/Content/images/logout.png")" />
+                                <img class="d-md-none navicon" src="@Url.Content("~/Content/icons/logout.png")" />
                             </a>
                         </li>
                     }
@@ -84,7 +83,7 @@
                         <li class="nav-item">
                             <a href="@Url.Action("Index", "Account")" class="nav-link text-light">
                                 <div class="d-md-inline d-none">Log in</div>
-                                <img class="d-md-none navicon" src="@Url.Content("~/Content/images/login.png")" />
+                                <img class="d-md-none navicon" src="@Url.Content("~/Content/icons/login.png")" />
                             </a>
                         </li>
                     }

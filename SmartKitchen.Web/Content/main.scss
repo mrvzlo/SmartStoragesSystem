@@ -9,28 +9,54 @@ $input-btn-padding-x: .5rem;
 @import 'forms.scss';
 @import 'tables.scss';
 
+.title {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+#heading{
+    font-size: 1.5rem;
+    text-align: center;
+    margin: 0.5rem 0;
+    font-weight: 500;
+}
+
+.storage-footer {
+    text-align: center;
+    padding-bottom: 2px;
+    padding-top: 1px;
+    border-bottom: solid 2px darken($main, 20%);
+    border-left: solid 2px darken($main, 20%);
+    border-right: solid 2px darken($main, 20%);
+    border-bottom-left-radius: $border-radius*2;
+    border-bottom-right-radius: $border-radius*2;
+}
 
 .bg-main-light {
     background-color: lighten($main, 57%);
 }
 
-pre {
+code {
     margin: 0;
-    background-color: lighten($info, 50%);
+    color: darken($info, 10%);
+    font-weight: bold;
+    display: inline;
 }
 
 .modal-footer {
     > :not(:first-child) {
         margin-left: 0;
     }
+
     > :not(:last-child) {
         margin-right: 0;
     }
-    margin:0;
+
+    margin: 0;
 }
 
-.modal-header{
-    margin:0;
+.modal-header {
+    margin: 0;
 }
 
 body {
@@ -42,10 +68,20 @@ body {
     font-size: large;
 }
 
+.btn-outline-main{
+    background-color: #fff;
+    font-weight: bold;
+}
+
 //icons
 .navicon {
     height: 2rem;
-    filter: brightness(0) invert(1);
+    filter: invert(1);
+}
+
+.dangerIcon {
+    height: 2rem;
+    filter: brightness(0) invert(1) brightness(10%) sepia() saturate(10000%) hue-rotate(0deg);
 }
 
 .rowicon {
@@ -59,12 +95,8 @@ body {
     display: none;
 }
 
-li .active, li .active:hover{
+li .active, li .active:hover {
     border-bottom: solid 5px $main;
-}
-
-.gap {
-    margin-bottom: 4rem;
 }
 
 .grid-header-title a {
@@ -81,6 +113,7 @@ li .active, li .active:hover{
         height: 1.6rem;
         width: 1.6rem;
     }
+
 }
 
 @media screen and (min-width: #{map-get($grid-breakpoints, lg)}) {
@@ -88,12 +121,23 @@ li .active, li .active:hover{
         width: 50% !important;
     }
 }
+
+@media screen and (min-width: #{map-get($grid-breakpoints, md)}) {
+    .img-md-middle {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+}
 //navbar
 
 #tog1:after, #tog2:after {
-    content: " ⯅";
+    content: " ▲";
 }
 
 #tog1.collapsed:after, #tog2.collapsed:after {
-    content: " ⯆";
+    content: " ▼";
 }

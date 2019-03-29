@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using SmartKitchen.Domain.CreationModels;
+using SmartKitchen.Domain.IServices;
+using SmartKitchen.Web.Helpers;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.Enums;
-using SmartKitchen.Domain.IServices;
-using SmartKitchen.Web.Helpers;
 
 namespace SmartKitchen.Web.Controllers
 {
@@ -30,7 +29,7 @@ namespace SmartKitchen.Web.Controllers
 
         public ActionResult Index()
         {
-            var storages = _storageService.GetStoragesWithDescriptionByOwnerEmail(CurrentUser()).ToList();
+            var storages = _storageService.GetStoragesByOwnerEmail(CurrentUser()).ToList();
             return View(storages);
         }
 
@@ -42,17 +41,18 @@ namespace SmartKitchen.Web.Controllers
 
         public ActionResult View(int id)
         {
-            var description = _storageService.GetStorageDescriptionById(id, HttpContext.User.Identity.Name);
+            var description = _storageService.GetStorageById(id, HttpContext.User.Identity.Name);
             if (description == null) return Redirect(Url.Action("Index"));
             if (TempData.ContainsKey("error"))
                 ModelState.AddModelError("Name", TempData["error"].ToString());
-            var selectList = _basketService.GetBasketsByOwnerEmail(CurrentUser()).Where(x=>!x.Closed).Select(x => new SelectListItem
+            var selectList = _basketService.GetBasketsByOwnerEmail(CurrentUser()).Where(x => !x.Closed).Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
                 Text = x.Name
             }).ToList();
-            selectList.Add(new SelectListItem{Value = "0", Text = "New"});
+            selectList.Add(new SelectListItem { Value = "0", Text = "New" });
             ViewBag.SelectList = selectList;
+            ViewBag.Weight = CookieHelper.GetCookie(HttpContext, Cookie.Weight).Value;
             return View(description);
         }
 
@@ -69,7 +69,7 @@ namespace SmartKitchen.Web.Controllers
             if (ModelState.IsValid)
             {
                 var response = _storageService.AddStorage(storage, CurrentUser());
-                if (response.Successful()) return Redirect(Url.Action("View", "Storage", new {id = response.AddedId}));
+                if (response.Successful()) return Redirect(Url.Action("View", "Storage", new { id = response.AddedId }));
                 AddModelStateErrors(response);
             }
 
@@ -117,12 +117,12 @@ namespace SmartKitchen.Web.Controllers
             {
                 var file = System.Web.HttpContext.Current.Request.Files[0];
                 if (file.ContentLength > 0)
-                    file.SaveAs(Server.MapPath("~/Content/images/" + response.AddedId + ".png"));
+                    file.SaveAs(Server.MapPath("~/Content/icons/" + response.AddedId + ".png"));
             }
 
 
             if (response.Successful() && ModelState.IsValid)
-                return Json(new { success = true, url = Url.Action("CreateType", "Storage" )});
+                return Json(new { success = true, url = Url.Action("CreateType", "Storage") });
             AddModelStateErrors(response);
             return Json(new { success = false, formHTML = this.RenderPartialViewToString("_CreateTypeForm", model) });
         }
@@ -132,21 +132,33 @@ namespace SmartKitchen.Web.Controllers
         public bool RemoveType(int fromId, int toId)
         {
             var result = _storageTypeService.ReplaceStorageType(fromId, toId);
-            if (result) FileHelper.RemoveImage(Server.MapPath("~/Content/images/" + fromId + ".png"));
+            if (result) FileHelper.RemoveImage(Server.MapPath("~/Content/icons/" + fromId + ".png"));
             return result;
         }
 
         #endregion
 
         #region Cell
-        
+
         [HttpPost]
-        public void SetAmount(int cell, int amount) => 
+        public ActionResult CreateCell(CellCreationModel model)
+        {
+            var response = _cellService.AddCell(model, CurrentUser());
+            if (response.Successful())
+            {
+                AddModelStateErrors(response);
+                TempData["error"] = "This name is already taken";
+            }
+            return Redirect(Url.Action("View", new { id = response.AddedGroupId }));
+        }
+
+        [HttpPost]
+        public void SetAmount(int cell, int amount) =>
             _cellService.UpdateCellAmount(cell, amount, CurrentUser());
 
         [HttpPost]
         public bool Remove(int cellId) =>
-            _cellService.DeleteCellByIdAndEmail(cellId, CurrentUser()).Successful();
+            _cellService.DeleteCellById(cellId, CurrentUser()).Successful();
 
         [HttpPost]
         public void DateUpdate(int cell, string dateStr)
@@ -156,7 +168,7 @@ namespace SmartKitchen.Web.Controllers
             {
                 newDate = DateTime.ParseExact(dateStr, "d/M/yyyy", CultureInfo.InvariantCulture);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 newDate = null;
             }
@@ -166,6 +178,7 @@ namespace SmartKitchen.Web.Controllers
 
         public PartialViewResult ShowAllCells(int storage)
         {
+            ViewBag.Weight = CookieHelper.GetCookie(HttpContext, Cookie.Weight).Value;
             var query = _cellService.GetCellsOfStorage(storage, CurrentUser());
             return PartialView("_ShowAllCells", query);
         }

@@ -1,7 +1,8 @@
 ﻿// ReSharper disable VariableUsedInInnerScopeBeforeDeclared
+// ReSharper disable CoercedEqualsUsing
 var ProductIndexJs = (function () {
 
-    var initialize = function (options) {
+    var initialize = function () {
         $(function () {
             new MvcGrid(document.querySelector('.mvc-grid')).reload();
         });

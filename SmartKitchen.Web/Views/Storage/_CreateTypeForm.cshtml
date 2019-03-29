@@ -1,7 +1,7 @@
 ﻿@using SmartKitchen.Domain.CreationModels
 @model StorageTypeCreationModel
 @using (Html.BeginForm("CreateType", "Storage", FormMethod.Post, 
-    new { @class = "storage justify-content-center mx-0", enctype = "multipart/form-data", id = "storage" }))
+    new { @class = "storage justify-content-center m-0 mt-2", enctype = "multipart/form-data", id = "storage" }))
 {
     @Html.ValidationSummary(true)
     @Html.AntiForgeryToken()

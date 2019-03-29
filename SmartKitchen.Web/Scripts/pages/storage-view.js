@@ -1,4 +1,5 @@
 ﻿// ReSharper disable VariableUsedInInnerScopeBeforeDeclared
+// ReSharper disable CoercedEqualsUsing
 var StorageViewJs = (function () {
 
     var settings = {};
@@ -7,7 +8,8 @@ var StorageViewJs = (function () {
 
         var defaults = {
             sendUrl: null,
-            storageId: 0
+            storageId: 0,
+            deleteUrl: null
         };
         new MvcGrid(document.querySelector(".mvc-grid")).reload();
         settings = $.extend(true, defaults, options);
@@ -17,6 +19,7 @@ var StorageViewJs = (function () {
         $(document).on("click", "#btnMark3", function () { markGroup(3) });
         $(document).on("change", "#basket", basketNameInputUpd);
         $(document).on("click", "#sendToBasket", sendToBasket);
+        $(document).on("click", "#btnMark", mark);
         basketNameInputUpd();
     };
 
@@ -44,7 +47,7 @@ var StorageViewJs = (function () {
             var id = row.id;
             if (id > 0) {
                 var name = $("#name_" + id);
-                var marked = name.hasClass("font-weight-bold");
+                var marked = name.hasClass("marked");
                 if (marked) array.push(id);
             }
         }
@@ -59,9 +62,9 @@ var StorageViewJs = (function () {
 
     var mark = function (id) {
         var e = $("#name_" + id);
-        if (e.hasClass("font-weight-bold"))
-            e.removeClass("font-weight-bold");
-        else e.addClass("font-weight-bold");
+        if (e.hasClass("marked"))
+            e.removeClass("marked");
+        else e.addClass("marked");
     }
 
     var markGroup = function (type) {
@@ -71,21 +74,32 @@ var StorageViewJs = (function () {
             var id = row.id;
             if (id > 0) {
                 var name = $("#name_" + id);
-                var marked = name.hasClass("font-weight-bold");
+                var marked = name.hasClass("marked");
                 if (type === 0 && marked) {
-                    name.removeClass("font-weight-bold");
+                    name.removeClass("marked");
                 } else if (!marked) {
                     if (type === 1 ||
                         type === 2 && $("#amount_" + id).hasClass("text-secondary") ||
                         type === 3 && $("#safety_" + id).hasClass("text-danger"))
-                        name.addClass("font-weight-bold");
+                        name.addClass("marked");
                 }
             }
         }
     }
 
+    var removeProduct = function (id, name) {
+	    if (confirm(name + " will be completely removed")) {
+		    var url = settings.deleteUrl + id;
+		    $.post(url,
+			    function () {
+				    new MvcGrid(document.querySelector(".mvc-grid")).reload();
+			    });
+	    }
+    }
+
     return {
         initialize: initialize,
+        removeProduct: removeProduct,
         mark: mark
     };
 })();

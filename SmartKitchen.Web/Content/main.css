@@ -6968,8 +6968,8 @@ form div {
 .validation-summary-errors ul li {
   display: inline; }
 
-.bought:before {
-  content: "✔"; }
+.marked:before, .bought:before {
+  content: "✓"; }
 
 td {
   border-top: solid 1px #102 !important;
@@ -7036,12 +7036,34 @@ td {
 .mvc-grid {
   padding: 0; }
 
+.title {
+  font-size: 1.25rem;
+  font-weight: 600; }
+
+#heading {
+  font-size: 1.5rem;
+  text-align: center;
+  margin: 0.5rem 0;
+  font-weight: 500; }
+
+.storage-footer {
+  text-align: center;
+  padding-bottom: 2px;
+  padding-top: 1px;
+  border-bottom: solid 2px #2b2244;
+  border-left: solid 2px #2b2244;
+  border-right: solid 2px #2b2244;
+  border-bottom-left-radius: 2rem;
+  border-bottom-right-radius: 2rem; }
+
 .bg-main-light {
   background-color: #f6f5fa; }
 
-pre {
+code {
   margin: 0;
-  background-color: #d4f5fa; }
+  color: #117a8b;
+  font-weight: bold;
+  display: inline; }
 
 .modal-footer {
   margin: 0; }
@@ -7060,9 +7082,17 @@ body {
   padding: 0.2rem;
   font-size: large; }
 
+.btn-outline-main {
+  background-color: #fff;
+  font-weight: bold; }
+
 .navicon {
   height: 2rem;
-  filter: brightness(0) invert(1); }
+  filter: invert(1); }
+
+.dangerIcon {
+  height: 2rem;
+  filter: brightness(0) invert(1) brightness(10%) sepia() saturate(10000%) hue-rotate(0deg); }
 
 .rowicon {
   width: 2rem;
@@ -7074,9 +7104,6 @@ body {
 
 li .active, li .active:hover {
   border-bottom: solid 5px #548; }
-
-.gap {
-  margin-bottom: 4rem; }
 
 .grid-header-title a {
   text-decoration-line: none;
@@ -7093,8 +7120,17 @@ li .active, li .active:hover {
   .w-lg-50 {
     width: 50% !important; } }
 
+@media screen and (min-width: 768px) {
+  .img-md-middle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto; } }
+
 #tog1:after, #tog2:after {
-  content: " ⯅"; }
+  content: " ▲"; }
 
 #tog1.collapsed:after, #tog2.collapsed:after {
-  content: " ⯆"; }
+  content: " ▼"; }

@@ -1,48 +1,62 @@
 ﻿@model SmartKitchen.Domain.DisplayModels.HelpModel
 @{
-    ViewBag.Title = "Quick guide";
+    ViewBag.Title = "Guide";
+    ViewBag.Heading = "Guide";
+    var url = "https://" + Request.Url.Authority + "/";
 }
-<div class="h4">Guide</div>
 <div class="text-justify my-2">
     After <a href="@Url.Action("Index","Account",new{Login = false})">registration</a>
     you can create your storages @Html.ActionLink("here", "Create", "Storage") using <b>@Model.StorageTypesCount</b> different templates.
-    Each storage allows you to manage a big amount of different products. Each product has specific amount and expiration date which you can set manually by clicking on the value.
+    All of them will be displayed on @Html.ActionLink("this", "Index", "Storage") page. Under each storage you can see till 3 numbers which show count of
+    <span class="text-info font-weight-bold">total</span> products, <span class="text-danger font-weight-bold">expired</span> and/or <span class="text-secondary font-weight-bold">absent</span>.
+</div>
+<div class="text-justify my-2">
+    Each storage allows you to manage a big amount of different products. Each product has specific amount and expiration date which you can set manually by clicking on values.
     The system will inform you if any product <span class="text-danger font-weight-bold">become unsafe</span> or <span class="text-warning font-weight-bold">will become soon</span>.
     Also system will predict amount decreases according to previous usages.
 </div>
 <div class="text-justify my-2">
-    After adding some cells for your storage you can <span class="font-weight-bold">mark</span> them by clicking on product's name or special buttons. Marked products can be send to your basket which can be seen
-    @Html.ActionLink("here", "Index", "Basket"). After completing shopping list you can choose amount, price or expiration date for any basket product
+    After adding some cells for your storage you can <span class="marked font-weight-bold">mark</span> them by clicking on product's name or special buttons.
+    Marked products can be sent to your basket which can be seen @Html.ActionLink("here", "Index", "Basket").
+    After completing shopping list you can choose amount, price or expiration date for any basket product
     and mark them as <span class="bought font-weight-bold">bought</span>.
     When you have done click on the button <span class="text-success font-weight-bold">finish</span> and marked products will be virtually send to appropriate storage or storages.
 </div>
 <div class="text-justify my-2">
-    On @Html.ActionLink("this", "Token", "Account") page you can receive personal token to connect smart devices to your account.
-    This will allow system to collect data about amount changes automatically. External device should send HTTP or HTTPS request on the server using one of these templates:
+    On @Html.ActionLink("this", "Key", "Account") page you can receive public key and unique identificator to connect smart devices to your account.
+    This will allow system to collect data about amount changes automatically. External device should send HTTPS request on the server using this template:<br />
+    <code>@url?request=[Id]:[Request]</code><br />
+    Request is a string which is encrypted with your RSA public key and consists of 3 parts: <br />
+    <code>[Action]:[Object]:[Value]</code>
 </div>
-<ul>
-    <li class="my-2">
-        <div>Adding product to storage</div>
-        <code>https://@Request.Url.Authority/Cell/Create/?token=[Token]&storage=[Storage]&name=[Name]</code><br />
-        For example
-        <code>https://@Request.Url.Authority/Cell/Create/?token=abcdefgh-abcd-abcd-abcd-abcdefghijkl&storage=1&name=Bread</code>
-    </li>
-    <li class="my-2">
-        <div>Update product amount</div>
-        <code>https://@Request.Url.Authority/Cell/SetAmount/?token=[Token]&cell=[Cell Id]&amount=[Amount]</code><br />
-        For example
-        <code>https://@Request.Url.Authority/Cell/SetAmount/?token=abcdefgh-abcd-abcd-abcd-abcdefghijkl&cell=1&amount=500</code>
-    </li>
-    <li class="my-2">
-        <div>Update product expiration date</div>
-        <code>https://@Request.Url.Authority/Cell/DateUpdate/?token=[Token]&cell=[Cell Id]&dateStr=[Day]/[Month]/[Year]</code><br />
-        For example
-        <code>https://@Request.Url.Authority/Cell/DateUpdate/?token=abcdefgh-abcd-abcd-abcd-abcdefghijkl&cell=1&name=31/1/2001</code>
-    </li>
-    <li class="my-2">
-        <div>Remove product</div>
-        <code>https://@Request.Url.Authority/Cell/Remove/?token=[Token]&cell=[Cell Id]</code><br />
-        For example
-        <code>https://@Request.Url.Authority/Cell/Remove/?token=abcdefgh-abcd-abcd-abcd-abcdefghijkl&cell=1</code>
-    </li>
-</ul>
+<div class="text-justify my-2">
+    There are 4 cases:
+    <ul class="m-0">
+        <li>Action <code>AddCell</code>, object is storage <code>id</code> and value is product <code>name</code></li>
+        <li>Action <code>UpdateCellAmount</code>, object is cell <code>id</code> and value is product <code>amount</code> in grams</li>
+        <li>Action <code>UpdateCellBestBefore</code>, object is cell <code>id</code> and value is product <code>bestbefore</code> datetime in  format <code>yyyy-MM-dd</code></li>
+        <li>Action <code>RemoveCell</code>, object is cell <code>id</code> and value is <code>nothing</code></li>
+    </ul>
+    Encryption example: <br />
+</div>
+<pre>
+    private string CreateEncryptedRequest(int id, string action, int object, string value, string key)
+    {
+        var source = action + ":" + object + ":" + value;        
+
+        RSAParameters pubKey;
+        {
+            var sr = new StringReader(key);
+            var xs = new System.Xml.Serialization.XmlSerializer(typeof(RSAParameters));
+            pubKey = (RSAParameters)xs.Deserialize(sr);
+        }
+
+        var csp = new RSACryptoServiceProvider(2048);
+        csp.ImportParameters(pubKey);
+        var bytesPlainTextData = System.Text.Encoding.UTF8.GetBytes(source);
+        var bytesCypherText = csp.Encrypt(bytesPlainTextData, false);
+        var cypherText = Convert.ToBase64String(bytesCypherText);
+
+        return "@url?request=" + id + ":" + cypherText;
+    }
+    </pre>

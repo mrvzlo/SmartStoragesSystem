@@ -20,8 +20,8 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -182,59 +182,42 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\CellController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\StorageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Basket\Basket.cs" />
-    <Compile Include="Models\Basket\BasketDescription.cs" />
-    <Compile Include="Models\Category\CategoryDisplay.cs" />
-    <Compile Include="Models\Notification.cs" />
-    <Compile Include="Models\Context.cs" />
-    <Compile Include="Models\AuthModel.cs" />
-    <Compile Include="Models\Category\Category.cs" />
-    <Compile Include="Models\Cell\CellCreation.cs" />
-    <Compile Include="Models\Cell\Cell.cs" />
-    <Compile Include="Models\Cell\CellDescription.cs" />
-    <Compile Include="Models\Basket\BasketProduct.cs" />
-    <Compile Include="Models\Product\ProductDisplay.cs" />
-    <Compile Include="Models\Product\Product.cs" />
-    <Compile Include="Models\Response.cs" />
-    <Compile Include="Models\Basket\BasketProductCreation.cs" />
-    <Compile Include="Models\Storage\StorageTypeCreation.cs" />
-    <Compile Include="Models\Storage\StorageType.cs" />
-    <Compile Include="Models\Storage\StorageDescription.cs" />
-    <Compile Include="Models\Storage\Storage.cs" />
-    <Compile Include="Models\Person.cs" />
+    <Compile Include="Helpers\ControllerExtension.cs" />
+    <Compile Include="Helpers\CookieHelper.cs" />
+    <Compile Include="Helpers\EnumHelper.cs" />
+    <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\ColorPicker.jpg" />
-    <Content Include="Content\images\1.png" />
-    <Content Include="Content\images\16.png" />
-    <Content Include="Content\images\2.png" />
-    <Content Include="Content\images\3.png" />
-    <Content Include="Content\images\4.png" />
-    <Content Include="Content\images\5.png" />
-    <Content Include="Content\images\6.png" />
-    <Content Include="Content\images\7.png" />
-    <Content Include="Content\images\8.png" />
-    <Content Include="Content\images\add.png" />
-    <Content Include="Content\images\copy.png" />
-    <Content Include="Content\images\edit.png" />
-    <Content Include="Content\images\options.png" />
+    <Content Include="Content\icons\arrow-down.png" />
+    <Content Include="Content\icons\arrow-right.png" />
+    <Content Include="Content\icons\update.png" />
     <Content Include="Content\images\basket.png" />
-    <Content Include="Content\images\guide.png" />
-    <Content Include="Content\images\home.svg" />
-    <Content Include="Content\images\lock.svg" />
-    <Content Include="Content\images\login.png" />
-    <Content Include="Content\images\logout.png" />
-    <Content Include="Content\images\minus.png" />
-    <Content Include="Content\images\refrigerator.png" />
-    <Content Include="Content\images\remove.svg" />
-    <Content Include="Content\images\storages.svg" />
+    <Content Include="Content\icons\1.png" />
+    <Content Include="Content\icons\2.png" />
+    <Content Include="Content\icons\3.png" />
+    <Content Include="Content\icons\4.png" />
+    <Content Include="Content\icons\5.png" />
+    <Content Include="Content\icons\6.png" />
+    <Content Include="Content\icons\7.png" />
+    <Content Include="Content\icons\8.png" />
+    <Content Include="Content\icons\add.png" />
+    <Content Include="Content\icons\copy.png" />
+    <Content Include="Content\icons\edit.png" />
+    <Content Include="Content\icons\options.png" />
+    <Content Include="Content\icons\basket.png" />
+    <Content Include="Content\icons\guide.png" />
+    <Content Include="Content\icons\home.svg" />
+    <Content Include="Content\icons\login.png" />
+    <Content Include="Content\icons\logout.png" />
+    <Content Include="Content\icons\minus.png" />
+    <Content Include="Content\icons\remove.svg" />
+    <Content Include="Content\icons\storages.svg" />
     <Content Include="Content\main.css">
       <DependentUpon>main.scss</DependentUpon>
     </Content>
@@ -242,6 +225,8 @@
       <DependentUpon>main.css</DependentUpon>
     </None>
     <Content Include="Content\MvcGrid\mvc-grid.css" />
+    <Content Include="Content\images\refrigerator.png" />
+    <Content Include="Content\images\refrigerator0.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -345,7 +330,8 @@
     <Content Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Properties\PublishProfiles\SmartStorages - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\avess - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -356,14 +342,17 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\MvcGrid\mvc-grid.js" />
     <Content Include="Scripts\pages\account-index.js" />
-    <Content Include="Scripts\pages\price-picker.js" />
+    <Content Include="Scripts\pages\account-settings.js" />
+    <Content Include="Scripts\pages\search-product.js" />
+    <Content Include="Scripts\pages\pickers\name-picker.js" />
+    <Content Include="Scripts\pages\pickers\price-picker.js" />
     <Content Include="Scripts\pages\basket-view.js" />
-    <Content Include="Scripts\pages\datetime-picker.js" />
+    <Content Include="Scripts\pages\pickers\datetime-picker.js" />
     <Content Include="Scripts\pages\category-index.js" />
     <Content Include="Scripts\pages\form-helper.js" />
     <Content Include="Scripts\pages\basket-index.js" />
     <Content Include="Scripts\pages\product-index.js" />
-    <Content Include="Scripts\pages\amount-picker.js" />
+    <Content Include="Scripts\pages\pickers\amount-picker.js" />
     <Content Include="Scripts\pages\storage-view.js" />
     <Content Include="Scripts\pages\storage-index.js" />
     <Content Include="Scripts\pages\storage-create.js" />
@@ -373,7 +362,7 @@
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Views\Account\_SignUp.cshtml" />
-    <Content Include="Views\Account\Token.cshtml" />
+    <Content Include="Views\Account\_Key.cshtml" />
     <Content Include="Views\Account\_SignIn.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -397,8 +386,8 @@
     <Content Include="Views\Storage\CreateType.cshtml" />
     <Content Include="Views\Storage\View.cshtml" />
     <Content Include="Views\Storage\_AddProduct.cshtml" />
-    <Content Include="Views\Shared\_DatePicker.cshtml" />
-    <Content Include="Views\Shared\_AmountPicker.cshtml" />
+    <Content Include="Views\Shared\Pickers\_DatePicker.cshtml" />
+    <Content Include="Views\Shared\Pickers\_AmountPicker.cshtml" />
     <Content Include="Views\Shared\_Admin.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />
     <Content Include="Views\Basket\Index.cshtml" />
@@ -418,9 +407,12 @@
     <Content Include="Views\Product\_ProductGrid.cshtml" />
     <Content Include="Views\Category\_CategoryGrid.cshtml" />
     <Content Include="Views\Storage\_CreateTypeForm.cshtml" />
-    <Content Include="Views\Storage\_UpdateStorageName.cshtml" />
+    <Content Include="Views\Shared\Pickers\_NamePicker.cshtml" />
     <Content Include="Views\Basket\_GridFooter.cshtml" />
-    <Content Include="Views\Shared\_PricePicker.cshtml" />
+    <Content Include="Views\Shared\Pickers\_PricePicker.cshtml" />
+    <Content Include="Views\Account\_Preferences.cshtml" />
+    <Content Include="Views\Account\_ChangePassword.cshtml" />
+    <Content Include="Views\Account\Settings.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

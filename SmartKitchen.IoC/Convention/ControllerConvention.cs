@@ -1,4 +1,5 @@
-﻿using System;
+﻿// ReSharper disable PossibleNullReferenceException
+using System;
 using System.Linq;
 using System.Web.Mvc;
 using StructureMap;

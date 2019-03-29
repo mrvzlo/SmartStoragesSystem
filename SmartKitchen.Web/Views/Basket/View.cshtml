@@ -1,44 +1,41 @@
 ﻿@model SmartKitchen.Domain.DisplayModels.BasketDisplayModel
 @{
     ViewBag.Title = "Basket " + Model.Name;
+    ViewBag.Heading = Model.Name;
 }
-<div class="h4 text-center" id="basketName">@Model.Name</div>
 @if (Request.IsAuthenticated)
 {
     Html.RenderAction("CreateProduct", new { basket = Model.Id });
 }
 <div class="text-center table-responsive m-0 bg-main-light">
     @if (Model.Products == 0)
-    {<div class="alert m-0 h3">This basket is empty now</div>}
-    else
-    {@Html.AjaxGrid(Url.Action("BasketProductGrid", new { id = Model.Id }))}
+    {
+        <div class="alert m-0 h3">This basket is empty now</div>
+    }
+    @Html.AjaxGrid(Url.Action("BasketProductGrid", new { id = Model.Id }))
 </div>
 @if (Model.Products != 0 && !Model.Closed)
 {<button id="btnFinish" class="btn btn-success float-right m-2 px-3 @(Model.Products != 0 ? "" : "disabled")">Finish and close</button>}
-@Html.Partial("_AmountPicker")
-@Html.Partial("_PricePicker")
-@Html.Partial("_DatePicker")
+@Html.Partial("Pickers/_AmountPicker")
+@Html.Partial("Pickers/_PricePicker")
+@Html.Partial("Pickers/_DatePicker")
 @Scripts.Render("~/MvcGrid")
+@Scripts.Render("~/js/pickers")
+@Scripts.Render("~/js/search")
+@Scripts.Render("~/js/BasketView")
 @section scripts{
-    @Scripts.Render("~/js/datetimePicker")
-    @Scripts.Render("~/js/amountPicker")
-    @Scripts.Render("~/js/pricePicker")
-    @Scripts.Render("~/js/basketView")
     <script>
         $(function () {
             $(function () {
                 BasketViewJs.initialize({
                     updUrl: '@Url.Action("MarkProductBought", "Basket")',
-                    finishUrl: '@Url.Action("FinishAndClose","Basket")?id=@Model.Id'
+                    finishUrl: '@Url.Action("FinishAndClose","Basket")?id=@Model.Id',
+                    deleteUrl: '@Url.Action("RemoveBasketProduct", "Basket")?id='
                 });
                 DatetimePickerJs.initialize({url: '@Url.Action("DateUpdate", "Basket")?id='});
-                AmountPickerJs.initialize({
-                    deleteUrl: '@Url.Action("RemoveBasketProduct", "Basket")?id=',
-                    setUrl: '@Url.Action("SetAmount", "Basket")?id='
-                });
-                PricePickerJs.initialize({
-                    setUrl: '@Url.Action("SetPrice", "Basket")?id='
-                });
+                AmountPickerJs.initialize({setUrl: '@Url.Action("SetAmount", "Basket")?id=', measurement: '@ViewBag.Weight'});
+                PricePickerJs.initialize({setUrl: '@Url.Action("SetPrice", "Basket")?id=', measurement: '@ViewBag.Currency'});
+                SearchProductJs.initialize({searchUrl: '@Url.Action("GetProductsByNameStart","Product")', inputId: '#Product' });
             });
         });
 

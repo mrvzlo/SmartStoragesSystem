@@ -6,7 +6,6 @@ using SmartKitchen.Domain.Enums;
 using SmartKitchen.Domain.IRepositories;
 using SmartKitchen.Domain.IServices;
 using SmartKitchen.Domain.Responses;
-using System.Collections.Generic;
 using System.Linq;
 using AutoMapper.QueryableExtensions;
 
@@ -27,7 +26,7 @@ namespace SmartKitchen.DomainService.Services
             _cellService = cellService;
         }
 
-        public IQueryable<StorageDisplayModel> GetStoragesWithDescriptionByOwnerEmail(string email)
+        public IQueryable<StorageDisplayModel> GetStoragesByOwnerEmail(string email)
         {
             var person = _personRepository.GetPersonByEmail(email);
             return person.Storages.AsQueryable().ProjectTo<StorageDisplayModel>(MapperConfig);
@@ -38,11 +37,11 @@ namespace SmartKitchen.DomainService.Services
             var person = _personRepository.GetPersonByEmail(email);
             var storage = _storageRepository.GetStorageById(id);
             if (!StorageBelongsToPerson(storage,person).Successful()) return;
-            foreach (var c in storage.Cells) _cellService.DeleteCell(c);
+            foreach (var c in storage.Cells.ToList()) _cellService.DeleteCell(c);
             _storageRepository.DeleteStorage(storage);
         }
 
-        public StorageDisplayModel GetStorageDescriptionById(int id, string email)
+        public StorageDisplayModel GetStorageById(int id, string email)
         {
             var person = _personRepository.GetPersonByEmail(email);
             var storage = _storageRepository.GetStorageById(id);
@@ -58,7 +57,7 @@ namespace SmartKitchen.DomainService.Services
             if (exists)
                 return response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
             if (!_storageTypeService.ExistsWithId(model.TypeId))
-                return response.AddError(GeneralError.ItemNotFound, nameof(model.TypeId));
+                return response.AddError(GeneralError.StorageTypeWasNotFound, nameof(model.TypeId));
             var storage = new Storage
             {
                 Name = model.Name,

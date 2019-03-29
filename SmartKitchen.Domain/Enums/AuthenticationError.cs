@@ -11,6 +11,8 @@ namespace SmartKitchen.Domain.Enums
         [Description("This name is already registered")]
         ThisNameIsTaken = 3,
         [Description("This email is already registered")]
-        ThisEmailIsTaken = 4
+        ThisEmailIsTaken = 4,
+        [Description("This email does not match your email")]
+        EmailsDoNotMatch = 5
     }
 }

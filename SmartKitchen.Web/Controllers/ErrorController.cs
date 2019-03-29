@@ -17,11 +17,13 @@ namespace SmartKitchen.Web.Controllers
         public ActionResult PageNotFound(string path)
         {
             ViewBag.path = path;
+            Response.StatusCode = 404;
             return View();
         }
         public ActionResult Forbidden(string path)
         {
             ViewBag.path = path;
+            Response.StatusCode = 403;
             return View();
         }
     }

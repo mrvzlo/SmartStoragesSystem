@@ -26,30 +26,24 @@ namespace SmartKitchen.DomainService.Services
         protected static string TitledString(string src) =>
             src.Length < 1 ? "" : src[0].ToString().ToUpper() + (src.Length < 2 ? "" : src.Substring(1).ToLower());
 
-        public ServiceResponse ProductBelongsToPerson(BasketProduct basketProduct, Person person, Basket basket)
+        protected ServiceResponse BasketProductBelongsToPerson(BasketProduct basketProduct, Person person, Basket basket) => 
+            basketProduct == null ? new ServiceResponse().AddError(GeneralError.BasketProductWasNotFound) : BasketBelongsToPerson(basket, person);
+
+        protected ServiceResponse BasketBelongsToPerson(Basket basket, Person person)
         {
-            if (basketProduct == null || person == null) return new ServiceResponse().AddError(GeneralError.ItemNotFound);
-            return BasketBelongsToPerson(basket, person);
+            if (person == null) return new ServiceResponse().AddError(GeneralError.PersonWasNotFound);
+            if (basket == null) return new ServiceResponse().AddError(GeneralError.BasketWasNotFound);
+            return basket.PersonId != person.Id ? new ServiceResponse().AddError(GeneralError.AccessToBasketDenied) : new ServiceResponse();
         }
 
-        public ServiceResponse BasketBelongsToPerson(Basket basket, Person person)
-        {
-            if (basket == null || person == null) return new ServiceResponse().AddError(GeneralError.ItemNotFound);
-            if (basket.PersonId != person.Id) return new ServiceResponse().AddError(GeneralError.AccessDenied);
-            return new ServiceResponse();
-        }
+        protected ServiceResponse CellBelongsToPerson(Cell cell, Person person, Storage storage) => 
+            cell == null ? new ServiceResponse().AddError(GeneralError.CellWasNotFound) : StorageBelongsToPerson(storage, person);
 
-        public ServiceResponse CellBelongsToPerson(Cell cell, Person person, Storage storage)
+        protected ServiceResponse StorageBelongsToPerson(Storage storage, Person person)
         {
-            if (cell == null || person == null) return new ServiceResponse().AddError(GeneralError.ItemNotFound);
-            return StorageBelongsToPerson(storage, person);
-        }
-
-        public ServiceResponse StorageBelongsToPerson(Storage storage, Person person)
-        {
-            if (storage == null || person == null) return new ServiceResponse().AddError(GeneralError.ItemNotFound);
-            if (storage.PersonId != person.Id) return new ServiceResponse().AddError(GeneralError.AccessDenied);
-            return new ServiceResponse();
+            if (person == null) return new ServiceResponse().AddError(GeneralError.PersonWasNotFound);
+            if (storage == null) return new ServiceResponse().AddError(GeneralError.StorageWasNotFound);
+            return storage.PersonId != person.Id ? new ServiceResponse().AddError(GeneralError.AccessToStorageDenied) : new ServiceResponse();
         }
     }
 }

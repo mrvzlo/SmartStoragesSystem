@@ -14,7 +14,13 @@
     <button class="col-lg-3 col-5 btn btn-info m-1" onclick="location.reload();">Reset</button>
 </div>
 @Scripts.Render("~/MvcGrid")
+@Scripts.Render("~/js/search")
 @section scripts{
     @Scripts.Render("~/js/productIndex")
-    <script>$(function () { ProductIndexJs.initialize(); });</script>
+    <script>
+        $(function() {
+            ProductIndexJs.initialize();
+            SearchProductJs.initialize({searchUrl: '@Url.Action("GetProductsByNameStart","Product")', inputId: '#Name' });
+        });
+    </script>
 }

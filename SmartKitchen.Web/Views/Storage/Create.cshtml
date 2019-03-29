@@ -1,9 +1,9 @@
 ﻿@model List<SmartKitchen.Domain.Enitities.StorageType>
 @{
     ViewBag.Title = "New storage";
+    ViewBag.Heading = ViewBag.Title;
     int item = ViewBag.Selected != null ? ViewBag.Selected : Model.First().Id;
 }
-<h4 class="text-center">New storage</h4>
 <div class="row justify-content-center m-0">
     <div class="col-12 col-lg-8">
         <div class="row justify-content-center">
@@ -12,7 +12,7 @@
                 <div class="col-md col-3 px-1">
                     <div id="s_@i.Id" class="storage-small pointer row justify-content-around px-2 py-1" style="background-color: #@i.Background" onclick="StorageCreateJs.change(@i.Id)">
                         @{ var filename = i.Id + ".png";}
-                        <img class="rowicon" src="~/Content/images/@filename" />
+                        <img class="rowicon" src="~/Content/icons/@filename" />
                         @Html.Hidden("name_" + i.Id, i.Name)
                     </div>
                 </div>

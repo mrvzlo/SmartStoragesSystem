@@ -1,10 +1,10 @@
-﻿<div class="modal fade" id="StorageNameModal" tabindex="-1" role="dialog" aria-labelledby="StorageNameLabel" aria-hidden="true">
+﻿<div class="modal fade" id="NamePickerModal" tabindex="-1" role="dialog" aria-labelledby="NamePickerLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content big-border">
-            <div class="modal-header text-center d-block h5" id="StorageNameLabel"></div>
+            <div class="modal-header text-center d-block h5" id="NamePickerLabel"></div>
             <div class="modal-body">
                 <div class="row justify-content-center m-0">
-                    @Html.TextBox("StorageName", "", new { @class = "col-8" })
+                    @Html.TextBox("NamePicker", "", new { @class = "col-8 text-center" })
                 </div>
             </div>
             <div class="modal-footer row justify-content-center">
@@ -12,7 +12,7 @@
                     <button data-dismiss="modal" class="btn btn-success w-100" id="btnNameSave">Save</button>
                 </div>
                 <div class="col-6 p-1">
-                    <button data-dismiss="modal" class="btn btn-secondary w-100">Close</button>
+                    <button data-dismiss="modal" class="btn btn-secondary w-100">Cancel</button>
                 </div>
             </div>
         </div>

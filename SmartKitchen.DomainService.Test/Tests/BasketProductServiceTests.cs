@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoFixture;
-using AutoFixture.NUnit3;
+﻿using AutoFixture;
 using Moq;
 using NUnit.Framework;
 using SmartKitchen.Domain.CreationModels;
@@ -13,6 +7,8 @@ using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Enums;
 using SmartKitchen.Domain.IRepositories;
 using SmartKitchen.DomainService.Services;
+using System.Linq;
+// ReSharper disable NUnit.MethodWithParametersAndTestAttribute
 
 namespace SmartKitchen.DomainService.Test.Tests
 {
@@ -20,12 +16,12 @@ namespace SmartKitchen.DomainService.Test.Tests
     public class BasketProductServiceTests
     {
         [Test, CustomAutoData]
-        public void AddBasketProduct_validateNullStorage(IFixture fixture, BasketProductCreationModel model, Person person, Basket basket)
+        public void AddBasketProduct_validateNullStorage(IFixture fixture, BasketProductCreationModel model, Person person, Basket basket, Storage storage)
         {
             var personRepMock = fixture.Freeze<Mock<IPersonRepository>>();
             var storageRepMock = fixture.Freeze<Mock<IStorageRepository>>();
             var basketRepMock = fixture.Freeze<Mock<IBasketRepository>>();
-
+            person.Id = basket.PersonId;
             personRepMock.Setup(x => x.GetPersonByEmail(It.IsAny<string>())).Returns(person);
             basketRepMock.Setup(x => x.GetBasketById(It.IsAny<int>())).Returns(basket);
             storageRepMock.Setup(x => x.GetStorageById(It.IsAny<int>())).Returns((Storage)null);
@@ -34,7 +30,7 @@ namespace SmartKitchen.DomainService.Test.Tests
             var actual = sut.AddBasketProductByModel(model, person.Email);
 
             var error = actual.Errors.First();
-            Assert.That(error, Has.Property(nameof(error.ErrorEnum)).EqualTo(GeneralError.ItemNotFound));
+            Assert.That(error, Has.Property(nameof(error.ErrorEnum)).EqualTo(GeneralError.StorageWasNotFound));
         }
 
 
@@ -53,7 +49,7 @@ namespace SmartKitchen.DomainService.Test.Tests
             var actual = sut.AddBasketProductByModel(model, person.Email);
 
             var error = actual.Errors.First();
-            Assert.That(error, Has.Property(nameof(error.ErrorEnum)).EqualTo(GeneralError.ItemNotFound));
+            Assert.That(error, Has.Property(nameof(error.ErrorEnum)).EqualTo(GeneralError.BasketWasNotFound));
         }
 
         [Test, CustomAutoData]
@@ -74,9 +70,9 @@ namespace SmartKitchen.DomainService.Test.Tests
             var actual = sut.AddBasketProductByModel(model, person.Email);
 
             var error = actual.Errors.First();
-            Assert.That(error, Has.Property(nameof(error.ErrorEnum)).EqualTo(GeneralError.AccessDenied));
+            Assert.That(error, Has.Property(nameof(error.ErrorEnum)).EqualTo(GeneralError.AccessToBasketDenied));
         }
-        
+
         [Test, CustomAutoData]
         public void AddBasketProduct_validateNotStorageOwner(IFixture fixture, BasketProductCreationModel model, Person person, Storage storage, Basket basket)
         {
@@ -95,7 +91,7 @@ namespace SmartKitchen.DomainService.Test.Tests
             var actual = sut.AddBasketProductByModel(model, person.Email);
 
             var error = actual.Errors.First();
-            Assert.That(error, Has.Property(nameof(error.ErrorEnum)).EqualTo(GeneralError.AccessDenied));
+            Assert.That(error, Has.Property(nameof(error.ErrorEnum)).EqualTo(GeneralError.AccessToStorageDenied));
         }
 
         [Test, CustomAutoData]
@@ -104,13 +100,14 @@ namespace SmartKitchen.DomainService.Test.Tests
             var personRepMock = fixture.Freeze<Mock<IPersonRepository>>();
             var storageRepMock = fixture.Freeze<Mock<IStorageRepository>>();
             var basketRepMock = fixture.Freeze<Mock<IBasketRepository>>();
-            person.Id = 1;
-            storage.PersonId = 1;
-            basket.PersonId = 1;
+            var basketProductRepMock = fixture.Freeze<Mock<IBasketProductRepository>>();
+            storage.PersonId = person.Id;
+            basket.PersonId = person.Id;
 
             personRepMock.Setup(x => x.GetPersonByEmail(It.IsAny<string>())).Returns(person);
             basketRepMock.Setup(x => x.GetBasketById(It.IsAny<int>())).Returns(basket);
             storageRepMock.Setup(x => x.GetStorageById(It.IsAny<int>())).Returns(storage);
+            basketProductRepMock.Setup(x => x.GetBasketProductByBasketAndCell(It.IsAny<int>(), It.IsAny<int>())).Returns((BasketProduct)null);
 
             var sut = fixture.Create<BasketProductService>();
             var actual = sut.AddBasketProductByModel(model, person.Email);
@@ -120,12 +117,12 @@ namespace SmartKitchen.DomainService.Test.Tests
         }
 
         [Test, CustomAutoData]
-        public void GetBasketProductDisplayModelById_Map_BasketProductDisplayModel(IFixture fixture, BasketProduct basketProduct, Person person, Basket basket)
+        public void GetBasketProductDisplayModelByBasket_Map_BasketProductDisplayModel(IFixture fixture, Person person, Basket basket)
         {
             var personRepMock = fixture.Freeze<Mock<IPersonRepository>>();
             var basketProductRepMock = fixture.Freeze<Mock<IBasketProductRepository>>();
             var basketRepMock = fixture.Freeze<Mock<IBasketRepository>>();
-            basketProduct.BasketId = basket.Id;
+            var basketProduct = basket.BasketProducts.First();
             basket.PersonId = person.Id;
             personRepMock.Setup(x => x.GetPersonByEmail(It.IsAny<string>())).Returns(person);
             basketRepMock.Setup(x => x.GetBasketById(It.IsAny<int>())).Returns(basket);
@@ -134,14 +131,15 @@ namespace SmartKitchen.DomainService.Test.Tests
             var sut = fixture.Create<BasketProductService>();
             var actual = sut.GetBasketProductDisplayModelByBasket(basketProduct.Id, person.Email);
 
-            Assert.NotNull(actual);
-            Assert.That(actual, Has.Property(nameof(BasketProductDisplayModel.Id)).EqualTo(basketProduct.Id));
-            Assert.That(actual, Has.Property(nameof(BasketProductDisplayModel.Amount)).EqualTo(basketProduct.Amount));
-            Assert.That(actual, Has.Property(nameof(BasketProductDisplayModel.BestBefore)).EqualTo(basketProduct.BestBefore));
-            Assert.That(actual, Has.Property(nameof(BasketProductDisplayModel.Bought)).EqualTo(basketProduct.Bought));
-            Assert.That(actual, Has.Property(nameof(BasketProductDisplayModel.CellId)).EqualTo(basketProduct.CellId));
-            Assert.That(actual, Has.Property(nameof(BasketProductDisplayModel.StorageName)).EqualTo(basketProduct.Cell.Storage.Name));
-            Assert.That(actual, Has.Property(nameof(BasketProductDisplayModel.ProductName)).EqualTo(basketProduct.Cell.Product.Name));
+            var first = actual.First(x => x.Id == basketProduct.Id);
+            Assert.NotNull(first);
+            Assert.That(first, Has.Property(nameof(BasketProductDisplayModel.Id)).EqualTo(basketProduct.Id));
+            Assert.That(first, Has.Property(nameof(BasketProductDisplayModel.Amount)).EqualTo(basketProduct.Amount));
+            Assert.That(first, Has.Property(nameof(BasketProductDisplayModel.BestBefore)).EqualTo(basketProduct.BestBefore));
+            Assert.That(first, Has.Property(nameof(BasketProductDisplayModel.Bought)).EqualTo(basketProduct.Bought));
+            Assert.That(first, Has.Property(nameof(BasketProductDisplayModel.CellId)).EqualTo(basketProduct.CellId));
+            Assert.That(first, Has.Property(nameof(BasketProductDisplayModel.StorageName)).EqualTo(basketProduct.Cell.Storage.Name));
+            Assert.That(first, Has.Property(nameof(BasketProductDisplayModel.ProductName)).EqualTo(basketProduct.Cell.Product.Name));
         }
     }
 }

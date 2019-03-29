@@ -76,6 +76,7 @@
     <Compile Include="Services\BasketService.cs" />
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\CellService.cs" />
+    <Compile Include="Services\EncryptService.cs" />
     <Compile Include="Services\HomeService.cs" />
     <Compile Include="Services\PersonService.cs" />
     <Compile Include="Profiles\StorageProfile.cs" />

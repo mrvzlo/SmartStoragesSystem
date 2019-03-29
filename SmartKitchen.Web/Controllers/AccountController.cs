@@ -1,16 +1,16 @@
-﻿using SmartKitchen.Domain.CreationModels;
+﻿// ReSharper disable PossibleMultipleEnumeration
+// ReSharper disable PossibleNullReferenceException
+// ReSharper disable InvertIf
+using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.Enums;
+using SmartKitchen.Domain.Extensions;
 using SmartKitchen.Domain.IServices;
 using SmartKitchen.Web.Helpers;
 using System;
-using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using NonFactors.Mvc.Grid;
-using SmartKitchen.Domain.Extensions;
 
 namespace SmartKitchen.Web.Controllers
 {
@@ -25,38 +25,68 @@ namespace SmartKitchen.Web.Controllers
             _personService = personService;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(string returnUrl = null)
         {
             if (User.Identity.IsAuthenticated)
                 return Redirect(Url.Action("Index", "Home"));
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
         [Authorize]
-        public ActionResult Token()
+        public PartialViewResult Key()
         {
-            var token = _personService.GetPersonByEmail(CurrentUser()).Token;
-            return View(token);
+            var person = _personService.GetPersonByEmail(CurrentUser());
+            ViewBag.PersonId = person.Id;
+            ViewBag.PublicKey = person.PublicKey;
+            return PartialView("_Key");
+        }
+
+        public PartialViewResult Preferences()
+        {
+            var currencies = EnumHelper.GetAllCurrencies();
+            var weights = EnumHelper.GetAllWeights();
+            var currency = CookieHelper.GetCookie(HttpContext, Cookie.Currency).Value;
+            var weight = CookieHelper.GetCookie(HttpContext, Cookie.Weight).Value;
+            ViewBag.Currency = (int)currencies.SingleOrDefault(x => x.GetDescription() == currency);
+            ViewBag.Weight = (int)weights.SingleOrDefault(x => x.GetDescription() == weight);
+            ViewBag.CurrencyList = currencies.Select(x => new SelectListItem { Value = ((int)x).ToString(), Text = x.ToString() });
+            ViewBag.WeightList = weights.Select(x => new SelectListItem { Value = ((int)x).ToString(), Text = x.ToString() });
+            return PartialView("_Preferences");
+        }
+
+        public RedirectResult UpdatePreferences(int currency, int weight)
+        {
+            if (Enum.IsDefined(typeof(Currency), currency))
+                CookieHelper.UpdateCookie(HttpContext, Cookie.Currency, (Currency)currency);
+
+            if (Enum.IsDefined(typeof(Weight), weight))
+                CookieHelper.UpdateCookie(HttpContext, Cookie.Weight, (Weight)weight);
+
+            return Redirect(Url.Action("Settings", new { tab = 1 }));
         }
 
         [Authorize]
         [HttpPost]
-        public string ResetToken()
+        public string UpdateKeyPair()
         {
-            _personService.UpdateToken(CurrentUser());
-            return _personService.GetPersonByEmail(CurrentUser()).Token.ToString();
+            _personService.UpdateKeyPair(CurrentUser());
+            return _personService.GetPersonByEmail(CurrentUser()).PublicKey;
+        }
+        public ActionResult Settings(int tab = 0)
+        {
+            ViewBag.Active = tab;
+            return View();
         }
 
-        public PartialViewResult SignIn()
-        {
-            return PartialView("_SignIn", new SignInModel());
-        }
+        public PartialViewResult SignIn(string returnUrl = null) =>
+            PartialView("_SignIn", new SignInModel { ReturnUrl = returnUrl });
 
-        public PartialViewResult SignUp()
-        {
-            return PartialView("_SignUp", new SignUpModel());
-        }
+        public PartialViewResult SignUp() =>
+            PartialView("_SignUp", new SignUpModel());
 
+        public PartialViewResult ChangePassword() => PartialView("_ChangePassword", new PasswordResetModel());
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult SignIn(SignInModel model)
@@ -67,11 +97,14 @@ namespace SmartKitchen.Web.Controllers
                 if (response.Successful())
                 {
                     CreateTicket(response.Email, response.Role);
-                    Log.Info("Successful login attempt for " + model.Email);
-                    return Json(new { success = true, url = Url.Action("Index", "Storage") });
+                    Log.Info("Successful login attempt for " + model.Username);
+                    var url = Url.Action("Index", "Storage");
+                    if (model.ReturnUrl != null && Url.IsLocalUrl(model.ReturnUrl)) url = "http://" + Request.Url.Authority + model.ReturnUrl;
+                    else if (model.ReturnUrl != null) Log.Warn("Tried redirect to external " + model.ReturnUrl);
+                    return Json(new { success = true, url });
                 }
                 AddModelStateErrors(response);
-                Log.Info("Unsuccessful login attempt for " + model.Email);
+                Log.Info("Unsuccessful login attempt for " + model.Username);
 
             }
             return Json(new { success = false, formHTML = this.RenderPartialViewToString("_SignIn", model) });
@@ -99,17 +132,31 @@ namespace SmartKitchen.Web.Controllers
 
         private void CreateTicket(string email, Role role)
         {
-            var ticket = new FormsAuthenticationTicket(
-                1,
-                email,
-                DateTime.Now,
-                DateTime.Now.AddDays(14),
-                false,
-                role.GetDescription()
-            );
+            var ticket = new FormsAuthenticationTicket(1, email, DateTime.Now, DateTime.Now.AddMonths(1), false, role.GetDescription());
             var encryptedTicket = FormsAuthentication.Encrypt(ticket);
             var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
             HttpContext.Response.Cookies.Add(cookie);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult ChangePassword(PasswordResetModel model)
+        {
+            model.EmailConfirm = CurrentUser();
+            if (ModelState.IsValid)
+            {
+                var response = _authenticationService.ResetPassword(model);
+                if (response.Successful())
+                {
+                    Log.Info("Successful password change for " + model.Email);
+                    return Json(new { success = true, url = Url.Action("Settings", new{tab = 3}) });
+                }
+
+                AddModelStateErrors(response);
+            }
+
+            model.EmailConfirm = "";
+            return Json(new { success = false, formHTML = this.RenderPartialViewToString("_ChangePassword", model) });
         }
 
         [HttpPost]

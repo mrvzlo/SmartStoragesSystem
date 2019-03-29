@@ -1,12 +1,12 @@
-﻿using System;
-using SmartKitchen.Domain.Enitities;
+﻿using SmartKitchen.Domain.Enitities;
+using SmartKitchen.Domain.Responses;
 
 namespace SmartKitchen.Domain.IServices
 {
     public interface IPersonService
     {
         Person GetPersonByEmail(string email);
-        Person GetPersonByToken(Guid token);
-        void UpdateToken(string email);
+        void UpdateKeyPair(string email);
+        ServiceResponse Interpretator(string request);
     }
 }

@@ -14,7 +14,7 @@ namespace SmartKitchen.Domain.IServices
         ItemCreationResponse AddBasketProduct(Storage storage, Basket basket, Person person, int cellId);
         IQueryable<BasketProductDisplayModel> GetBasketProductDisplayModelByBasket(int basketId, string email);
         int AddBasketProductList(int basketId, int storageId, string email, List<int> cells);
-        ServiceResponse MarkProductBought(int id, string email);
+        ServiceResponse MarkProductBought(int id, bool status, string email);
         ServiceResponse UpdateProductPrice(int id, decimal value, string email);
         ServiceResponse UpdateProductAmount(int id, int value, string email);
         ServiceResponse UpdateProductBestBefore(int id, DateTime? value, string email);

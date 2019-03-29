@@ -1,10 +1,10 @@
-﻿using SmartKitchen.Domain.CreationModels;
+﻿using System;
+using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Enums;
 using SmartKitchen.Domain.IRepositories;
 using SmartKitchen.Domain.IServices;
 using SmartKitchen.Domain.Responses;
-using System;
 using System.Linq;
 using System.Web.Helpers;
 
@@ -23,13 +23,10 @@ namespace SmartKitchen.DomainService.Services
             _storageTypeRepository = storageTypeRepository;
         }
 
-        public Person GetPersonByEmail(string email) =>
-            _personRepository.GetPersonByEmail(email);
-
         public AuthenticationResponse SignIn(SignInModel model)
         {
             var response = new AuthenticationResponse();
-            var person = GetPersonByEmail(model.Email);
+            var person = _personRepository.GetPersonByName(model.Username);
 
             if (person == null || !Crypto.VerifyHashedPassword(person.Password, model.Password))
                 return new AuthenticationResponse(response.AddError(AuthenticationError.EmailOrPasswordIsIncorrect));
@@ -41,7 +38,7 @@ namespace SmartKitchen.DomainService.Services
         {
             var response = new AuthenticationResponse();
             var personByEmail = _personRepository.GetPersonByName(model.Username);
-            var personByName = GetPersonByEmail(model.Email);
+            var personByName = _personRepository.GetPersonByEmail(model.Email);
             if (personByEmail != null)
                 return new AuthenticationResponse(response.AddError(AuthenticationError.ThisEmailIsTaken, nameof(model.Email)));
             if (personByName != null)
@@ -50,14 +47,27 @@ namespace SmartKitchen.DomainService.Services
             {
                 Name = model.Username,
                 Password = Crypto.HashPassword(model.Password),
-                Email = model.Email,
-                Token = Guid.NewGuid()
+                Email = model.Email
             };
+            EncryptService.GetKeys(out var publicKey, out var privateKey);
+            person.PublicKey = publicKey;
+            person.PrivateKey = privateKey;
             _personRepository.RegisterOrUpdate(person);
 
             CreateInitialStorage(person.Id);
             response.Email = person.Email;
             response.Role = person.Role;
+            return response;
+        }
+
+        public ServiceResponse ResetPassword(PasswordResetModel model)
+        {
+            var response = new ServiceResponse();
+            if (!model.Email.Equals(model.EmailConfirm, StringComparison.OrdinalIgnoreCase))
+                return response.AddError(AuthenticationError.EmailsDoNotMatch, nameof(model.Email));
+            var person = _personRepository.GetPersonByEmail(model.Email);
+            person.Password = Crypto.HashPassword(model.Password);
+            _personRepository.RegisterOrUpdate(person);
             return response;
         }
 

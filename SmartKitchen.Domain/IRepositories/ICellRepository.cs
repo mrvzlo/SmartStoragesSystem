@@ -1,7 +1,6 @@
 ﻿using SmartKitchen.Domain.Enitities;
 using System.Collections.Generic;
 using System.Linq;
-using SmartKitchen.Domain.DisplayModels;
 
 namespace SmartKitchen.Domain.IRepositories
 {

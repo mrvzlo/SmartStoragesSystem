@@ -37,15 +37,18 @@ namespace SmartKitchen.DomainService.Services
             return response;
         }
 
-        public bool ReplaceCategory(int fromId, int toId)
+        public ServiceResponse ReplaceCategory(int fromId, int toId)
         {
+            var response = new ServiceResponse();
             var initialCategory = _categoryRepository.GetAllCategories().Single(x => x.Name == "");
             var fromCategory = _categoryRepository.GetCategoryById(fromId);
             var toCategory = _categoryRepository.GetCategoryById(toId);
-            if (fromCategory == null || toCategory == null || fromId == initialCategory.Id || fromId == toId) return false;
+            if (fromCategory == null || toCategory == null) return response.AddError(GeneralError.CategoryWasNotFound);
+            if (fromId == initialCategory.Id) return response.AddError(GeneralError.CantRemovePrimalCategory);
+            if ( fromId == toId) return response.AddError(GeneralError.CantReplaceToItself);
             _productRepository.ReplaceCategory(fromId, toId);
             _categoryRepository.DeleteCategoryById(fromId);
-            return true;
+            return response;
         }
     }
 }

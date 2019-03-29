@@ -5,6 +5,8 @@ using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.IServices;
 using System.Linq;
 using System.Web.Mvc;
+using SmartKitchen.Domain.Enums;
+using SmartKitchen.Web.Helpers;
 
 namespace SmartKitchen.Web.Controllers
 {
@@ -27,6 +29,7 @@ namespace SmartKitchen.Web.Controllers
         {
             var query = _basketService.GetBasketsByOwnerEmail(CurrentUser());
             if (TempData.ContainsKey("error")) ModelState.AddModelError("Name", TempData["error"].ToString());
+            ViewBag.Currency = CookieHelper.GetCurrency(HttpContext);
             return View(query.ToList());
         }
 
@@ -67,23 +70,24 @@ namespace SmartKitchen.Web.Controllers
 
         public ActionResult View(int id)
         {
+            ViewBag.Currency = CookieHelper.GetCurrency(HttpContext);
+            ViewBag.Weight = CookieHelper.GetCookie(HttpContext, Cookie.Weight).Value;
             var basket = _basketService.GetBasketById(id, CurrentUser());
             if (basket == null) return Redirect(Url.Action("Index"));
             return View(basket);
         }
 
         [HttpPost]
-        public ActionResult Lock(int id)
-        {
-            var locked = _basketService.LockBasket(id, CurrentUser());
-            if (locked == null) return Redirect(Url.Action("Index"));
-            return PartialView("_Description", locked);
-        }
-
-        [HttpPost]
         public bool Remove(int id)
         {
             return _basketService.DeleteBasket(id, CurrentUser());
+        }
+
+        [HttpPost]
+        public bool UpdateName(string name, int id)
+        {
+            var model = new NameCreationModel(name);
+            return ModelState.IsValid && _basketService.UpdateBasketName(model, id, CurrentUser());
         }
 
         [HttpPost]
@@ -101,7 +105,7 @@ namespace SmartKitchen.Web.Controllers
             {
                 Basket = basket
             };
-            ViewBag.SelectList = _storageService.GetStoragesWithDescriptionByOwnerEmail(CurrentUser()).Select(x => new SelectListItem
+            ViewBag.SelectList = _storageService.GetStoragesByOwnerEmail(CurrentUser()).Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
                 Text = x.Name
@@ -122,12 +126,14 @@ namespace SmartKitchen.Web.Controllers
         public PartialViewResult BasketProductGrid(int id)
         {
             var basketProductList = _basketProductService.GetBasketProductDisplayModelByBasket(id, CurrentUser());
+            ViewBag.Currency = CookieHelper.GetCurrency(HttpContext);
+            ViewBag.Weight = CookieHelper.GetCookie(HttpContext, Cookie.Weight).Value;
             return PartialView("_ProductGrid", basketProductList);
         }
 
         [HttpPost]
-        public bool MarkProductBought(int id) => 
-            _basketProductService.MarkProductBought(id, CurrentUser()).Successful();
+        public bool MarkProductBought(int id, bool status) => 
+            _basketProductService.MarkProductBought(id, status, CurrentUser()).Successful();
 
         [HttpPost]
         public bool RemoveBasketProduct(int id) =>
@@ -149,7 +155,7 @@ namespace SmartKitchen.Web.Controllers
             {
                 newDate = DateTime.ParseExact(dateStr, "d/M/yyyy", CultureInfo.InvariantCulture);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 newDate = null;
             }

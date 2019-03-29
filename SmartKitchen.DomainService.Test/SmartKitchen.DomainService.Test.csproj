@@ -83,6 +83,7 @@
     <Compile Include="BaseCustomization.cs" />
     <Compile Include="CustomAutoDataAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\CellServiceTests.cs" />
     <Compile Include="Tests\StorageServiceTests.cs" />
     <Compile Include="Tests\ProductServiceTests.cs" />
     <Compile Include="Tests\CategoryServiceTests.cs" />

@@ -1,10 +1,11 @@
 ﻿@model SmartKitchen.Domain.CreationModels.CellCreationModel
 <div class="row justify-content-center my-3">
     <div class="col-lg-9 col-11">
-        @using (Html.BeginForm("Create", "Cell", FormMethod.Post, new { @class = "row" }))
+        @using (Html.BeginForm("CreateCell", "Storage", FormMethod.Post, new { @class = "row" }))
         {
             @Html.HiddenFor(x => x.Storage, Model.Storage)
-            @Html.TextBoxFor(x => x.Product, new { @class = "col-8", placeholder = "New product" })
+            @Html.TextBoxFor(x => x.Product, new { @class = "col-8", placeholder = "New product", list = "products" })
+            <datalist id="products"></datalist>
             <input type="submit" value="Add" class="btn btn-main col-4" />
             @Html.ValidationMessageFor(x=>x.Product,"", new { @class = "col-12 error" })
         }

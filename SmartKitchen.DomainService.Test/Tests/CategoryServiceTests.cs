@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using AutoFixture;
+﻿using AutoFixture;
 using AutoFixture.NUnit3;
 using NUnit.Framework;
 using SmartKitchen.Domain.DisplayModels;
@@ -10,6 +9,7 @@ using Moq;
 using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.Enums;
 using SmartKitchen.Domain.IRepositories;
+// ReSharper disable NUnit.MethodWithParametersAndTestAttribute
 
 namespace SmartKitchen.DomainService.Test.Tests
 {

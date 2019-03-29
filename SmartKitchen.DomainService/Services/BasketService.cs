@@ -53,16 +53,16 @@ namespace SmartKitchen.DomainService.Services
             return response;
         }
 
-        public BasketDisplayModel LockBasket(int id, string email)
+        public bool UpdateBasketName(NameCreationModel model, int id, string email)
         {
+            model.Name = model.Name.Trim();
             var basket = _basketRepository.GetBasketById(id);
             var person = _personRepository.GetPersonByEmail(email);
-            var response = BasketBelongsToPerson(basket, person);
-            if (!response.Successful()) return null;
-
-            basket.Closed = true;
+            if (!BasketBelongsToPerson(basket, person).Successful()) return false;
+            if (_basketRepository.GetBaskets().Any(x => x.PersonId == person.Id && x.Name.Equals(model.Name))) return false;
+            basket.Name = model.Name;
             _basketRepository.AddOrUpdateBasket(basket);
-            return Mapper.Map<BasketDisplayModel>(basket);
+            return true;
         }
 
         public bool DeleteBasket(int id, string email)
@@ -79,17 +79,12 @@ namespace SmartKitchen.DomainService.Services
 
         public int FinishAndCloseBasket(int id, string email)
         {
-            int count = 0;
             var basket = _basketRepository.GetBasketById(id);
             if (basket.Closed) return 0;
             var person = _personRepository.GetPersonByEmail(email);
-            if (!BasketBelongsToPerson(basket, person).Successful()) return count;
+            if (!BasketBelongsToPerson(basket, person).Successful()) return 0;
             var products = basket.BasketProducts;
-            foreach (var product in products)
-            {
-                var response = _cellService.MoveProductToStorage(product, basket, person);
-                if (response.Successful()) count++;
-            }
+            var count = products.Select(product => _cellService.MoveBasketProductToStorage(product, basket, person)).Count(response => response.Successful());
 
             basket.Closed = true;
             _basketRepository.AddOrUpdateBasket(basket);

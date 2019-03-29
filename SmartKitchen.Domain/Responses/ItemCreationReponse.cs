@@ -7,7 +7,7 @@ namespace SmartKitchen.Domain.Responses
         public int AddedId;
         public int AddedGroupId;
 
-        public ItemCreationResponse AddError(Enum error, string key = "")
+        public new ItemCreationResponse AddError(Enum error, string key = "")
         {
             Errors.Add(new ModelStateError(key, error));
             return this;
