@@ -40,7 +40,7 @@
 @helper DeleteHelper(CellDisplayModel item)
 {
     <div onclick="StorageViewJs.removeProduct(@item.Id,'@item.ProductName')">
-        <a alt="delete" class="pointer font-weight-bold text-decoration-none text-danger">X</a>
+        <img src="~/Content/icons/remove.svg" class="dangerIcon pointer"/>
     </div>
 }
 
