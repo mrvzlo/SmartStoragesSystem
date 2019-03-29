@@ -342,6 +342,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\MvcGrid\mvc-grid.js" />
     <Content Include="Scripts\pages\account-index.js" />
+    <Content Include="Scripts\pages\account-settings.js" />
     <Content Include="Scripts\pages\search-product.js" />
     <Content Include="Scripts\pages\pickers\name-picker.js" />
     <Content Include="Scripts\pages\pickers\status-picker.js" />

@@ -31,22 +31,11 @@
 </div>
 
 @section scripts{
+    @Scripts.Render("~/forms")
+    @Scripts.Render("~/js/accountSettings")
     <script>
         $(function () {
-            $(document).on("click", "#updToken", function() {
-                var url = '@Url.Action("UpdateKeyPair","Account")';
-                $.post(url,
-                    function (data) {
-                        $("#publicKey").text(data);
-                    });
-            });
-            $(document).on("click", "#copyPublic", function () {
-                var $temp = $("<input>");
-                $("body").append($temp);
-                $temp.val($("#publicKey").text()).select();
-                document.execCommand("copy");
-                $temp.remove();
-            });
+            AccountSettingsJs.initialize({updUrl: '@Url.Action("UpdateKeyPair","Account")'});
         });
     </script>
 }

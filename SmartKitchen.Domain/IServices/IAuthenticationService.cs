@@ -7,5 +7,6 @@ namespace SmartKitchen.Domain.IServices
     {
         AuthenticationResponse SignIn(SignInModel model);
         AuthenticationResponse SignUp(SignUpModel model);
+        ServiceResponse ResetPassword(PasswordResetModel model);
     }
 }

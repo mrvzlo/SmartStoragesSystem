@@ -85,7 +85,7 @@ namespace SmartKitchen.Web.Controllers
         public PartialViewResult SignUp() =>
             PartialView("_SignUp", new SignUpModel());
 
-        public PartialViewResult ChangePassword() => PartialView("_ChangePassword");
+        public PartialViewResult ChangePassword() => PartialView("_ChangePassword", new PasswordResetModel());
         
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -136,6 +136,27 @@ namespace SmartKitchen.Web.Controllers
             var encryptedTicket = FormsAuthentication.Encrypt(ticket);
             var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
             HttpContext.Response.Cookies.Add(cookie);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult ChangePassword(PasswordResetModel model)
+        {
+            model.EmailConfirm = CurrentUser();
+            if (ModelState.IsValid)
+            {
+                var response = _authenticationService.ResetPassword(model);
+                if (response.Successful())
+                {
+                    Log.Info("Successful password change for " + model.Email);
+                    return Json(new { success = true, url = Url.Action("Settings", new{tab = 3}) });
+                }
+
+                AddModelStateErrors(response);
+            }
+
+            model.EmailConfirm = "";
+            return Json(new { success = false, formHTML = this.RenderPartialViewToString("_ChangePassword", model) });
         }
 
         [HttpPost]

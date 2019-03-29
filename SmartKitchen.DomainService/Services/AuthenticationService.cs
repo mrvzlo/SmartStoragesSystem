@@ -1,4 +1,5 @@
-﻿using SmartKitchen.Domain.CreationModels;
+﻿using System;
+using SmartKitchen.Domain.CreationModels;
 using SmartKitchen.Domain.Enitities;
 using SmartKitchen.Domain.Enums;
 using SmartKitchen.Domain.IRepositories;
@@ -56,6 +57,17 @@ namespace SmartKitchen.DomainService.Services
             CreateInitialStorage(person.Id);
             response.Email = person.Email;
             response.Role = person.Role;
+            return response;
+        }
+
+        public ServiceResponse ResetPassword(PasswordResetModel model)
+        {
+            var response = new ServiceResponse();
+            if (!model.Email.Equals(model.EmailConfirm, StringComparison.OrdinalIgnoreCase))
+                return response.AddError(AuthenticationError.EmailsDoNotMatch, nameof(model.Email));
+            var person = _personRepository.GetPersonByEmail(model.Email);
+            person.Password = Crypto.HashPassword(model.Password);
+            _personRepository.RegisterOrUpdate(person);
             return response;
         }
 

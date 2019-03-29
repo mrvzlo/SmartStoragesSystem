@@ -33,6 +33,10 @@ namespace SmartKitchen.Web
                 "~/Scripts/pages/search-product.js"
             ));
 
+            bundles.Add(new ScriptBundle("~/js/accountSettings").Include(
+                "~/Scripts/pages/account-settings.js"
+            ));
+
             bundles.Add(new ScriptBundle("~/js/accountIndex").Include(
                 "~/Scripts/pages/account-index.js"
             ));
