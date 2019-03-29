@@ -6,10 +6,10 @@ namespace SmartKitchen.DomainService.Services
 {
     public static class EncryptService
     {
-        private const int KeySizeInBytes = 4096;
+        private const int KeySizeInBites = 2048;
         public static void GetKeys(out string publicKey, out string privateKey)
         {
-            var csp = new RSACryptoServiceProvider(KeySizeInBytes);
+            var csp = new RSACryptoServiceProvider(KeySizeInBites);
             var privKey = csp.ExportParameters(true);
             var pubKey = csp.ExportParameters(false);
             {
@@ -37,7 +37,7 @@ namespace SmartKitchen.DomainService.Services
                 privKey = (RSAParameters)xs.Deserialize(sr);
             }
 
-            var csp = new RSACryptoServiceProvider(KeySizeInBytes);
+            var csp = new RSACryptoServiceProvider(KeySizeInBites);
             csp.ImportParameters(privKey);
 
             var bytesPlainTextData = csp.Decrypt(bytesCypherText, false);

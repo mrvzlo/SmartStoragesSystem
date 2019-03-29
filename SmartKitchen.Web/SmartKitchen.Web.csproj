@@ -196,6 +196,7 @@
   <ItemGroup>
     <Content Include="Content\icons\arrow-down.png" />
     <Content Include="Content\icons\arrow-right.png" />
+    <Content Include="Content\icons\update.png" />
     <Content Include="Content\images\basket.png" />
     <Content Include="Content\icons\1.png" />
     <Content Include="Content\icons\2.png" />
@@ -361,7 +362,7 @@
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Views\Account\_SignUp.cshtml" />
-    <Content Include="Views\Account\Info.cshtml" />
+    <Content Include="Views\Account\Key.cshtml" />
     <Content Include="Views\Account\_SignIn.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -410,6 +411,9 @@
     <Content Include="Views\Basket\_GridFooter.cshtml" />
     <Content Include="Views\Shared\Pickers\_PricePicker.cshtml" />
     <Content Include="Views\Shared\Pickers\_StatusPicker.cshtml" />
+    <Content Include="Views\Account\Preferences.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\_AccountMenu.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -61,6 +61,11 @@ body {
     font-size: large;
 }
 
+.btn-outline-main{
+    background-color: #fff;
+    font-weight: bold;
+}
+
 //icons
 .navicon {
     height: 2rem;
@@ -80,10 +85,6 @@ body {
 
 li .active, li .active:hover {
     border-bottom: solid 5px $main;
-}
-
-.gap {
-    margin-bottom: 4rem;
 }
 
 .grid-header-title a {

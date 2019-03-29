@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "My preferences";
+    var currencyList = new SelectList(ViewBag.CurrencyList, "Value", "Text", ViewBag.Currency);
+    var weightList = new SelectList(ViewBag.WeightList, "Value", "Text", ViewBag.Weight);
+}
+@Html.Partial("_AccountMenu")
+<div class="row justify-content-center">
+    <div class="h4 col-12 text-center my-2">Preferences</div>
+    @using (Html.BeginForm("UpdatePreferences", "Account", FormMethod.Post, new { @class = "col-lg-6 col-md-8 col-12" }))
+    {
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-sm-7 col-11 text-center pb-2">
+                @Html.Label("Currency")
+                @Html.DropDownList("currency", currencyList, new { @class = "input" })
+            </div>
+            <div class="col-md-6 col-sm-7 col-11 text-center pb-2">
+                @Html.Label("Weight measurement")
+                @Html.DropDownList("weight", weightList, new { @class = "input" })
+            </div>
+            <button type="submit" class="btn btn-main px-4 col-6 col-md-5">Save changes</button>
+        </div>
+    }
+</div>

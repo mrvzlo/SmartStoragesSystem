@@ -1,4 +1,4 @@
-﻿<div class="container-fluid bg-main p-0 fixed-top">
+﻿<div class="container-fluid bg-main p-0 sticky-top">
     <div class="container p-0">
         <nav class="navbar py-1 font-weight-bold navbar-expand justify-content-md-around navbar-dark">
             <div class="collapse navbar-collapse justify-content-center" id="nav">
@@ -54,7 +54,7 @@
                                     <img class="d-md-none navicon" src="@Url.Content("~/Content/icons/options.png")" />
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dmb">
-                                    <a href="@Url.Action("Info", "Account")" class="dropdown-item">Account</a>
+                                    <a href="@Url.Action("Preferences", "Account")" class="dropdown-item">Account</a>
                                     @Html.Partial("_Admin")
                                 </div>
 
@@ -63,7 +63,7 @@
                         else
                         {
                             <li class="nav-item">
-                                <a href="@Url.Action("Info", "Account")" class="nav-link text-light">
+                                <a href="@Url.Action("Preferences", "Account")" class="nav-link text-light">
                                     <div class="d-md-inline d-none">Account</div>
                                     <img class="d-md-none navicon" src="@Url.Content("~/Content/icons/options.png")" />
                                 </a>

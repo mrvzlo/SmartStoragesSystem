@@ -26,7 +26,7 @@
     When you have done click on the button <span class="text-success font-weight-bold">finish</span> and marked products will be virtually send to appropriate storage or storages.
 </div>
 <div class="text-justify my-2">
-    On @Html.ActionLink("this", "Info", "Account") page you can receive public key and unique identificator to connect smart devices to your account.
+    On @Html.ActionLink("this", "Key", "Account") page you can receive public key and unique identificator to connect smart devices to your account.
     This will allow system to collect data about amount changes automatically. External device should send HTTPS request on the server using this template:<br />
     <code>@url?request=[Id]:[Request]</code><br />
     Request is a string which is encrypted with your RSA public key and consists of 3 parts: <br />

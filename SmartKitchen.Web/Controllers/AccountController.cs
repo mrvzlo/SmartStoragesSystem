@@ -34,11 +34,16 @@ namespace SmartKitchen.Web.Controllers
         }
         #region
         [Authorize]
-        public ActionResult Info()
+        public ActionResult Key()
         {
             var person = _personService.GetPersonByEmail(CurrentUser());
             ViewBag.PersonId = person.Id;
             ViewBag.PublicKey = person.PublicKey;
+            return View();
+        }
+
+        public ActionResult Preferences()
+        {
             var currencies = EnumHelper.GetAllCurrencies();
             var weights = EnumHelper.GetAllWeights();
             var currency = CookieHelper.GetCookie(HttpContext, Cookie.Currency).Value;
@@ -50,7 +55,7 @@ namespace SmartKitchen.Web.Controllers
             return View();
         }
 
-        public RedirectResult UpdateCookies(int currency, int weight)
+        public RedirectResult UpdatePreferences(int currency, int weight)
         {
             if (Enum.IsDefined(typeof(Currency), currency))
                 CookieHelper.UpdateCookie(HttpContext, Cookie.Currency, (Currency)currency);
@@ -58,7 +63,7 @@ namespace SmartKitchen.Web.Controllers
             if (Enum.IsDefined(typeof(Weight), weight))
                 CookieHelper.UpdateCookie(HttpContext, Cookie.Weight, (Weight)weight);
 
-            return Redirect(Url.Action("Info"));
+            return Redirect(Url.Action("Preferences"));
         }
 
         [Authorize]

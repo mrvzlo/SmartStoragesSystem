@@ -7076,6 +7076,10 @@ body {
   padding: 0.2rem;
   font-size: large; }
 
+.btn-outline-main {
+  background-color: #fff;
+  font-weight: bold; }
+
 .navicon {
   height: 2rem;
   filter: brightness(0) invert(1); }
@@ -7090,9 +7094,6 @@ body {
 
 li .active, li .active:hover {
   border-bottom: solid 5px #548; }
-
-.gap {
-  margin-bottom: 4rem; }
 
 .grid-header-title a {
   text-decoration-line: none;
