@@ -39,5 +39,7 @@ namespace SmartKitchen.Domain.Enums
 
         [Description("Unknown command")]
         UnknownCommand = 16,
+        [Description("Value is negative")]
+        NegativeNumber = 17,
     }
 }

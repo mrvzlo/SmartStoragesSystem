@@ -102,6 +102,7 @@ namespace SmartKitchen.DomainService.Services
 
         public ServiceResponse UpdateProductAmount(int id, int value, string email)
         {
+            if (value < 0) return new ServiceResponse().AddError(GeneralError.NegativeNumber);
             var product = _basketProductRepository.GetBasketProductById(id);
             var basket = _basketRepository.GetBasketById(product.BasketId);
             var person = _personRepository.GetPersonByEmail(email);
@@ -130,6 +131,7 @@ namespace SmartKitchen.DomainService.Services
 
         public ServiceResponse UpdateProductPrice(int id, decimal value, string email)
         {
+            if (value < 0) return new ServiceResponse().AddError(GeneralError.NegativeNumber);
             var product = _basketProductRepository.GetBasketProductById(id);
             var basket = _basketRepository.GetBasketById(product.BasketId);
             var person = _personRepository.GetPersonByEmail(email);

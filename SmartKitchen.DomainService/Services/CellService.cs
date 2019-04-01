@@ -83,6 +83,7 @@ namespace SmartKitchen.DomainService.Services
 
         public ServiceResponse UpdateCellAmount(int id, int value, Person person)
         {
+            if (value<0) return new ServiceResponse().AddError(GeneralError.NegativeNumber);
             var cell = _cellRepository.GetCellById(id);
             var storage = _storageRepository.GetStorageById(cell.StorageId);
             var response = CellBelongsToPerson(cell, person, storage);
