@@ -14,12 +14,13 @@
             </li>
         </ul>
         <div class="tab-content">
-            <div id="_SignIn" class="tab-pane show active" role="tabpanel">@{Html.RenderAction("SignIn", new {RequestUrl = (string)ViewBag.RequestUrl});}</div>
+            <div id="_SignIn" class="tab-pane show active" role="tabpanel">@{Html.RenderAction("SignIn", new { RequestUrl = (string)ViewBag.RequestUrl });}</div>
             <div id="_SignUp" class="tab-pane" role="tabpanel">@{Html.RenderAction("SignUp");}</div>
         </div>
 
     </div>
 </div>
+@Html.Partial("_Loading")
 @section scripts{
     @Scripts.Render("~/forms")
     @Scripts.Render("~/js/accountIndex")

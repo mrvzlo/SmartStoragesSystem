@@ -15,8 +15,8 @@ var AmountPickerJs = (function () {
         settings = $.extend(true, defaults, options);
         $(document).on("click", "#btnAmountRemove", removeProduct);
         $(document).on("click", "#btnAmountSave", changeProductAmount);
-        $(document).on("click", "#btnAmountPlus", function () { plusProductAmount(1)});
-        $(document).on("click", "#btnAmountMinus", function () { plusProductAmount(-1) });
+        $(document).on("click", "#btnAmountPlus", function () { plusProductAmount(0.1)});
+        $(document).on("click", "#btnAmountMinus", function () { plusProductAmount(-0.1) });
     };
 
     var plusProductAmount = function (i) {

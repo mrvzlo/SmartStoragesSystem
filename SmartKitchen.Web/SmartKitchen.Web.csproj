@@ -413,6 +413,7 @@
     <Content Include="Views\Account\_Preferences.cshtml" />
     <Content Include="Views\Account\_ChangePassword.cshtml" />
     <Content Include="Views\Account\Settings.cshtml" />
+    <Content Include="Views\Shared\_Loading.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

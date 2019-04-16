@@ -80,4 +80,9 @@ td {
 
 .mvc-grid {
     padding: 0;
+    text-align: center;
+}
+
+.mvc-grid:empty::after{
+    content: "Loading";
 }

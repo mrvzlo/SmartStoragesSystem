@@ -7,11 +7,7 @@
 }
 @Html.Partial("_AddProduct", new CellCreationModel { Storage = Model.Id })
 <div class="text-center table-responsive m-0 big-border" style="background-color: #@Model.Type.Background">
-    @if (Model.CellCount == 0)
-    {
-        <div class="alert m-0 h3">This storage is empty now</div>
-    }
-        @Html.AjaxGrid(Url.Action("ShowAllCells", new { storage = Model.Id }))
+    @Html.AjaxGrid(Url.Action("ShowAllCells", new { storage = Model.Id }))
 </div>
 @if (Model.CellCount > 0)
 {

@@ -8,10 +8,6 @@
     Html.RenderAction("CreateProduct", new { basket = Model.Id });
 }
 <div class="text-center table-responsive m-0 bg-main-light">
-    @if (Model.Products == 0)
-    {
-        <div class="alert m-0 h3">This basket is empty now</div>
-    }
     @Html.AjaxGrid(Url.Action("BasketProductGrid", new { id = Model.Id }))
 </div>
 @if (Model.Products != 0 && !Model.Closed)

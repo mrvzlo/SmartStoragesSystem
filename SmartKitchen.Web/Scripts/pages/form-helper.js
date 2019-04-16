@@ -3,7 +3,12 @@
     var bindForm = function (formId, containerId) {
         var form = $(formId);
         form.off("submit");
+
         form.ajaxForm({
+	        beforeSubmit: function() {
+                $("#loading").show();
+                $(formId + " > fieldset").prop("disabled", true);
+	        },
             complete: function (data) {
                 var variables = data.responseJSON;
                 if (variables.success)
@@ -13,7 +18,9 @@
                         bindForm(formId, containerId);
                     });
                 }
-            }
+                $("#loading").hide();
+                $(formId + " > fieldset").prop("disabled", false);
+            }		
         });
 };
 

@@ -8,7 +8,7 @@
     c.Add(x => x.Amount).RenderedAs(AmountHelper).Titled("Amount").Css("w-20");
     c.Add(x => x.Price).RenderedAs(PriceHelper).Titled("Price").Css("w-20");
     c.Add(x => x.Id).RenderedAs(DeleteHelper).Titled("").Css("w-10");
-}).Sortable().Css("table-borderless w-100 table p-0 m-0 table-hover").RowAttributed(model => new { id = model.Id }).WithFooter("_GridFooter")
+}).Sortable().Css("table-borderless w-100 table p-0 m-0 table-hover").RowAttributed(model => new { id = model.Id }).WithFooter("_GridFooter").Empty("This basket is empty")
 
 @helper NameHelper(BasketProductDisplayModel item)
 {

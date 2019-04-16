@@ -11,7 +11,7 @@
     c.Add(x => x.BestBefore).RenderedAs(SafetyHelper).Titled("Safety").Css("w-20");
     c.Add(x => x.Amount).RenderedAs(AmountHelper).Titled("Amount").Css("w-20");
     c.Add(x => x.Id).RenderedAs(DeleteHelper).Titled("").Css("w-10");
-}).Sortable().Css("table-borderless table-hover m-0 table text-center").RowAttributed(model => new { id = model.Id })
+}).Sortable().Css("table-borderless table-hover m-0 table text-center").RowAttributed(model => new { id = model.Id }).Empty("This storage is empty")
 
 @helper NameHelper(CellDisplayModel item)
 {
