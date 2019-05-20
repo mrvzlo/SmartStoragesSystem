@@ -14,12 +14,22 @@ namespace SmartKitchen.Web.Controllers
             _personService = personService;
         }
 
+        /// <summary>
+        /// If no request show home page else preform the request
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public ActionResult Index(string request = null)
         {
             if (request == null) return View();
             var result = _personService.Interpretator(request);
             return Json(new { success = result.Successful(), errors = result.Errors });
         }
+
+        /// <summary>
+        /// Show guide about the system
+        /// </summary>
+        /// <returns></returns>
         public ActionResult About()
         {
             var model = _homeService.GetHelpModel();

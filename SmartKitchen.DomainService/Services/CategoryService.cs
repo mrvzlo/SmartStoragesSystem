@@ -24,19 +24,27 @@ namespace SmartKitchen.DomainService.Services
         public IQueryable<CategoryDisplayModel> GetAllCategoryDisplays() =>
             _categoryRepository.GetAllCategories().ProjectTo<CategoryDisplayModel>(MapperConfig);
 
+        /// <summary>
+        /// Add category with titled name if it is unique
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public ServiceResponse AddCategory(NameCreationModel model)
         {
             var response = new ServiceResponse();
-            model.Name = model.Name.Trim();
+            model.Name = TitledString(model.Name.Trim());
             var exists = _categoryRepository.GetCategoryByName(model.Name) != null;
             if (exists) return response.AddError(GeneralError.NameIsAlreadyTaken, nameof(model.Name));
-            _categoryRepository.AddCategory(new Category
-            {
-                Name = TitledString(model.Name)
-            });
+            _categoryRepository.AddCategory(new Category(model.Name));
             return response;
         }
 
+        /// <summary>
+        /// If categories exist update all products category first category id to second
+        /// </summary>
+        /// <param name="fromId"></param>
+        /// <param name="toId"></param>
+        /// <returns></returns>
         public ServiceResponse ReplaceCategory(int fromId, int toId)
         {
             var response = new ServiceResponse();

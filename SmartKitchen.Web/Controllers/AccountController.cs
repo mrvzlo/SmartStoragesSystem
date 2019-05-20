@@ -25,6 +25,11 @@ namespace SmartKitchen.Web.Controllers
             _personService = personService;
         }
 
+        /// <summary>
+        /// Sign in and sign up page
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         public ActionResult Index(string returnUrl = null)
         {
             if (User.Identity.IsAuthenticated)
@@ -33,6 +38,10 @@ namespace SmartKitchen.Web.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Public key partial page
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         public PartialViewResult Key()
         {
@@ -42,6 +51,10 @@ namespace SmartKitchen.Web.Controllers
             return PartialView("_Key");
         }
 
+        /// <summary>
+        /// Preferences partial page
+        /// </summary>
+        /// <returns></returns>
         public PartialViewResult Preferences()
         {
             var currencies = EnumHelper.GetAllCurrencies();
@@ -55,6 +68,12 @@ namespace SmartKitchen.Web.Controllers
             return PartialView("_Preferences");
         }
 
+        /// <summary>
+        /// Update currency and weight preferences and reload to settings page
+        /// </summary>
+        /// <param name="currency"></param>
+        /// <param name="weight"></param>
+        /// <returns></returns>
         public RedirectResult UpdatePreferences(int currency, int weight)
         {
             if (Enum.IsDefined(typeof(Currency), currency))
@@ -66,6 +85,10 @@ namespace SmartKitchen.Web.Controllers
             return Redirect(Url.Action("Settings", new { tab = 1 }));
         }
 
+        /// <summary>
+        /// Generate and return new key
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         [HttpPost]
         public string UpdateKeyPair()
@@ -73,20 +96,42 @@ namespace SmartKitchen.Web.Controllers
             _personService.UpdateKeyPair(CurrentUser());
             return _personService.GetPersonByEmail(CurrentUser()).PublicKey;
         }
+
+        /// <summary>
+        /// Settings page
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <returns></returns>
         public ActionResult Settings(int tab = 0)
         {
             ViewBag.Active = tab;
             return View();
         }
 
-        public PartialViewResult SignIn(string returnUrl = null) =>
-            PartialView("_SignIn", new SignInModel { ReturnUrl = returnUrl });
+        /// <summary>
+        /// Sign in partial
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
+        public PartialViewResult SignIn(string returnUrl = null) => PartialView("_SignIn", new SignInModel { ReturnUrl = returnUrl });
 
-        public PartialViewResult SignUp() =>
-            PartialView("_SignUp", new SignUpModel());
+        /// <summary>
+        /// Sign up partial
+        /// </summary>
+        /// <returns></returns>
+        public PartialViewResult SignUp() => PartialView("_SignUp", new SignUpModel());
 
+        /// <summary>
+        /// Password change partial
+        /// </summary>
+        /// <returns></returns>
         public PartialViewResult ChangePassword() => PartialView("_ChangePassword", new PasswordResetModel());
         
+        /// <summary>
+        /// If signed in redirects to returnUrl or storages else reload form
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult SignIn(SignInModel model)
@@ -110,6 +155,11 @@ namespace SmartKitchen.Web.Controllers
             return Json(new { success = false, formHTML = this.RenderPartialViewToString("_SignIn", model) });
         }
 
+        /// <summary>
+        /// If signed up redirects to guide else reload form
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult Register(SignUpModel model)
@@ -130,6 +180,11 @@ namespace SmartKitchen.Web.Controllers
             return Json(new { success = false, formHTML = this.RenderPartialViewToString("_SignUp", model) });
         }
 
+        /// <summary>
+        /// Create auth ticket
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="role"></param>
         private void CreateTicket(string email, Role role)
         {
             var ticket = new FormsAuthenticationTicket(1, email, DateTime.Now, DateTime.Now.AddMonths(1), false, role.GetDescription());
@@ -138,6 +193,11 @@ namespace SmartKitchen.Web.Controllers
             HttpContext.Response.Cookies.Add(cookie);
         }
 
+        /// <summary>
+        /// Change password and reload settings page else reload form
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult ChangePassword(PasswordResetModel model)
@@ -159,6 +219,10 @@ namespace SmartKitchen.Web.Controllers
             return Json(new { success = false, formHTML = this.RenderPartialViewToString("_ChangePassword", model) });
         }
 
+        /// <summary>
+        /// Sign out
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()

@@ -27,18 +27,32 @@ namespace SmartKitchen.Web.Controllers
 
         #region CRD
 
+        /// <summary>
+        /// Open page with list of storages
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             var storages = _storageService.GetStoragesByOwnerEmail(CurrentUser()).ToList();
             return View(storages);
         }
 
+        /// <summary>
+        /// Delete storage and reload page with list of storages
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult Delete(int id)
         {
             _storageService.DeleteStorageById(id, CurrentUser());
             return Redirect(Url.Action("Index"));
         }
 
+        /// <summary>
+        /// Open storage details
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult View(int id)
         {
             var description = _storageService.GetStorageById(id, HttpContext.User.Identity.Name);
@@ -56,12 +70,21 @@ namespace SmartKitchen.Web.Controllers
             return View(description);
         }
 
+        /// <summary>
+        /// Storage creation page with available storage types
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Create()
         {
             var query = _storageTypeService.GetAllStorageTypes();
             return View(query.ToList());
         }
 
+        /// <summary>
+        /// Perform storage creation and open it or reload page
+        /// </summary>
+        /// <param name="storage"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(StorageCreationModel storage)
@@ -78,6 +101,12 @@ namespace SmartKitchen.Web.Controllers
             return View(query.ToList());
         }
 
+        /// <summary>
+        /// Rename storage and return successfulness of action
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost]
         public bool UpdateName(string name, int id)
         {
@@ -89,6 +118,10 @@ namespace SmartKitchen.Web.Controllers
 
         #region Types CD
 
+        /// <summary>
+        /// Storage type creation page with available types
+        /// </summary>
+        /// <returns></returns>
         [Authorize(Roles = "Admin")]
         public ActionResult CreateType()
         {
@@ -96,6 +129,12 @@ namespace SmartKitchen.Web.Controllers
             return View(query.ToList());
         }
 
+        /// <summary>
+        /// Update existing of create new storage type and reload page or form
+        /// If image is applied check correctness and add in icons folder
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
@@ -127,6 +166,12 @@ namespace SmartKitchen.Web.Controllers
             return Json(new { success = false, formHTML = this.RenderPartialViewToString("_CreateTypeForm", model) });
         }
 
+        /// <summary>
+        /// Remove storage type and its image and return successfulness of action
+        /// </summary>
+        /// <param name="fromId"></param>
+        /// <param name="toId"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public bool RemoveType(int fromId, int toId)
@@ -140,6 +185,11 @@ namespace SmartKitchen.Web.Controllers
 
         #region Cell
 
+        /// <summary>
+        /// Create cell and reload page with its storage
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult CreateCell(CellCreationModel model)
         {
@@ -152,14 +202,29 @@ namespace SmartKitchen.Web.Controllers
             return Redirect(Url.Action("View", new { id = response.AddedGroupId }));
         }
 
+        /// <summary>
+        /// Update cell amount on page
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <param name="amount"></param>
         [HttpPost]
         public void SetAmount(int cell, int amount) =>
             _cellService.UpdateCellAmount(cell, amount, CurrentUser());
 
+        /// <summary>
+        /// Remove cell and return successfulness of action
+        /// </summary>
+        /// <param name="cellId"></param>
+        /// <returns></returns>
         [HttpPost]
         public bool Remove(int cellId) =>
             _cellService.DeleteCellById(cellId, CurrentUser()).Successful();
 
+        /// <summary>
+        /// Parse datetime and update cell best before on page
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <param name="dateStr"></param>
         [HttpPost]
         public void DateUpdate(int cell, string dateStr)
         {
@@ -176,6 +241,11 @@ namespace SmartKitchen.Web.Controllers
             _cellService.UpdateCellBestBefore(cell, newDate, CurrentUser());
         }
 
+        /// <summary>
+        /// Partial page with list of cells
+        /// </summary>
+        /// <param name="storage"></param>
+        /// <returns></returns>
         public PartialViewResult ShowAllCells(int storage)
         {
             ViewBag.Weight = CookieHelper.GetCookie(HttpContext, Cookie.Weight).Value;

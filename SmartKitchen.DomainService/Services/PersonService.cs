@@ -23,6 +23,10 @@ namespace SmartKitchen.DomainService.Services
         public Person GetPersonByEmail(string email) =>
             _personRepository.GetPersonByEmail(email);
 
+        /// <summary>
+        /// Generate new key pair if request sender exists
+        /// </summary>
+        /// <param name="email"></param>
         public void UpdateKeyPair(string email)
         {
             var person = _personRepository.GetPersonByEmail(email);
@@ -33,14 +37,19 @@ namespace SmartKitchen.DomainService.Services
             _personRepository.RegisterOrUpdate(person);
         }
 
+        /// <summary>
+        /// Split request, get private key using person id, decode text, split parameters and switch
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public ServiceResponse Interpretator(string request)
         {
             var response = new ServiceResponse();
             var requestSplit = request.Split(':');
             var person = _personRepository.GetPersonById(Convert.ToInt32(requestSplit[0]));
             if (person == null) return response.AddError(GeneralError.PersonWasNotFound);
-            var decription = EncryptService.Decrypt(requestSplit[1], person.PrivateKey);
-            var tokenRequest = new CryptRequest(decription.Split(':'));
+            var description = EncryptService.Decrypt(requestSplit[1], person.PrivateKey);
+            var tokenRequest = new CryptRequest(description.Split(':'));
             switch (tokenRequest.Action)
             {
                 case "AddCell":

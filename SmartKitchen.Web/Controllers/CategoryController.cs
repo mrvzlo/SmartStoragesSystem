@@ -15,6 +15,10 @@ namespace SmartKitchen.Web.Controllers
             _categoryService = categoryService;
         }
 
+        /// <summary>
+        /// Page with all categories
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             if (TempData.ContainsKey("error")) ModelState.AddModelError("Name", TempData["error"].ToString());
@@ -22,6 +26,11 @@ namespace SmartKitchen.Web.Controllers
             return View(query.ToList());
         }
 
+        /// <summary>
+        /// Add new category and reload page with list of categories
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Create(NameCreationModel model)
         {
@@ -30,12 +39,19 @@ namespace SmartKitchen.Web.Controllers
             return Redirect(Url.Action("Index"));
         }
 
+        /// <summary>
+        /// Replace one category with another and return successfulness of action
+        /// </summary>
+        /// <param name="fromId"></param>
+        /// <param name="toId"></param>
+        /// <returns></returns>
         [HttpPost]
-        public bool Remove(int fromId, int toId)
-        {
-            return _categoryService.ReplaceCategory(fromId, toId).Successful();
-        }
+        public bool Remove(int fromId, int toId) => _categoryService.ReplaceCategory(fromId, toId).Successful();
 
+        /// <summary>
+        /// Partial page with list of categories
+        /// </summary>
+        /// <returns></returns>
         public PartialViewResult CategoryGrid()
         {
             var query = _categoryService.GetAllCategoryDisplays();

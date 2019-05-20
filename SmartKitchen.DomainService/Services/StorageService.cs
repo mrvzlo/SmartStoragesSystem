@@ -32,6 +32,11 @@ namespace SmartKitchen.DomainService.Services
             return person.Storages.AsQueryable().ProjectTo<StorageDisplayModel>(MapperConfig);
         }
 
+        /// <summary>
+        /// Delete storage if it belongs to request sender
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="email"></param>
         public void DeleteStorageById(int id, string email)
         {
             var person = _personRepository.GetPersonByEmail(email);
@@ -41,6 +46,12 @@ namespace SmartKitchen.DomainService.Services
             _storageRepository.DeleteStorage(storage);
         }
 
+        /// <summary>
+        /// Get storage if it belongs to request sender
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public StorageDisplayModel GetStorageById(int id, string email)
         {
             var person = _personRepository.GetPersonByEmail(email);
@@ -48,6 +59,12 @@ namespace SmartKitchen.DomainService.Services
             return StorageBelongsToPerson(storage, person).Successful() ? Mapper.Map<StorageDisplayModel>(storage) : null;
         }
 
+        /// <summary>
+        /// Add storage if name is unique and type exists
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public ItemCreationResponse AddStorage(StorageCreationModel model, string email)
         {
             var response = new ItemCreationResponse();
@@ -70,6 +87,13 @@ namespace SmartKitchen.DomainService.Services
             return response;
         }
 
+        /// <summary>
+        /// Rename storage if it exists and new name is unique
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="id"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public bool UpdateStorageName(NameCreationModel model, int id, string email)
         {
             model.Name = model.Name.Trim();

@@ -18,6 +18,10 @@ namespace SmartKitchen.Web.Controllers
             _categoryService = categoryService;
         }
 
+        /// <summary>
+        /// Page with products
+        /// </summary>
+        /// <returns></returns>
         [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
@@ -25,6 +29,10 @@ namespace SmartKitchen.Web.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Partial with page of products
+        /// </summary>
+        /// <returns></returns>
         [Authorize(Roles = "Admin")]
         public PartialViewResult ProductGrid()
         {
@@ -37,6 +45,11 @@ namespace SmartKitchen.Web.Controllers
             return PartialView("_ProductGrid", query);
         }
 
+        /// <summary>
+        /// Add new unused product
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public RedirectResult Add(NameCreationModel model)
@@ -51,19 +64,29 @@ namespace SmartKitchen.Web.Controllers
             return Redirect(Url.Action("Index"));
         }
 
+        /// <summary>
+        /// Update product list and reload products page
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public RedirectResult SaveChanges(List<ProductDisplayModel> list)
         {
             if (ModelState.IsValid)
             {
-                int updates = _productService.UpdateProductList(list);
+                var updates = _productService.UpdateProductList(list);
                 Log.Warn(CurrentUser() + " updated " + updates + " rows");
             }
 
             return Redirect(Url.Action("Index"));
         }
 
+        /// <summary>
+        /// Return list of product names according to search input
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         [HttpPost]
         public JsonResult GetProductsByNameStart(string name)
         {

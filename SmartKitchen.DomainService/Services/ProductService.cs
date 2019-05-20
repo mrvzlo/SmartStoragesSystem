@@ -25,6 +25,11 @@ namespace SmartKitchen.DomainService.Services
         public IQueryable<string> GetProductNamesByStart(string start) =>
             _productRepository.GetAllProducts().Where(x => x.Name.ToLower().Contains(start.ToLower())).Select(x => x.Name);
 
+        /// <summary>
+        /// If exists get else create and check creation successfulness 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public Product GetOrAddAndGetProduct(string name)
         {
             var product = GetProductByName(name);
@@ -33,6 +38,11 @@ namespace SmartKitchen.DomainService.Services
             return !creation.Successful() ? null : _productRepository.GetProductById(creation.AddedId);
         }
 
+        /// <summary>
+        /// Create new product if name is unique
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public ItemCreationResponse AddProduct(NameCreationModel model)
         {
             var response = new ItemCreationResponse();
@@ -57,9 +67,14 @@ namespace SmartKitchen.DomainService.Services
         public IQueryable<ProductDisplayModel> GetAllProductDisplays() =>
             _productRepository.GetAllProducts().ProjectTo<ProductDisplayModel>(MapperConfig);
 
+        /// <summary>
+        /// Check each product and update its category if it exists and name if it is unique
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
         public int UpdateProductList(List<ProductDisplayModel> list)
         {
-            int count = 0;
+            var count = 0;
             if (list == null) return count;
             foreach (var item in list)
             {

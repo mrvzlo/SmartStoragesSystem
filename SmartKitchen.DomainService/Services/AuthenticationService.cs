@@ -23,6 +23,11 @@ namespace SmartKitchen.DomainService.Services
             _storageTypeRepository = storageTypeRepository;
         }
 
+        /// <summary>
+        /// Sign person in if he exists and password match
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public AuthenticationResponse SignIn(SignInModel model)
         {
             var response = new AuthenticationResponse();
@@ -34,6 +39,12 @@ namespace SmartKitchen.DomainService.Services
             response.Role = person.Role;
             return response;
         }
+
+        /// <summary>
+        /// Sign person up if Email and Username are unique
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public AuthenticationResponse SignUp(SignUpModel model)
         {
             var response = new AuthenticationResponse();
@@ -60,17 +71,27 @@ namespace SmartKitchen.DomainService.Services
             return response;
         }
 
+        /// <summary>
+        /// Reset person password if Email match
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public ServiceResponse ResetPassword(PasswordResetModel model)
         {
             var response = new ServiceResponse();
             if (!model.Email.Equals(model.EmailConfirm, StringComparison.OrdinalIgnoreCase))
                 return response.AddError(AuthenticationError.EmailsDoNotMatch, nameof(model.Email));
             var person = _personRepository.GetPersonByEmail(model.Email);
+            if (person == null) return response.AddError(GeneralError.PersonWasNotFound);
             person.Password = Crypto.HashPassword(model.Password);
             _personRepository.RegisterOrUpdate(person);
             return response;
         }
 
+        /// <summary>
+        /// Create storage using first template
+        /// </summary>
+        /// <param name="personId"></param>
         private void CreateInitialStorage(int personId)
         {
             var firstType = _storageTypeRepository.GetAllStorageTypes().First();

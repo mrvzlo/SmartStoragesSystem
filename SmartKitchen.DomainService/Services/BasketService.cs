@@ -35,6 +35,12 @@ namespace SmartKitchen.DomainService.Services
             return person.Baskets.AsQueryable().ProjectTo<BasketDisplayModel>(MapperConfig).OrderByDescending(x => x.CreationDate);
         }
 
+        /// <summary>
+        /// Add basket if name is unique
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public ItemCreationResponse AddBasket(NameCreationModel model, string email)
         {
             model.Name = model.Name.Trim();
@@ -53,6 +59,13 @@ namespace SmartKitchen.DomainService.Services
             return response;
         }
 
+        /// <summary>
+        /// Update basket name if new name is unique and basket belongs to request sender
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="id"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public bool UpdateBasketName(NameCreationModel model, int id, string email)
         {
             model.Name = model.Name.Trim();
@@ -65,6 +78,12 @@ namespace SmartKitchen.DomainService.Services
             return true;
         }
 
+        /// <summary>
+        /// Delete basket 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public bool DeleteBasket(int id, string email)
         {
             var basket = _basketRepository.GetBasketById(id);
@@ -77,14 +96,21 @@ namespace SmartKitchen.DomainService.Services
             return true;
         }
 
+        /// <summary>
+        /// If basket is open execute cell update for all basket products 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public int FinishAndCloseBasket(int id, string email)
         {
+            var count = 0;
             var basket = _basketRepository.GetBasketById(id);
-            if (basket.Closed) return 0;
+            if (basket.Closed) return count;
             var person = _personRepository.GetPersonByEmail(email);
-            if (!BasketBelongsToPerson(basket, person).Successful()) return 0;
+            if (!BasketBelongsToPerson(basket, person).Successful()) return count;
             var products = basket.BasketProducts;
-            var count = products.Select(product => _cellService.MoveBasketProductToStorage(product, basket, person)).Count(response => response.Successful());
+            count = products.Select(product => _cellService.MoveBasketProductToStorage(product, basket, person)).Count(response => response.Successful());
 
             basket.Closed = true;
             _basketRepository.AddOrUpdateBasket(basket);

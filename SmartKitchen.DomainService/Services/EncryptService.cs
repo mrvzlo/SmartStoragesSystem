@@ -7,6 +7,12 @@ namespace SmartKitchen.DomainService.Services
     public static class EncryptService
     {
         private const int KeySizeInBites = 2048;
+
+        /// <summary>
+        /// Create new key pair
+        /// </summary>
+        /// <param name="publicKey"></param>
+        /// <param name="privateKey"></param>
         public static void GetKeys(out string publicKey, out string privateKey)
         {
             var csp = new RSACryptoServiceProvider(KeySizeInBites);
@@ -26,6 +32,12 @@ namespace SmartKitchen.DomainService.Services
             }
         }
 
+        /// <summary>
+        /// Decode encrypted text with key
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="privateKey"></param>
+        /// <returns></returns>
         public static string Decrypt(string text, string privateKey)
         {
             var bytesCypherText = Convert.FromBase64String(text);

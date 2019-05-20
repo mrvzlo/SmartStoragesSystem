@@ -25,6 +25,12 @@ namespace SmartKitchen.DomainService.Services
         public bool ExistsWithId(int id) =>
             _storageTypeRepository.GetStorageTypeById(id) != null;
 
+        /// <summary>
+        /// If types exist update all storages first type id to second
+        /// </summary>
+        /// <param name="fromId"></param>
+        /// <param name="toId"></param>
+        /// <returns></returns>
         public bool ReplaceStorageType(int fromId, int toId)
         {
             var fromType = _storageTypeRepository.GetStorageTypeById(fromId);
@@ -35,6 +41,11 @@ namespace SmartKitchen.DomainService.Services
             return true;
         }
 
+        /// <summary>
+        /// Replace type if existing id is passed else create the new one
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public ItemCreationResponse AddOrUpdateStorageType(StorageTypeCreationModel model)
         {
             var response = new ItemCreationResponse();
