@@ -110,7 +110,7 @@ namespace SmartKitchen.DomainService.Services
             var person = _personRepository.GetPersonByEmail(email);
             if (!BasketBelongsToPerson(basket, person).Successful()) return count;
             var products = basket.BasketProducts;
-            count = products.Select(product => _cellService.MoveBasketProductToStorage(product, basket, person)).Count(response => response.Successful());
+            count = products.Count(product => _cellService.MoveBasketProductToStorage(product, basket, person).Successful());
 
             basket.Closed = true;
             _basketRepository.AddOrUpdateBasket(basket);
