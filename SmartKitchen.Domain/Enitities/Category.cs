@@ -11,6 +11,8 @@ namespace SmartKitchen.Domain.Enitities
         
         public virtual ICollection<Product> Products { get; set; }
 
+        public Category() { }
+
         public Category(string name) => Name = name;
     }
 }
