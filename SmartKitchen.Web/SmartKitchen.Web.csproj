@@ -414,6 +414,7 @@
     <Content Include="Views\Account\_ChangePassword.cshtml" />
     <Content Include="Views\Account\Settings.cshtml" />
     <Content Include="Views\Shared\_Loading.cshtml" />
+    <Content Include="Views\Error\ServersideError.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

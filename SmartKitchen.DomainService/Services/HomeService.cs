@@ -17,7 +17,6 @@ namespace SmartKitchen.DomainService.Services
         }
 
         public HelpModel GetHelpModel() =>
-            new HelpModel(_productRepository.GetAllProducts().Count(),
-                _storageTypeRepository.GetAllStorageTypes().Count());
+            new HelpModel(_storageTypeRepository.GetAllStorageTypes().Count(), _productRepository.GetAllProducts().Count());
     }
 }
