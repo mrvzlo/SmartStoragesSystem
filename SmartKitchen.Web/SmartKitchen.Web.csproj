@@ -343,13 +343,13 @@
     <Content Include="Scripts\MvcGrid\mvc-grid.js" />
     <Content Include="Scripts\pages\account-index.js" />
     <Content Include="Scripts\pages\account-settings.js" />
+    <Content Include="Scripts\pages\form-helper.js" />
     <Content Include="Scripts\pages\search-product.js" />
     <Content Include="Scripts\pages\pickers\name-picker.js" />
     <Content Include="Scripts\pages\pickers\price-picker.js" />
     <Content Include="Scripts\pages\basket-view.js" />
     <Content Include="Scripts\pages\pickers\datetime-picker.js" />
     <Content Include="Scripts\pages\category-index.js" />
-    <Content Include="Scripts\pages\form-helper.js" />
     <Content Include="Scripts\pages\basket-index.js" />
     <Content Include="Scripts\pages\product-index.js" />
     <Content Include="Scripts\pages\pickers\amount-picker.js" />

@@ -7,41 +7,41 @@
 
                 <ul class="navbar-nav flex-fill w-100 flex-nowrap justify-content-start d-none d-md-flex">
                     <li class="nav-item">
-                        <a href="@Url.Action("Index", "Home")" class="nav-link text-light">
+                        <a href="@Url.Action("Index", "Home")" class="nav-link text-light" aria-label="Home">
                             <div class="d-md-inline d-none">Home</div>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="@Url.Action("Index", "Storage")" class="nav-link text-light">
+                        <a href="@Url.Action("Index", "Storage")" class="nav-link text-light" aria-label="Storages">
                             <div class="d-md-inline d-none">Storages</div>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="@Url.Action("Index", "Basket" )" class="nav-link text-light">
+                        <a href="@Url.Action("Index", "Basket" )" class="nav-link text-light" aria-label="Baskets">
                             <div class="d-md-inline d-none">Baskets</div>
                         </a>
                     </li>
                 </ul>
-                <ul class="navbar-nav flex-fill w-100 flex-nowrap justify-content-md-end justify-content-around">
+                <ul class="navbar-nav flex-fill w-100 flex-nowrap justify-content-md-end justify-content-around" aria-label="Home">
                     <li class="d-md-none nav-item">
                         <a href="@Url.Action("Index", "Home")" class="nav-link text-light">
-                            <img class="navicon" src="@Url.Content("~/Content/icons/home.svg")" />
+                            <img class="navicon" src="@Url.Content("~/Content/icons/home.svg")" alt=""/>
                         </a>
                     </li>
                     <li class="d-md-none nav-item">
-                        <a href="@(authed ? Url.Action("Index", "Storage") : "")" class="nav-link text-light">
-                            <img class="navicon" src="@Url.Content("~/Content/icons/storages.svg")" />
+                        <a href="@(authed ? Url.Action("Index", "Storage") : "")" class="nav-link text-light" aria-label="Storages">
+                            <img class="navicon" src="@Url.Content("~/Content/icons/storages.svg")" alt=""/>
                         </a>
                     </li>
                     <li class="d-md-none nav-item">
-                        <a href="@(authed ? Url.Action("Index", "Basket" ) : "")" class="nav-link text-light">
-                            <img class="navicon" src="@Url.Content("~/Content/icons/basket.png")" />
+                        <a href="@(authed ? Url.Action("Index", "Basket" ) : "")" class="nav-link text-light" aria-label="Baskets">
+                            <img class="navicon" src="@Url.Content("~/Content/icons/basket.png")" alt=""/>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="@Url.Action("About", "Home")" class="nav-link text-light">
+                        <a href="@Url.Action("About", "Home")" class="nav-link text-light" aria-label="Guide">
                             <div class="d-md-inline d-none">Guide</div>
-                            <img class="d-md-none navicon" src="@Url.Content("~/Content/icons/guide.png")" />
+                            <img class="d-md-none navicon" src="@Url.Content("~/Content/icons/guide.png")" alt=""/>
                         </a>
                     </li>
                     @if (authed)
@@ -49,7 +49,7 @@
                         if (HttpContext.Current.User.IsInRole("Admin"))
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link text-light" id="dmb" data-toggle="dropdown">
+                                <a class="nav-link text-light" id="dmb" data-toggle="dropdown" aria-label="Options">
                                     <div class="d-md-inline d-none d-md-inline">Options</div>
                                     <img class="d-md-none navicon" src="@Url.Content("~/Content/icons/options.png")" />
                                 </a>
@@ -63,18 +63,18 @@
                         else
                         {
                             <li class="nav-item">
-                                <a href="@Url.Action("Settings", "Account")" class="nav-link text-light">
+                                <a href="@Url.Action("Settings", "Account")" class="nav-link text-light" aria-label="Account">
                                     <div class="d-md-inline d-none">Account</div>
-                                    <img class="d-md-none navicon" src="@Url.Content("~/Content/icons/options.png")" />
+                                    <img class="d-md-none navicon" src="@Url.Content("~/Content/icons/options.png")" alt=""/>
                                 </a>
                             </li>
                         }
                         <li class="nav-item">
                             @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "d-none" }))
                             {@Html.AntiForgeryToken()}
-                            <a class="nav-link text-light" href="javascript:document.getElementById('logoutForm').submit()">
+                            <a class="nav-link text-light" href="javascript:document.getElementById('logoutForm').submit()" aria-label="Logout">
                                 <div class="d-md-inline d-none">Log out</div>
-                                <img class="d-md-none navicon" src="@Url.Content("~/Content/icons/logout.png")" />
+                                <img class="d-md-none navicon" src="@Url.Content("~/Content/icons/logout.png")" alt=""/>
                             </a>
                         </li>
                     }
@@ -83,7 +83,7 @@
                         <li class="nav-item">
                             <a href="@Url.Action("Index", "Account")" class="nav-link text-light">
                                 <div class="d-md-inline d-none">Log in</div>
-                                <img class="d-md-none navicon" src="@Url.Content("~/Content/icons/login.png")" />
+                                <img class="d-md-none navicon" src="@Url.Content("~/Content/icons/login.png")" alt=""/>
                             </a>
                         </li>
                     }

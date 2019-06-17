@@ -24,7 +24,7 @@ namespace SmartKitchen.IoC.Convention
         /// <summary>
         /// AutoMapper registration convention
         /// </summary>
-        /// <param name="mapperConfig">Additional Auto Mappper configuration</param>
+        /// <param name="mapperConfig">Additional Auto Mapper configuration</param>
         public AutoMapperConvention(Action<MapperConfiguration> mapperConfig)
         {
             _mapperConfig = mapperConfig;
